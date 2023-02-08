@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F3843E432989657400BC0288 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3843E422989657400BC0288 /* TextView.swift */; };
+		F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */; };
+		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
+		F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */; };
 		F3F607ED292E242E0009E684 /* IgisAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F607EC292E242E0009E684 /* IgisAppApp.swift */; };
 		F3F607F1292E242F0009E684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3F607F0292E242F0009E684 /* Assets.xcassets */; };
 		F3F607F4292E242F0009E684 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3F607F3292E242F0009E684 /* Preview Assets.xcassets */; };
@@ -21,6 +24,9 @@
 
 /* Begin PBXFileReference section */
 		F3843E422989657400BC0288 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
+		F39F13412993D699001E750B /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
+		F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTabsPreferenceKey.swift; sourceTree = "<group>"; };
 		F3F607E9292E242E0009E684 /* IgisApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IgisApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F607EC292E242E0009E684 /* IgisAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgisAppApp.swift; sourceTree = "<group>"; };
 		F3F607F0292E242F0009E684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,6 +74,7 @@
 				F3843E422989657400BC0288 /* TextView.swift */,
 				F3F608042930D2960009E684 /* SelectNumTSView.swift */,
 				F3F608062930D3B90009E684 /* Model.swift */,
+				F39F13412993D699001E750B /* AppTabBarView.swift */,
 				F3F607FF292E261E0009E684 /* Custom Tab Bar */,
 				F3F607F0292E242F0009E684 /* Assets.xcassets */,
 				F3F607F5292E242F0009E684 /* Persistence.swift */,
@@ -89,6 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				F3F60800292E264D0009E684 /* CustomTabBar.swift */,
+				F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */,
+				F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */,
 			);
 			path = "Custom Tab Bar";
 			sourceTree = "<group>";
@@ -163,10 +172,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
 				F3F608072930D3B90009E684 /* Model.swift in Sources */,
 				F3843E432989657400BC0288 /* TextView.swift in Sources */,
+				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
 				F3F607F6292E242F0009E684 /* Persistence.swift in Sources */,
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
+				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F3F608052930D2960009E684 /* SelectNumTSView.swift in Sources */,
 				F3F60803292E26810009E684 /* HomeView.swift in Sources */,
 				F3F607F9292E242F0009E684 /* IgisApp.xcdatamodeld in Sources */,

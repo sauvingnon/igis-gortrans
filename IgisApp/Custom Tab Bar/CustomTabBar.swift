@@ -123,3 +123,26 @@ struct CustomTabBar_Previews: PreviewProvider {
         CustomTabBar(selectedTab: .constant(Tabs.home))
     }
 }
+
+extension CustomTabBar{
+    
+    private func CustomizeTabView() -> some View{
+        Button {
+            selectedTab = .home
+        } label: {
+            if(selectedTab == .home){
+                VStack(alignment: .center, spacing: 4){
+                    Image("home_icon_selected")
+                }
+            }else{
+                VStack(alignment: .center, spacing: 4){
+                    Image("home_icon")
+                }
+            }
+            
+            
+        }
+        .tint(Color.gray)
+        .padding(15)
+    }
+}

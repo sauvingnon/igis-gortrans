@@ -33,7 +33,7 @@ struct HomeView: View {
                 .padding(.top, 10.0)
                 .foregroundColor(.blue)
                 .frame(width: 340, height: 10)
-                
+            
             
             HStack(){
                 Button {
@@ -46,10 +46,11 @@ struct HomeView: View {
                         Text("Автобусы")
                             .foregroundColor(Color.white)
                     }
+                    .frame(width: 150, height: 150)
+                    .background(Color.blue)
+                    .cornerRadius(15)
                 }
-                .frame(width: 150, height: 150)
-                .background(Color.blue)
-                .cornerRadius(15)
+                
                 
                 Button {
                     
@@ -61,13 +62,14 @@ struct HomeView: View {
                         Text("Троллейбусы")
                             .foregroundColor(Color.white)
                     }
+                    .frame(width: 150, height: 150)
+                    .background(Color.blue)
+                    .cornerRadius(15)
                 }
-                .frame(width: 150, height: 150)
-                .background(Color.blue)
-                .cornerRadius(15)
                 
                 
-
+                
+                
             }
             .padding(.top, 10)
             
@@ -82,10 +84,10 @@ struct HomeView: View {
                         Text("Трамваи")
                             .foregroundColor(Color.white)
                     }
+                    .frame(width: 150, height: 150)
+                    .background(Color.blue)
+                    .cornerRadius(15)
                 }
-                .frame(width: 150, height: 150)
-                .background(Color.blue)
-                .cornerRadius(15)
                 
                 Button {
                     
@@ -97,21 +99,13 @@ struct HomeView: View {
                         Text("Пригородные автобусы")
                             .foregroundColor(Color.white)
                     }
+                    .frame(width: 150, height: 150)
+                    .background(Color.blue)
+                    .cornerRadius(15)
                 }
-                .frame(width: 150, height: 150)
-                .background(Color.blue)
-                .cornerRadius(15)
                 
-                
-
             }
-            
-            
-            
-            
             Spacer()
-        
-            CustomTabBar(selectedTab: $selectedTab)
         }
     }
 }
@@ -121,3 +115,4 @@ struct HomeView_Preview: PreviewProvider {
         HomeView()
     }
 }
+
