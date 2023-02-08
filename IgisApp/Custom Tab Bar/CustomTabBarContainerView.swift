@@ -9,11 +9,11 @@ import SwiftUI
 
 struct CustomTabBarContainerView<Content:View>: View {
     
-    @Binding var selection: Tabs
+    @Binding var selection: TabType
     let content: Content
-    @State private var tabs: [Tabs] = []
+    @State private var tabs: [TabType] = []
     
-    init(selection: Binding<Tabs>, @ViewBuilder content: () -> Content) {
+    init(selection: Binding<TabType>, @ViewBuilder content: () -> Content) {
         self._selection = selection
         self.content = content()
     }

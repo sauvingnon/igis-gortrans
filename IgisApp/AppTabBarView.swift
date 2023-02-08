@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct AppTabBarView: View {
-    @State private var selection: Tabs = .home
+    @State private var selection: TabType = .home
     
     var body: some View {
         CustomTabBarContainerView(selection: $selection){
-            HomeView()
+            ShowTransportView()
                 .tabBarTab(tab: .home, selection: $selection)
             Color.red
                 .tabBarTab(tab: .alerts, selection: $selection)
             Color.green
                 .tabBarTab(tab: .map, selection: $selection)
-            Color.orange
+            Color.blue
                 .tabBarTab(tab: .favourites, selection: $selection)
             Color.black
                 .tabBarTab(tab: .settings, selection: $selection)

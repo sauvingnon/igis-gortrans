@@ -13,7 +13,7 @@ struct IgisAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            AppTabBarView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

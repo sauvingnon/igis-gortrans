@@ -10,17 +10,17 @@ import SwiftUI
 
 class TabBarTabsPreferenceKey: PreferenceKey{
     
-    static var defaultValue: [Tabs] = []
+    static var defaultValue: [TabType] = []
     
-    static func reduce(value: inout [Tabs], nextValue: () -> [Tabs]) {
+    static func reduce(value: inout [TabType], nextValue: () -> [TabType]) {
         value += nextValue()
     }
 }
 
 struct TabBarTabsModifier: ViewModifier{
     
-    let tab: Tabs
-    @Binding var selection: Tabs
+    let tab: TabType
+    @Binding var selection: TabType
     
     func body(content: Content) -> some View {
         content
@@ -30,7 +30,7 @@ struct TabBarTabsModifier: ViewModifier{
 }
 
 extension View{
-    func tabBarTab(tab: Tabs, selection: Binding<Tabs>) -> some View{
+    func tabBarTab(tab: TabType, selection: Binding<TabType>) -> some View{
         modifier(TabBarTabsModifier(tab: tab, selection: selection))
     }
 }
