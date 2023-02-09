@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectRouteOrStationView: View {
     
-    @Binding var currentView: CurrentTransportViewType
+    @EnvironmentObject var currentView: currentViewClass
     
     var body: some View {
         VStack{
@@ -48,7 +48,7 @@ struct SelectRouteOrStationView: View {
             .padding(.horizontal, 20)
             
             Button(action: {
-                currentView = .chooseTypeTransport
+                currentView.state = .chooseTypeTransport
             }, label: {
                 Text("Маршруты")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -82,6 +82,6 @@ struct SelectRouteOrStationView: View {
 
 struct SelectRouteOrStationView_Previews: PreviewProvider {
     static var previews: some View {
-        SelectRouteOrStationView(currentView: .constant(.chooseTypeTransport))
+        SelectRouteOrStationView()
     }
 }

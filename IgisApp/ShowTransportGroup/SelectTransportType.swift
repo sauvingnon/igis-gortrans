@@ -9,17 +9,17 @@ import SwiftUI
 
 struct SelectTransportType: View {
     
-    @Binding var currentView: CurrentTransportViewType
+    @EnvironmentObject var currentView: currentViewClass
     
     var body: some View {
         VStack(){
             labelIzhevsk()
                 .onTapGesture {
-                    currentView = .chooseRouteOrStation
+                    currentView.state = .chooseRouteOrStation
                 }
             HStack(){
                 Button {
-                    currentView = .chooseNumberTransport
+                    currentView.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "bus") .resizable()
@@ -85,7 +85,7 @@ struct SelectTransportType: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if  value.translation.width > 0{
-                    currentView = .chooseRouteOrStation
+                    currentView.state = .chooseRouteOrStation
                 }
             }))
     }
@@ -93,6 +93,6 @@ struct SelectTransportType: View {
 
 struct SelectTransportType_Previews: PreviewProvider {
     static var previews: some View {
-        SelectTransportType(currentView: .constant(.chooseTypeTransport))
+        SelectTransportType()
     }
 }

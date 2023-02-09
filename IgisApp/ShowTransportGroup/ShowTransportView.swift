@@ -9,19 +9,22 @@ import SwiftUI
 
 struct ShowTransportView: View {
     
-    @State var currentView: CurrentTransportViewType = .chooseRouteOrStation
+    @StateObject var currentView = currentViewClass()
     
     var body: some View {
-        switch currentView {
-        case .chooseRouteOrStation:
-            SelectRouteOrStationView(currentView: $currentView)
-        case .chooseTypeTransport:
-            SelectTransportType(currentView: $currentView)
-        case .chooseNumberTransport:
-            SelectTransportNumber(currentView: $currentView, transportNumArray: Model.busArray)
-        case .showTransportRoute:
-            Text("Hello")
+        ZStack{
+            switch currentView.state {
+            case .chooseRouteOrStation:
+                SelectRouteOrStationView()
+            case .chooseTypeTransport:
+                SelectTransportType()
+            case .chooseNumberTransport:
+                SelectTransportNumber(transportNumArray: Model.busArray)
+            case .showTransportRoute:
+                Text("Hello")
+            }
         }
+        .environmentObject(currentView)
     }
 }
 
@@ -29,6 +32,10 @@ struct HomeView_Preview: PreviewProvider {
     static var previews: some View {
         ShowTransportView()
     }
+}
+
+class currentViewClass: ObservableObject{
+    @Published var state: CurrentTransportViewType = .chooseRouteOrStation
 }
 
 enum CurrentTransportViewType{

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTransportNumber: View {
     
-    @Binding var currentView: CurrentTransportViewType
+    @EnvironmentObject var currentView: currentViewClass
     
     var columns: [GridItem] = [
         GridItem(.flexible()),
@@ -25,7 +25,7 @@ struct SelectTransportNumber: View {
         VStack(){
             labelIzhevsk()
                 .onTapGesture {
-                    currentView = .chooseTypeTransport
+                    currentView.state = .chooseTypeTransport
                 }
             labelTypeTransport(typeTransport: .bus)
                 
@@ -50,7 +50,7 @@ struct SelectTransportNumber: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if value.translation.width > 0{
-                    currentView = .chooseTypeTransport
+                    currentView.state = .chooseTypeTransport
                 }
             }))
         
@@ -64,7 +64,7 @@ struct SelectTransportNumber: View {
 
 struct SelectNumTSView_Previews: PreviewProvider {
     static var previews: some View {
-        SelectTransportNumber(currentView: .constant(.chooseTypeTransport), transportNumArray: Model.busArray)
+        SelectTransportNumber(transportNumArray: Model.busArray)
     }
 }
 
