@@ -20,12 +20,13 @@ struct ShowTransportView: View {
                 SelectTransportType()
             case .chooseNumberTransport:
                 SelectTransportNumber(transportNumArray: Model.busArray)
-            case .showTransportRoute:
-                Text("Hello")
+            case .showTransportOnline:
+                ShowTransportOnline()
             }
         }
         .environmentObject(currentView)
     }
+
 }
 
 struct HomeView_Preview: PreviewProvider {
@@ -42,6 +43,6 @@ enum CurrentTransportViewType{
     case chooseRouteOrStation
     case chooseTypeTransport
     case chooseNumberTransport
-    case showTransportRoute
+    case showTransportOnline
 }
 

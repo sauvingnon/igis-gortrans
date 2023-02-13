@@ -32,7 +32,7 @@ struct SelectTransportNumber: View {
             LazyVGrid(columns: columns, spacing: 20){
                 ForEach(transportNumArray, id: \.self){ bus in
                     Button(action: {
-                        
+                        currentView.state = .showTransportOnline
                     }){
                         Text(String(bus))
                             .font(.system(size: 25))

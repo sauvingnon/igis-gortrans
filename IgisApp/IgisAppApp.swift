@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct IgisAppApp: App {
-    let persistenceController = PersistenceController.shared
+    @StateObject private var dataController = DataController()
 
     var body: some Scene {
         WindowGroup {
             AppTabBarView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }
