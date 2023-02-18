@@ -9,12 +9,10 @@ import SwiftUI
 
 @main
 struct IgisAppApp: App {
-    @StateObject private var dataController = DataController()
 
     var body: some Scene {
         WindowGroup {
             AppTabBarView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

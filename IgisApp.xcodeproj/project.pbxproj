@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F311176C299A406100351326 /* SomeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* SomeInformation.swift */; };
+		F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */; };
+		F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27329A1044000AFFAA1 /* HashableClass.swift */; };
 		F37E4AAA2995530D00049934 /* ShowTransportOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E4AA92995530D00049934 /* ShowTransportOnline.swift */; };
 		F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */; };
 		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
@@ -16,7 +18,6 @@
 		F3D7DFF129942C2B0059B4C4 /* ReadyElementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */; };
 		F3D7DFF32994324E0059B4C4 /* SelectTransportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */; };
 		F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */; };
-		F3E49D572997C4D1007BF5B2 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E49D562997C4D1007BF5B2 /* DataController.swift */; };
 		F3F607ED292E242E0009E684 /* IgisAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F607EC292E242E0009E684 /* IgisAppApp.swift */; };
 		F3F607F1292E242F0009E684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3F607F0292E242F0009E684 /* Assets.xcassets */; };
 		F3F607F4292E242F0009E684 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3F607F3292E242F0009E684 /* Preview Assets.xcassets */; };
@@ -28,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		F311176B299A406100351326 /* SomeInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInformation.swift; sourceTree = "<group>"; };
+		F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
+		F348F27329A1044000AFFAA1 /* HashableClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashableClass.swift; sourceTree = "<group>"; };
 		F37E4AA92995530D00049934 /* ShowTransportOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportOnline.swift; sourceTree = "<group>"; };
 		F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		F39F13412993D699001E750B /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
@@ -36,7 +39,6 @@
 		F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyElementsView.swift; sourceTree = "<group>"; };
 		F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTransportType.swift; sourceTree = "<group>"; };
 		F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRouteOrStationView.swift; sourceTree = "<group>"; };
-		F3E49D562997C4D1007BF5B2 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		F3F607E9292E242E0009E684 /* IgisApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IgisApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F607EC292E242E0009E684 /* IgisAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgisAppApp.swift; sourceTree = "<group>"; };
 		F3F607F0292E242F0009E684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +60,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F348F26F29A0E31500AFFAA1 /* CustomMenu */ = {
+			isa = PBXGroup;
+			children = (
+				F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */,
+			);
+			path = CustomMenu;
+			sourceTree = "<group>";
+		};
+		F348F27229A1042F00AFFAA1 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		F3D7DFF4299433400059B4C4 /* ShowTransportGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,14 +107,15 @@
 		F3F607EB292E242E0009E684 /* IgisApp */ = {
 			isa = PBXGroup;
 			children = (
+				F348F26F29A0E31500AFFAA1 /* CustomMenu */,
 				F3F607EC292E242E0009E684 /* IgisAppApp.swift */,
 				F3D7DFF4299433400059B4C4 /* ShowTransportGroup */,
 				F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */,
 				F3F608062930D3B90009E684 /* Model.swift */,
 				F311176B299A406100351326 /* SomeInformation.swift */,
 				F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */,
+				F348F27229A1042F00AFFAA1 /* Other */,
 				F39F13412993D699001E750B /* AppTabBarView.swift */,
-				F3E49D562997C4D1007BF5B2 /* DataController.swift */,
 				F3F607F0292E242F0009E684 /* Assets.xcassets */,
 				F3F607FF292E261E0009E684 /* Custom Tab Bar */,
 				F3F607F2292E242F0009E684 /* Preview Content */,
@@ -195,6 +214,7 @@
 				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
 				F3F608072930D3B90009E684 /* Model.swift in Sources */,
 				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
+				F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */,
 				F3D7DFF129942C2B0059B4C4 /* ReadyElementsView.swift in Sources */,
 				F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */,
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
@@ -203,7 +223,7 @@
 				F3F608052930D2960009E684 /* SelectTransportNumber.swift in Sources */,
 				F311176C299A406100351326 /* SomeInformation.swift in Sources */,
 				F3CCAA6E299643B100DEAF76 /* ServiceAPI.swift in Sources */,
-				F3E49D572997C4D1007BF5B2 /* DataController.swift in Sources */,
+				F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */,
 				F3F60803292E26810009E684 /* ShowTransportView.swift in Sources */,
 				F3F607ED292E242E0009E684 /* IgisAppApp.swift in Sources */,
 				F3D7DFF32994324E0059B4C4 /* SelectTransportType.swift in Sources */,

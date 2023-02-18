@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: Перечилены элементы, которые будут многократно использованы сразу в нескольких экранах приложения
+// MARK: Перечислены элементы, которые будут многократно использованы сразу в нескольких экранах приложения
 
 extension View{
     func labelIzhevsk() -> some View {
@@ -26,6 +26,7 @@ extension View{
         .padding(.top, 10)
         .frame(height: 60.0)
     }
+    
 }
 
 extension UIScreen{

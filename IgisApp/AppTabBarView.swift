@@ -9,8 +9,6 @@ import SwiftUI
 
 struct AppTabBarView: View {
     
-    @Environment(\.managedObjectContext) private var modelContext
-    
     @State private var selection: TabType = .home
     
     var body: some View {

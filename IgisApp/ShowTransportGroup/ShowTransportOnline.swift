@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ShowTransportOnline: View {
     
+    @State var isMenuOpen = false
+    
     @EnvironmentObject var currentView: currentViewClass
+    
+    @ObservedObject var currentOnlineData = CurrentOnlineData()
+    
+    @ObservedObject var currentData = CurrentData()
     
     private var columns: [GridItem] = [
         GridItem(.fixed(200)),
@@ -17,22 +23,18 @@ struct ShowTransportOnline: View {
         GridItem(.fixed(200))
     ]
     
-    @State var transportName = "АВТОБУС №22"
-    @State var transportTimeTable = "Ежедневно 6:00 - 21:30"
-    @State var transportEndStation = "ДО ОСТ. САД ИЖСТАЛЬ"
-    
-    @State var array: [Station] = [Station(id: 1, name: "Транссельхозтехника", pictureStation: "start_station_img", pictureBus: "", time: "56 мин."),
-                                   Station(id: 2, name: "Механизаторская улица", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
-                                   Station(id: 3, name: "Южные электросети", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
-                                   Station(id: 4, name: "Московская улица", pictureStation: "station_img", pictureBus: "", time: "2 мин."),
-                                   Station(id: 5, name: "Железнодорожный вокзал", pictureStation: "station_img", pictureBus: "", time: "5 мин."),
-                                   Station(id: 6, name: "Планерная улица", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
-    ]
+//    [Station(id: 1, name: "Транссельхозтехника", pictureStation: "start_station_img", pictureBus: "", time: "56 мин."),
+//                                   Station(id: 2, name: "Механизаторская улица", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
+//                                   Station(id: 3, name: "Южные электросети", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
+//                                   Station(id: 4, name: "Московская улица", pictureStation: "station_img", pictureBus: "", time: "2 мин."),
+//                                   Station(id: 5, name: "Железнодорожный вокзал", pictureStation: "station_img", pictureBus: "", time: "5 мин."),
+//                                   Station(id: 6, name: "Планерная улица", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
+//    ]
     
     var body: some View {
         VStack{
             HStack{
-                Text(transportName)
+                Text(currentOnlineData.transportName)
                     .padding(.leading, 30)
                     .font(.system(size: 24))
                     .foregroundColor(.white)
@@ -53,53 +55,74 @@ struct ShowTransportOnline: View {
             .padding(.vertical, 10)
             
             HStack{
-                Text(transportTimeTable)
+                Text(currentOnlineData.transportTimeTable)
                     .foregroundColor(.blue)
                     .fontWeight(.medium)
                 Spacer()
             }
             .padding(.horizontal, 40)
             
-            Button(action: {
-                
-            }, label: {
-                HStack{
-                    Text(transportEndStation)
-                        .font(.system(size: 18))
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
+            customMenu(menu: currentOnlineData.stops, currentOnlineData: currentOnlineData)
+                .zIndex(1)
+                .onTapGesture {
+                    var direction: Direction = .reverse
+                    if currentOnlineData.stops.currentStop == SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic[ (SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic.endIndex ?? 0)-1]{
+                        direction = .clasic
+                    }
                     
-                    Image(systemName: "chevron.down")
-                        .foregroundColor(.white)
-                        .fontWeight(.heavy)
+                    Model.PresentRoute(routeId: currentOnlineData.routeId, currentData: currentData, direction: direction, currentOnlineData: currentOnlineData)
                 }
-                .padding(10)
-                .background(Color.blue)
-                .clipShape(Rectangle())
-                .cornerRadius(25)
-            })
             
             ScrollView{
                 Grid(alignment: .trailing){
-                    ForEach(array) { item in
+                    ForEach(currentData.stops, id: \.self) { item in
                         GridRow{
                             StationRow(station: item)
                         }
                     }
                 }
-            }
+            }.scrollIndicators(.hidden)
             
             
             
             Spacer()
         }
     }
+    
+    func updateRouteData(routeId: Int, type: TypeTransport, number: Int, direction: Direction = .clasic){
+        
+        Model.PresentRoute(routeId: routeId, currentData: currentData, direction: direction, currentOnlineData: currentOnlineData)
+        
+        Model.getRoutesArray(routeId: routeId, currentData: currentData, onlineData: currentOnlineData)
+        
+        currentOnlineData.transportName = "\(getNameType(type: type)) №\(number)"
+        currentOnlineData.routeId = routeId
+        
+    }
+    
+    func getNameType(type: TypeTransport) -> String {
+        switch type {
+        case .bus:
+            return "АВТОБУС"
+        case .train:
+            return "ТРАМВАЙ"
+        case .trolleybus:
+            return "ТРОЛЛЕЙБУС"
+        case .countryBus:
+            return "АВТОБУС"
+        }
+    }
+    
 }
 
 struct ShowTransportOnline_Previews: PreviewProvider {
     static var previews: some View {
         ShowTransportOnline()
     }
+}
+
+class CurrentData: ObservableObject{
+    @Published var stops: [Station] = []
 }
 
 struct StationRow: View{
@@ -130,10 +153,84 @@ struct StationRow: View{
     
 }
 
-struct Station: Codable, Hashable, Identifiable{
-    var id: Int
-    var name: String
-    var pictureStation: String
-    var pictureBus: String
-    var time: String
+class Station: HashableClass, Identifiable, ObservableObject{
+    @Published var id: Int
+    @Published var name: String
+    @Published var pictureStation: String
+    @Published var pictureBus: String
+    @Published var time: String
+    init(id: Int, name: String, pictureStation: String, pictureBus: String, time: String) {
+        self.id = id
+        self.name = name
+        self.pictureStation = pictureStation
+        self.pictureBus = pictureBus
+        self.time = time
+    }
 }
+
+class CurrentOnlineData: ObservableObject{
+    var directon: Direction = .clasic
+    var routeId = 0
+    @Published var transportName = "АВТОБУС №22"
+    @Published var transportTimeTable = "Ежедневно 6:00 - 21:30"
+    @Published var stops = Menu(menuItems: [], currentStop: 0)
+}
+
+extension ShowTransportOnline{
+    func customMenu(menu: Menu, currentOnlineData: CurrentOnlineData) -> some View{
+        ZStack {
+            ForEach(menu.menuItems, id: \.self){ item in
+                ZStack {
+                    HStack{
+                        Text("ДО \(SomeInfo.stops[item.stopId]?.uppercased() ?? "Error")")
+                            .font(.system(size: 18))
+                            .foregroundColor(.white)
+                            .fontWeight(.medium)
+                    }
+                    .padding(10)
+                    .background(Color.blue)
+                    .clipShape(Rectangle())
+                    .cornerRadius(25)
+                    .onTapGesture {
+                        menu.currentStop = item.stopId
+                        isMenuOpen.toggle()
+                        if currentOnlineData.stops.currentStop == SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic[ (SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic.endIndex ?? 0)-1]{
+                            currentOnlineData.directon = .clasic
+                        }else{
+                            currentOnlineData.directon = .reverse
+                        }
+                        
+                        Model.PresentRoute(routeId: currentOnlineData.routeId, currentData: currentData, direction: currentOnlineData.directon, currentOnlineData: currentOnlineData)
+                    }
+                }
+                .shadow(color: .black.opacity(isMenuOpen ? 0.1 : 0.0), radius: 10, x: 0, y: 5)
+                .offset(y: isMenuOpen ? CGFloat(item.offset) : 0)
+                .opacity(isMenuOpen ? 100 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: isMenuOpen)
+            }
+            
+            ZStack {
+                HStack{
+                    Text("ДО \(SomeInfo.stops[menu.currentStop]?.uppercased() ?? "Error")")
+                        .font(.system(size: 18))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                    
+                    Image(systemName: isMenuOpen ? "chevron.up" : "chevron.down")
+                        .foregroundColor(.white)
+                        .fontWeight(.heavy)
+                        .animation(.easeInOut(duration: 0.3), value: isMenuOpen)
+                }
+                .frame(minWidth: 250)
+                .padding(10)
+                .background(Color.blue)
+                .clipShape(Rectangle())
+                .cornerRadius(25)
+            }
+            .onTapGesture {
+                isMenuOpen.toggle()
+            }
+        }
+    }
+}
+

@@ -15,13 +15,13 @@ struct ShowTransportView: View {
         ZStack{
             switch currentView.state {
             case .chooseRouteOrStation:
-                SelectRouteOrStationView()
+                currentView.selectRouteOrStationView
             case .chooseTypeTransport:
-                SelectTransportType()
+                currentView.selectTransportType
             case .chooseNumberTransport:
-                SelectTransportNumber(transportNumArray: Model.busArray)
+                currentView.selectTransportNumber
             case .showTransportOnline:
-                ShowTransportOnline()
+                currentView.showTransportOnline
             }
         }
         .environmentObject(currentView)
@@ -37,6 +37,10 @@ struct HomeView_Preview: PreviewProvider {
 
 class currentViewClass: ObservableObject{
     @Published var state: CurrentTransportViewType = .chooseRouteOrStation
+    let selectRouteOrStationView = SelectRouteOrStationView()
+    let selectTransportType = SelectTransportType()
+    let selectTransportNumber = SelectTransportNumber()
+    let showTransportOnline = ShowTransportOnline()
 }
 
 enum CurrentTransportViewType{

@@ -19,6 +19,7 @@ struct SelectTransportType: View {
                 }
             HStack(){
                 Button {
+                    currentView.selectTransportNumber.setSettings(type: .bus, numbers: Model.busArray)
                     currentView.state = .chooseNumberTransport
                 } label: {
                     VStack(){
@@ -33,7 +34,8 @@ struct SelectTransportType: View {
                     .cornerRadius(15)
                 }
                 Button {
-                    
+                    currentView.selectTransportNumber.setSettings(type: .trolleybus, numbers: Model.trolleybusArray)
+                    currentView.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "bus.doubledecker") .resizable()
@@ -51,7 +53,8 @@ struct SelectTransportType: View {
             
             HStack(){
                 Button {
-                    
+                    currentView.selectTransportNumber.setSettings(type: .train, numbers: Model.trainArray)
+                    currentView.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "tram") .resizable()
@@ -66,7 +69,9 @@ struct SelectTransportType: View {
                 }
                 
                 Button {
-                    
+//                    currentView.typeTransport = .countryBus
+//                    currentView.numbersArray = Model.getArrayNum(type: .countryBus)
+//                    currentView.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "bus.fill") .resizable()
