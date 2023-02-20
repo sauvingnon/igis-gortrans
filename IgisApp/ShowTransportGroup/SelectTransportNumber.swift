@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTransportNumber: View {
     
-    @EnvironmentObject var currentView: currentViewClass
+    @EnvironmentObject var currentView: currentTransportViewClass
     
     @ObservedObject var currentChoose = CurrentChoose()
     

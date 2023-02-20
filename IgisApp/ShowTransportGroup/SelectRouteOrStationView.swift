@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectRouteOrStationView: View {
     
-    @EnvironmentObject var currentView: currentViewClass
+    @EnvironmentObject var currentView: currentTransportViewClass
     
     var body: some View {
         VStack{

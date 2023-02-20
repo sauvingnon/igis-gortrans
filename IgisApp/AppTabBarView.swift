@@ -13,7 +13,7 @@ struct AppTabBarView: View {
     
     var body: some View {
         CustomTabBarContainerView(selection: $selection){
-            ShowTransportView()
+            TransportGroupSelector()
                 .tabBarTab(tab: .home, selection: $selection)
             Color.red
                 .tabBarTab(tab: .alerts, selection: $selection)
@@ -21,7 +21,7 @@ struct AppTabBarView: View {
                 .tabBarTab(tab: .map, selection: $selection)
             Color.blue
                 .tabBarTab(tab: .favourites, selection: $selection)
-            Color.black
+            SettingsGroupSelector()
                 .tabBarTab(tab: .settings, selection: $selection)
             
         }

@@ -11,7 +11,7 @@ struct ShowTransportOnline: View {
     
     @State var isMenuOpen = false
     
-    @EnvironmentObject var currentView: currentViewClass
+    @EnvironmentObject var currentView: currentTransportViewClass
     
     @ObservedObject var currentOnlineData = CurrentOnlineData()
     

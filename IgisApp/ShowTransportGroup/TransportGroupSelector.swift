@@ -7,40 +7,40 @@
 
 import SwiftUI
 
-struct ShowTransportView: View {
-    
+struct TransportGroupSelector: View {
+
 //    @StateObject var data : CurrentData()
-    
-    @StateObject var currentView = currentViewClass()
-    
+
+    @StateObject var currentViewTransport = currentTransportViewClass()
+
     var body: some View {
         ZStack{
-            switch currentView.state {
+            switch currentViewTransport.state {
             case .chooseRouteOrStation:
-                currentView.selectRouteOrStationView
+                currentViewTransport.selectRouteOrStationView
             case .chooseTypeTransport:
-                currentView.selectTransportType
+                currentViewTransport.selectTransportType
             case .chooseNumberTransport:
-                currentView.selectTransportNumber
+                currentViewTransport.selectTransportNumber
             case .showTransportOnline:
-                currentView.showTransportOnline
+                currentViewTransport.showTransportOnline
             case .selectStopView:
-                currentView.selectStopView
+                currentViewTransport.selectStopView
             }
         }
-        .environmentObject(currentView)
+        .environmentObject(currentViewTransport)
     }
 
 }
 
-struct HomeView_Preview: PreviewProvider {
+struct TransportGroupSelector_Preview: PreviewProvider {
     static var previews: some View {
-        ShowTransportView()
+        TransportGroupSelector()
     }
 }
 
-class currentViewClass: ObservableObject{
-    @Published var state: CurrentTransportViewType = .chooseRouteOrStation
+class currentTransportViewClass: ObservableObject{
+    @Published var state: CurrentTransportSelectionView = .chooseRouteOrStation
     let selectRouteOrStationView = SelectRouteOrStationView()
     let selectTransportType = SelectTransportType()
     let selectTransportNumber = SelectTransportNumber()
@@ -48,7 +48,7 @@ class currentViewClass: ObservableObject{
     let selectStopView = SelectStopView()
 }
 
-enum CurrentTransportViewType{
+enum CurrentTransportSelectionView{
     case chooseRouteOrStation
     case chooseTypeTransport
     case chooseNumberTransport
