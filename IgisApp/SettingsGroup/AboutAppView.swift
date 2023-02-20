@@ -18,7 +18,7 @@ struct AboutAppView: View {
                     .font(.system(size: 25))
                     .padding(.leading, 40)
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                Text("О Программе")
+                Text("О приложении")
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                     .fontWeight(.light)
                     .font(.system(size: 25))
@@ -39,7 +39,7 @@ struct AboutAppView: View {
                 .cornerRadius(20)
                 .shadow(radius: 15)
                 .padding(.horizontal, 100)
-                .offset(y: 50)
+                .offset(y: 90)
                 .zIndex(1)
             VStack{
                 Text("IGIS: Транспорт Ижевска")
@@ -61,13 +61,14 @@ struct AboutAppView: View {
                     .fontWeight(.light)
                     .font(.system(size: 16))
                     .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.01)
                 
                 GeometryReader{ geometry in
                     
                 }
                 .frame(width: 40, height: 3)
                 .background(Color.blue)
-                .padding(.vertical, 20)
+//                .padding(.vertical, 20)
                 
                 VStack{
                     Text("ООО НПП Ижинформпроект")

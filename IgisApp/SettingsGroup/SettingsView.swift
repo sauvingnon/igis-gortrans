@@ -78,7 +78,13 @@ struct SettingsView: View {
                     currentView.state = .aboutApp
                 }
             settingsButton(imageName: "questionmark.circle", text: "Помощь")
+                .onTapGesture {
+                    currentView.state = .questions
+                }
             settingsButton(imageName: "smiley", text: "Обратная связь")
+                .onTapGesture {
+                    currentView.state = .feedBack
+                }
             
                 
             Spacer()

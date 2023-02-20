@@ -13,10 +13,17 @@ struct SettingsGroupSelector: View {
     
     var body: some View {
         ZStack{
-            if(currentView.state == .settings){
-                currentView.settingsView
-            }else{
+            switch currentView.state{
+            case .aboutApp:
                 currentView.aboutAppView
+            case .settings:
+                currentView.settingsView
+            case .feedBack:
+                currentView.feedBackView
+            case .questions:
+                currentView.questionView
+            case .answers:
+                currentView.answerView
             }
         }
         .environmentObject(currentView)
@@ -34,10 +41,16 @@ class currentSettingsViewClass: ObservableObject{
     @Published var state: CurrentSettingsSelectionView = .settings
     let settingsView = SettingsView()
     let aboutAppView = AboutAppView()
+    let feedBackView = FeedBackView()
+    let questionView = QuestionsView()
+    var answerView = AnswersView(title: SomeInfo.titele1, description: SomeInfo.description1)
 }
 
 enum CurrentSettingsSelectionView{
     case settings
     case aboutApp
+    case feedBack
+    case questions
+    case answers
 }
 
