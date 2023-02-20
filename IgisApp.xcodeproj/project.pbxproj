@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
 		F311176C299A406100351326 /* SomeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* SomeInformation.swift */; };
 		F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */; };
 		F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27329A1044000AFFAA1 /* HashableClass.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* SomeInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInformation.swift; sourceTree = "<group>"; };
 		F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		F348F27329A1044000AFFAA1 /* HashableClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashableClass.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				F3F60802292E26810009E684 /* ShowTransportView.swift */,
+				F30BC48929A2C79000406D00 /* SelectStopView.swift */,
 				F3F608042930D2960009E684 /* SelectTransportNumber.swift */,
 				F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */,
 				F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */,
@@ -222,6 +225,7 @@
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F3F608052930D2960009E684 /* SelectTransportNumber.swift in Sources */,
 				F311176C299A406100351326 /* SomeInformation.swift in Sources */,
+				F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */,
 				F3CCAA6E299643B100DEAF76 /* ServiceAPI.swift in Sources */,
 				F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */,
 				F3F60803292E26810009E684 /* ShowTransportView.swift in Sources */,

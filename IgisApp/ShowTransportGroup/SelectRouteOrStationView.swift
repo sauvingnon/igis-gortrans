@@ -63,7 +63,7 @@ struct SelectRouteOrStationView: View {
             
             
             Button(action: {
-                
+                currentView.state = .selectStopView
             }, label: {
                 Text("Остановки")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)

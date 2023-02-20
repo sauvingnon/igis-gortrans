@@ -30,12 +30,6 @@ class Model{
         return result
     }
     
-    static func getRoutesArray(routeId: Int, currentData: CurrentData, onlineData: CurrentOnlineData){
-//        DispatchQueue.main.async {
-//            ServiceAPI().fetchDataForRoute(idRoute: routeId, currentData: currentData, onlineData: onlineData)
-//        }
-    }
-    
     static func PresentRoute(routeId: Int, currentData: CurrentData, direction: Direction, currentOnlineData: CurrentOnlineData){
         // Отобразим до куда идет на кнопке - нужно доработать нажатие
         var menu = currentOnlineData.stops

@@ -23,14 +23,6 @@ struct ShowTransportOnline: View {
         GridItem(.fixed(200))
     ]
     
-//    [Station(id: 1, name: "Транссельхозтехника", pictureStation: "start_station_img", pictureBus: "", time: "56 мин."),
-//                                   Station(id: 2, name: "Механизаторская улица", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
-//                                   Station(id: 3, name: "Южные электросети", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
-//                                   Station(id: 4, name: "Московская улица", pictureStation: "station_img", pictureBus: "", time: "2 мин."),
-//                                   Station(id: 5, name: "Железнодорожный вокзал", pictureStation: "station_img", pictureBus: "", time: "5 мин."),
-//                                   Station(id: 6, name: "Планерная улица", pictureStation: "station_img", pictureBus: "bus_img", time: ""),
-//    ]
-    
     var body: some View {
         VStack{
             HStack{
@@ -93,8 +85,6 @@ struct ShowTransportOnline: View {
         
         Model.PresentRoute(routeId: routeId, currentData: currentData, direction: direction, currentOnlineData: currentOnlineData)
         
-        Model.getRoutesArray(routeId: routeId, currentData: currentData, onlineData: currentOnlineData)
-        
         currentOnlineData.transportName = "\(getNameType(type: type)) №\(number)"
         currentOnlineData.routeId = routeId
         
@@ -153,12 +143,12 @@ struct StationRow: View{
     
 }
 
-class Station: HashableClass, Identifiable, ObservableObject{
-    @Published var id: Int
-    @Published var name: String
-    @Published var pictureStation: String
-    @Published var pictureBus: String
-    @Published var time: String
+struct Station: Identifiable, Hashable {
+    let id: Int
+    let name: String
+    let pictureStation: String
+    let pictureBus: String
+    let time: String
     init(id: Int, name: String, pictureStation: String, pictureBus: String, time: String) {
         self.id = id
         self.name = name
@@ -166,6 +156,7 @@ class Station: HashableClass, Identifiable, ObservableObject{
         self.pictureBus = pictureBus
         self.time = time
     }
+    // Ячейки можем пересоздать, тогда вью обновится
 }
 
 class CurrentOnlineData: ObservableObject{

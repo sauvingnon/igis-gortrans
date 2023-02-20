@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ShowTransportView: View {
     
+//    @StateObject var data : CurrentData()
+    
     @StateObject var currentView = currentViewClass()
     
     var body: some View {
@@ -22,6 +24,8 @@ struct ShowTransportView: View {
                 currentView.selectTransportNumber
             case .showTransportOnline:
                 currentView.showTransportOnline
+            case .selectStopView:
+                currentView.selectStopView
             }
         }
         .environmentObject(currentView)
@@ -41,6 +45,7 @@ class currentViewClass: ObservableObject{
     let selectTransportType = SelectTransportType()
     let selectTransportNumber = SelectTransportNumber()
     let showTransportOnline = ShowTransportOnline()
+    let selectStopView = SelectStopView()
 }
 
 enum CurrentTransportViewType{
@@ -48,5 +53,6 @@ enum CurrentTransportViewType{
     case chooseTypeTransport
     case chooseNumberTransport
     case showTransportOnline
+    case selectStopView
 }
 
