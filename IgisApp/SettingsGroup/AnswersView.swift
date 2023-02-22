@@ -30,11 +30,14 @@ struct AnswersView: View {
             .padding(.horizontal, 20)
             
             Text(title)
+                .padding(.horizontal, 20)
+                .lineLimit(2)
                 .multilineTextAlignment(.trailing)
                 .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                 .fontWeight(.light)
                 .font(.system(size: 25))
                 .padding(.top, 20)
+                .minimumScaleFactor(0.01)
             
             HStack{
                 Text(description)

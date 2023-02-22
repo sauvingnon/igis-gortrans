@@ -10,12 +10,12 @@ import SwiftUI
 
 class ServiceAPI{
     
-    func fetchDataForRoute(idRoute: Int, currentData: CurrentData, onlineData: CurrentOnlineData){
+    func fetchDataForRoute(currentData: CurrentData, onlineData: CurrentOnlineData){
         var routeInfo: RouteStruct?
         
         var stationsWithBus: [Station] = []
         
-        let urlString = "https://testapi.igis-transport.ru/mobile-1KrXNDxI8iccaSbt/prediction-route/\(idRoute)"
+        let urlString = "https://testapi.igis-transport.ru/mobile-1KrXNDxI8iccaSbt/prediction-route/\(onlineData.routeId)"
         let url = URL(string: urlString)
         
         let task = URLSession.shared.dataTask(with: url!) { [self] data, response, error in
@@ -26,11 +26,9 @@ class ServiceAPI{
                     DispatchQueue.main.sync {
                         routeInfo?.data.ts.forEach({ ts in
                             if(ts.status == "ok"){
-                                if(getDirection(route: idRoute, ts: ts) == onlineData.directon){
                                     if let newStation = pushTsOnRoute(ts: ts){
                                         stationsWithBus.append(newStation)
                                     }
-                                }
                             }
                         })
                         var result: [Station] = []
@@ -54,22 +52,6 @@ class ServiceAPI{
             
         }
         task.resume()
-    }
-    
-    func getDirection(route: Int, ts: RouteStruct.Data.Ts) -> Direction{
-        if((SomeInfo.stopsOfRoute[route]?.clasic.contains([ts.stop_current ?? 0])) != nil){
-            return .clasic
-        }
-        if((SomeInfo.stopsOfRoute[route]?.clasic.contains([ts.stop_next ?? 0])) != nil){
-            return .clasic
-        }
-        if((SomeInfo.stopsOfRoute[route]?.reverse.contains([ts.stop_current ?? 0])) != nil){
-            return .reverse
-        }
-        if((SomeInfo.stopsOfRoute[route]?.reverse.contains([ts.stop_next ?? 0])) != nil){
-            return .reverse
-        }
-        return .clasic
     }
     
     func pushTsOnRoute(ts: RouteStruct.Data.Ts) -> Station?{

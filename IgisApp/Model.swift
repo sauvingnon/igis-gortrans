@@ -30,22 +30,31 @@ class Model{
         return result
     }
     
-    static func PresentRoute(routeId: Int, currentData: CurrentData, direction: Direction, currentOnlineData: CurrentOnlineData){
-        // Отобразим до куда идет на кнопке - нужно доработать нажатие
-        var menu = currentOnlineData.stops
-        var endStop = 0
+    static func PresentRoute(currentData: CurrentData, direction: Direction? = nil, currentOnlineData: CurrentOnlineData){
+        // Метод для отображения маршрута на экране
+        let menu = currentOnlineData.menu
         var stopsOfRoute: [Int] = []
-        var startStop = 0
-        if let allStops = SomeInfo.stopsOfRoute[routeId]{
-            startStop = (direction == .clasic) ? allStops.clasic[allStops.clasic.startIndex] : allStops.reverse[allStops.reverse.startIndex]
-            endStop = (direction == .clasic) ? allStops.clasic[allStops.clasic.endIndex-1] : allStops.reverse[allStops.reverse.endIndex-1]
-            stopsOfRoute = (direction == .clasic) ? allStops.clasic : allStops.reverse
-        }
-        menu.currentStop = endStop
         
-        menu.menuItems.removeAll()
-        menu.menuItems.append(MenuItem(stopId: endStop, offset: 50))
-        menu.menuItems.append(MenuItem(stopId: startStop, offset: 100))
+        if let allSubroutesThisRoute = SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.arraySubroutes{
+            
+            if direction != nil{
+                stopsOfRoute = allSubroutesThisRoute.first(where: { item in
+                    item.subroute.first == direction?.startStation && item.subroute.last == direction?.endStation
+                })?.subroute ?? []
+            }else{
+                stopsOfRoute = allSubroutesThisRoute.first?.subroute ?? []
+                
+                menu.currentStop = MenuItem(startStopId: stopsOfRoute.first ?? 0, endStopId: stopsOfRoute.last ?? 0, offset: 0)
+            }
+            
+            menu.menuItems.removeAll()
+            
+            var offsetter = 50
+            allSubroutesThisRoute.forEach { item in
+                menu.menuItems.append(MenuItem(startStopId: item.subroute.first ?? 0, endStopId: item.subroute.last ?? 0, offset: offsetter))
+                offsetter += 50
+            }
+        }
 
         currentData.stops.removeAll()
         
@@ -54,7 +63,7 @@ class Model{
         }
         
         
-        ServiceAPI().fetchDataForRoute(idRoute: routeId, currentData: currentData, onlineData: currentOnlineData)
+        ServiceAPI().fetchDataForRoute(currentData: currentData, onlineData: currentOnlineData)
     }
     
     static func getRouteId(type: TypeTransport, number: Int) -> Int{
@@ -77,8 +86,8 @@ enum TypeTransport{
     case countryBus
 }
 
-enum Direction{
-    case clasic
-    case reverse
+struct Direction{
+    let startStation: Int
+    let endStation: Int
 }
 

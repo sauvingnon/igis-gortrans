@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F976CCB3-4F01-40FC-8104-48A4A61DCAA4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IgisApp/ShowTransportGroup/ShowTransportOnline.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "0665C7AA-435A-453E-93D1-05E71A471698"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -30,25 +14,9 @@
             filePath = "IgisApp/ShowTransportGroup/ShowTransportOnline.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "updateRouteData(routeId:type:number:direction:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7F30BB21-18DA-4FE0-9B88-6CE362B9BE29"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IgisApp/ShowTransportGroup/ShowTransportOnline.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "customMenu(menu:currentOnlineData:)"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "updateRouteData(routeId:type:number:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -85,7 +53,7 @@
             <Locations>
                <Location
                   uuid = "4C668C1E-0D39-4C54-9DC4-6C47887A227E - ede1f1bd986d787f"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #2 (IgisApp.Station) -&gt; () in closure #1 @Swift.MainActor () -&gt; () in closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in IgisApp.ServiceAPI.fetchDataForRoute(idRoute: Swift.Int, currentData: IgisApp.CurrentData, onlineData: IgisApp.CurrentOnlineData) -&gt; ()"
@@ -100,7 +68,7 @@
                </Location>
                <Location
                   uuid = "4C668C1E-0D39-4C54-9DC4-6C47887A227E - 6eb0308e6db8c820"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (IgisApp.Station) -&gt; Swift.Bool in closure #2 (IgisApp.Station) -&gt; () in closure #1 @Swift.MainActor () -&gt; () in closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in IgisApp.ServiceAPI.fetchDataForRoute(idRoute: Swift.Int, currentData: IgisApp.CurrentData, onlineData: IgisApp.CurrentOnlineData) -&gt; ()"
@@ -112,6 +80,165 @@
                   startingLineNumber = "39"
                   endingLineNumber = "39"
                   offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "87F0C2DD-A05D-44AB-B932-562CC2748889"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/Model.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "PresentRoute(currentData:direction:currentOnlineData:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "87F0C2DD-A05D-44AB-B932-562CC2748889 - 70bcf9205a420875"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IgisApp.Model.PresentRoute(routeId: Swift.Int, currentData: IgisApp.CurrentData, direction: Swift.Optional&lt;IgisApp.Direction&gt;, currentOnlineData: IgisApp.CurrentOnlineData) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "87F0C2DD-A05D-44AB-B932-562CC2748889 - 70bcf9205a420875"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IgisApp.Model.PresentRoute(routeId: Swift.Int, currentData: IgisApp.CurrentData, direction: Swift.Optional&lt;IgisApp.Direction&gt;, currentOnlineData: IgisApp.CurrentOnlineData) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "380">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A689530-3D58-43B1-9BBA-4A1E60B61C1B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/ShowTransportGroup/ShowTransportOnline.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF903EAA-59C4-46C0-91A6-EF19DB01F7D7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/Service/ServiceAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "fetchDataForRoute(currentData:onlineData:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "77964906-7183-4C81-BA79-A29E1448677B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/Service/ServiceAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "fetchDataForRoute(currentData:onlineData:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "472EE9A8-081C-4B4C-B777-7AA18F9117FD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/Service/ServiceAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "fetchDataForRoute(currentData:onlineData:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "472EE9A8-081C-4B4C-B777-7AA18F9117FD - 2130ccc9ac20b37a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IgisApp.ServiceAPI.fetchDataForRoute(currentData: IgisApp.CurrentData, onlineData: IgisApp.CurrentOnlineData) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceAPI.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "724">
+               </Location>
+               <Location
+                  uuid = "472EE9A8-081C-4B4C-B777-7AA18F9117FD - 2130ccc9ac20b37a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IgisApp.ServiceAPI.fetchDataForRoute(currentData: IgisApp.CurrentData, onlineData: IgisApp.CurrentOnlineData) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceAPI.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "984">
+               </Location>
+               <Location
+                  uuid = "472EE9A8-081C-4B4C-B777-7AA18F9117FD - 7dc1f19f75d542c1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in IgisApp.ServiceAPI.fetchDataForRoute(currentData: IgisApp.CurrentData, onlineData: IgisApp.CurrentOnlineData) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceAPI.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "212">
                </Location>
             </Locations>
          </BreakpointContent>

@@ -11,17 +11,19 @@ struct SelectRouteOrStationView: View {
     
     @EnvironmentObject var currentView: currentTransportViewClass
     
+    @ObservedObject var dateTime = DateTime()
+    
     var body: some View {
         VStack{
             labelIzhevsk()
             HStack{
-                Text("9 февраля")
+                Text(dateTime.date)
                     .foregroundColor(.blue)
                     .font(.system(size: 25))
                     .kerning(2)
                     .offset(y: 17)
                 Spacer()
-                Text("00:31")
+                Text(dateTime.time)
                     .foregroundColor(.blue)
                     .font(.system(size: 25))
                     .kerning(2)
@@ -30,7 +32,7 @@ struct SelectRouteOrStationView: View {
             .padding(.horizontal, 20)
             
             HStack{
-                Text("Четверг")
+                Text(dateTime.day)
                     .foregroundColor(.blue)
                     .font(.system(size: 20))
                     .kerning(2)
@@ -78,10 +80,49 @@ struct SelectRouteOrStationView: View {
             Spacer()
         }
     }
+    
 }
 
 struct SelectRouteOrStationView_Previews: PreviewProvider {
     static var previews: some View {
         SelectRouteOrStationView()
+    }
+}
+
+class DateTime: ObservableObject{
+    @Published var time: String = ""
+    @Published var date: String = ""
+    @Published var day: String = ""
+    
+    init() {
+        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.UpdateDateTime), userInfo: nil, repeats: true)
+        timer.fire()
+    }
+    
+    @objc private func UpdateDateTime(){
+        getDay()
+        getDate()
+        getTime()
+    }
+    
+    private func getTime(){
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        let dateString = formatter.string(from: Date())
+        time = dateString
+    }
+    
+    private func getDate(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM"
+        let dateString = formatter.string(from: Date())
+        date = dateString
+    }
+    
+    private func getDay(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE"
+        let dateString = formatter.string(from: Date())
+        day = dateString
     }
 }

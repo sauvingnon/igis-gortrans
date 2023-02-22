@@ -139,10 +139,10 @@
 				F3DB410429A35B0C005497F7 /* SettingsGroup */,
 				F3F607EC292E242E0009E684 /* IgisAppApp.swift */,
 				F39F13412993D699001E750B /* AppTabBarView.swift */,
+				F3F8AC3329A6238900F4B441 /* Service */,
 				F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */,
 				F3F608062930D3B90009E684 /* Model.swift */,
 				F311176B299A406100351326 /* SomeInformation.swift */,
-				F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */,
 				F348F27229A1042F00AFFAA1 /* Other */,
 				F3F607F0292E242F0009E684 /* Assets.xcassets */,
 				F348F26F29A0E31500AFFAA1 /* CustomMenu */,
@@ -168,6 +168,14 @@
 				F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */,
 			);
 			path = "Custom Tab Bar";
+			sourceTree = "<group>";
+		};
+		F3F8AC3329A6238900F4B441 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -11,7 +11,7 @@ struct CustomMenu: View {
     
     @State var isMenuOpen = false
     
-    var someStops: Menu = Menu(menuItems: [MenuItem(stopId: 10, offset: 50), MenuItem(stopId: 41, offset: 100), MenuItem(stopId: 114, offset: 150)], currentStop: 59)
+    var someStops: Menu = Menu(menuItems: [MenuItem(startStopId: 10, endStopId: 10, offset: 50), MenuItem(startStopId: 10, endStopId: 10, offset: 100), MenuItem(startStopId: 10, endStopId: 10, offset: 150)], currentStop: MenuItem(startStopId: 10, endStopId: 10, offset: 150))
     
     var body: some View {
         customMenu(menu: someStops)
@@ -25,17 +25,19 @@ extension CustomMenu{
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("ДО \(SomeInfo.stops[item.stopId]?.uppercased() ?? "Error")")
+                        Text("\(SomeInfo.stops[item.startStopId] ?? "Error") - \(SomeInfo.stops[item.endStopId] ?? "Error")")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
                     }
                     .padding(10)
                     .background(Color.blue)
                     .clipShape(Rectangle())
                     .cornerRadius(25)
                     .onTapGesture {
-                        menu.currentStop = item.stopId
+                        menu.currentStop = item
                         isMenuOpen.toggle()
                     }
                 }
@@ -47,10 +49,12 @@ extension CustomMenu{
             
             ZStack {
                 HStack{
-                    Text("ДО \(SomeInfo.stops[menu.currentStop]?.uppercased() ?? "Error")")
+                    Text("\(SomeInfo.stops[menu.currentStop.startStopId] ?? "Error") - \(SomeInfo.stops[menu.currentStop.endStopId] ?? "Error")")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(1)
                     
                     Image(systemName: isMenuOpen ? "chevron.up" : "chevron.down")
                         .foregroundColor(.white)
@@ -72,18 +76,20 @@ extension CustomMenu{
 
 class Menu: HashableClass, ObservableObject{
     var menuItems: [MenuItem]
-    var currentStop: Int
-    init(menuItems: [MenuItem], currentStop: Int) {
+    var currentStop: MenuItem
+    init(menuItems: [MenuItem], currentStop: MenuItem) {
         self.menuItems = menuItems
         self.currentStop = currentStop
     }
 }
 
 class MenuItem: HashableClass{
-    var stopId: Int
+    var startStopId: Int
+    var endStopId: Int
     var offset: Int
-    init(stopId: Int, offset: Int) {
-        self.stopId = stopId
+    init(startStopId: Int, endStopId: Int, offset: Int) {
+        self.startStopId = startStopId
+        self.endStopId = endStopId
         self.offset = offset
     }
 }

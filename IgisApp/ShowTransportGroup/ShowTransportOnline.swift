@@ -46,24 +46,23 @@ struct ShowTransportOnline: View {
             .cornerRadius(25)
             .padding(.vertical, 10)
             
-            HStack{
-                Text(currentOnlineData.transportTimeTable)
-                    .foregroundColor(.blue)
-                    .fontWeight(.medium)
-                Spacer()
-            }
-            .padding(.horizontal, 40)
+//            HStack{
+//                Text(currentOnlineData.transportTimeTable)
+//                    .foregroundColor(.blue)
+//                    .fontWeight(.medium)
+//                Spacer()
+//            }
+//            .padding(.horizontal, 40)
             
-            customMenu(menu: currentOnlineData.stops, currentOnlineData: currentOnlineData)
+            customMenu(menu: currentOnlineData.menu)
                 .zIndex(1)
-                .onTapGesture {
-                    var direction: Direction = .reverse
-                    if currentOnlineData.stops.currentStop == SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic[ (SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic.endIndex ?? 0)-1]{
-                        direction = .clasic
-                    }
+                .onChange(of: currentOnlineData.menu.currentStop, perform: { newValue in
+                    let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
                     
-                    Model.PresentRoute(routeId: currentOnlineData.routeId, currentData: currentData, direction: direction, currentOnlineData: currentOnlineData)
-                }
+                    currentOnlineData.directon = newDirection
+                    
+                    Model.PresentRoute(currentData: currentData, direction: currentOnlineData.directon, currentOnlineData: currentOnlineData)
+                })
             
             ScrollView{
                 Grid(alignment: .trailing){
@@ -81,9 +80,11 @@ struct ShowTransportOnline: View {
         }
     }
     
-    func updateRouteData(routeId: Int, type: TypeTransport, number: Int, direction: Direction = .clasic){
+    func updateRouteData(routeId: Int, type: TypeTransport, number: Int){
         
-        Model.PresentRoute(routeId: routeId, currentData: currentData, direction: direction, currentOnlineData: currentOnlineData)
+        currentOnlineData.routeId = routeId
+        
+        Model.PresentRoute(currentData: currentData, currentOnlineData: currentOnlineData)
         
         currentOnlineData.transportName = "\(getNameType(type: type)) №\(number)"
         currentOnlineData.routeId = routeId
@@ -160,39 +161,36 @@ struct Station: Identifiable, Hashable {
 }
 
 class CurrentOnlineData: ObservableObject{
-    var directon: Direction = .clasic
+    var directon: Direction = Direction(startStation: 0, endStation: 0)
     var routeId = 0
     @Published var transportName = "АВТОБУС №22"
-    @Published var transportTimeTable = "Ежедневно 6:00 - 21:30"
-    @Published var stops = Menu(menuItems: [], currentStop: 0)
+//    @Published var transportTimeTable = "Ежедневно 6:00 - 21:30"
+    @Published var menu = Menu(menuItems: [], currentStop: MenuItem(startStopId: 0, endStopId: 0, offset: 0))
 }
 
 extension ShowTransportOnline{
-    func customMenu(menu: Menu, currentOnlineData: CurrentOnlineData) -> some View{
+    func customMenu(menu: Menu) -> some View{
         ZStack {
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("ДО \(SomeInfo.stops[item.stopId]?.uppercased() ?? "Error")")
+                        Text("\(SomeInfo.stops[item.startStopId] ?? "Error") - \(SomeInfo.stops[item.endStopId] ?? "Error")")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
+                            .minimumScaleFactor(0.01)
+                            .lineLimit(1)
                     }
+                    .frame(maxWidth: UIScreen.screenWidth - 80)
                     .padding(10)
                     .background(Color.blue)
                     .clipShape(Rectangle())
                     .cornerRadius(25)
                     .onTapGesture {
-                        menu.currentStop = item.stopId
+                        menu.currentStop = item
                         isMenuOpen.toggle()
-                        if currentOnlineData.stops.currentStop == SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic[ (SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.clasic.endIndex ?? 0)-1]{
-                            currentOnlineData.directon = .clasic
-                        }else{
-                            currentOnlineData.directon = .reverse
-                        }
-                        
-                        Model.PresentRoute(routeId: currentOnlineData.routeId, currentData: currentData, direction: currentOnlineData.directon, currentOnlineData: currentOnlineData)
                     }
+                    .padding(.horizontal, 20)
                 }
                 .shadow(color: .black.opacity(isMenuOpen ? 0.1 : 0.0), radius: 10, x: 0, y: 5)
                 .offset(y: isMenuOpen ? CGFloat(item.offset) : 0)
@@ -202,21 +200,24 @@ extension ShowTransportOnline{
             
             ZStack {
                 HStack{
-                    Text("ДО \(SomeInfo.stops[menu.currentStop]?.uppercased() ?? "Error")")
+                    Text("\(SomeInfo.stops[menu.currentStop.startStopId] ?? "Error") - \(SomeInfo.stops[menu.currentStop.endStopId] ?? "Error")")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(1)
                     
                     Image(systemName: isMenuOpen ? "chevron.up" : "chevron.down")
                         .foregroundColor(.white)
                         .fontWeight(.heavy)
                         .animation(.easeInOut(duration: 0.3), value: isMenuOpen)
                 }
-                .frame(minWidth: 250)
+                .frame(minWidth: UIScreen.screenWidth-40)
                 .padding(10)
                 .background(Color.blue)
                 .clipShape(Rectangle())
                 .cornerRadius(25)
+                .padding(.horizontal, 20)
             }
             .onTapGesture {
                 isMenuOpen.toggle()

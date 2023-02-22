@@ -36,6 +36,7 @@ struct SelectTransportNumber: View {
                     Button(action: {
                         let routeId = Model.getRouteId(type: currentChoose.transportType, number: number)
                         currentView.showTransportOnline.updateRouteData(routeId: routeId, type: currentChoose.transportType, number: number)
+                        
                         currentView.state = .showTransportOnline
                     }){
                         Text(String(number))

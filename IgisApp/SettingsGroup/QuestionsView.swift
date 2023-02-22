@@ -73,13 +73,13 @@ extension QuestionsView{
     func questionButton(text: String) -> some View{
         HStack{
             Text(text)
-                .fixedSize()
                 .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                 .fontWeight(.light)
                 .font(.system(size: 15))
                 .padding(.leading, 10)
                 .kerning(0.7)
                 .minimumScaleFactor(0.01)
+                .lineLimit(1)
             Spacer()
                 
         }
