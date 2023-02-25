@@ -13,7 +13,7 @@ struct SelectTransportType: View {
     
     var body: some View {
         VStack(){
-            labelIzhevsk()
+            labelIzhevsk(withBackButton: true)
                 .onTapGesture {
                     currentView.state = .chooseRouteOrStation
                 }

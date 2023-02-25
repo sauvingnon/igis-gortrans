@@ -15,7 +15,7 @@ struct SelectRouteOrStationView: View {
     
     var body: some View {
         VStack{
-            labelIzhevsk()
+            labelIzhevsk(withBackButton: false)
             HStack{
                 Text(dateTime.date)
                     .foregroundColor(.blue)
@@ -95,7 +95,7 @@ class DateTime: ObservableObject{
     @Published var day: String = ""
     
     init() {
-        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.UpdateDateTime), userInfo: nil, repeats: true)
+        let timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.UpdateDateTime), userInfo: nil, repeats: true)
         timer.fire()
     }
     
@@ -108,6 +108,7 @@ class DateTime: ObservableObject{
     private func getTime(){
         let formatter = DateFormatter()
         formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "ru_RU")
         let dateString = formatter.string(from: Date())
         time = dateString
     }
@@ -115,6 +116,7 @@ class DateTime: ObservableObject{
     private func getDate(){
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM"
+        formatter.locale = Locale(identifier: "ru_RU")
         let dateString = formatter.string(from: Date())
         date = dateString
     }
@@ -122,6 +124,7 @@ class DateTime: ObservableObject{
     private func getDay(){
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
+        formatter.locale = Locale(identifier: "ru_RU")
         let dateString = formatter.string(from: Date())
         day = dateString
     }

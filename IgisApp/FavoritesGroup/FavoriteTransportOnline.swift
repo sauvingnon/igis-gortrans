@@ -1,17 +1,17 @@
 //
-//  ShowTransportOnline.swift
+//  FavoriteStopOnline.swift
 //  IgisApp
 //
-//  Created by Гриша Шкробов on 09.02.2023.
+//  Created by Гриша Шкробов on 25.02.2023.
 //
 
 import SwiftUI
 
-struct ShowTransportOnline: View {
+struct FavoriteTransportOnline: View {
     
     @State var isMenuOpen = false
     
-    @EnvironmentObject var currentView: currentTransportViewClass
+    @EnvironmentObject var currentView: currentFavoritesViewClass
     
     @ObservedObject var currentOnlineData = CurrentOnlineData()
     
@@ -39,7 +39,7 @@ struct ShowTransportOnline: View {
                     }
             }
             .onTapGesture {
-                currentView.state = .chooseNumberTransport
+                currentView.state = .favorites
             }
             .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
             .background(Color.blue)
@@ -105,69 +105,9 @@ struct ShowTransportOnline: View {
     }
     
 }
-
-struct ShowTransportOnline_Previews: PreviewProvider {
-    static var previews: some View {
-        ShowTransportOnline()
-    }
-}
-
-class CurrentData: ObservableObject{
-    @Published var stops: [Station] = []
-}
-
-struct StationRow: View{
-    var station: Station
     
-    var body: some View{
-        HStack{
-            Text(station.name)
-                .foregroundColor(.blue)
-                .fontWeight(.light)
-            Image(station.pictureStation)
-                .resizable()
-                .frame(width: 50, height: 50)
-            if(station.time.isEmpty){
-                Image(station.pictureBus)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-            }else{
-                Text(station.time)
-                    .frame(width: 50, height: 50)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.01)
-            }
-            
+    struct FavoriteTransportOnline_Previews: PreviewProvider {
+        static var previews: some View {
+            FavoriteTransportOnline()
         }
-        .frame(height: 35)
     }
-    
-}
-
-struct Station: Identifiable, Hashable {
-    let id: Int
-    let name: String
-    let pictureStation: String
-    let pictureBus: String
-    let time: String
-    init(id: Int, name: String, pictureStation: String, pictureBus: String, time: String) {
-        self.id = id
-        self.name = name
-        self.pictureStation = pictureStation
-        self.pictureBus = pictureBus
-        self.time = time
-    }
-    // Ячейки можем пересоздать, тогда вью обновится
-}
-
-class CurrentOnlineData: ObservableObject{
-    var directon: Direction = Direction(startStation: 0, endStation: 0)
-    var routeId = 0
-    var transportName = "АВТОБУС №22"
-    @Published var isFavorite = false
-    //    @Published var transportTimeTable = "Ежедневно 6:00 - 21:30"
-    @Published var menu = Menu(menuItems: [], currentStop: MenuItem(startStopId: 0, endStopId: 0, offset: 0))
-}
-
-
-

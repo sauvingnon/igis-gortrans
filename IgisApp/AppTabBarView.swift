@@ -19,11 +19,10 @@ struct AppTabBarView: View {
                 .tabBarTab(tab: .alerts, selection: $selection)
             Color.green
                 .tabBarTab(tab: .map, selection: $selection)
-            Color.blue
+            FavoritesGroupSelector()
                 .tabBarTab(tab: .favourites, selection: $selection)
             SettingsGroupSelector()
                 .tabBarTab(tab: .settings, selection: $selection)
-            
         }
     }
 }

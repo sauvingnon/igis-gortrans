@@ -7,20 +7,24 @@
 
 import SwiftUI
 
-struct CustomMenu: View {
+struct CustomMenuTest: View {
     
     @State var isMenuOpen = false
     
     var someStops: Menu = Menu(menuItems: [MenuItem(startStopId: 10, endStopId: 10, offset: 50), MenuItem(startStopId: 10, endStopId: 10, offset: 100), MenuItem(startStopId: 10, endStopId: 10, offset: 150)], currentStop: MenuItem(startStopId: 10, endStopId: 10, offset: 150))
     
     var body: some View {
-        customMenu(menu: someStops)
+        CustomMenu(menu: someStops, isMenuOpen: $isMenuOpen)
     }
 
 }
 
-extension CustomMenu{
-    func customMenu(menu: Menu) -> some View{
+struct CustomMenu: View{
+    
+    var menu: Menu
+    @Binding var isMenuOpen: Bool
+    
+    var body: some View{
         ZStack {
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
@@ -32,6 +36,7 @@ extension CustomMenu{
                             .minimumScaleFactor(0.01)
                             .lineLimit(1)
                     }
+                    .frame(maxWidth: UIScreen.screenWidth - 80)
                     .padding(10)
                     .background(Color.blue)
                     .clipShape(Rectangle())
@@ -40,6 +45,7 @@ extension CustomMenu{
                         menu.currentStop = item
                         isMenuOpen.toggle()
                     }
+                    .padding(.horizontal, 20)
                 }
                 .shadow(color: .black.opacity(isMenuOpen ? 0.1 : 0.0), radius: 10, x: 0, y: 5)
                 .offset(y: isMenuOpen ? CGFloat(item.offset) : 0)
@@ -61,11 +67,12 @@ extension CustomMenu{
                         .fontWeight(.heavy)
                         .animation(.easeInOut(duration: 0.3), value: isMenuOpen)
                 }
-                .frame(minWidth: 250)
+                .frame(minWidth: UIScreen.screenWidth-40)
                 .padding(10)
                 .background(Color.blue)
                 .clipShape(Rectangle())
                 .cornerRadius(25)
+                .padding(.horizontal, 20)
             }
             .onTapGesture {
                 isMenuOpen.toggle()
@@ -96,6 +103,6 @@ class MenuItem: HashableClass{
 
 struct CustomMenu_Previews: PreviewProvider {
     static var previews: some View {
-        CustomMenu()
+        CustomMenuTest()
     }
 }

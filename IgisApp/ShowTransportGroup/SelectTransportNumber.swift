@@ -25,30 +25,12 @@ struct SelectTransportNumber: View {
     
     var body: some View {
         VStack(){
-            labelIzhevsk()
+            labelIzhevsk(withBackButton: true)
                 .onTapGesture {
                     currentView.state = .chooseTypeTransport
                 }
-            labelTypeTransport(typeTransport: currentChoose.transportType)
-                
-            LazyVGrid(columns: columns, spacing: 20){
-                ForEach(currentChoose.transportNumArray, id: \.self){ number in
-                    Button(action: {
-                        let routeId = Model.getRouteId(type: currentChoose.transportType, number: number)
-                        currentView.showTransportOnline.updateRouteData(routeId: routeId, type: currentChoose.transportType, number: number)
-                        
-                        currentView.state = .showTransportOnline
-                    }){
-                        Text(String(number))
-                            .font(.system(size: 25))
-                            .fontWeight(.black)
-                            .frame(width: 65, height: 65)
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(15)
-                    }
-                }
-            }.padding(20)
+            
+            someTransport(typeTransport: currentChoose.transportType, arrayNumbers: currentChoose.transportNumArray, handlerFunc: chooseHandler(number:type:))
             
             Spacer()
         }
@@ -67,6 +49,13 @@ struct SelectTransportNumber: View {
         currentChoose.transportNumArray = numbers
     }
     
+    func chooseHandler(number: Int, type: TypeTransport){
+        let routeId = Model.getRouteId(type: currentChoose.transportType, number: number)
+        currentView.showTransportOnline.updateRouteData(routeId: routeId, type: currentChoose.transportType, number: number)
+        
+        currentView.state = .showTransportOnline
+    }
+    
 }
 
 struct SelectNumTSView_Previews: PreviewProvider {
@@ -80,7 +69,7 @@ class CurrentChoose: ObservableObject{
     @Published var transportType: TypeTransport = .bus
 }
 
-extension SelectTransportNumber{
+extension View{
     func labelTypeTransport(typeTransport: TypeTransport) -> (some View) {
         var nameTransport = ""
         switch typeTransport {
