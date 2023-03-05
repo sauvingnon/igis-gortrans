@@ -15,7 +15,7 @@ struct AppTabBarView: View {
         CustomTabBarContainerView(selection: $selection){
             TransportGroupSelector()
                 .tabBarTab(tab: .home, selection: $selection)
-            Color.red
+            NotificationsView()
                 .tabBarTab(tab: .alerts, selection: $selection)
             Color.green
                 .tabBarTab(tab: .map, selection: $selection)

@@ -14,18 +14,14 @@ struct CustomMenuTest: View {
     var someStops: Menu = Menu(menuItems: [MenuItem(startStopId: 10, endStopId: 10, offset: 50), MenuItem(startStopId: 10, endStopId: 10, offset: 100), MenuItem(startStopId: 10, endStopId: 10, offset: 150)], currentStop: MenuItem(startStopId: 10, endStopId: 10, offset: 150))
     
     var body: some View {
-        CustomMenu(menu: someStops, isMenuOpen: $isMenuOpen)
+        customMenu(menu: someStops)
     }
-
+    
 }
 
-struct CustomMenu: View{
-    
-    var menu: Menu
-    @Binding var isMenuOpen: Bool
-    
-    var body: some View{
-        ZStack {
+extension CustomMenuTest{
+    func customMenu(menu: Menu) -> some View {
+        return ZStack {
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
@@ -77,13 +73,14 @@ struct CustomMenu: View{
             .onTapGesture {
                 isMenuOpen.toggle()
             }
+            
         }
     }
 }
 
 class Menu: HashableClass, ObservableObject{
     var menuItems: [MenuItem]
-    var currentStop: MenuItem
+    @Published var currentStop: MenuItem
     init(menuItems: [MenuItem], currentStop: MenuItem) {
         self.menuItems = menuItems
         self.currentStop = currentStop

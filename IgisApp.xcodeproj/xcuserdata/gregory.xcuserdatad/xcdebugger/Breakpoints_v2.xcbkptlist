@@ -243,5 +243,101 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "87D057C0-DC10-41DB-9E8E-E138DE42F85B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/NotificationsGroup/NotificationsExample/ChatModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "getMessages()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "87D057C0-DC10-41DB-9E8E-E138DE42F85B - 9c277daf7d6d2fb4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IgisApp.ChatModel.getMessages() -&gt; Swift.Array&lt;IgisApp.Message&gt;"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/NotificationsGroup/NotificationsExample/ChatModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "87D057C0-DC10-41DB-9E8E-E138DE42F85B - 9c277daf7d6d2fb4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IgisApp.ChatModel.getMessages() -&gt; Swift.Array&lt;IgisApp.Message&gt;"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/NotificationsGroup/NotificationsExample/ChatModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "54"
+                  endingLineNumber = "54"
+                  offsetFromSymbolStart = "472">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E1660BF-0408-4654-9F43-9A3272C7A416"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IgisApp/NotificationsGroup/NotificationsExample/ChatModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "saveMessage(messages:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4E1660BF-0408-4654-9F43-9A3272C7A416 - f818756de6b988b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IgisApp.ChatModel.saveMessage(messages: Swift.Array&lt;IgisApp.Message&gt;) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/NotificationsGroup/NotificationsExample/ChatModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  uuid = "4E1660BF-0408-4654-9F43-9A3272C7A416 - f818756de6b988b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "IgisApp.ChatModel.saveMessage(messages: Swift.Array&lt;IgisApp.Message&gt;) -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/NotificationsGroup/NotificationsExample/ChatModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "252">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

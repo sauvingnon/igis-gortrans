@@ -115,7 +115,7 @@ class DateTime: ObservableObject{
     
     private func getDate(){
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM"
+        formatter.dateFormat = "d MMMM"
         formatter.locale = Locale(identifier: "ru_RU")
         let dateString = formatter.string(from: Date())
         date = dateString
