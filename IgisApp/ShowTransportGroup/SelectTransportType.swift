@@ -9,18 +9,18 @@ import SwiftUI
 
 struct SelectTransportType: View {
     
-    @EnvironmentObject var currentView: currentTransportViewClass
+    @EnvironmentObject var navigation: NavigationTransport
     
     var body: some View {
         VStack(){
             labelIzhevsk(withBackButton: true)
                 .onTapGesture {
-                    currentView.state = .chooseRouteOrStation
+                    navigation.state = .chooseRouteOrStation
                 }
             HStack(){
                 Button {
-                    currentView.selectTransportNumber.setSettings(type: .bus, numbers: Model.busArray)
-                    currentView.state = .chooseNumberTransport
+                    navigation.selectTransportNumber.configureView(type: .bus)
+                    navigation.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "bus") .resizable()
@@ -34,8 +34,8 @@ struct SelectTransportType: View {
                     .cornerRadius(15)
                 }
                 Button {
-                    currentView.selectTransportNumber.setSettings(type: .trolleybus, numbers: Model.trolleybusArray)
-                    currentView.state = .chooseNumberTransport
+                    navigation.selectTransportNumber.configureView(type: .trolleybus)
+                    navigation.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "bus.doubledecker") .resizable()
@@ -53,8 +53,8 @@ struct SelectTransportType: View {
             
             HStack(){
                 Button {
-                    currentView.selectTransportNumber.setSettings(type: .train, numbers: Model.trainArray)
-                    currentView.state = .chooseNumberTransport
+                    navigation.selectTransportNumber.configureView(type: .train)
+                    navigation.state = .chooseNumberTransport
                 } label: {
                     VStack(){
                         Image(systemName: "tram") .resizable()
@@ -90,7 +90,7 @@ struct SelectTransportType: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if  value.translation.width > 0{
-                    currentView.state = .chooseRouteOrStation
+                    navigation.state = .chooseRouteOrStation
                 }
             }))
     }

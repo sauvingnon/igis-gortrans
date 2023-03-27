@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
-		F311176C299A406100351326 /* SomeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* SomeInformation.swift */; };
+		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
 		F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB129ADC581008ECCF2 /* NotificationsView.swift */; };
 		F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB829ADD427008ECCF2 /* MessageView.swift */; };
 		F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */; };
@@ -46,7 +46,7 @@
 
 /* Begin PBXFileReference section */
 		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
-		F311176B299A406100351326 /* SomeInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeInformation.swift; sourceTree = "<group>"; };
+		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 		F3451FB129ADC581008ECCF2 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		F3451FB829ADD427008ECCF2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 		F348F27229A1042F00AFFAA1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				F311176B299A406100351326 /* SomeInformation.swift */,
+				F311176B299A406100351326 /* DataBase.swift */,
 				F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
 			);
@@ -184,10 +184,10 @@
 		F3DB410429A35B0C005497F7 /* SettingsGroup */ = {
 			isa = PBXGroup;
 			children = (
+				F3DB410729A36ED2005497F7 /* SettingsGroupSelector.swift */,
 				F3DB410529A35B2D005497F7 /* SettingsView.swift */,
 				F3DB410929A3710F005497F7 /* AboutAppView.swift */,
 				F3795AA029A3E0A000FF05FD /* FeedBackView.swift */,
-				F3DB410729A36ED2005497F7 /* SettingsGroupSelector.swift */,
 				F3795AA229A3F9EC00FF05FD /* QuestionsView.swift */,
 				F3795AA429A4001F00FF05FD /* AnswersView.swift */,
 			);
@@ -346,7 +346,7 @@
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
 				F3F608052930D2960009E684 /* SelectTransportNumber.swift in Sources */,
-				F311176C299A406100351326 /* SomeInformation.swift in Sources */,
+				F311176C299A406100351326 /* DataBase.swift in Sources */,
 				F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */,
 				F3451FC329ADDF5B008ECCF2 /* MapView.swift in Sources */,
 				F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */,

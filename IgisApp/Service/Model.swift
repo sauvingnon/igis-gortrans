@@ -51,40 +51,56 @@ class Model{
         return nil
     }
     
-    static func PresentRoute(currentData: CurrentData, direction: Direction? = nil, currentOnlineData: CurrentOnlineData){
+    static func FillMenu(configuration: Configuration){
+        configuration.menu.menuItems.removeAll()
+        
+        var offset = 50
+        if let allSubroutesThisRoute = DataBase.stopsOfRoute[configuration.routeId]?.arraySubroutes{
+            
+            allSubroutesThisRoute.forEach { direction in
+                configuration.menu.menuItems.append(MenuItem(startStopId: direction.subroute.first ?? 0, endStopId: direction.subroute.last ?? 0, offset: offset))
+                offset += 50
+            }
+            
+            let firstDirection = allSubroutesThisRoute.first?.subroute
+            
+            configuration.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
+        }
+    }
+    
+    static func PresentRoute(configuration: Configuration, direction: Direction? = nil){
         // Метод для отображения маршрута на экране
-        let menu = currentOnlineData.menu
         var stopsOfRoute: [Int] = []
         
-        if let allSubroutesThisRoute = SomeInfo.stopsOfRoute[currentOnlineData.routeId]?.arraySubroutes{
+        // Получим все направления этого маршрута - массив направлений
+        // Направление - массив остановок
+        if let allSubroutesThisRoute = DataBase.stopsOfRoute[configuration.routeId]?.arraySubroutes{
             
+            // Если направление задано, то отобразим именно его
             if direction != nil{
+                // Получим то направление, которое удовлетворяет нашему условию
                 stopsOfRoute = allSubroutesThisRoute.first(where: { item in
                     item.subroute.first == direction?.startStation && item.subroute.last == direction?.endStation
                 })?.subroute ?? []
             }else{
+                // Иначе просто отобразим первое направление этого маршрута
                 stopsOfRoute = allSubroutesThisRoute.first?.subroute ?? []
-                
-                menu.currentStop = MenuItem(startStopId: stopsOfRoute.first ?? 0, endStopId: stopsOfRoute.last ?? 0, offset: 0)
-            }
-            
-            menu.menuItems.removeAll()
-
-            var offsetter = 50
-            allSubroutesThisRoute.forEach { item in
-                menu.menuItems.append(MenuItem(startStopId: item.subroute.first ?? 0, endStopId: item.subroute.last ?? 0, offset: offsetter))
-                offsetter += 50
             }
         }
 
-        currentData.stops.removeAll()
+        configuration.data.removeAll()
+        
+        // Заполнение вью полученным направлением - массивом остановок
+        var stationState = StationState.startStation
         
         stopsOfRoute.forEach { stopId in
-            currentData.stops.append(Station(id: stopId, name: SomeInfo.stops[stopId] ?? "Error", pictureStation: "station_img", pictureBus: "", time: "\(Int.random(in: 1...50)) мин"))
+            if(stopId == stopsOfRoute.last) { stationState = .endStation }
+            configuration.data.append(Station(id: stopId, name: DataBase.stops[stopId] ?? "Error", stationState: stationState, pictureTs: "", time: "\(Int.random(in: 1...50)) мин"))
+            stationState = .someStation
         }
         
         
-        ServiceAPI().fetchDataForRoute(currentData: currentData, onlineData: currentOnlineData)
+        ServiceAPI().fetchDataForRoute(configuration: configuration)
     }
     
     static func getRouteId(type: TypeTransport, number: Int) -> Int{
@@ -112,21 +128,21 @@ class Model{
         return dict[routeId] ?? 0
     }
     
-    static func favoriteRouteTapped(onlineData: CurrentOnlineData){
+    static func favoriteRouteTapped(configuration: Configuration){
         if var favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
-            if isFavoriteRoute(routeId: onlineData.routeId){
+            if isFavoriteRoute(routeId: configuration.routeId){
                 favoritesArray.removeAll { item in
-                    item == onlineData.routeId
+                    item == configuration.routeId
                 }
-                onlineData.isFavorite = false
+                configuration.isFavorite = false
             }else{
-                favoritesArray.append(onlineData.routeId)
-                onlineData.isFavorite = true
+                favoritesArray.append(configuration.routeId)
+                configuration.isFavorite = true
             }
             UserDefaults.standard.set(favoritesArray, forKey: "FavoriteRoutes")
             
         }else{
-            UserDefaults.standard.set([onlineData.routeId], forKey: "FavoriteRoutes")
+            UserDefaults.standard.set([configuration.routeId], forKey: "FavoriteRoutes")
         }
         self.favoritesView?.favorites.items = getFavoriteData()
     }
@@ -165,6 +181,12 @@ enum TypeTransport{
     case train
     case trolleybus
     case countryBus
+}
+
+enum StationState{
+    case startStation
+    case someStation
+    case endStation
 }
 
 struct Direction{

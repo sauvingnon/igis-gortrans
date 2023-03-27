@@ -7,7 +7,8 @@
 
 import Foundation
 
-class SomeInfo{
+// Фейк - класс базы данных. Будет заменен на js файл
+class DataBase{
     static let stops: Dictionary =           [0 : "Error",
                                               1 : "ЛЭП",
                                               2 : "ЛЭП",

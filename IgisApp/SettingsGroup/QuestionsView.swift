@@ -13,7 +13,7 @@ struct QuestionsView: View {
     
     var body: some View {
         VStack{
-            HStack(alignment: .center){
+            HStack(alignment: .top){
                 Image(systemName: "chevron.left")
                     .font(.system(size: 25))
                     .padding(.leading, 20)
@@ -40,19 +40,19 @@ struct QuestionsView: View {
                 .padding(.vertical, 20)
                 .minimumScaleFactor(0.01)
             
-            questionButton(text: SomeInfo.titele3)
+            questionButton(text: DataBase.titele3)
                 .onTapGesture {
-                    currentView.answerView = AnswersView(title: SomeInfo.titele3, description: SomeInfo.description3)
+                    currentView.answerView = AnswersView(title: DataBase.titele3, description: DataBase.description3)
                     currentView.state = .answers
                 }
-            questionButton(text: SomeInfo.titele2)
+            questionButton(text: DataBase.titele2)
                 .onTapGesture {
-                    currentView.answerView = AnswersView(title: SomeInfo.titele2, description: SomeInfo.description2)
+                    currentView.answerView = AnswersView(title: DataBase.titele2, description: DataBase.description2)
                     currentView.state = .answers
                 }
-            questionButton(text: SomeInfo.titele1)
+            questionButton(text: DataBase.titele1)
                 .onTapGesture {
-                    currentView.answerView = AnswersView(title: SomeInfo.titele1, description: SomeInfo.description1)
+                    currentView.answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
                     currentView.state = .answers
                 }
             

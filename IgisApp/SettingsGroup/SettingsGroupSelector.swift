@@ -43,7 +43,7 @@ class currentSettingsViewClass: ObservableObject{
     let aboutAppView = AboutAppView()
     let feedBackView = FeedBackView()
     let questionView = QuestionsView()
-    var answerView = AnswersView(title: SomeInfo.titele1, description: SomeInfo.description1)
+    var answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
 }
 
 enum CurrentSettingsSelectionView{

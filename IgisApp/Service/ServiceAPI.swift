@@ -10,12 +10,12 @@ import SwiftUI
 
 class ServiceAPI{
     
-    func fetchDataForRoute(currentData: CurrentData, onlineData: CurrentOnlineData){
+    func fetchDataForRoute(configuration: Configuration){
         var routeInfo: RouteStruct?
         
         var stationsWithBus: [Station] = []
         
-        let urlString = "https://testapi.igis-transport.ru/mobile-1KrXNDxI8iccaSbt/prediction-route/\(onlineData.routeId)"
+        let urlString = "https://testapi.igis-transport.ru/mobile-1KrXNDxI8iccaSbt/prediction-route/\(configuration.routeId)"
         let url = URL(string: urlString)
         
         let task = URLSession.shared.dataTask(with: url!) { [self] data, response, error in
@@ -23,25 +23,25 @@ class ServiceAPI{
                 if(data != nil){
                     let decoder = JSONDecoder()
                     routeInfo = try decoder.decode(RouteStruct.self, from: data!)
-                    DispatchQueue.main.sync {
                         routeInfo?.data.ts.forEach({ ts in
                             if(ts.status == "ok"){
-                                    if let newStation = pushTsOnRoute(ts: ts){
+                                if let newStation = pushTsOnRoute(ts: ts, type: configuration.type){
                                         stationsWithBus.append(newStation)
                                     }
                             }
                         })
                         var result: [Station] = []
-                        currentData.stops.forEach { item in
+                        configuration.data.forEach { item in
                             if let stopWithBus = stationsWithBus.first(where: { Station in
                                 Station.id == item.id
                             }){
-                                result.append(Station(id: item.id, name: SomeInfo.stops[item.id] ?? "Error", pictureStation: "station_img", pictureBus: stopWithBus.pictureBus, time: ""))
+                                result.append(Station(id: item.id, name: DataBase.stops[item.id] ?? "Error", stationState: item.stationState, pictureTs: stopWithBus.pictureTs, time: "1 мин", isNext: stopWithBus.isNext))
                             }else{
                                 result.append(item)
                             }
                         }
-                        currentData.stops = result
+                    DispatchQueue.main.sync {
+                        configuration.data = result
                     }
                     
                 }
@@ -54,16 +54,28 @@ class ServiceAPI{
         task.resume()
     }
     
-    func pushTsOnRoute(ts: RouteStruct.Data.Ts) -> Station?{
+    func pushTsOnRoute(ts: RouteStruct.Data.Ts, type: TypeTransport) -> Station?{
         if(ts.stop_current != nil){
-            return Station(id: ts.stop_current!, name: "", pictureStation: "", pictureBus: "bus_img", time: "")
+            return Station(id: ts.stop_current!, name: "", stationState: .someStation, pictureTs: getPictureTransport(type: type), time: "")
         }
         if(ts.stop_next != nil){
-            return Station(id: ts.stop_next!, name: "", pictureStation: "", pictureBus: "bus_next", time: "")
+            return Station(id: ts.stop_next!, name: "", stationState: .someStation, pictureTs: getPictureTransport(type: type), time: "1 мин", isNext: true)
         }
         return nil
     }
     
+    func getPictureTransport(type: TypeTransport) -> String {
+        switch type {
+        case .bus:
+            return "bus"
+        case .train:
+            return "tram"
+        case .trolleybus:
+            return "bus.doubledecker"
+        case .countryBus:
+            return "bus.fill"
+        }
+    }
 }
 
 struct RouteStruct: Codable{

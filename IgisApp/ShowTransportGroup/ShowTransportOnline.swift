@@ -11,11 +11,9 @@ struct ShowTransportOnline: View {
     
     @State var isMenuOpen = false
     
-    @EnvironmentObject var currentView: currentTransportViewClass
+    @EnvironmentObject var navigation: NavigationTransport
     
-    @ObservedObject var currentOnlineData = CurrentOnlineData()
-    
-    @ObservedObject var currentData = CurrentData()
+    @ObservedObject var configuration = Configuration()
     
     var body: some View {
         VStack{
@@ -24,22 +22,22 @@ struct ShowTransportOnline: View {
                     .font(.system(size: 25))
                     .padding(.leading, 20)
                     .foregroundColor(.white)
-                Text(currentOnlineData.transportName)
+                Text(configuration.name)
                     .font(.system(size: 24))
                     .foregroundColor(.white)
                     .fontWeight(.medium)
                 Spacer()
                 Image(systemName: "star.fill")
                     .frame(width: 50, height: 50)
-                    .foregroundColor(Model.isFavoriteRoute(routeId: currentOnlineData.routeId) ? .orange : .white)
+                    .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
                     .fontWeight(.black)
                     .onTapGesture {
                         // Добавление маршрута в избранное или удаление оттуда
-                        Model.favoriteRouteTapped(onlineData: currentOnlineData)
+                        Model.favoriteRouteTapped(configuration: configuration)
                     }
             }
             .onTapGesture {
-                currentView.state = .chooseNumberTransport
+                navigation.state = .chooseNumberTransport
             }
             .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
             .background(Color.blue)
@@ -55,19 +53,17 @@ struct ShowTransportOnline: View {
             //            }
             //            .padding(.horizontal, 40)
             
-            customMenu(menu: currentOnlineData.menu)
+            customMenu(menu: configuration.menu)
                 .zIndex(1)
-                .onChange(of: currentOnlineData.menu.currentStop, perform: { newValue in
+                .onChange(of: configuration.menu.currentStop, perform: { newValue in
                     let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
                     
-                    currentOnlineData.directon = newDirection
-                    
-                    Model.PresentRoute(currentData: currentData, direction: currentOnlineData.directon, currentOnlineData: currentOnlineData)
+                    Model.PresentRoute(configuration: configuration, direction: newDirection)
                 })
             
             ScrollView{
                 Grid(alignment: .trailing){
-                    ForEach(currentData.stops, id: \.self) { item in
+                    ForEach(configuration.data, id: \.self) { item in
                         GridRow{
                             StationRow(station: item)
                         }
@@ -81,14 +77,15 @@ struct ShowTransportOnline: View {
         }
     }
     
-    func updateRouteData(routeId: Int, type: TypeTransport, number: Int){
+    func configureView(routeId: Int, type: TypeTransport, number: Int){
         
-        currentOnlineData.routeId = routeId
+        configuration.type = type
+        configuration.name = getName(type: type, number: number)
+        configuration.routeId = routeId
+        configuration.isFavorite = Model.isFavoriteRoute(routeId: routeId)
         
-        Model.PresentRoute(currentData: currentData, currentOnlineData: currentOnlineData)
-        
-        currentOnlineData.transportName = "\(getNameType(type: type)) №\(number)"
-        currentOnlineData.isFavorite = Model.isFavoriteRoute(routeId: routeId)
+        Model.FillMenu(configuration: configuration)
+        Model.PresentRoute(configuration: configuration)
         
 //        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.getRoute), userInfo: nil, repeats: true)
     }
@@ -97,16 +94,16 @@ struct ShowTransportOnline: View {
 //
 //    }
     
-    func getNameType(type: TypeTransport) -> String {
+    func getName(type: TypeTransport, number: Int) -> String {
         switch type {
         case .bus:
-            return "АВТОБУС"
+            return "АВТОБУС №\(number)"
         case .train:
-            return "ТРАМВАЙ"
+            return "ТРАМВАЙ №\(number)"
         case .trolleybus:
-            return "ТРОЛЛЕЙБУС"
+            return "ТРОЛЛЕЙБУС №\(number)"
         case .countryBus:
-            return "АВТОБУС"
+            return "АВТОБУС №\(number)"
         }
     }
     
@@ -130,20 +127,63 @@ struct StationRow: View{
             Text(station.name)
                 .foregroundColor(.blue)
                 .fontWeight(.light)
-            Image(station.pictureStation)
-                .resizable()
-                .frame(width: 50, height: 50)
-            if(station.time.isEmpty){
-                Image(station.pictureBus)
+            switch(station.stationState){
+            case .endStation:
+                Image("endStation")
                     .resizable()
-                    .frame(width: 50, height: 50)
-            }else{
-                Text(station.time)
-                    .frame(width: 50, height: 50)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.01)
+                    .frame(width: 30, height: 50)
+                    .padding(.horizontal, 5)
+                    .padding(.bottom, 30)
+            case .someStation:
+                Image("someStation")
+                    .resizable()
+                    .frame(width: 30, height: 50)
+                    .padding(.horizontal, 5)
+            case .startStation:
+                Image("startStation")
+                    .resizable()
+                    .frame(width: 30, height: 50)
+                    .padding(.horizontal, 5)
+                    .padding(.top, 30)
             }
             
+            if(!station.pictureTs.isEmpty && !station.isNext){
+                HStack{
+                    Image(systemName: station.pictureTs)
+                        .resizable()
+                        .foregroundColor(.blue)
+                        .frame(width: 25, height: 25)
+                }
+                .frame(width: 50, height: 50)
+                }else{
+                    if(station.isNext){
+                        VStack{
+                            HStack(alignment: .top){
+                                Image(systemName: station.pictureTs)
+                                    .resizable()
+                                    .foregroundColor(.blue)
+                                    .frame(width: 20, height: 20)
+                            }
+                            .frame(width: 50, height: 50)
+                            .offset(y: +7)
+                            
+                            Text(station.time)
+                                .frame(width: 50, height: 50)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.01)
+                                .offset(y: -30)
+                                .foregroundColor(.gray)
+                    
+                        }
+                        .frame(width: 50, height: 50)
+                    }else{
+                        Text(station.time)
+                            .frame(width: 50, height: 50)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.01)
+                            .foregroundColor(.gray)
+                    }
+                }
         }
         .frame(height: 35)
     }
@@ -153,26 +193,29 @@ struct StationRow: View{
 struct Station: Identifiable, Hashable {
     let id: Int
     let name: String
-    let pictureStation: String
-    let pictureBus: String
+    let stationState: StationState
+    let pictureTs: String
     let time: String
-    init(id: Int, name: String, pictureStation: String, pictureBus: String, time: String) {
+    let isNext: Bool
+    init(id: Int, name: String, stationState: StationState, pictureTs: String, time: String, isNext: Bool = false) {
+        self.isNext = isNext
         self.id = id
         self.name = name
-        self.pictureStation = pictureStation
-        self.pictureBus = pictureBus
+        self.stationState = stationState
+        self.pictureTs = pictureTs
         self.time = time
     }
     // Ячейки можем пересоздать, тогда вью обновится
 }
 
-class CurrentOnlineData: ObservableObject{
-    var directon: Direction = Direction(startStation: 0, endStation: 0)
-    var routeId = 0
-    var transportName = "АВТОБУС №22"
+class Configuration: ObservableObject{
+    @Published var name = "--"
+    @Published var type = TypeTransport.bus
+    @Published var number = 0
     @Published var isFavorite = false
-    //    @Published var transportTimeTable = "Ежедневно 6:00 - 21:30"
+    var routeId = 0
     @Published var menu = Menu(menuItems: [], currentStop: MenuItem(startStopId: 0, endStopId: 0, offset: 0))
+    @Published var data: [Station] = []
 }
 
 extension ShowTransportOnline{
@@ -181,7 +224,7 @@ extension ShowTransportOnline{
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("\(SomeInfo.stops[item.startStopId] ?? "Error") - \(SomeInfo.stops[item.endStopId] ?? "Error")")
+                        Text("\(DataBase.stops[item.startStopId] ?? "Error") - \(DataBase.stops[item.endStopId] ?? "Error")")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
@@ -207,7 +250,7 @@ extension ShowTransportOnline{
             
             ZStack {
                 HStack{
-                    Text("\(SomeInfo.stops[menu.currentStop.startStopId] ?? "Error") - \(SomeInfo.stops[menu.currentStop.endStopId] ?? "Error")")
+                    Text("\(DataBase.stops[menu.currentStop.startStopId] ?? "Error") - \(DataBase.stops[menu.currentStop.endStopId] ?? "Error")")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)

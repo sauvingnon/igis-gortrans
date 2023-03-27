@@ -9,11 +9,9 @@ import SwiftUI
 
 struct SelectTransportNumber: View {
     
-    @EnvironmentObject var currentView: currentTransportViewClass
+    @EnvironmentObject var navigation: NavigationTransport
     
-    @ObservedObject var currentChoose = CurrentChoose()
-    
-    @State var currentIntBas = 22
+    @ObservedObject var configuration = NumbersViewConfiguration()
     
     var columns: [GridItem] = [
         GridItem(.flexible()),
@@ -27,46 +25,47 @@ struct SelectTransportNumber: View {
         VStack(){
             labelIzhevsk(withBackButton: true)
                 .onTapGesture {
-                    currentView.state = .chooseTypeTransport
+                    navigation.state = .chooseTypeTransport
                 }
             
-            someTransport(typeTransport: currentChoose.transportType, arrayNumbers: currentChoose.transportNumArray, handlerFunc: chooseHandler(number:type:))
+            someTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
             
             Spacer()
         }
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if value.translation.width > 0{
-                    currentView.state = .chooseTypeTransport
+                    navigation.state = .chooseTypeTransport
                 }
             }))
         
         
     }
     
-    func setSettings(type: TypeTransport, numbers: [Int]){
-        currentChoose.transportType = type
-        currentChoose.transportNumArray = numbers
+    func configureView(type: TypeTransport){
+        configuration.numArray = Model.getArrayNum(type: type)
+        configuration.type = type
     }
     
     func chooseHandler(number: Int, type: TypeTransport){
-        let routeId = Model.getRouteId(type: currentChoose.transportType, number: number)
-        currentView.showTransportOnline.updateRouteData(routeId: routeId, type: currentChoose.transportType, number: number)
+        let routeId = Model.getRouteId(type: type, number: number)
         
-        currentView.state = .showTransportOnline
+        navigation.showTransportOnline.configureView(routeId: routeId, type: type, number: number)
+        
+        navigation.state = .showTransportOnline
     }
     
+}
+
+class NumbersViewConfiguration: ObservableObject{
+    @Published var numArray: [Int] = []
+    @Published var type: TypeTransport = .bus
 }
 
 struct SelectNumTSView_Previews: PreviewProvider {
     static var previews: some View {
         SelectTransportNumber()
     }
-}
-
-class CurrentChoose: ObservableObject{
-    @Published var transportNumArray: [Int] = []
-    @Published var transportType: TypeTransport = .bus
 }
 
 extension View{

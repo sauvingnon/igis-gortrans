@@ -9,20 +9,20 @@ import SwiftUI
 
 struct SelectStopView: View {
     
-    @EnvironmentObject var currentView: currentTransportViewClass
+    @EnvironmentObject var navigation: NavigationTransport
     
     var body: some View {
         VStack{
             labelIzhevsk(withBackButton: true)
                 .onTapGesture {
-                    currentView.state = .chooseRouteOrStation
+                    navigation.state = .chooseRouteOrStation
                 }
             
             ScrollView{
                 Grid(alignment: .leading){
-                    ForEach(SomeInfo.getArrayStopsInt(), id: \.self) { item in
+                    ForEach(DataBase.getArrayStopsInt(), id: \.self) { item in
                             GridRow{
-                                Text(SomeInfo.stops[item] ?? "Error")
+                                Text(DataBase.stops[item] ?? "Error")
                                     .foregroundColor(.blue)
                                     .font(.system(size: 20))
                                     .kerning(2)

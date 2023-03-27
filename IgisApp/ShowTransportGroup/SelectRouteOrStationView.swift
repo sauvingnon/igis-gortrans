@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectRouteOrStationView: View {
     
-    @EnvironmentObject var currentView: currentTransportViewClass
+    @EnvironmentObject var navigation: NavigationTransport
     
     @ObservedObject var dateTime = DateTime()
     
@@ -50,7 +50,7 @@ struct SelectRouteOrStationView: View {
             .padding(.horizontal, 20)
             
             Button(action: {
-                currentView.state = .chooseTypeTransport
+                navigation.state = .chooseTypeTransport
             }, label: {
                 Text("Маршруты")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -65,7 +65,7 @@ struct SelectRouteOrStationView: View {
             
             
             Button(action: {
-                currentView.state = .selectStopView
+                navigation.state = .selectStopView
             }, label: {
                 Text("Остановки")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)

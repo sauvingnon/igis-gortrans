@@ -13,9 +13,7 @@ struct FavoriteTransportOnline: View {
     
     @EnvironmentObject var currentView: currentFavoritesViewClass
     
-    @ObservedObject var currentOnlineData = CurrentOnlineData()
-    
-    @ObservedObject var currentData = CurrentData()
+    @ObservedObject var configuration = Configuration()
     
     var body: some View {
         VStack{
@@ -24,18 +22,18 @@ struct FavoriteTransportOnline: View {
                     .font(.system(size: 25))
                     .padding(.leading, 20)
                     .foregroundColor(.white)
-                Text(currentOnlineData.transportName)
+                Text(configuration.name)
                     .font(.system(size: 24))
                     .foregroundColor(.white)
                     .fontWeight(.medium)
                 Spacer()
                 Image(systemName: "star.fill")
                     .frame(width: 50, height: 50)
-                    .foregroundColor(Model.isFavoriteRoute(routeId: currentOnlineData.routeId) ? .orange : .white)
+                    .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
                     .fontWeight(.black)
                     .onTapGesture {
                         // Добавление маршрута в избранное или удаление оттуда
-                        Model.favoriteRouteTapped(onlineData: currentOnlineData)
+                        Model.favoriteRouteTapped(configuration: configuration)
                     }
             }
             .onTapGesture {
@@ -55,19 +53,18 @@ struct FavoriteTransportOnline: View {
             //            }
             //            .padding(.horizontal, 40)
             
-            customMenu(menu: currentOnlineData.menu)
+            customMenu(menu: configuration.menu)
                 .zIndex(1)
-                .onChange(of: currentOnlineData.menu.currentStop, perform: { newValue in
+                .onChange(of: configuration.menu.currentStop, perform: { newValue in
+                    
                     let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
                     
-                    currentOnlineData.directon = newDirection
-                    
-                    Model.PresentRoute(currentData: currentData, direction: currentOnlineData.directon, currentOnlineData: currentOnlineData)
+                    Model.PresentRoute(configuration: configuration, direction: newDirection)
                 })
             
             ScrollView{
                 Grid(alignment: .trailing){
-                    ForEach(currentData.stops, id: \.self) { item in
+                    ForEach(configuration.data, id: \.self) { item in
                         GridRow{
                             StationRow(station: item)
                         }
@@ -83,24 +80,25 @@ struct FavoriteTransportOnline: View {
     
     func updateRouteData(routeId: Int, type: TypeTransport, number: Int){
         
-        currentOnlineData.routeId = routeId
+        configuration.type = type
+        configuration.name = getName(type: type, number: number)
+        configuration.routeId = routeId
+        configuration.isFavorite = Model.isFavoriteRoute(routeId: routeId)
         
-        Model.PresentRoute(currentData: currentData, currentOnlineData: currentOnlineData)
-        
-        currentOnlineData.transportName = "\(getNameType(type: type)) №\(number)"
-        currentOnlineData.isFavorite = Model.isFavoriteRoute(routeId: routeId)
+        Model.FillMenu(configuration: configuration)
+        Model.PresentRoute(configuration: configuration)
     }
     
-    func getNameType(type: TypeTransport) -> String {
+    func getName(type: TypeTransport, number: Int) -> String {
         switch type {
         case .bus:
-            return "АВТОБУС"
+            return "АВТОБУС №\(number)"
         case .train:
-            return "ТРАМВАЙ"
+            return "ТРАМВАЙ №\(number)"
         case .trolleybus:
-            return "ТРОЛЛЕЙБУС"
+            return "ТРОЛЛЕЙБУС №\(number)"
         case .countryBus:
-            return "АВТОБУС"
+            return "АВТОБУС №\(number)"
         }
     }
     
@@ -118,7 +116,7 @@ extension FavoriteTransportOnline{
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("\(SomeInfo.stops[item.startStopId] ?? "Error") - \(SomeInfo.stops[item.endStopId] ?? "Error")")
+                        Text("\(DataBase.stops[item.startStopId] ?? "Error") - \(DataBase.stops[item.endStopId] ?? "Error")")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
@@ -144,7 +142,7 @@ extension FavoriteTransportOnline{
             
             ZStack {
                 HStack{
-                    Text("\(SomeInfo.stops[menu.currentStop.startStopId] ?? "Error") - \(SomeInfo.stops[menu.currentStop.endStopId] ?? "Error")")
+                    Text("\(DataBase.stops[menu.currentStop.startStopId] ?? "Error") - \(DataBase.stops[menu.currentStop.endStopId] ?? "Error")")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)

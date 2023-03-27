@@ -9,26 +9,25 @@ import SwiftUI
 
 struct TransportGroupSelector: View {
 
-//    @StateObject var data : CurrentData()
-
-    @StateObject var currentViewTransport = currentTransportViewClass()
+    @StateObject var navigation = NavigationTransport()
 
     var body: some View {
+        // На данный момент zstack - в планах horizontal scroll
         ZStack{
-            switch currentViewTransport.state {
+            switch navigation.state {
             case .chooseRouteOrStation:
-                currentViewTransport.selectRouteOrStationView
+                navigation.selectRouteOrStationView
             case .chooseTypeTransport:
-                currentViewTransport.selectTransportType
+                navigation.selectTransportType
             case .chooseNumberTransport:
-                currentViewTransport.selectTransportNumber
+                navigation.selectTransportNumber
             case .showTransportOnline:
-                currentViewTransport.showTransportOnline
+                navigation.showTransportOnline
             case .selectStopView:
-                currentViewTransport.selectStopView
+                navigation.selectStopView
             }
         }
-        .environmentObject(currentViewTransport)
+        .environmentObject(navigation)
     }
 
 }
@@ -39,7 +38,7 @@ struct TransportGroupSelector_Preview: PreviewProvider {
     }
 }
 
-class currentTransportViewClass: ObservableObject{
+class NavigationTransport: ObservableObject{
     @Published var state: CurrentTransportSelectionView = .chooseRouteOrStation
     let selectRouteOrStationView = SelectRouteOrStationView()
     let selectTransportType = SelectTransportType()

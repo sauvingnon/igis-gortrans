@@ -16,7 +16,7 @@ struct AnswersView: View {
     
     var body: some View {
         VStack{
-            HStack(alignment: .center){
+            HStack(alignment: .top){
                 Image(systemName: "chevron.left")
                     .font(.system(size: 25))
                     .padding(.leading, 20)
@@ -62,6 +62,6 @@ struct AnswersView: View {
 
 struct AnswersView_Previews: PreviewProvider {
     static var previews: some View {
-        AnswersView(title: SomeInfo.titele1, description: SomeInfo.description1)
+        AnswersView(title: DataBase.titele1, description: DataBase.description1)
     }
 }

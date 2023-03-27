@@ -13,7 +13,7 @@ struct AboutAppView: View {
     
     var body: some View {
         VStack(){
-            HStack(alignment: .center){
+            HStack(alignment: .top){
                 Image(systemName: "chevron.left")
                     .font(.system(size: 25))
                     .padding(.leading, 40)

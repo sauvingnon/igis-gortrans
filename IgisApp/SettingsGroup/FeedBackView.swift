@@ -16,7 +16,7 @@ struct FeedBackView: View {
     
     var body: some View {
         VStack{
-            HStack(alignment: .center){
+            HStack(alignment: .top){
                 Image(systemName: "chevron.left")
                     .font(.system(size: 25))
                     .padding(.leading, 40)
@@ -40,6 +40,7 @@ struct FeedBackView: View {
                 .fontWeight(.light)
                 .font(.system(size: 14))
                 .cornerRadius(25)
+                .minimumScaleFactor(0.01)
             
             HStack{
                 TextField(text: $email){
