@@ -9,11 +9,12 @@ import SwiftUI
 
 struct FeedBackView: View {
     
-    @EnvironmentObject var currentView: currentSettingsViewClass
+    @EnvironmentObject var navigator: currentSettingsViewClass
     
     @State var email: String = ""
     @State var feedBack: String = ""
     
+    @State var scale = 1.0
     var body: some View {
         VStack{
             HStack(alignment: .top){
@@ -21,6 +22,7 @@ struct FeedBackView: View {
                     .font(.system(size: 25))
                     .padding(.leading, 40)
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                    .scaleEffect(scale)
                 Text("Обратная связь")
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                     .fontWeight(.light)
@@ -28,7 +30,11 @@ struct FeedBackView: View {
                 Spacer()
                 
             }.onTapGesture {
-                currentView.state = .settings
+                scale = 2.0
+                withAnimation(.spring(dampingFraction: 0.5)){
+                    scale = 1.0
+                }
+                navigator.show(view: .settings)
             }
             .padding(.top, 20)
             

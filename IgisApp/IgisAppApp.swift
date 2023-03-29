@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct IgisAppApp: App {
+    
+    // Аналог AppDelegate из UIKit
+    init(){
+//        DataBase.LoadJSON()
+    }
 
     var body: some Scene {
         WindowGroup {

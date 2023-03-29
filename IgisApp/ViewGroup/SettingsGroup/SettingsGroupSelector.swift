@@ -44,6 +44,12 @@ class currentSettingsViewClass: ObservableObject{
     let feedBackView = FeedBackView()
     let questionView = QuestionsView()
     var answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
+    
+    func show(view: CurrentSettingsSelectionView){
+        withAnimation {
+            state = view
+        }
+    }
 }
 
 enum CurrentSettingsSelectionView{

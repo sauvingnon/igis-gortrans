@@ -50,7 +50,7 @@ struct SelectRouteOrStationView: View {
             .padding(.horizontal, 20)
             
             Button(action: {
-                navigation.state = .chooseTypeTransport
+                navigation.show(view: .chooseTypeTransport)
             }, label: {
                 Text("Маршруты")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -65,7 +65,7 @@ struct SelectRouteOrStationView: View {
             
             
             Button(action: {
-                navigation.state = .selectStopView
+                navigation.show(view: .selectStopView)
             }, label: {
                 Text("Остановки")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)

@@ -9,8 +9,12 @@ import SwiftUI
 
 struct QuestionsView: View {
     
-    @EnvironmentObject var currentView: currentSettingsViewClass
+    @EnvironmentObject var navigator: currentSettingsViewClass
     
+    @State var scaleBack = 1.0
+    @State var scaleButton1 = 1.0
+    @State var scaleButton2 = 1.0
+    @State var scaleButton3 = 1.0
     var body: some View {
         VStack{
             HStack(alignment: .top){
@@ -18,8 +22,13 @@ struct QuestionsView: View {
                     .font(.system(size: 25))
                     .padding(.leading, 20)
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                    .scaleEffect(scaleBack)
                     .onTapGesture {
-                        currentView.state = .settings
+                        scaleBack = 2.0
+                        withAnimation(.spring(dampingFraction: 0.5)){
+                            scaleBack = 1.0
+                        }
+                        navigator.show(view: .settings)
                     }
                 Spacer()
                 Text("Что такое \n IGIS:Транспорт?")
@@ -42,19 +51,34 @@ struct QuestionsView: View {
             
             questionButton(text: DataBase.titele3)
                 .onTapGesture {
-                    currentView.answerView = AnswersView(title: DataBase.titele3, description: DataBase.description3)
-                    currentView.state = .answers
+                    scaleButton1 = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleButton1 = 1.0
+                    }
+                    navigator.answerView = AnswersView(title: DataBase.titele3, description: DataBase.description3)
+                    navigator.show(view: .answers)
                 }
+                .scaleEffect(scaleButton1)
             questionButton(text: DataBase.titele2)
                 .onTapGesture {
-                    currentView.answerView = AnswersView(title: DataBase.titele2, description: DataBase.description2)
-                    currentView.state = .answers
+                    scaleButton2 = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleButton2 = 1.0
+                    }
+                    navigator.answerView = AnswersView(title: DataBase.titele2, description: DataBase.description2)
+                    navigator.show(view: .answers)
                 }
+                .scaleEffect(scaleButton2)
             questionButton(text: DataBase.titele1)
                 .onTapGesture {
-                    currentView.answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
-                    currentView.state = .answers
+                    scaleButton3 = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleButton3 = 1.0
+                    }
+                    navigator.answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
+                    navigator.show(view: .answers)
                 }
+                .scaleEffect(scaleButton3)
             
             Spacer()
         }

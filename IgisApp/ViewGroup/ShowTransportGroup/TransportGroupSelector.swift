@@ -45,6 +45,12 @@ class NavigationTransport: ObservableObject{
     let selectTransportNumber = SelectTransportNumber()
     let showTransportOnline = ShowTransportOnline()
     let selectStopView = SelectStopView()
+    
+    func show(view: CurrentTransportSelectionView){
+        withAnimation{
+            state = view
+        }
+    }
 }
 
 enum CurrentTransportSelectionView{

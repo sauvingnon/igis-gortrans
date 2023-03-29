@@ -41,7 +41,7 @@ class ServiceAPI{
                             }
                         }
                     DispatchQueue.main.sync {
-                        configuration.data = result
+                            configuration.data = result
                     }
                     
                 }

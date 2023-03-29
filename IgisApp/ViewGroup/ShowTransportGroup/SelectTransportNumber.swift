@@ -21,11 +21,18 @@ struct SelectTransportNumber: View {
         GridItem(.flexible())
     ]
     
+    @State var scaleBack = 1.0
+    
     var body: some View {
         VStack(){
             labelIzhevsk(withBackButton: true)
+                .scaleEffect(scaleBack)
                 .onTapGesture {
-                    navigation.state = .chooseTypeTransport
+                    scaleBack = 1.5
+                    withAnimation(.spring(dampingFraction: 0.5)){
+                        scaleBack = 1.0
+                    }
+                    navigation.show(view: .chooseTypeTransport)
                 }
             
             someTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
@@ -35,7 +42,7 @@ struct SelectTransportNumber: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if value.translation.width > 0{
-                    navigation.state = .chooseTypeTransport
+                    navigation.show(view: .chooseTypeTransport)
                 }
             }))
         
@@ -52,7 +59,7 @@ struct SelectTransportNumber: View {
         
         navigation.showTransportOnline.configureView(routeId: routeId, type: type, number: number)
         
-        navigation.state = .showTransportOnline
+        navigation.show(view: .showTransportOnline)
     }
     
 }

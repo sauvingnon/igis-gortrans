@@ -9,8 +9,9 @@ import SwiftUI
 
 struct AboutAppView: View {
     
-    @EnvironmentObject var currentViewSettings: currentSettingsViewClass
+    @EnvironmentObject var navigator: currentSettingsViewClass
     
+    @State var scale = 1.0
     var body: some View {
         VStack(){
             HStack(alignment: .top){
@@ -18,6 +19,7 @@ struct AboutAppView: View {
                     .font(.system(size: 25))
                     .padding(.leading, 40)
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                    .scaleEffect(scale)
                 Text("О приложении")
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                     .fontWeight(.light)
@@ -27,7 +29,11 @@ struct AboutAppView: View {
             }
             .padding(.top, 20)
             .onTapGesture {
-                currentViewSettings.state = .settings
+                scale = 2.0
+                withAnimation(.spring(dampingFraction: 0.5)){
+                    scale = 1.0
+                }
+                navigator.show(view: .settings)
             }
             
             

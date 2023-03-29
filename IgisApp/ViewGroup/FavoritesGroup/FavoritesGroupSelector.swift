@@ -10,21 +10,21 @@ import SwiftUI
 struct FavoritesGroupSelector: View {
     
     @StateObject var favorites = Favorites()
-    @StateObject var currentView = currentFavoritesViewClass()
+    @StateObject var navigator = currentFavoritesViewClass()
     
     var body: some View {
         ZStack{
-            switch currentView.state{
+            switch navigator.state{
             case .favorites:
-                currentView.favoritesView
+                navigator.favoritesView
             case .showTransport:
-                currentView.favoriteTransport
+                navigator.favoriteTransport
             case .showStop:
-                currentView.favoriteStop
+                navigator.favoriteStop
             }
         }
         .environmentObject(favorites)
-        .environmentObject(currentView)
+        .environmentObject(navigator)
     }
 }
 
@@ -39,6 +39,12 @@ class currentFavoritesViewClass: ObservableObject{
     let favoritesView = FavoritesView()
     let favoriteStop = FavoriteStopOnline()
     let favoriteTransport = FavoriteTransportOnline()
+    
+    func show(view: CurrentFavoritesSelectionView){
+        withAnimation {
+            state = view
+        }
+    }
 }
 
 enum CurrentFavoritesSelectionView{

@@ -11,16 +11,22 @@ struct SelectTransportType: View {
     
     @EnvironmentObject var navigation: NavigationTransport
     
+    @State var scaleBack = 1.0
     var body: some View {
         VStack(){
             labelIzhevsk(withBackButton: true)
+                .scaleEffect(scaleBack)
                 .onTapGesture {
-                    navigation.state = .chooseRouteOrStation
+                    scaleBack = 1.5
+                    withAnimation(.spring(dampingFraction: 0.5)){
+                        scaleBack = 1.0
+                    }
+                    navigation.show(view: .chooseRouteOrStation)
                 }
             HStack(){
                 Button {
                     navigation.selectTransportNumber.configureView(type: .bus)
-                    navigation.state = .chooseNumberTransport
+                    navigation.show(view: .chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus") .resizable()
@@ -35,7 +41,7 @@ struct SelectTransportType: View {
                 }
                 Button {
                     navigation.selectTransportNumber.configureView(type: .trolleybus)
-                    navigation.state = .chooseNumberTransport
+                    navigation.show(view: .chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.doubledecker") .resizable()
@@ -54,7 +60,7 @@ struct SelectTransportType: View {
             HStack(){
                 Button {
                     navigation.selectTransportNumber.configureView(type: .train)
-                    navigation.state = .chooseNumberTransport
+                    navigation.show(view: .chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "tram") .resizable()
@@ -71,7 +77,7 @@ struct SelectTransportType: View {
                 Button {
 //                    currentView.typeTransport = .countryBus
 //                    currentView.numbersArray = Model.getArrayNum(type: .countryBus)
-//                    currentView.state = .chooseNumberTransport
+//                    navigation.show(view: .chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.fill") .resizable()
@@ -90,7 +96,7 @@ struct SelectTransportType: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if  value.translation.width > 0{
-                    navigation.state = .chooseRouteOrStation
+                    navigation.show(view: .chooseRouteOrStation)
                 }
             }))
     }

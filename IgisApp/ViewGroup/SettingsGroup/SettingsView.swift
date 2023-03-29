@@ -9,11 +9,15 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @EnvironmentObject var currentView: currentSettingsViewClass
+    @EnvironmentObject var navigator: currentSettingsViewClass
     
     @State var showNotifications = false
     @State var offlineMode = false
     
+    
+    @State var scaleAbout = 1.0
+    @State var scaleHelp = 1.0
+    @State var scaleFeedBack = 1.0
     var body: some View {
         VStack{
             HStack{
@@ -75,18 +79,32 @@ struct SettingsView: View {
             
             settingsButton(imageName: "info.circle", text: "О приложении")
                 .onTapGesture {
-                    currentView.state = .aboutApp
+                    scaleAbout = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleAbout = 1.0
+                    }
+                    navigator.show(view: .aboutApp)
                 }
+                .scaleEffect(scaleAbout)
             settingsButton(imageName: "questionmark.circle", text: "Помощь")
                 .onTapGesture {
-                    currentView.state = .questions
+                    scaleHelp = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleHelp = 1.0
+                    }
+                    navigator.show(view: .questions)
                 }
+                .scaleEffect(scaleHelp)
             settingsButton(imageName: "smiley", text: "Обратная связь")
                 .onTapGesture {
-                    currentView.state = .feedBack
+                    scaleFeedBack = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleFeedBack = 1.0
+                    }
+                    navigator.show(view: .feedBack)
                 }
+                .scaleEffect(scaleFeedBack)
             
-                
             Spacer()
         }
         .background((LinearGradient(colors: [Color(red: 0.629, green: 0.803, blue: 1, opacity: 1), Color(red: 0.729, green: 0.856, blue: 1, opacity: 0.2)], startPoint: .topLeading, endPoint: .bottomTrailing)))

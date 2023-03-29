@@ -9,11 +9,12 @@ import SwiftUI
 
 struct AnswersView: View {
     
-    @EnvironmentObject var currentView: currentSettingsViewClass
+    @EnvironmentObject var navigator: currentSettingsViewClass
     
     @State var title: String
     @State var description: String
     
+    @State var scaleBack = 1.0
     var body: some View {
         VStack{
             HStack(alignment: .top){
@@ -21,8 +22,13 @@ struct AnswersView: View {
                     .font(.system(size: 25))
                     .padding(.leading, 20)
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                    .scaleEffect(scaleBack)
                     .onTapGesture {
-                        currentView.state = .questions
+                        scaleBack = 2.0
+                        withAnimation(.spring(dampingFraction: 0.5)){
+                            scaleBack = 1.0
+                        }
+                        navigator.show(view: .questions)
                     }
                 Spacer()
             }

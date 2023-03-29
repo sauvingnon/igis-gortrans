@@ -95,7 +95,9 @@ class Model{
         
         stopsOfRoute.forEach { stopId in
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
-            configuration.data.append(Station(id: stopId, name: DataBase.stops[stopId] ?? "Error", stationState: stationState, pictureTs: "", time: "\(Int.random(in: 1...50)) мин"))
+            withAnimation {
+                configuration.data.append(Station(id: stopId, name: DataBase.stops[stopId] ?? "Error", stationState: stationState, pictureTs: "", time: "\(Int.random(in: 1...50)) мин"))
+            }
             stationState = .someStation
         }
         

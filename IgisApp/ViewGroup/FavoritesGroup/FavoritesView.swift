@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavoritesView: View {
     
-    @EnvironmentObject var currentView: currentFavoritesViewClass
+    @EnvironmentObject var navigator: currentFavoritesViewClass
     
     @ObservedObject var favorites = Favorites()
     
@@ -55,9 +55,9 @@ struct FavoritesView: View {
     
     func favoriteRouteTapped(number: Int, type: TypeTransport){
         let routeId = Model.getRouteId(type: type, number: number)
-        currentView.favoriteTransport.updateRouteData(routeId: routeId, type: type, number: number)
+        navigator.favoriteTransport.configureView(routeId: routeId, type: type, number: number)
         
-        currentView.state = .showTransport
+        navigator.show(view: .showTransport)
     }
     
 }

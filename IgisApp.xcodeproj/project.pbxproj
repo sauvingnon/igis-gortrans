@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F302C2BD29D37223009020ED /* route.json in Resources */ = {isa = PBXBuildFile; fileRef = F302C2BC29D37223009020ED /* route.json */; };
 		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
 		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
 		F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB129ADC581008ECCF2 /* NotificationsView.swift */; };
@@ -41,10 +42,12 @@
 		F3F60803292E26810009E684 /* TransportGroupSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F60802292E26810009E684 /* TransportGroupSelector.swift */; };
 		F3F608052930D2960009E684 /* SelectTransportNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608042930D2960009E684 /* SelectTransportNumber.swift */; };
 		F3F608072930D3B90009E684 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608062930D3B90009E684 /* Model.swift */; };
+		F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6ADB029D383F700D74D32 /* Vibration.swift */; };
 		F3F9A3CF29A95E9000EFBE33 /* FavoritesGroupSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F9A3CE29A95E9000EFBE33 /* FavoritesGroupSelector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F302C2BC29D37223009020ED /* route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = route.json; sourceTree = "<group>"; };
 		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 		F3451FB129ADC581008ECCF2 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 		F3F60802292E26810009E684 /* TransportGroupSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportGroupSelector.swift; sourceTree = "<group>"; };
 		F3F608042930D2960009E684 /* SelectTransportNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTransportNumber.swift; sourceTree = "<group>"; };
 		F3F608062930D3B90009E684 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		F3F6ADB029D383F700D74D32 /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
 		F3F9A3CE29A95E9000EFBE33 /* FavoritesGroupSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGroupSelector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +98,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F302C2B829D37157009020ED /* ViewGroup */ = {
+			isa = PBXGroup;
+			children = (
+				F3451FC129ADDF2B008ECCF2 /* MapGroup */,
+				F3451FB029ADC394008ECCF2 /* NotificationsGroup */,
+				F3993E5E29A6B2650087C1B7 /* FavoritesGroup */,
+				F3D7DFF4299433400059B4C4 /* ShowTransportGroup */,
+				F3DB410429A35B0C005497F7 /* SettingsGroup */,
+			);
+			path = ViewGroup;
+			sourceTree = "<group>";
+		};
+		F302C2B929D371BD009020ED /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				F302C2BC29D37223009020ED /* route.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
 		F3451FB029ADC394008ECCF2 /* NotificationsGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,7 +142,7 @@
 			children = (
 				F348F26F29A0E31500AFFAA1 /* CustomMenu */,
 				F362C8D829AA456C0019B28C /* CustomScrollReader */,
-				F3F607FF292E261E0009E684 /* Custom Tab Bar */,
+				F3F607FF292E261E0009E684 /* CustomTabBar */,
 			);
 			path = CustomElements;
 			sourceTree = "<group>";
@@ -145,6 +169,7 @@
 				F311176B299A406100351326 /* DataBase.swift */,
 				F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
+				F3F6ADB029D383F700D74D32 /* Vibration.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -213,13 +238,10 @@
 		F3F607EB292E242E0009E684 /* IgisApp */ = {
 			isa = PBXGroup;
 			children = (
+				F302C2B929D371BD009020ED /* JSON */,
+				F302C2B829D37157009020ED /* ViewGroup */,
 				F3F607EC292E242E0009E684 /* IgisAppApp.swift */,
 				F39F13412993D699001E750B /* AppTabBarView.swift */,
-				F3451FC129ADDF2B008ECCF2 /* MapGroup */,
-				F3451FB029ADC394008ECCF2 /* NotificationsGroup */,
-				F3993E5E29A6B2650087C1B7 /* FavoritesGroup */,
-				F3D7DFF4299433400059B4C4 /* ShowTransportGroup */,
-				F3DB410429A35B0C005497F7 /* SettingsGroup */,
 				F3F8AC3329A6238900F4B441 /* Service */,
 				F348F27229A1042F00AFFAA1 /* Other */,
 				F3F607F0292E242F0009E684 /* Assets.xcassets */,
@@ -237,14 +259,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		F3F607FF292E261E0009E684 /* Custom Tab Bar */ = {
+		F3F607FF292E261E0009E684 /* CustomTabBar */ = {
 			isa = PBXGroup;
 			children = (
 				F3F60800292E264D0009E684 /* CustomTabBar.swift */,
 				F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */,
 				F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */,
 			);
-			path = "Custom Tab Bar";
+			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
 		F3F8AC3329A6238900F4B441 /* Service */ = {
@@ -314,6 +336,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F302C2BD29D37223009020ED /* route.json in Resources */,
 				F3F607F4292E242F0009E684 /* Preview Assets.xcassets in Resources */,
 				F3F607F1292E242F0009E684 /* Assets.xcassets in Resources */,
 			);
@@ -332,6 +355,7 @@
 				F3F9A3CF29A95E9000EFBE33 /* FavoritesGroupSelector.swift in Sources */,
 				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
 				F3F608072930D3B90009E684 /* Model.swift in Sources */,
+				F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */,
 				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
 				F3DB410629A35B2D005497F7 /* SettingsView.swift in Sources */,
 				F3795AA329A3F9EC00FF05FD /* QuestionsView.swift in Sources */,

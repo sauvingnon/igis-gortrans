@@ -11,11 +11,17 @@ struct SelectStopView: View {
     
     @EnvironmentObject var navigation: NavigationTransport
     
+    @State var scaleBack = 1.0
     var body: some View {
         VStack{
             labelIzhevsk(withBackButton: true)
+                .scaleEffect(scaleBack)
                 .onTapGesture {
-                    navigation.state = .chooseRouteOrStation
+                    scaleBack = 1.5
+                    withAnimation(.spring(dampingFraction: 0.5)){
+                        scaleBack = 1.0
+                    }
+                    navigation.show(view: .chooseRouteOrStation)
                 }
             
             ScrollView{

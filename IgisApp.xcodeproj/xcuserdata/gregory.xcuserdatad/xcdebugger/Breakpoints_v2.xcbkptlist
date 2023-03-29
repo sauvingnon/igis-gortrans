@@ -358,17 +358,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A9865F10-68F7-4B8D-8726-51EF45F19E3B"
-            shouldBeEnabled = "No"
+            uuid = "C8B9F48F-99AA-4B9C-AF14-A4E7A2A68BCF"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IgisApp/Service/ServiceAPI.swift"
+            filePath = "IgisApp/Other/DataBase.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "fetchDataForRoute(configuration:)"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
+            landmarkName = "LoadJSON()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C8B9F48F-99AA-4B9C-AF14-A4E7A2A68BCF - b34a019ebf8ff7e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IgisApp.DataBase.LoadJSON() -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Other/DataBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "344"
+                  endingLineNumber = "344"
+                  offsetFromSymbolStart = "1152">
+               </Location>
+               <Location
+                  uuid = "C8B9F48F-99AA-4B9C-AF14-A4E7A2A68BCF - b34a019ebf8ff7e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IgisApp.DataBase.LoadJSON() -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Other/DataBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "344"
+                  endingLineNumber = "344"
+                  offsetFromSymbolStart = "1292">
+               </Location>
+               <Location
+                  uuid = "C8B9F48F-99AA-4B9C-AF14-A4E7A2A68BCF - b34a019ebf8ff7e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static IgisApp.DataBase.LoadJSON() -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Other/DataBase.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "344"
+                  endingLineNumber = "344"
+                  offsetFromSymbolStart = "1648">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
