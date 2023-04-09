@@ -35,7 +35,9 @@ struct SelectTransportNumber: View {
                     navigation.show(view: .chooseTypeTransport)
                 }
             
-            someTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
+            ScrollView(.vertical, showsIndicators: false){
+                someTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
+            }
             
             Spacer()
         }
@@ -50,7 +52,7 @@ struct SelectTransportNumber: View {
     }
     
     func configureView(type: TypeTransport){
-        configuration.numArray = Model.getArrayNum(type: type)
+        configuration.numArray = DataBase.getArrayNumbersRoutes(type: type)
         configuration.type = type
     }
     
@@ -80,7 +82,7 @@ extension View{
         var nameTransport = ""
         switch typeTransport {
         case .bus: nameTransport = "АВТОБУСЫ"
-        case .countryBus: nameTransport = "ПРИГОРОД АВТОБУСЫ"
+        case .ship: nameTransport = "ПРИГОРОД АВТОБУСЫ"
         case .train: nameTransport = "ТРАМВАИ"
         case .trolleybus: nameTransport = "ТРОЛЛЕЙБУСЫ"
         }

@@ -11,7 +11,7 @@ import SwiftUI
 class ServiceAPI{
     
     func fetchDataForRoute(configuration: Configuration){
-        var routeInfo: RouteStruct?
+        var routeInfo: RouteStructApi?
         
         var stationsWithBus: [Station] = []
         
@@ -22,7 +22,7 @@ class ServiceAPI{
             do{
                 if(data != nil){
                     let decoder = JSONDecoder()
-                    routeInfo = try decoder.decode(RouteStruct.self, from: data!)
+                    routeInfo = try decoder.decode(RouteStructApi.self, from: data!)
                         routeInfo?.data.ts.forEach({ ts in
                             if(ts.status == "ok"){
                                 if let newStation = pushTsOnRoute(ts: ts, type: configuration.type){
@@ -35,7 +35,7 @@ class ServiceAPI{
                             if let stopWithBus = stationsWithBus.first(where: { Station in
                                 Station.id == item.id
                             }){
-                                result.append(Station(id: item.id, name: DataBase.stops[item.id] ?? "Error", stationState: item.stationState, pictureTs: stopWithBus.pictureTs, time: "1 мин", isNext: stopWithBus.isNext))
+                                result.append(Station(id: item.id, name: DataBase.getStopName(id: item.id), stationState: item.stationState, pictureTs: stopWithBus.pictureTs, time: "1 мин", isNext: stopWithBus.isNext))
                             }else{
                                 result.append(item)
                             }
@@ -54,7 +54,7 @@ class ServiceAPI{
         task.resume()
     }
     
-    func pushTsOnRoute(ts: RouteStruct.Data.Ts, type: TypeTransport) -> Station?{
+    func pushTsOnRoute(ts: RouteStructApi.Data.Ts, type: TypeTransport) -> Station?{
         if(ts.stop_current != nil){
             return Station(id: ts.stop_current!, name: "", stationState: .someStation, pictureTs: getPictureTransport(type: type), time: "")
         }
@@ -72,13 +72,13 @@ class ServiceAPI{
             return "tram"
         case .trolleybus:
             return "bus.doubledecker"
-        case .countryBus:
+        case .ship:
             return "bus.fill"
         }
     }
 }
 
-struct RouteStruct: Codable{
+struct RouteStructApi: Codable{
     let data: Data
     struct Data: Codable{
         let route: Route

@@ -25,7 +25,7 @@ extension CustomMenuTest{
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("\(DataBase.stops[item.startStopId] ?? "Error") - \(DataBase.stops[item.endStopId] ?? "Error")")
+                        Text("\(DataBase.getStopName(id: item.startStopId)) - \(DataBase.getStopName(id: item.endStopId))")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
@@ -51,7 +51,7 @@ extension CustomMenuTest{
             
             ZStack {
                 HStack{
-                    Text("\(DataBase.stops[menu.currentStop.startStopId] ?? "Error") - \(DataBase.stops[menu.currentStop.endStopId] ?? "Error")")
+                    Text("\(DataBase.getStopName(id: menu.currentStop.startStopId)) - \(DataBase.getStopName(id: menu.currentStop.endStopId))")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)

@@ -12,6 +12,11 @@ struct SelectStopView: View {
     @EnvironmentObject var navigation: NavigationTransport
     
     @State var scaleBack = 1.0
+    
+    private var columns: [GridItem] = [
+        GridItem(.flexible())
+        ]
+    
     var body: some View {
         VStack{
             labelIzhevsk(withBackButton: true)
@@ -25,21 +30,22 @@ struct SelectStopView: View {
                 }
             
             ScrollView{
-                Grid(alignment: .leading){
-                    ForEach(DataBase.getArrayStopsInt(), id: \.self) { item in
+                LazyVGrid(columns: columns, alignment: .leading){
+                    ForEach(DataBase.getAllStops(), id: \.self) { item in
                             GridRow{
-                                Text(DataBase.stops[item] ?? "Error")
+                                Text("\(item.stop_name_abbr ?? "Ошибка"): \(item.stop_direction ?? "Ошибка")")
                                     .foregroundColor(.blue)
-                                    .font(.system(size: 20))
-                                    .kerning(2)
-                                    .offset(y: 17)
-                                    .padding(.bottom, 5)
+                                    .font(.system(size: 17))
+                                    .kerning(1)
                             }
+                            .padding(.bottom, 10)
+                            .padding(.horizontal, 20)
                     }
                 }
-            }.scrollIndicators(.hidden)
+            }
+//            .scrollIndicators(.hidden)
             
-            Spacer()
+            
         }
     }
 }

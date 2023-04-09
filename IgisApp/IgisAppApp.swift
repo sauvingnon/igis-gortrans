@@ -12,7 +12,7 @@ struct IgisAppApp: App {
     
     // Аналог AppDelegate из UIKit
     init(){
-//        DataBase.LoadJSON()
+        DataBase.LoadJSON()
     }
 
     var body: some Scene {

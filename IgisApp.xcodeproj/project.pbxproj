@@ -7,9 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F302C2BD29D37223009020ED /* route.json in Resources */ = {isa = PBXBuildFile; fileRef = F302C2BC29D37223009020ED /* route.json */; };
 		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
 		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
+		F335263929E029EA001A1017 /* route.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262D29E029EA001A1017 /* route.json */; };
+		F335263A29E029EA001A1017 /* city_route.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262E29E029EA001A1017 /* city_route.json */; };
+		F335263B29E029EA001A1017 /* carrier.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262F29E029EA001A1017 /* carrier.json */; };
+		F335263C29E029EA001A1017 /* stage.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263029E029EA001A1017 /* stage.json */; };
+		F335263D29E029EA001A1017 /* carrier_branch.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263129E029EA001A1017 /* carrier_branch.json */; };
+		F335263E29E029EA001A1017 /* stop_alt.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263229E029EA001A1017 /* stop_alt.json */; };
+		F335263F29E029EA001A1017 /* city.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263329E029EA001A1017 /* city.json */; };
+		F335264029E029EA001A1017 /* stop_nearest.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263429E029EA001A1017 /* stop_nearest.json */; };
+		F335264129E029EA001A1017 /* ts_model.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263529E029EA001A1017 /* ts_model.json */; };
+		F335264229E029EA001A1017 /* stop.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263629E029EA001A1017 /* stop.json */; };
+		F335264329E029EA001A1017 /* ts.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263729E029EA001A1017 /* ts.json */; };
+		F335264429E029EA001A1017 /* subroute.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263829E029EA001A1017 /* subroute.json */; };
 		F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB129ADC581008ECCF2 /* NotificationsView.swift */; };
 		F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB829ADD427008ECCF2 /* MessageView.swift */; };
 		F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */; };
@@ -47,9 +58,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F302C2BC29D37223009020ED /* route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = route.json; sourceTree = "<group>"; };
 		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		F335262D29E029EA001A1017 /* route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = route.json; sourceTree = "<group>"; };
+		F335262E29E029EA001A1017 /* city_route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city_route.json; sourceTree = "<group>"; };
+		F335262F29E029EA001A1017 /* carrier.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = carrier.json; sourceTree = "<group>"; };
+		F335263029E029EA001A1017 /* stage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stage.json; sourceTree = "<group>"; };
+		F335263129E029EA001A1017 /* carrier_branch.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = carrier_branch.json; sourceTree = "<group>"; };
+		F335263229E029EA001A1017 /* stop_alt.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stop_alt.json; sourceTree = "<group>"; };
+		F335263329E029EA001A1017 /* city.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city.json; sourceTree = "<group>"; };
+		F335263429E029EA001A1017 /* stop_nearest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stop_nearest.json; sourceTree = "<group>"; };
+		F335263529E029EA001A1017 /* ts_model.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ts_model.json; sourceTree = "<group>"; };
+		F335263629E029EA001A1017 /* stop.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stop.json; sourceTree = "<group>"; };
+		F335263729E029EA001A1017 /* ts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ts.json; sourceTree = "<group>"; };
+		F335263829E029EA001A1017 /* subroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subroute.json; sourceTree = "<group>"; };
 		F3451FB129ADC581008ECCF2 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		F3451FB829ADD427008ECCF2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
@@ -113,7 +135,18 @@
 		F302C2B929D371BD009020ED /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				F302C2BC29D37223009020ED /* route.json */,
+				F335263129E029EA001A1017 /* carrier_branch.json */,
+				F335262F29E029EA001A1017 /* carrier.json */,
+				F335262E29E029EA001A1017 /* city_route.json */,
+				F335263329E029EA001A1017 /* city.json */,
+				F335262D29E029EA001A1017 /* route.json */,
+				F335263029E029EA001A1017 /* stage.json */,
+				F335263229E029EA001A1017 /* stop_alt.json */,
+				F335263429E029EA001A1017 /* stop_nearest.json */,
+				F335263629E029EA001A1017 /* stop.json */,
+				F335263829E029EA001A1017 /* subroute.json */,
+				F335263529E029EA001A1017 /* ts_model.json */,
+				F335263729E029EA001A1017 /* ts.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -336,8 +369,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F302C2BD29D37223009020ED /* route.json in Resources */,
+				F335263F29E029EA001A1017 /* city.json in Resources */,
+				F335263929E029EA001A1017 /* route.json in Resources */,
 				F3F607F4292E242F0009E684 /* Preview Assets.xcassets in Resources */,
+				F335263B29E029EA001A1017 /* carrier.json in Resources */,
+				F335263E29E029EA001A1017 /* stop_alt.json in Resources */,
+				F335263D29E029EA001A1017 /* carrier_branch.json in Resources */,
+				F335263A29E029EA001A1017 /* city_route.json in Resources */,
+				F335264329E029EA001A1017 /* ts.json in Resources */,
+				F335264229E029EA001A1017 /* stop.json in Resources */,
+				F335264129E029EA001A1017 /* ts_model.json in Resources */,
+				F335264429E029EA001A1017 /* subroute.json in Resources */,
+				F335263C29E029EA001A1017 /* stage.json in Resources */,
+				F335264029E029EA001A1017 /* stop_nearest.json in Resources */,
 				F3F607F1292E242F0009E684 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
