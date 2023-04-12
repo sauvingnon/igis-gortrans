@@ -56,8 +56,8 @@ struct SelectTransportNumber: View {
         configuration.type = type
     }
     
-    func chooseHandler(number: Int, type: TypeTransport){
-        let routeId = Model.getRouteId(type: type, number: number)
+    func chooseHandler(number: String, type: TypeTransport){
+        let routeId = DataBase.getRouteId(type: type, number: number)
         
         navigation.showTransportOnline.configureView(routeId: routeId, type: type, number: number)
         
@@ -67,7 +67,7 @@ struct SelectTransportNumber: View {
 }
 
 class NumbersViewConfiguration: ObservableObject{
-    @Published var numArray: [Int] = []
+    @Published var numArray: [String] = []
     @Published var type: TypeTransport = .bus
 }
 
@@ -82,7 +82,7 @@ extension View{
         var nameTransport = ""
         switch typeTransport {
         case .bus: nameTransport = "АВТОБУСЫ"
-        case .ship: nameTransport = "ПРИГОРОД АВТОБУСЫ"
+        case .countrybus: nameTransport = "ПРИГОРОД АВТОБУСЫ"
         case .train: nameTransport = "ТРАМВАИ"
         case .trolleybus: nameTransport = "ТРОЛЛЕЙБУСЫ"
         }

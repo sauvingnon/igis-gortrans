@@ -11,9 +11,9 @@ class DataBase{
     // Класс для хранения данных json
     private static var stops: [StopsStruct] = []
     
-    public static func getStopName(id: Int) -> String {
+    public static func getStopName(stopId: Int) -> String {
         if let stop = stops.first(where: { stop in
-            stop.stop_id == id
+            stop.stop_id == stopId
         }), let name = stop.stop_name_short{
             return name
         }else{
@@ -28,11 +28,57 @@ class DataBase{
     
     private static var routes: [RouteStruct] = []
     
-    public static func getArrayNumbersRoutes(type: TypeTransport) -> [Int]{
-        var result: [Int] = []
+    public static func getTypeTransportFromId(routeId: Int) -> TypeTransport?{
+        if let transport = routes.first(where: { item in
+            item.route_id == routeId
+        }){
+            switch(transport.route_ts_type){
+            case 1: return .bus
+            case 2: return .trolleybus
+            case 3: return .train
+            default: return nil
+            }
+        }
+        return nil
+    }
+    
+    private static func fromEnumTsTypeToIntTsType(type: TypeTransport) -> Int{
+        switch(type){
+        case .bus:
+            return 1
+        case .train:
+            return 3
+        case .trolleybus:
+            return 2
+        case .countrybus:
+            return 5
+        }
+    }
+    
+    static func getRouteNumber(routeId: Int) -> String{
+        if let route = routes.first(where: { item in
+            item.route_id == routeId
+        }){
+            return route.route_number
+        }
+        return "--"
+    }
+    
+    static func getRouteId(type: TypeTransport, number: String) -> Int{
+        let intTypeTs = fromEnumTsTypeToIntTsType(type: type)
+        if let transport = routes.first(where: { item in
+            item.route_number == number && item.route_ts_type == intTypeTs
+        }){
+            return transport.route_id
+        }
+        return 0
+    }
+    
+    public static func getArrayNumbersRoutes(type: TypeTransport) -> [String]{
+        var result: [String] = []
         routes.forEach { item in
-            if(item.route_ts_type == type.rawValue) {
-                result.append(Int(item.route_number) ?? 0)
+            if(item.route_ts_type == type.rawValue && !result.contains(item.route_number)) {
+                result.append(item.route_number)
             }
         }
         return result
@@ -40,55 +86,60 @@ class DataBase{
     
     private static var subroutes: [SubrouteStruct] = []
     
-    static let stopsOfRouteOld: Dictionary<Int, arraySubroutes> = [
-        14: arraySubroutes(arraySubroutes: [ .init(subroute: [361,362,370,1136,1134,1125,1126,1114,1108,1107,1105,1766,1790,1774,1776,1832,1835,1203,1370,1367,1289,1288,1303,1363,1360,1953,1955,10,9,14,3,1,467,469,470,2261,2233,2241]), .init(subroute: [474,2234,2262,471,468,466,2,4,13,6,7,1954,1952,1364,1358,1302,1292,1293,1369,2246,1368,1204,1834,1836,1778,1775,1781,1762,1767,1117,1119,1113,1127,1128,367,366,331,333,334,361]) ])
-        // массив
-    ]
-    
-    struct arraySubroutes{
-        let arraySubroutes: [Subroute]
-        struct Subroute{
-            let subroute: [Int]
+    public static func getStopsOfRoute(routeId: Int) -> [SubrouteStruct]?{
+        var result: [SubrouteStruct] = []
+        subroutes.forEach { item in
+            if(item.subroute_route == routeId){
+                result.append(item)
+            }
         }
+        return result
     }
     
     static func LoadJSON(){
-        // Функция для загрузки данных из json в статическую память
-        if let url = Bundle.main.url(forResource: "stop", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                let jsonData = try decoder.decode(StopsFileJSON.self, from: data)
-                stops = jsonData.rows
-            } catch {
-                print("error:\(error)")
-                print("Загрузка json структуры stop не удалась!")
+        let queue = DispatchQueue.global(qos: .default)
+            
+        queue.async {
+            
+            // Функция для загрузки данных из json в статическую память
+            if let url = Bundle.main.url(forResource: "stop", withExtension: "json") {
+                do {
+                    let data = try Data(contentsOf: url)
+                    let decoder = JSONDecoder()
+                    let jsonData = try decoder.decode(StopsFileJSON.self, from: data)
+                    stops = jsonData.rows
+                } catch {
+                    print("error:\(error)")
+                    print("Загрузка json структуры stop не удалась!")
+                }
             }
-        }
-        
-        if let url = Bundle.main.url(forResource: "route", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                let jsonData = try decoder.decode(RouteFileJSON.self, from: data)
-                routes = jsonData.rows
-            } catch {
-                print("error:\(error)")
-                print("Загрузка json структуры route не удалась!")
+            
+            if let url = Bundle.main.url(forResource: "route", withExtension: "json") {
+                do {
+                    let data = try Data(contentsOf: url)
+                    let decoder = JSONDecoder()
+                    let jsonData = try decoder.decode(RouteFileJSON.self, from: data)
+                    routes = jsonData.rows
+                } catch {
+                    print("error:\(error)")
+                    print("Загрузка json структуры route не удалась!")
+                }
             }
-        }
-        
-        if let url = Bundle.main.url(forResource: "subroute", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                let jsonData = try decoder.decode(SubrouteFileJSON.self, from: data)
-                subroutes = jsonData.rows
-            } catch {
-                print("error:\(error)")
-                print("Загрузка json структуры subroute не удалась!")
+            
+            if let url = Bundle.main.url(forResource: "subroute", withExtension: "json") {
+                do {
+                    let data = try Data(contentsOf: url)
+                    let decoder = JSONDecoder()
+                    let jsonData = try decoder.decode(SubrouteFileJSON.self, from: data)
+                    subroutes = jsonData.rows
+                } catch {
+                    print("error:\(error)")
+                    print("Загрузка json структуры subroute не удалась!")
+                }
             }
+            
         }
+    
     }
     
     static let titele1 = "Как настроить уведомления"

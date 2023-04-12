@@ -38,7 +38,7 @@ extension View{
         .padding(.top, 10)
     }
     
-    func someTransport(typeTransport: TypeTransport, arrayNumbers: [Int], handlerFunc: @escaping (Int, TypeTransport) -> Void) -> some View {
+    func someTransport(typeTransport: TypeTransport, arrayNumbers: [String], handlerFunc: @escaping (String, TypeTransport) -> Void) -> some View {
         VStack{
             labelTypeTransport(typeTransport: typeTransport)
             LazyVGrid(columns: [
@@ -52,7 +52,7 @@ extension View{
                     Button(action: {
                         handlerFunc(number, typeTransport)
                     }){
-                        Text(String(number))
+                        Text(number)
                             .font(.system(size: 25))
                             .fontWeight(.black)
                             .frame(width: 65, height: 65)

@@ -13,41 +13,18 @@ class Model{
     
     static var favoritesView: FavoritesView?
     
-    static let busDict = [ 22 : 14, 25 : 16, 29 : 19]
-    static let trolleybusDict  = [ 6 : 74, 9 : 76, 10 : 77]
-    static let trainDict = [ 1 : 79, 9 : 86, 10 : 87]
-    
-    static func getTypeTransportFromId(routeId: Int) -> TypeTransport?{
-        if (Model.busDict.contains { (key: Int, value: Int) in
-            value == routeId
-        }){
-            return.bus
-        }
-        if (Model.trolleybusDict.contains { (key: Int, value: Int) in
-            value == routeId
-        }){
-            return.trolleybus
-        }
-        if (Model.trainDict.contains { (key: Int, value: Int) in
-            value == routeId
-        }){
-            return.train
-        }
-        return nil
-    }
-    
     static func FillMenu(configuration: Configuration){
         configuration.menu.menuItems.removeAll()
         
         var offset = 50
-        if let allSubroutesThisRoute = DataBase.stopsOfRouteOld[configuration.routeId]?.arraySubroutes{
+        if let allSubroutesThisRoute = DataBase.getStopsOfRoute(routeId: configuration.routeId){
             
             allSubroutesThisRoute.forEach { direction in
-                configuration.menu.menuItems.append(MenuItem(startStopId: direction.subroute.first ?? 0, endStopId: direction.subroute.last ?? 0, offset: offset))
+                configuration.menu.menuItems.append(MenuItem(startStopId: direction.subroute_stops.first ?? 0, endStopId: direction.subroute_stops.last ?? 0, offset: offset))
                 offset += 50
             }
             
-            let firstDirection = allSubroutesThisRoute.first?.subroute
+            let firstDirection = allSubroutesThisRoute.first?.subroute_stops
             
             configuration.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
         }
@@ -59,17 +36,17 @@ class Model{
         
         // Получим все направления этого маршрута - массив направлений
         // Направление - массив остановок
-        if let allSubroutesThisRoute = DataBase.stopsOfRouteOld[configuration.routeId]?.arraySubroutes{
+        if let allSubroutesThisRoute = DataBase.getStopsOfRoute(routeId: configuration.routeId){
             
             // Если направление задано, то отобразим именно его
             if direction != nil{
                 // Получим то направление, которое удовлетворяет нашему условию
                 stopsOfRoute = allSubroutesThisRoute.first(where: { item in
-                    item.subroute.first == direction?.startStation && item.subroute.last == direction?.endStation
-                })?.subroute ?? []
+                    item.subroute_stops.first == direction?.startStation && item.subroute_stops.last == direction?.endStation
+                })?.subroute_stops ?? []
             }else{
                 // Иначе просто отобразим первое направление этого маршрута
-                stopsOfRoute = allSubroutesThisRoute.first?.subroute ?? []
+                stopsOfRoute = allSubroutesThisRoute.first?.subroute_stops ?? []
             }
         }
 
@@ -81,38 +58,13 @@ class Model{
         stopsOfRoute.forEach { stopId in
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
             withAnimation {
-                configuration.data.append(Station(id: stopId, name: DataBase.getStopName(id: stopId), stationState: stationState, pictureTs: "", time: "\(Int.random(in: 1...50)) мин"))
+                configuration.data.append(Station(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "\(Int.random(in: 1...50)) мин"))
             }
             stationState = .someStation
         }
         
         
         ServiceAPI().fetchDataForRoute(configuration: configuration)
-    }
-    
-    static func getRouteId(type: TypeTransport, number: Int) -> Int{
-        var result = 0
-        switch type{
-        case .ship: break
-        case .train: result = trainDict[number]!
-        case .trolleybus: result = trolleybusDict[number]!
-        case .bus: result = busDict[number]!
-        }
-        return result
-    }
-    
-    static func getRouteNumber(routeId: Int) -> Int{
-        var dict = Dictionary<Int, Int>()
-        Model.trainDict.forEach { (key: Int, value: Int) in
-            dict[value] = key
-        }
-        Model.busDict.forEach { (key: Int, value: Int) in
-            dict[value] = key
-        }
-        Model.trolleybusDict.forEach { (key: Int, value: Int) in
-            dict[value] = key
-        }
-        return dict[routeId] ?? 0
     }
     
     static func favoriteRouteTapped(configuration: Configuration){
@@ -148,12 +100,12 @@ class Model{
         favorites.append(Favorites.FavoriteRoute(type: .trolleybus, numbers: []))
         favorites.append(Favorites.FavoriteRoute(type: .train, numbers: []))
         favorites.append(Favorites.FavoriteRoute(type: .bus, numbers: []))
-        favorites.append(Favorites.FavoriteRoute(type: .ship, numbers: []))
+        favorites.append(Favorites.FavoriteRoute(type: .countrybus, numbers: []))
         if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
             favoritesArray.forEach { Int in
                 favorites.first { FavoriteRoute in
-                    FavoriteRoute.type == Model.getTypeTransportFromId(routeId: Int)
-                }?.numbers.append(Model.getRouteNumber(routeId: Int))
+                    FavoriteRoute.type == DataBase.getTypeTransportFromId(routeId: Int)
+                }?.numbers.append(DataBase.getRouteNumber(routeId: Int))
             }
         }
         favorites.removeAll { FavoriteRoute in
@@ -165,9 +117,9 @@ class Model{
 
 enum TypeTransport: Int {
     case bus = 1
-    case train = 2
-    case trolleybus = 3
-    case ship = 5
+    case train = 3
+    case trolleybus = 2
+    case countrybus = 5
 }
 
 enum StationState{

@@ -69,7 +69,7 @@ struct ShowTransportOnline: View {
             
             ScrollView{
                 Grid(alignment: .trailing){
-                    ForEach(configuration.data, id: \.self) { item in
+                    ForEach(configuration.data) { item in
                         GridRow{
                             StationRow(station: item)
                         }
@@ -81,7 +81,7 @@ struct ShowTransportOnline: View {
         }
     }
     
-    func configureView(routeId: Int, type: TypeTransport, number: Int){
+    func configureView(routeId: Int, type: TypeTransport, number: String){
         
         configuration.type = type
         configuration.name = getName(type: type, number: number)
@@ -98,7 +98,7 @@ struct ShowTransportOnline: View {
 //
 //    }
     
-    func getName(type: TypeTransport, number: Int) -> String {
+    func getName(type: TypeTransport, number: String) -> String {
         switch type {
         case .bus:
             return "АВТОБУС №\(number)"
@@ -106,7 +106,7 @@ struct ShowTransportOnline: View {
             return "ТРАМВАЙ №\(number)"
         case .trolleybus:
             return "ТРОЛЛЕЙБУС №\(number)"
-        case .ship:
+        case .countrybus:
             return "АВТОБУС №\(number)"
         }
     }
@@ -228,7 +228,7 @@ extension ShowTransportOnline{
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("\(DataBase.getStopName(id: item.startStopId)) - \(DataBase.getStopName(id: item.endStopId))")
+                        Text("\(DataBase.getStopName(stopId: item.startStopId)) - \(DataBase.getStopName(stopId: item.endStopId))")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
@@ -254,7 +254,7 @@ extension ShowTransportOnline{
             
             ZStack {
                 HStack{
-                    Text("\(DataBase.getStopName(id: menu.currentStop.startStopId)) - \(DataBase.getStopName(id: menu.currentStop.endStopId))")
+                    Text("\(DataBase.getStopName(stopId: menu.currentStop.startStopId)) - \(DataBase.getStopName(stopId: menu.currentStop.endStopId))")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)

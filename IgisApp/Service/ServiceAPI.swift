@@ -35,7 +35,7 @@ class ServiceAPI{
                             if let stopWithBus = stationsWithBus.first(where: { Station in
                                 Station.id == item.id
                             }){
-                                result.append(Station(id: item.id, name: DataBase.getStopName(id: item.id), stationState: item.stationState, pictureTs: stopWithBus.pictureTs, time: "1 мин", isNext: stopWithBus.isNext))
+                                result.append(Station(id: item.id, name: DataBase.getStopName(stopId: item.id), stationState: item.stationState, pictureTs: stopWithBus.pictureTs, time: "1 мин", isNext: stopWithBus.isNext))
                             }else{
                                 result.append(item)
                             }
@@ -72,7 +72,7 @@ class ServiceAPI{
             return "tram"
         case .trolleybus:
             return "bus.doubledecker"
-        case .ship:
+        case .countrybus:
             return "bus.fill"
         }
     }

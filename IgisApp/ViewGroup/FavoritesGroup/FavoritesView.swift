@@ -53,8 +53,8 @@ struct FavoritesView: View {
         .frame(width: UIScreen.screenWidth)
     }
     
-    func favoriteRouteTapped(number: Int, type: TypeTransport){
-        let routeId = Model.getRouteId(type: type, number: number)
+    func favoriteRouteTapped(number: String, type: TypeTransport){
+        let routeId = DataBase.getRouteId(type: type, number: number)
         navigator.favoriteTransport.configureView(routeId: routeId, type: type, number: number)
         
         navigator.show(view: .showTransport)
@@ -73,8 +73,8 @@ class Favorites: ObservableObject{
     class FavoriteRoute: Identifiable{
         var id = UUID()
         var type: TypeTransport = .trolleybus
-        var numbers: [Int] = []
-        init(id: UUID = UUID(), type: TypeTransport, numbers: [Int]) {
+        var numbers: [String] = []
+        init(id: UUID = UUID(), type: TypeTransport, numbers: [String]) {
             self.id = id
             self.type = type
             self.numbers = numbers

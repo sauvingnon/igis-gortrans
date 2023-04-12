@@ -82,7 +82,7 @@ struct FavoriteTransportOnline: View {
         }
     }
     
-    func configureView(routeId: Int, type: TypeTransport, number: Int){
+    func configureView(routeId: Int, type: TypeTransport, number: String){
         
         configuration.type = type
         configuration.name = getName(type: type, number: number)
@@ -93,7 +93,7 @@ struct FavoriteTransportOnline: View {
         Model.PresentRoute(configuration: configuration)
     }
     
-    func getName(type: TypeTransport, number: Int) -> String {
+    func getName(type: TypeTransport, number: String) -> String {
         switch type {
         case .bus:
             return "АВТОБУС №\(number)"
@@ -101,7 +101,7 @@ struct FavoriteTransportOnline: View {
             return "ТРАМВАЙ №\(number)"
         case .trolleybus:
             return "ТРОЛЛЕЙБУС №\(number)"
-        case .ship:
+        case .countrybus:
             return "АВТОБУС №\(number)"
         }
     }
@@ -120,7 +120,7 @@ extension FavoriteTransportOnline{
             ForEach(menu.menuItems, id: \.self){ item in
                 ZStack {
                     HStack{
-                        Text("\(DataBase.getStopName(id: item.startStopId)) - \(DataBase.getStopName(id: item.endStopId))")
+                        Text("\(DataBase.getStopName(stopId: item.startStopId)) - \(DataBase.getStopName(stopId: item.endStopId))")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
                             .fontWeight(.medium)
@@ -146,7 +146,7 @@ extension FavoriteTransportOnline{
             
             ZStack {
                 HStack{
-                    Text("\(DataBase.getStopName(id: menu.currentStop.startStopId)) - \(DataBase.getStopName(id: menu.currentStop.endStopId))")
+                    Text("\(DataBase.getStopName(stopId: menu.currentStop.startStopId)) - \(DataBase.getStopName(stopId: menu.currentStop.endStopId))")
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                         .fontWeight(.medium)
