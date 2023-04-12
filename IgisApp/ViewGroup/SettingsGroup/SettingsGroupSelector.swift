@@ -46,7 +46,7 @@ class currentSettingsViewClass: ObservableObject{
     var answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
     
     func show(view: CurrentSettingsSelectionView){
-        withAnimation {
+        withAnimation(.easeIn(duration: 0.2)){
             state = view
         }
     }

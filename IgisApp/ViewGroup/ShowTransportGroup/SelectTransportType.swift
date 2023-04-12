@@ -75,9 +75,8 @@ struct SelectTransportType: View {
                 }
                 
                 Button {
-//                    currentView.typeTransport = .countryBus
-//                    currentView.numbersArray = Model.getArrayNum(type: .countryBus)
-//                    navigation.show(view: .chooseNumberTransport)
+                    navigation.selectTransportNumber.configureView(type: .countrybus)
+                    navigation.show(view: .chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.fill") .resizable()

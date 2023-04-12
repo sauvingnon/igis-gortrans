@@ -79,6 +79,8 @@ struct FavoriteTransportOnline: View {
             }.scrollIndicators(.hidden)
             
             Spacer()
+        }.onTapGesture {
+            isMenuOpen = false
         }
     }
     

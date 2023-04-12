@@ -59,6 +59,7 @@ extension View{
                             .background(Color.orange)
                             .foregroundColor(.white)
                             .cornerRadius(15)
+                            .minimumScaleFactor(0.01    )
                     }
                 }
             }.padding(.horizontal, 20)

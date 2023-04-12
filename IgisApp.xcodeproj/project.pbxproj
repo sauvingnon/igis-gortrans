@@ -218,8 +218,8 @@
 		F3993E5E29A6B2650087C1B7 /* FavoritesGroup */ = {
 			isa = PBXGroup;
 			children = (
-				F3993E5F29A6B4540087C1B7 /* FavoritesView.swift */,
 				F3F9A3CE29A95E9000EFBE33 /* FavoritesGroupSelector.swift */,
+				F3993E5F29A6B4540087C1B7 /* FavoritesView.swift */,
 				F362C8D329AA32260019B28C /* FavoriteStopOnline.swift */,
 				F362C8D129AA1EA60019B28C /* FavoriteTransportOnline.swift */,
 			);

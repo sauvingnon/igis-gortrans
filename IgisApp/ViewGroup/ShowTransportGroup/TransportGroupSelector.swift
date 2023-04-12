@@ -47,7 +47,7 @@ class NavigationTransport: ObservableObject{
     let selectStopView = SelectStopView()
     
     func show(view: CurrentTransportSelectionView){
-        withAnimation{
+        withAnimation(.easeIn(duration: 0.2)){
             state = view
         }
     }

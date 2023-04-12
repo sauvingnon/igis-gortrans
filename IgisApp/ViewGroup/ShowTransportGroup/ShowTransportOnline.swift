@@ -79,6 +79,9 @@ struct ShowTransportOnline: View {
             
             Spacer()
         }
+        .onTapGesture {
+            isMenuOpen = false
+        }
     }
     
     func configureView(routeId: Int, type: TypeTransport, number: String){

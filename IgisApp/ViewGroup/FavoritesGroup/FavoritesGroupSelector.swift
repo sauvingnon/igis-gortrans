@@ -41,7 +41,7 @@ class currentFavoritesViewClass: ObservableObject{
     let favoriteTransport = FavoriteTransportOnline()
     
     func show(view: CurrentFavoritesSelectionView){
-        withAnimation {
+        withAnimation(.easeIn(duration: 0.2)){
             state = view
         }
     }

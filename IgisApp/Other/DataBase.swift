@@ -77,8 +77,17 @@ class DataBase{
     public static func getArrayNumbersRoutes(type: TypeTransport) -> [String]{
         var result: [String] = []
         routes.forEach { item in
-            if(item.route_ts_type == type.rawValue && !result.contains(item.route_number)) {
-                result.append(item.route_number)
+            if((item.route_ts_type == type.rawValue || type.rawValue == 5) && !result.contains(item.route_number)) {
+                if(type == .bus || type == .countrybus){
+                    if(type == .bus && isCityRoute(routeId: item.route_id)){
+                        result.append(item.route_number)
+                    }else if(type == .countrybus && !isCityRoute(routeId: item.route_id)){
+                        result.append(item.route_number)
+                    }
+                }
+                else{
+                    result.append(item.route_number)
+                }
             }
         }
         return result
@@ -94,6 +103,14 @@ class DataBase{
             }
         }
         return result
+    }
+    
+    private static var city_routes: [CityRouteStruct] = []
+    
+    public static func isCityRoute(routeId: Int) -> Bool{
+        return (city_routes.first { item in
+            item.city_route_route == routeId && item.city_route_geo == 1
+        } != nil)
     }
     
     static func LoadJSON(){
@@ -135,6 +152,18 @@ class DataBase{
                 } catch {
                     print("error:\(error)")
                     print("Загрузка json структуры subroute не удалась!")
+                }
+            }
+            
+            if let url = Bundle.main.url(forResource: "city_route", withExtension: "json") {
+                do {
+                    let data = try Data(contentsOf: url)
+                    let decoder = JSONDecoder()
+                    let jsonData = try decoder.decode(CityRouteFileJSON.self, from: data)
+                    city_routes = jsonData.rows
+                } catch {
+                    print("error:\(error)")
+                    print("Загрузка json структуры city_route не удалась!")
                 }
             }
             
@@ -216,5 +245,17 @@ struct SubrouteStruct: Decodable{
     let subroute_number: Int?
     let subroute_diff: String?
     let subroute_main: Int?
-    
+}
+
+struct CityRouteFileJSON: Decodable{
+    // Тип для извлечения таблицы сопоставления маршрута и города из JSON
+    let table: String
+    let rows: [CityRouteStruct]
+}
+
+struct CityRouteStruct: Decodable{
+    // Тип используемый для таблицы сопоставления маршрута и города из JSON
+    let city_route_route: Int
+    let city_route_city: Int
+    let city_route_geo: Int
 }
