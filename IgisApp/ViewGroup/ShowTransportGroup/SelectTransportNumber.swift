@@ -53,7 +53,14 @@ struct SelectTransportNumber: View {
     
     func configureView(type: TypeTransport){
         configuration.numArray = DataBase.getArrayNumbersRoutes(type: type)
-        configuration.type = type
+        
+        // Заглушка от теплоходов
+        if(type == .countrybus){
+            configuration.type = .bus
+        }else{
+            configuration.type = type
+        }
+        
     }
     
     func chooseHandler(number: String, type: TypeTransport){

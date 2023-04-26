@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
 		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
+		F32F01FD29F55F7300F2B1A3 /* CheckConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */; };
 		F335263929E029EA001A1017 /* route.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262D29E029EA001A1017 /* route.json */; };
 		F335263A29E029EA001A1017 /* city_route.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262E29E029EA001A1017 /* city_route.json */; };
 		F335263B29E029EA001A1017 /* carrier.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262F29E029EA001A1017 /* carrier.json */; };
@@ -39,8 +40,13 @@
 		F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */; };
 		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
 		F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */; };
+		F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */; };
+		F3BD09CB29F6665E002669BA /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CA29F6665E002669BA /* CustomAlert.swift */; };
+		F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CC29F66687002669BA /* CustomAlertButton.swift */; };
+		F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */; };
+		F3BD09D129F81994002669BA /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09D029F81994002669BA /* ViewExtension.swift */; };
 		F3CCAA6E299643B100DEAF76 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */; };
-		F3D7DFF129942C2B0059B4C4 /* ReadyElementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */; };
+		F3D7DFF129942C2B0059B4C4 /* ReadyElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */; };
 		F3D7DFF32994324E0059B4C4 /* SelectTransportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */; };
 		F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */; };
 		F3DB410629A35B2D005497F7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DB410529A35B2D005497F7 /* SettingsView.swift */; };
@@ -60,6 +66,7 @@
 /* Begin PBXFileReference section */
 		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConnection.swift; sourceTree = "<group>"; };
 		F335262D29E029EA001A1017 /* route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = route.json; sourceTree = "<group>"; };
 		F335262E29E029EA001A1017 /* city_route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city_route.json; sourceTree = "<group>"; };
 		F335262F29E029EA001A1017 /* carrier.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = carrier.json; sourceTree = "<group>"; };
@@ -90,8 +97,14 @@
 		F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		F39F13412993D699001E750B /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
 		F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTabsPreferenceKey.swift; sourceTree = "<group>"; };
+		F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconView.swift; sourceTree = "<group>"; };
+		F3B26FF929ED95CC00F981F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F3BD09CA29F6665E002669BA /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		F3BD09CC29F66687002669BA /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
+		F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertModifier.swift; sourceTree = "<group>"; };
+		F3BD09D029F81994002669BA /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
-		F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyElementsView.swift; sourceTree = "<group>"; };
+		F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyElements.swift; sourceTree = "<group>"; };
 		F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTransportType.swift; sourceTree = "<group>"; };
 		F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRouteOrStationView.swift; sourceTree = "<group>"; };
 		F3DB410529A35B2D005497F7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -173,6 +186,7 @@
 		F3451FC029ADDEDF008ECCF2 /* CustomElements */ = {
 			isa = PBXGroup;
 			children = (
+				F3BD09C929F66623002669BA /* CustomAlert */,
 				F348F26F29A0E31500AFFAA1 /* CustomMenu */,
 				F362C8D829AA456C0019B28C /* CustomScrollReader */,
 				F3F607FF292E261E0009E684 /* CustomTabBar */,
@@ -200,7 +214,8 @@
 			isa = PBXGroup;
 			children = (
 				F311176B299A406100351326 /* DataBase.swift */,
-				F3D7DFF029942C2B0059B4C4 /* ReadyElementsView.swift */,
+				F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */,
+				F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
 				F3F6ADB029D383F700D74D32 /* Vibration.swift */,
 			);
@@ -226,6 +241,17 @@
 			path = FavoritesGroup;
 			sourceTree = "<group>";
 		};
+		F3BD09C929F66623002669BA /* CustomAlert */ = {
+			isa = PBXGroup;
+			children = (
+				F3BD09CA29F6665E002669BA /* CustomAlert.swift */,
+				F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */,
+				F3BD09D029F81994002669BA /* ViewExtension.swift */,
+				F3BD09CC29F66687002669BA /* CustomAlertButton.swift */,
+			);
+			path = CustomAlert;
+			sourceTree = "<group>";
+		};
 		F3D7DFF4299433400059B4C4 /* ShowTransportGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				F3DB410729A36ED2005497F7 /* SettingsGroupSelector.swift */,
+				F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */,
 				F3DB410529A35B2D005497F7 /* SettingsView.swift */,
 				F3DB410929A3710F005497F7 /* AboutAppView.swift */,
 				F3795AA029A3E0A000FF05FD /* FeedBackView.swift */,
@@ -271,6 +298,7 @@
 		F3F607EB292E242E0009E684 /* IgisApp */ = {
 			isa = PBXGroup;
 			children = (
+				F3B26FF929ED95CC00F981F8 /* Info.plist */,
 				F302C2B929D371BD009020ED /* JSON */,
 				F302C2B829D37157009020ED /* ViewGroup */,
 				F3F607EC292E242E0009E684 /* IgisAppApp.swift */,
@@ -396,18 +424,24 @@
 				F362C8DA29AA45820019B28C /* CustomScrollReader.swift in Sources */,
 				F362C8D429AA32260019B28C /* FavoriteStopOnline.swift in Sources */,
 				F362C8D229AA1EA60019B28C /* FavoriteTransportOnline.swift in Sources */,
+				F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */,
 				F3F9A3CF29A95E9000EFBE33 /* FavoritesGroupSelector.swift in Sources */,
 				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
 				F3F608072930D3B90009E684 /* Model.swift in Sources */,
+				F3BD09CB29F6665E002669BA /* CustomAlert.swift in Sources */,
+				F32F01FD29F55F7300F2B1A3 /* CheckConnection.swift in Sources */,
 				F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */,
+				F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */,
 				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
 				F3DB410629A35B2D005497F7 /* SettingsView.swift in Sources */,
 				F3795AA329A3F9EC00FF05FD /* QuestionsView.swift in Sources */,
+				F3BD09D129F81994002669BA /* ViewExtension.swift in Sources */,
+				F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */,
 				F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */,
 				F3795AA129A3E0A000FF05FD /* FeedBackView.swift in Sources */,
 				F3DB410829A36ED2005497F7 /* SettingsGroupSelector.swift in Sources */,
 				F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */,
-				F3D7DFF129942C2B0059B4C4 /* ReadyElementsView.swift in Sources */,
+				F3D7DFF129942C2B0059B4C4 /* ReadyElements.swift in Sources */,
 				F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */,
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
 				F37E4AAA2995530D00049934 /* ShowTransportOnline.swift in Sources */,
@@ -552,19 +586,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IgisApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 7PS9R8UBLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IgisApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IGIS: Транспорт Ижевска";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -583,19 +620,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IgisApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 7PS9R8UBLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IgisApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IGIS: Транспорт Ижевска";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

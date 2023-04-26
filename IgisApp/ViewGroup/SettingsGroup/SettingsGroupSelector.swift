@@ -24,6 +24,8 @@ struct SettingsGroupSelector: View {
                 currentView.questionView
             case .answers:
                 currentView.answerView
+            case .changeIcon:
+                currentView.chooseIconView
             }
         }
         .environmentObject(currentView)
@@ -43,6 +45,7 @@ class currentSettingsViewClass: ObservableObject{
     let aboutAppView = AboutAppView()
     let feedBackView = FeedBackView()
     let questionView = QuestionsView()
+    let chooseIconView = ChooseIconView()
     var answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
     
     func show(view: CurrentSettingsSelectionView){
@@ -58,5 +61,6 @@ enum CurrentSettingsSelectionView{
     case feedBack
     case questions
     case answers
+    case changeIcon
 }
 

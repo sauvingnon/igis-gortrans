@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FavoritesGroupSelector: View {
     
-    @StateObject var favorites = Favorites()
     @StateObject var navigator = currentFavoritesViewClass()
     
     var body: some View {
@@ -23,7 +22,6 @@ struct FavoritesGroupSelector: View {
                 navigator.favoriteStop
             }
         }
-        .environmentObject(favorites)
         .environmentObject(navigator)
     }
 }

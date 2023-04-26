@@ -51,7 +51,7 @@ class DataBase{
         case .trolleybus:
             return 2
         case .countrybus:
-            return 5
+            return 1
         }
     }
     
@@ -75,9 +75,11 @@ class DataBase{
     }
     
     public static func getArrayNumbersRoutes(type: TypeTransport) -> [String]{
+        var rawValue = type.rawValue
+        if(rawValue == 5){ rawValue = 1 }
         var result: [String] = []
         routes.forEach { item in
-            if((item.route_ts_type == type.rawValue || type.rawValue == 5) && !result.contains(item.route_number)) {
+            if((item.route_ts_type == rawValue) && !result.contains(item.route_number)) {
                 if(type == .bus || type == .countrybus){
                     if(type == .bus && isCityRoute(routeId: item.route_id)){
                         result.append(item.route_number)

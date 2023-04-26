@@ -12,6 +12,31 @@ import CoreData
 class Model{
     
     static var favoritesView: FavoritesView?
+    static var appTabBarView: AppTabBarView?
+    static var settingsView: SettingsView?
+    
+    static func tryConnect(){
+        let queue = DispatchQueue.global()
+        
+        queue.async {
+            while(true){
+                sleep(2)
+                if(!Model.setCurrentModeNetwork()){
+                    appTabBarView?.showAlert(title: "Соединение установлено", message: "Оффлайн режим выключен")
+                    break
+                }
+            }
+        }
+    }
+    static func setCurrentModeNetwork() -> Bool{
+        if CheckInternetConnection.currentReachabilityStatus() == .notReachable {
+            settingsView?.configuration.offlineMode = true
+            return true
+        }else{
+            settingsView?.configuration.offlineMode = false
+            return false
+        }
+    }
     
     static func FillMenu(configuration: Configuration){
         configuration.menu.menuItems.removeAll()
@@ -49,7 +74,7 @@ class Model{
                 stopsOfRoute = allSubroutesThisRoute.first?.subroute_stops ?? []
             }
         }
-
+        
         configuration.data.removeAll()
         
         // Заполнение вью полученным направлением - массивом остановок
@@ -78,6 +103,7 @@ class Model{
                 favoritesArray.append(configuration.routeId)
                 configuration.isFavorite = true
             }
+            favoritesArray.sort()
             UserDefaults.standard.set(favoritesArray, forKey: "FavoriteRoutes")
             
         }else{

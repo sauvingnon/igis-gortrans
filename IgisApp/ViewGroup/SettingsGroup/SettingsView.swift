@@ -9,15 +9,18 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @EnvironmentObject var navigator: currentSettingsViewClass
+    @EnvironmentObject private var navigator: currentSettingsViewClass
+    @ObservedObject var configuration = SettingsConfiguration()
     
-    @State var showNotifications = false
-    @State var offlineMode = false
+    @State private var scaleAbout = 1.0
+    @State private var scaleHelp = 1.0
+    @State private var scaleFeedBack = 1.0
+    @State private var scaleIcon = 1.0
     
+    init(){
+        Model.settingsView = self
+    }
     
-    @State var scaleAbout = 1.0
-    @State var scaleHelp = 1.0
-    @State var scaleFeedBack = 1.0
     var body: some View {
         VStack{
             HStack{
@@ -43,7 +46,7 @@ struct SettingsView: View {
                     
                 Spacer()
                 
-                Toggle(isOn: $showNotifications){
+                Toggle(isOn: $configuration.showNotifications){
                     
                 }
                 .padding(.trailing, 20)
@@ -65,7 +68,7 @@ struct SettingsView: View {
                     
                 Spacer()
                 
-                Toggle(isOn: $offlineMode){
+                Toggle(isOn: $configuration.offlineMode){
                     
                 }
                 .padding(.trailing, 20)
@@ -77,6 +80,15 @@ struct SettingsView: View {
             
             Spacer()
             
+            settingsButton(imageName: "app.badge", text: "Изменить иконку")
+                .onTapGesture {
+                    scaleIcon = 0.5
+                    withAnimation(.spring(dampingFraction: 0.5)) {
+                        scaleIcon = 1.0
+                    }
+                    navigator.show(view: .changeIcon)
+                }
+                .scaleEffect(scaleIcon)
             settingsButton(imageName: "info.circle", text: "О приложении")
                 .onTapGesture {
                     scaleAbout = 0.5
@@ -109,6 +121,12 @@ struct SettingsView: View {
         }
         .background((LinearGradient(colors: [Color(red: 0.629, green: 0.803, blue: 1, opacity: 1), Color(red: 0.729, green: 0.856, blue: 1, opacity: 0.2)], startPoint: .topLeading, endPoint: .bottomTrailing)))
     }
+    
+}
+
+class SettingsConfiguration: ObservableObject{
+    @Published var showNotifications = false
+    @Published var offlineMode = false
 }
     
 struct SettingsView_Previews: PreviewProvider {

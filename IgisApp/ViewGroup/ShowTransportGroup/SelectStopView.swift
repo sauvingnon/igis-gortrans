@@ -11,11 +11,15 @@ struct SelectStopView: View {
     
     @EnvironmentObject var navigation: NavigationTransport
     
-    @State var scaleBack = 1.0
+    @State var searchText = ""
+    
+    @State private var scaleBack = 1.0
+    
+    @FocusState private var searchIsFocuced: Bool
     
     private var columns: [GridItem] = [
         GridItem(.flexible())
-        ]
+    ]
     
     var body: some View {
         VStack{
@@ -29,24 +33,50 @@ struct SelectStopView: View {
                     navigation.show(view: .chooseRouteOrStation)
                 }
             
+            TextField("Поиск остановки", text: $searchText)
+                .padding(.horizontal, 20)
+                .focused($searchIsFocuced)
+            
+            
+            Divider()
+                .frame(width: UIScreen.screenWidth - 40, height: 1)
+                .background(Color.gray)
+            
             ScrollView{
                 LazyVGrid(columns: columns, alignment: .leading){
-                    ForEach(DataBase.getAllStops(), id: \.self) { item in
-                            GridRow{
-                                Text("\(item.stop_name_abbr ?? "Ошибка"): \(item.stop_direction ?? "Ошибка")")
-                                    .foregroundColor(.blue)
-                                    .font(.system(size: 17))
-                                    .kerning(1)
-                            }
-                            .padding(.bottom, 10)
-                            .padding(.horizontal, 20)
+                    ForEach(filterStops(), id: \.self) { item in
+                        GridRow{
+                            Text("\(item.stop_name ?? "Ошибка"): \(item.stop_direction ?? "Ошибка")")
+                                .foregroundColor(.blue)
+                                .font(.system(size: 17))
+                                .kerning(1)
+                        }
+                        .padding(.bottom, 10)
+                        .padding(.horizontal, 20)
                     }
                 }
+                .animation(.default, value: searchText)
             }
-//            .scrollIndicators(.hidden)
-            
+            //            .scrollIndicators(.hidden)
             
         }
+        .onTapGesture {
+            searchIsFocuced = false
+        }
+    }
+    
+    func filterStops() -> [StopsStruct]{
+        var stops = DataBase.getAllStops()
+        
+        if(searchText.isEmpty){
+            return stops
+        }
+        
+        stops = stops.filter { item in
+            item.stop_name?.contains(searchText) ?? false || item.stop_name_abbr?.contains(searchText) ?? false || item.stop_name_short?.contains(searchText) ?? false || item.stop_final_name?.contains(searchText) ?? false
+        }
+        
+        return stops
     }
 }
 
