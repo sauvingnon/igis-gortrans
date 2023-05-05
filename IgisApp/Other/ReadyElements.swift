@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: Перечислены элементы, которые будут многократно использованы сразу в нескольких экранах приложения
 
 extension View{
+    // Для надписи Ижевск
     func labelIzhevsk(withBackButton: Bool) -> some View {
         HStack{
             if withBackButton{
@@ -38,6 +39,7 @@ extension View{
         .padding(.top, 10)
     }
     
+    // Для отобржение массива номеров транспорта одного типа
     func someTransport(typeTransport: TypeTransport, arrayNumbers: [String], handlerFunc: @escaping (String, TypeTransport) -> Void) -> some View {
         VStack{
             labelTypeTransport(typeTransport: typeTransport)
@@ -65,6 +67,13 @@ extension View{
             }.padding(.horizontal, 20)
         }
     }
+    
+    // Какой либо транспорт или остановка
+    func someItem(){
+        
+    }
+    
+    
     
 }
 

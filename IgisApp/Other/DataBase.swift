@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import SocketIO
+import MessagePacker
+
 
 class DataBase{
     // Класс для хранения данных json
@@ -116,62 +119,96 @@ class DataBase{
     }
     
     static func LoadJSON(){
-        let queue = DispatchQueue.global(qos: .default)
-            
-        queue.async {
-            
-            // Функция для загрузки данных из json в статическую память
-            if let url = Bundle.main.url(forResource: "stop", withExtension: "json") {
-                do {
-                    let data = try Data(contentsOf: url)
-                    let decoder = JSONDecoder()
-                    let jsonData = try decoder.decode(StopsFileJSON.self, from: data)
-                    stops = jsonData.rows
-                } catch {
-                    print("error:\(error)")
-                    print("Загрузка json структуры stop не удалась!")
-                }
+        //        let queue = DispatchQueue.global(qos: .default)
+        
+        // Инициализация избранных раньше чем загрузка маршрутов в память!
+        //        queue.async {
+        
+        // Функция для загрузки данных из json в статическую память
+        if let url = Bundle.main.url(forResource: "stop", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(StopsFileJSON.self, from: data)
+                stops = jsonData.rows
+            } catch {
+                print("error:\(error)")
+                print("Загрузка json структуры stop не удалась!")
             }
-            
-            if let url = Bundle.main.url(forResource: "route", withExtension: "json") {
-                do {
-                    let data = try Data(contentsOf: url)
-                    let decoder = JSONDecoder()
-                    let jsonData = try decoder.decode(RouteFileJSON.self, from: data)
-                    routes = jsonData.rows
-                } catch {
-                    print("error:\(error)")
-                    print("Загрузка json структуры route не удалась!")
-                }
-            }
-            
-            if let url = Bundle.main.url(forResource: "subroute", withExtension: "json") {
-                do {
-                    let data = try Data(contentsOf: url)
-                    let decoder = JSONDecoder()
-                    let jsonData = try decoder.decode(SubrouteFileJSON.self, from: data)
-                    subroutes = jsonData.rows
-                } catch {
-                    print("error:\(error)")
-                    print("Загрузка json структуры subroute не удалась!")
-                }
-            }
-            
-            if let url = Bundle.main.url(forResource: "city_route", withExtension: "json") {
-                do {
-                    let data = try Data(contentsOf: url)
-                    let decoder = JSONDecoder()
-                    let jsonData = try decoder.decode(CityRouteFileJSON.self, from: data)
-                    city_routes = jsonData.rows
-                } catch {
-                    print("error:\(error)")
-                    print("Загрузка json структуры city_route не удалась!")
-                }
-            }
-            
         }
-    
+        
+        if let url = Bundle.main.url(forResource: "route", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(RouteFileJSON.self, from: data)
+                routes = jsonData.rows
+            } catch {
+                print("error:\(error)")
+                print("Загрузка json структуры route не удалась!")
+            }
+        }
+        
+        if let url = Bundle.main.url(forResource: "subroute", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(SubrouteFileJSON.self, from: data)
+                subroutes = jsonData.rows
+            } catch {
+                print("error:\(error)")
+                print("Загрузка json структуры subroute не удалась!")
+            }
+        }
+        
+        if let url = Bundle.main.url(forResource: "city_route", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(CityRouteFileJSON.self, from: data)
+                city_routes = jsonData.rows
+            } catch {
+                print("error:\(error)")
+                print("Загрузка json структуры city_route не удалась!")
+            }
+        }
+        
+        
+        socket.on(clientEvent: .connect) { some1, some2 in
+            print("socket connected")
+            
+//            let some = try? MessagePackDecoder().decode(, from: some1.first as! Data)
+            
+            socket.emit("fromClientTest", try! MessagePackEncoder().encode("Hello world!!!"))
+        }
+        
+        socket.on("fromServerTest") { some1, some2 in
+            
+            var obj = try! MessagePackDecoder().decode(Parse.self, from: some1.first as! Data)
+            print("ping received")
+        }
+        
+        socket.on("connect") { some1 , some2 in
+                
+        }
+        
+        socket.onAny { SocketAnyEvent in
+            print(SocketAnyEvent.event)
+        }
+        
+        socket.connect()
+        
+        
+//    }
+        
     }
+    
+    struct Parse: Codable{
+        let igis: String
+    }
+    
+    static var manager = SocketManager(socketURL: URL(string: "https://socket.igis-transport.ru")!, config: [.log(true), .compress, .extraHeaders(["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : "bjTE1AENWaVxFiKc5R1gA857NBo6XD2W", "language" : "ru", "city":"izh"])])
+    static var socket = manager.defaultSocket
     
     static let titele1 = "Как настроить уведомления"
     static let description1 = " Для начала убедитесь, что показ уведомлений включен, для этого зайдите в настройки и найдите функцию \"Показывать уведомления\". \n\n После того, как вы убедились в том, что показ уведомлений включен, вам необходимо перейти на главное окно и нажать на кнопку \"Маршруты\". \n\n Выбрав нужный транспорт и его маршрут, перед вами окажется список остановок, через который проходит транспорт. Нажав на любую из остановок можно выставить уведомление на нужное время или поставить уведомление, которое сработает по прибытию транспорта на остановку."
@@ -215,7 +252,7 @@ struct RouteStruct: Decodable{
     // Тип используемый для маршрутов из JSON
     let route_id: Int
     let route_translit: String
-    let route_number: String    
+    let route_number: String
     let route_start: String?
     let route_inter: String?
     let route_finish: String?

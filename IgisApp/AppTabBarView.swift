@@ -14,35 +14,49 @@ struct AppTabBarView: View {
     
     init(){
         Model.appTabBarView = self
+        Model.checkConnection()
     }
     
     var body: some View {
-        ZStack{
-            CustomTabBarContainerView(selection: $selection){
-                TransportGroupSelector()
-                    .tabBarTab(tab: .home, selection: $selection)
-                NotificationsView()
-                    .tabBarTab(tab: .alerts, selection: $selection)
-                Color.green
-                    .onTapGesture {
-                        showAlert(title: "Тест", message: "Тест")
+        VStack{
+            ZStack{
+                CustomTabBarContainerView(selection: $selection){
+                    TransportGroupSelector()
+                        .tabBarTab(tab: .home, selection: $selection)
+                    NotificationsView()
+                        .tabBarTab(tab: .alerts, selection: $selection)
+                    Color.green
+                        .onTapGesture {
+                            showAlert(title: "Тест", message: "Тест")
+                        }
+                        .tabBarTab(tab: .map, selection: $selection)
+                    FavoritesGroupSelector()
+                        .tabBarTab(tab: .favourites, selection: $selection)
+                    SettingsGroupSelector()
+                        .tabBarTab(tab: .settings, selection: $selection)
+                }
+                if(configuration.alertIsPresented){
+                    configuration.alert
+                }
+            }
+            
+            if(configuration.showStatus){
+                HStack(alignment: .center){
+                    Text(configuration.textStatus)
+                        .padding(.trailing, 10)
+                        .foregroundColor(.white)
+                    if(configuration.isConnected){
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.white)
+                    }else{
+                        ProgressView()
                     }
-                    .tabBarTab(tab: .map, selection: $selection)
-                FavoritesGroupSelector()
-                    .tabBarTab(tab: .favourites, selection: $selection)
-                SettingsGroupSelector()
-                    .tabBarTab(tab: .settings, selection: $selection)
-            }
-            if(configuration.alertIsPresented){
-                configuration.alert
+                }
+                .frame(width: UIScreen.screenWidth)
+                .background(configuration.colorStatus)
             }
         }
-        .onAppear(){
-            if(Model.setCurrentModeNetwork()){
-                showAlert(title: "Активирован оффлайн режим", message: "Приложение переключит режим сразу после восстановления соединения")
-                Model.tryConnect()
-            }
-        }
+        
     }
     
     func showAlert(title: String, message: String){
@@ -51,10 +65,42 @@ struct AppTabBarView: View {
             configuration.alertIsPresented = true
         }
     }
+    
+    func changeStatus(isConnected: Bool){
+        DispatchQueue.main.async {
+            if(isConnected){
+                withAnimation(){
+                    configuration.colorStatus = Color.green
+                    configuration.textStatus = "Подключение установлено"
+                    configuration.isConnected = true
+                    DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                configuration.showStatus = false
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                withAnimation(){
+                    configuration.colorStatus = Color.red
+                    configuration.textStatus = "Ожидание подключения"
+                    configuration.isConnected = false
+                    configuration.showStatus = true
+                }
+            }
+        }
+    }
+    
 }
 
 private class AppConfiguration: ObservableObject{
     // класс для показа custom alert - можно обраться и показать из любого места в приложении
+    @Published var showStatus = false
+    @Published var isConnected = false
+    @Published var colorStatus = Color.red
+    @Published var textStatus = "Ожидание подключения"
     @Published var alertIsPresented = false
     var alert: CustomAlert?
 }

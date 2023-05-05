@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ShowTransportOnline: View {
     
-    @State var isMenuOpen = false
+    @State private var isMenuOpen = false
     
-    @EnvironmentObject var navigation: NavigationTransport
+    @EnvironmentObject private var navigation: NavigationTransport
     
-    @ObservedObject var configuration = Configuration()
+    @ObservedObject private var configuration = Configuration()
     
-    @State var sizeStar = 1.0
-    @State var scaleBack = 1.0
+    @State private var sizeStar = 1.0
+    @State private var scaleBack = 1.0
     
     var body: some View {
         VStack{

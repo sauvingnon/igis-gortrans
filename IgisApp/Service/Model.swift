@@ -15,26 +15,38 @@ class Model{
     static var appTabBarView: AppTabBarView?
     static var settingsView: SettingsView?
     
-    static func tryConnect(){
+    static func checkConnection(){
         let queue = DispatchQueue.global()
+        var isOnline = true
         
         queue.async {
             while(true){
                 sleep(2)
-                if(!Model.setCurrentModeNetwork()){
-                    appTabBarView?.showAlert(title: "Соединение установлено", message: "Оффлайн режим выключен")
-                    break
+                if(isOnline == Model.setCurrentModeNetwork()){
+                    continue
+                }
+                isOnline = Model.setCurrentModeNetwork()
+                if(!isOnline){
+                    appTabBarView?.changeStatus(isConnected: false)
+//                    appTabBarView?.showAlert(title: "Соединение потеряно", message: "Оффлайн режим активирован")
+                }else{
+                    appTabBarView?.changeStatus(isConnected: true)
+//                    appTabBarView?.showAlert(title: "Соединение установлено", message: "Оффлайн режим выключен")
                 }
             }
         }
     }
     static func setCurrentModeNetwork() -> Bool{
         if CheckInternetConnection.currentReachabilityStatus() == .notReachable {
-            settingsView?.configuration.offlineMode = true
-            return true
-        }else{
-            settingsView?.configuration.offlineMode = false
+            DispatchQueue.main.async {
+                settingsView?.configuration.offlineMode = true
+            }
             return false
+        }else{
+            DispatchQueue.main.async {
+                settingsView?.configuration.offlineMode = false
+            }
+            return true
         }
     }
     
@@ -138,6 +150,15 @@ class Model{
             FavoriteRoute.numbers.count == 0
         }
         return favorites
+    }
+    
+    static func isFavoriteStop(stopId: Int) -> Bool{
+        if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteStops") as? [Int]{
+            return favoritesArray.contains { item in
+                item == stopId
+            }
+        }
+        return false
     }
 }
 

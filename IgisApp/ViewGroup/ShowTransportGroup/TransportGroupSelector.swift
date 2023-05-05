@@ -25,6 +25,8 @@ struct TransportGroupSelector: View {
                 navigation.showTransportOnline
             case .selectStopView:
                 navigation.selectStopView
+            case .showStopOnline:
+                navigation.showStopOnline
             }
         }
         .environmentObject(navigation)
@@ -45,6 +47,7 @@ class NavigationTransport: ObservableObject{
     let selectTransportNumber = SelectTransportNumber()
     let showTransportOnline = ShowTransportOnline()
     let selectStopView = SelectStopView()
+    let showStopOnline = ShowStopOnline()
     
     func show(view: CurrentTransportSelectionView){
         withAnimation(.easeIn(duration: 0.2)){
@@ -59,5 +62,6 @@ enum CurrentTransportSelectionView{
     case chooseNumberTransport
     case showTransportOnline
     case selectStopView
+    case showStopOnline
 }
 

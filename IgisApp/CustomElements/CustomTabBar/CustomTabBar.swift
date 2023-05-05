@@ -28,7 +28,7 @@ struct CustomTabBar: View {
             CustomizeTabItem(tab: .favourites)
             CustomizeTabItem(tab: .settings)
         }
-       .frame(height: 75)
+       .frame(height: 60)
     }
     
 }
