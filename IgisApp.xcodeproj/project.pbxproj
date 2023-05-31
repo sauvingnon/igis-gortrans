@@ -22,6 +22,8 @@
 		F335264229E029EA001A1017 /* stop.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263629E029EA001A1017 /* stop.json */; };
 		F335264329E029EA001A1017 /* ts.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263729E029EA001A1017 /* ts.json */; };
 		F335264429E029EA001A1017 /* subroute.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263829E029EA001A1017 /* subroute.json */; };
+		F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */; };
+		F3432A5C2A265AB9007AD619 /* ServiceStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3432A5B2A265AB9007AD619 /* ServiceStation.swift */; };
 		F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB129ADC581008ECCF2 /* NotificationsView.swift */; };
 		F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB829ADD427008ECCF2 /* MessageView.swift */; };
 		F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */; };
@@ -82,6 +84,8 @@
 		F335263629E029EA001A1017 /* stop.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stop.json; sourceTree = "<group>"; };
 		F335263729E029EA001A1017 /* ts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ts.json; sourceTree = "<group>"; };
 		F335263829E029EA001A1017 /* subroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subroute.json; sourceTree = "<group>"; };
+		F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimeAlert.swift; sourceTree = "<group>"; };
+		F3432A5B2A265AB9007AD619 /* ServiceStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceStation.swift; sourceTree = "<group>"; };
 		F3451FB129ADC581008ECCF2 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		F3451FB829ADD427008ECCF2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
@@ -170,6 +174,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		F33E21DD2A22168300465C2E /* CustomChooseTimeAlert */ = {
+			isa = PBXGroup;
+			children = (
+				F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */,
+			);
+			path = CustomChooseTimeAlert;
+			sourceTree = "<group>";
+		};
 		F3451FB029ADC394008ECCF2 /* NotificationsGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +204,7 @@
 		F3451FC029ADDEDF008ECCF2 /* CustomElements */ = {
 			isa = PBXGroup;
 			children = (
+				F33E21DD2A22168300465C2E /* CustomChooseTimeAlert */,
 				F3BD09C929F66623002669BA /* CustomAlert */,
 				F348F26F29A0E31500AFFAA1 /* CustomMenu */,
 				F362C8D829AA456C0019B28C /* CustomScrollReader */,
@@ -219,8 +232,6 @@
 		F348F27229A1042F00AFFAA1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				F311176B299A406100351326 /* DataBase.swift */,
-				F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */,
 				F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
 				F3F6ADB029D383F700D74D32 /* Vibration.swift */,
@@ -341,7 +352,10 @@
 			isa = PBXGroup;
 			children = (
 				F3F608062930D3B90009E684 /* Model.swift */,
+				F311176B299A406100351326 /* DataBase.swift */,
+				F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */,
 				F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */,
+				F3432A5B2A265AB9007AD619 /* ServiceStation.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -447,6 +461,7 @@
 				F3E581FF29FB0B490062DD66 /* ShowStopOnline.swift in Sources */,
 				F32F01FD29F55F7300F2B1A3 /* CheckConnection.swift in Sources */,
 				F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */,
+				F3432A5C2A265AB9007AD619 /* ServiceStation.swift in Sources */,
 				F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */,
 				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
 				F3DB410629A35B2D005497F7 /* SettingsView.swift in Sources */,
@@ -462,6 +477,7 @@
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
 				F37E4AAA2995530D00049934 /* ShowTransportOnline.swift in Sources */,
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
+				F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */,
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
 				F3F608052930D2960009E684 /* SelectTransportNumber.swift in Sources */,
 				F311176C299A406100351326 /* DataBase.swift in Sources */,

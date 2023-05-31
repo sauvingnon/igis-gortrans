@@ -13,6 +13,7 @@ struct IgisAppApp: App {
     // Аналог AppDelegate из UIKit
     init(){
         DataBase.LoadJSON()
+        Model.checkTrace()
     }
 
     var body: some Scene {

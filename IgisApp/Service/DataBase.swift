@@ -6,9 +6,6 @@
 //
 
 import Foundation
-import SocketIO
-import MessagePacker
-
 
 class DataBase{
     // Класс для хранения данных json
@@ -18,6 +15,17 @@ class DataBase{
         if let stop = stops.first(where: { stop in
             stop.stop_id == stopId
         }), let name = stop.stop_name_short{
+            return name
+        }else{
+            print("Остановка по указанному id не найдена или ее имя не заполнено!")
+            return "Ошибка"
+        }
+    }
+    
+    public static func getStopDirection(stopId: Int) -> String{
+        if let stop = stops.first(where: { stop in
+            stop.stop_id == stopId
+        }), let name = stop.stop_direction{
             return name
         }else{
             print("Остановка по указанному id не найдена или ее имя не заполнено!")
@@ -174,41 +182,41 @@ class DataBase{
         }
         
         
-        socket.on(clientEvent: .connect) { some1, some2 in
-            print("socket connected")
-            
-//            let some = try? MessagePackDecoder().decode(, from: some1.first as! Data)
-            
-            socket.emit("fromClientTest", try! MessagePackEncoder().encode("Hello world!!!"))
-        }
-        
-        socket.on("fromServerTest") { some1, some2 in
-            
-            var obj = try! MessagePackDecoder().decode(Parse.self, from: some1.first as! Data)
-            print("ping received")
-        }
-        
-        socket.on("connect") { some1 , some2 in
-                
-        }
-        
-        socket.onAny { SocketAnyEvent in
-            print(SocketAnyEvent.event)
-        }
-        
-        socket.connect()
+//        socket.on(clientEvent: .connect) { some1, some2 in
+//            print("socket connected")
+//
+////            let some = try? MessagePackDecoder().decode(, from: some1.first as! Data)
+//
+//            socket.emit("fromClientTest", try! MessagePackEncoder().encode("Hello world!!!"))
+//        }
+//
+//        socket.on("fromServerTest") { some1, some2 in
+//
+//            var obj = try! MessagePackDecoder().decode(Parse.self, from: some1.first as! Data)
+//            print("ping received")
+//        }
+//
+//        socket.on("connect") { some1 , some2 in
+//
+//        }
+//
+//        socket.onAny { SocketAnyEvent in
+//            print(SocketAnyEvent.event)
+//        }
+//
+//        socket.connect()
         
         
 //    }
         
     }
     
-    struct Parse: Codable{
-        let igis: String
-    }
-    
-    static var manager = SocketManager(socketURL: URL(string: "https://socket.igis-transport.ru")!, config: [.log(true), .compress, .extraHeaders(["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : "bjTE1AENWaVxFiKc5R1gA857NBo6XD2W", "language" : "ru", "city":"izh"])])
-    static var socket = manager.defaultSocket
+//    struct Parse: Codable{
+//        let igis: String
+//    }
+//
+//    static var manager = SocketManager(socketURL: URL(string: "https://socket.igis-transport.ru")!, config: [.log(true), .compress, .extraHeaders(["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : "bjTE1AENWaVxFiKc5R1gA857NBo6XD2W", "language" : "ru", "city":"izh"])])
+//    static var socket = manager.defaultSocket
     
     static let titele1 = "Как настроить уведомления"
     static let description1 = " Для начала убедитесь, что показ уведомлений включен, для этого зайдите в настройки и найдите функцию \"Показывать уведомления\". \n\n После того, как вы убедились в том, что показ уведомлений включен, вам необходимо перейти на главное окно и нажать на кнопку \"Маршруты\". \n\n Выбрав нужный транспорт и его маршрут, перед вами окажется список остановок, через который проходит транспорт. Нажав на любую из остановок можно выставить уведомление на нужное время или поставить уведомление, которое сработает по прибытию транспорта на остановку."

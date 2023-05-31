@@ -11,6 +11,8 @@ struct ShowTransportOnline: View {
     
     @State private var isMenuOpen = false
     
+    @State private var currentDate = Date()
+    
     @EnvironmentObject private var navigation: NavigationTransport
     
     @ObservedObject private var configuration = Configuration()
@@ -19,68 +21,96 @@ struct ShowTransportOnline: View {
     @State private var scaleBack = 1.0
     
     var body: some View {
-        VStack{
-            HStack{
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 25))
-                    .padding(.leading, 20)
-                    .foregroundColor(.white)
-                Text(configuration.name)
-                    .font(.system(size: 24))
-                    .foregroundColor(.white)
-                    .fontWeight(.medium)
-                Spacer()
-                Image(systemName: "star.fill")
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
-                    .fontWeight(.black)
-                    .scaleEffect(sizeStar)
-                    .onTapGesture {
-                        // Добавление маршрута в избранное или удаление
-                        sizeStar = 0.5
-                        withAnimation(.spring()) {
-                            Model.favoriteRouteTapped(configuration: configuration)
-                            Vibration.medium.vibrate()
-                            sizeStar = 1.0
+        ZStack{
+            VStack{
+                HStack{
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 25))
+                        .padding(.leading, 20)
+                        .foregroundColor(.white)
+                    Text(configuration.name)
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                    Spacer()
+                    Image(systemName: "star.fill")
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
+                        .fontWeight(.black)
+                        .scaleEffect(sizeStar)
+                        .onTapGesture {
+                            // Добавление маршрута в избранное или удаление
+                            sizeStar = 0.5
+                            withAnimation(.spring()) {
+                                Model.favoriteRouteTapped(configuration: configuration)
+                                Vibration.medium.vibrate()
+                                sizeStar = 1.0
+                            }
+                        }
+                }
+                .onTapGesture {
+                    scaleBack = 1.5
+                    withAnimation(.spring(dampingFraction: 0.5)){
+                        scaleBack = 1.0
+                    }
+                    navigation.show(view: .chooseNumberTransport)
+                }
+                .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
+                .background(Color.blue)
+                .clipShape(Rectangle())
+                .cornerRadius(25)
+                .padding(.vertical, 10)
+                .scaleEffect(scaleBack)
+                
+                customMenu(menu: configuration.menu)
+                    .zIndex(1)
+                    .onChange(of: configuration.menu.currentStop, perform: { newValue in
+                        let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
+                        
+                        Model.PresentRoute(configuration: configuration, direction: newDirection)
+                    })
+                
+                ScrollView{
+                    Grid(alignment: .trailing){
+                        ForEach(configuration.data) { item in
+                            GridRow{
+                                StationRow(station: item)
+                                    .onTapGesture(count: 2) {
+                                        showAlert()
+                                    }
+                                    .onTapGesture(count: 1){
+                                        navigation.showStopOnline.configureView(stop_id: item.id)
+                                        navigation.show(view: .showStopOnline)
+                                    }
+//                                    .swipeActions(edge: .trailing, allowsFullSwipe: true){
+//                                        Button {
+//                                            print("Message deleted")
+//                                        } label: {
+//                                            Label("Delete", systemImage: "trash")
+//                                        }
+//                                    }
+                            }
                         }
                     }
+                }.scrollIndicators(.hidden)
+                
+                Spacer()
             }
             .onTapGesture {
-                scaleBack = 1.5
-                withAnimation(.spring(dampingFraction: 0.5)){
-                    scaleBack = 1.0
-                }
-                navigation.show(view: .chooseNumberTransport)
+                isMenuOpen = false
             }
-            .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
-            .background(Color.blue)
-            .clipShape(Rectangle())
-            .cornerRadius(25)
-            .padding(.vertical, 10)
-            .scaleEffect(scaleBack)
             
-            customMenu(menu: configuration.menu)
-                .zIndex(1)
-                .onChange(of: configuration.menu.currentStop, perform: { newValue in
-                    let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
-                    
-                    Model.PresentRoute(configuration: configuration, direction: newDirection)
-                })
+            if(configuration.alertIsPresented){
+                configuration.alert
+            }
             
-            ScrollView{
-                Grid(alignment: .trailing){
-                    ForEach(configuration.data) { item in
-                        GridRow{
-                            StationRow(station: item)
-                        }
-                    }
-                }
-            }.scrollIndicators(.hidden)
-            
-            Spacer()
         }
-        .onTapGesture {
-            isMenuOpen = false
+    }
+    
+    func showAlert(){
+        configuration.alert = ChooseTimeAlert(isPresented: $configuration.alertIsPresented, currentTime: $currentDate)
+        DispatchQueue.main.async {
+            configuration.alertIsPresented = true
         }
     }
     
@@ -216,6 +246,8 @@ struct Station: Identifiable, Hashable {
 }
 
 class Configuration: ObservableObject{
+    var alert: ChooseTimeAlert?
+    @Published var alertIsPresented = false
     @Published var name = "--"
     @Published var type = TypeTransport.bus
     @Published var number = 0

@@ -9,8 +9,17 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
+    @State private var region = MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(
+                        latitude: 56.843599,
+                        longitude: 53.202824),
+                    span: MKCoordinateSpan(
+                        latitudeDelta: 0.1,
+                        longitudeDelta: 0.1))
+                    
     var body: some View {
-        Text("Карта друг!")
+        MapKit.Map.init(coordinateRegion: $region)
+            .ignoresSafeArea()
     }
 }
 

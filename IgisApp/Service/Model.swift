@@ -14,6 +14,7 @@ class Model{
     static var favoritesView: FavoritesView?
     static var appTabBarView: AppTabBarView?
     static var settingsView: SettingsView?
+    static var userTrace = ""
     
     static func checkConnection(){
         let queue = DispatchQueue.global()
@@ -22,12 +23,13 @@ class Model{
         queue.async {
             while(true){
                 sleep(2)
-                if(isOnline == Model.setCurrentModeNetwork()){
+                if(isOnline == Model.setCurrentModeNetwork() && (ServiceStation.status == .connected || ServiceStation.status == .connecting)){
                     continue
                 }
                 isOnline = Model.setCurrentModeNetwork()
                 if(!isOnline){
                     appTabBarView?.changeStatus(isConnected: false)
+                    ServiceStation.shared.establishConnection()
 //                    appTabBarView?.showAlert(title: "Соединение потеряно", message: "Оффлайн режим активирован")
                 }else{
                     appTabBarView?.changeStatus(isConnected: true)
@@ -36,6 +38,37 @@ class Model{
             }
         }
     }
+    
+    static func checkTrace(){
+        // метод для проверки наличия уникального следа пользователя и его генерации при отсутствии
+        
+        if let trace = UserDefaults.standard.string(forKey: "UserTrace"){
+            self.userTrace = trace
+            debugPrint("userTrace was setted")
+        }else{
+            let trace = generateTrace()
+            UserDefaults.standard.set(trace, forKey: "UserTrace")
+            self.userTrace = trace
+        }
+    }
+    
+    static func getTimeToArrivalInMin(sec: Int) -> String{
+        var min = sec/60
+        if min == 0{
+            min = 1
+        }
+        return "\(min) мин"
+    }
+    
+    private static func generateTrace() -> String{
+        let abc = "abcdefghijklmnopqrstuvwxyz=!%*12345678900"
+        var trace = "";
+        while (trace.count < 64) {
+            trace.append(String(abc.randomElement()!))
+        }
+        return trace
+    }
+    
     static func setCurrentModeNetwork() -> Bool{
         if CheckInternetConnection.currentReachabilityStatus() == .notReachable {
             DispatchQueue.main.async {
@@ -82,8 +115,11 @@ class Model{
                     item.subroute_stops.first == direction?.startStation && item.subroute_stops.last == direction?.endStation
                 })?.subroute_stops ?? []
             }else{
-                // Иначе просто отобразим первое направление этого маршрута
-                stopsOfRoute = allSubroutesThisRoute.first?.subroute_stops ?? []
+                // Иначе отобразим приоритетное направление маршрута, это то у которого subroute_main = 1
+                // Если и такого нет - отобразим первое попавшиеся - иначе пустой массив
+                stopsOfRoute = allSubroutesThisRoute.first(where: { item in
+                    item.subroute_main == 1
+                })?.subroute_stops ?? allSubroutesThisRoute.first?.subroute_stops ?? []
             }
         }
         

@@ -67,13 +67,14 @@ struct SelectStopView: View {
     
     func filterStops() -> [StopsStruct]{
         var stops = DataBase.getAllStops()
+        let text = searchText.lowercased()
         
-        if(searchText.isEmpty){
+        if(text.isEmpty){
             return stops
         }
         
         stops = stops.filter { item in
-            item.stop_name?.contains(searchText) ?? false || item.stop_name_abbr?.contains(searchText) ?? false || item.stop_name_short?.contains(searchText) ?? false || item.stop_final_name?.contains(searchText) ?? false
+            item.stop_name?.lowercased().contains(text) ?? false || item.stop_name_abbr?.lowercased().contains(text) ?? false || item.stop_name_short?.lowercased().contains(text) ?? false || item.stop_final_name?.lowercased().contains(text) ?? false
         }
         
         return stops

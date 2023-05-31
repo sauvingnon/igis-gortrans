@@ -11,6 +11,7 @@ import SwiftUI
 class ServiceAPI{
     
     func fetchDataForRoute(configuration: Configuration){
+        // метод описан неверно, излишняя функциональность
         var routeInfo: RouteStructApi?
         
         var stationsWithBus: [Station] = []

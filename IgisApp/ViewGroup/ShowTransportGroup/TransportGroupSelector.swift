@@ -50,6 +50,9 @@ class NavigationTransport: ObservableObject{
     let showStopOnline = ShowStopOnline()
     
     func show(view: CurrentTransportSelectionView){
+        if(view == .showStopOnline){
+            self.showStopOnline.configuration.oldNavigationView = state
+        }
         withAnimation(.easeIn(duration: 0.2)){
             state = view
         }

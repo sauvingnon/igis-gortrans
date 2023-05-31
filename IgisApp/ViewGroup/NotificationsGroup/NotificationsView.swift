@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NotificationsView: View {
     
-    @ObservedObject var chatModel = ChatModel()
+    @ObservedObject var chatModel = ChatModel.shared
     
     var body: some View {
         VStack{
@@ -30,9 +30,9 @@ struct NotificationsView: View {
             
             
         }
-        .onTapGesture {
-            chatModel.sendMessage(currentMessage: Message(title: "Автобус №29 гос. номер Е456ТМ18", content: "Ваш транспорт скоро прибудет на ост. \"Аврора\"", dateTime: DateTime.init()))
-        }
+//        .onTapGesture {
+//            chatModel.sendMessage(currentMessage: Message(title: "Автобус №29 гос. номер Е456ТМ18", content: "Ваш транспорт скоро прибудет на ост. \"Аврора\"", dateTime: DateTime.init()))
+//        }
     }
     
     func deleteTapped(){

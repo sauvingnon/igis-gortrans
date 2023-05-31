@@ -9,16 +9,18 @@ import Foundation
 import Combine
 import UserNotifications
 
-class ChatModel : ObservableObject {
+public class ChatModel : ObservableObject {
     @Published var didChange = PassthroughSubject<Void, Never>()
     @Published var realTimeMessages: [Message] = []
     
-    init(didChange: PassthroughSubject<Void, Never> = PassthroughSubject<Void, Never>()) {
+    public static let shared = ChatModel()
+    
+    private init(didChange: PassthroughSubject<Void, Never> = PassthroughSubject<Void, Never>()) {
         self.didChange = didChange
         realTimeMessages = getMessages()
     }
     
-    func sendMessage(currentMessage: Message) {
+    func sendMessage(currentMessage: Message, countTime: Double) {
         realTimeMessages.append(currentMessage)
         didChange.send(())
         saveMessage(messages: realTimeMessages)
@@ -36,7 +38,7 @@ class ChatModel : ObservableObject {
         content.sound = UNNotificationSound.default
 
         // show this notification five seconds from now
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: countTime, repeats: false)
 
         // choose a random identifier
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)

@@ -11,7 +11,7 @@ struct ShowStopOnline: View {
     
     @EnvironmentObject var navigation: NavigationTransport
     
-    @ObservedObject private var configuration = ConfigurationStop()
+    @ObservedObject var configuration = ConfigurationStop()
     
     @State private var sizeStar = 1.0
     @State private var scaleBack = 1.0
@@ -48,7 +48,7 @@ struct ShowStopOnline: View {
                 withAnimation(.spring(dampingFraction: 0.5)){
                     scaleBack = 1.0
                 }
-                navigation.show(view: .selectStopView)
+                navigation.show(view: configuration.oldNavigationView)
             }
             .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
             .background(Color.blue)
@@ -65,6 +65,10 @@ struct ShowStopOnline: View {
             }
             .padding(.horizontal, 20)
             
+            if(configuration.showIndicator){
+                ProgressView()
+            }
+            
             ScrollView(.vertical){
                 if(!configuration.buses.isEmpty){
                     labelTypeTransport(typeTransport: .bus)
@@ -73,6 +77,49 @@ struct ShowStopOnline: View {
                             item.body
                         }
                     }
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .padding(10)
+                }
+                
+                if(!configuration.trains.isEmpty){
+                    labelTypeTransport(typeTransport: .train)
+                    Grid(alignment: .center){
+                        ForEach(configuration.trains){ item in
+                            item.body
+                        }
+                    }
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .padding(10)
+                }
+                
+                if(!configuration.trolleybuses.isEmpty){
+                    labelTypeTransport(typeTransport: .trolleybus)
+                    Grid(alignment: .center){
+                        ForEach(configuration.trolleybuses){ item in
+                            item.body
+                        }
+                    }
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .padding(10)
+                }
+                
+                if(!configuration.countryBuses.isEmpty){
+                    labelTypeTransport(typeTransport: .countrybus)
+                    Grid(alignment: .center){
+                        ForEach(configuration.countryBuses){ item in
+                            item.body
+                        }
+                    }
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .padding(10)
                 }
             }
             
@@ -80,35 +127,68 @@ struct ShowStopOnline: View {
             
         }
     }
+    
+    func configureView(stop_id: Int){
+        configuration.stopId = stop_id
+        configuration.name = DataBase.getStopName(stopId: stop_id)
+        configuration.direction = DataBase.getStopDirection(stopId: stop_id)
+        configuration.isFavorite = Model.isFavoriteStop(stopId: stop_id)
+        
+        ServiceStation.shared.getStationData(stop_id: stop_id, configuration: configuration)
+    }
+    
 }
 
-struct TransportWaiter: View, Identifiable {
-    var id: ObjectIdentifier = ObjectIdentifier(Self.Type.self)
-    var transportNumber = "№29"
-    var endStationName = "До Парк имени Кирова"
-    var time = "18:09"
+struct TransportWaiter: View, Identifiable, Equatable {
+    let id = UUID()
+    let transportNumber: String
+    let endStationName: String
+    let time: String
+    var isLastSection = false
+    var isFirstSection = false
     var body: some View{
         VStack{
+            
+            if(isFirstSection){
+                GeometryReader{_ in
+                    
+                }
+                .frame(width: UIScreen.screenWidth-40, height: 1)
+                .background(Color.white.opacity(0))
+            }
+            
             HStack{
                 Text(transportNumber)
                     .font(.title)
                     .foregroundColor(.blue)
                 Spacer()
                 Text(endStationName)
+                    .foregroundColor(.black.opacity(0.6))
                     .kerning(2)
                 Spacer()
                 Text(time)
                     .font(.title)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.black.opacity(0.6))
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 1)
             
-            GeometryReader{_ in
-                
+            if(isLastSection){
+                GeometryReader{_ in
+                    
+                }
+                .frame(width: UIScreen.screenWidth-40, height: 1)
+                .background(Color.black.opacity(0))
+            }else{
+                GeometryReader{_ in
+                    
+                }
+                .frame(width: UIScreen.screenWidth-40, height: 1)
+                .background(Color.black.opacity(0.6))
             }
-            .frame(width: UIScreen.screenWidth-40, height: 1)
-            .background(Color.black)
+            
+            
+            
         }
     }
 }
@@ -118,11 +198,65 @@ class ConfigurationStop: ObservableObject{
     @Published var direction = "В строну ж/д вокзала"
     @Published var stopId = 0
     @Published var isFavorite = false
+    @Published var showIndicator = false
+    var oldNavigationView: CurrentTransportSelectionView = .selectStopView
     
-    @Published var trains: [TransportWaiter] = []
-    @Published var buses: [TransportWaiter] = [ TransportWaiter(), TransportWaiter(), TransportWaiter(), TransportWaiter(), TransportWaiter()]
-    @Published var trolleybuses: [TransportWaiter] = []
-    @Published var countryBusses: [TransportWaiter] = []
+    @Published private var trains_private: [TransportWaiter] = []
+    var trains: [TransportWaiter]{
+        get{
+            return trains_private
+        }
+        set{
+            trains_private = newValue
+            let count = trains_private.count
+            if count > 0{
+                trains_private[count-1].isLastSection = true
+                trains_private[0].isFirstSection = true
+            }
+        }
+    }
+    @Published private var buses_private: [TransportWaiter] = []
+    var buses: [TransportWaiter]{
+        get{
+            return buses_private
+        }
+        set{
+            buses_private = newValue
+            let count = buses_private.count
+            if count > 0{
+                buses_private[count-1].isLastSection = true
+                buses_private[0].isFirstSection = true
+            }
+        }
+    }
+    @Published private var trolleybuses_private: [TransportWaiter] = []
+    var trolleybuses: [TransportWaiter]{
+        get{
+            return trolleybuses_private
+        }
+        set{
+            trolleybuses_private = newValue
+            let count = trolleybuses_private.count
+            if count > 0{
+                trolleybuses_private[count-1].isLastSection = true
+                trolleybuses_private[0].isFirstSection = true
+            }
+        }
+    }
+    @Published private var countryBuses_private: [TransportWaiter] = []
+    var countryBuses: [TransportWaiter]{
+        get{
+            return countryBuses_private
+        }
+        set{
+            countryBuses_private = newValue
+            let count = countryBuses_private.count
+            if count > 0{
+                countryBuses_private[count-1].isLastSection = true
+                countryBuses_private[0].isFirstSection = true
+            }
+        }
+    }
 }
 
 struct ShowStopOnline_Previews: PreviewProvider {

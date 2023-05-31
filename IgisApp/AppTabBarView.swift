@@ -25,10 +25,7 @@ struct AppTabBarView: View {
                         .tabBarTab(tab: .home, selection: $selection)
                     NotificationsView()
                         .tabBarTab(tab: .alerts, selection: $selection)
-                    Color.green
-                        .onTapGesture {
-                            showAlert(title: "Тест", message: "Тест")
-                        }
+                    MapView()
                         .tabBarTab(tab: .map, selection: $selection)
                     FavoritesGroupSelector()
                         .tabBarTab(tab: .favourites, selection: $selection)
