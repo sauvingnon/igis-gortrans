@@ -18,7 +18,7 @@ class DataBase{
             return name
         }else{
             print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "Ошибка"
+            return "--"
         }
     }
     
@@ -29,7 +29,7 @@ class DataBase{
             return name
         }else{
             print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "Ошибка"
+            return "--"
         }
     }
     

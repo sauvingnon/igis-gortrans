@@ -23,7 +23,7 @@
 		F335264329E029EA001A1017 /* ts.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263729E029EA001A1017 /* ts.json */; };
 		F335264429E029EA001A1017 /* subroute.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263829E029EA001A1017 /* subroute.json */; };
 		F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */; };
-		F3432A5C2A265AB9007AD619 /* ServiceStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3432A5B2A265AB9007AD619 /* ServiceStation.swift */; };
+		F3432A5C2A265AB9007AD619 /* ServiceSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */; };
 		F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB129ADC581008ECCF2 /* NotificationsView.swift */; };
 		F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB829ADD427008ECCF2 /* MessageView.swift */; };
 		F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */; };
@@ -37,7 +37,7 @@
 		F3795AA129A3E0A000FF05FD /* FeedBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA029A3E0A000FF05FD /* FeedBackView.swift */; };
 		F3795AA329A3F9EC00FF05FD /* QuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA229A3F9EC00FF05FD /* QuestionsView.swift */; };
 		F3795AA529A4001F00FF05FD /* AnswersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA429A4001F00FF05FD /* AnswersView.swift */; };
-		F37E4AAA2995530D00049934 /* ShowTransportOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E4AA92995530D00049934 /* ShowTransportOnline.swift */; };
+		F37E4AAA2995530D00049934 /* ShowRouteOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E4AA92995530D00049934 /* ShowRouteOnline.swift */; };
 		F3993E6029A6B4540087C1B7 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3993E5F29A6B4540087C1B7 /* FavoritesView.swift */; };
 		F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */; };
 		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
@@ -47,6 +47,7 @@
 		F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CC29F66687002669BA /* CustomAlertButton.swift */; };
 		F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */; };
 		F3BD09D129F81994002669BA /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09D029F81994002669BA /* ViewExtension.swift */; };
+		F3C78F152A422D4E0026A97E /* ShowTransportOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */; };
 		F3CCAA6E299643B100DEAF76 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */; };
 		F3D7DFF129942C2B0059B4C4 /* ReadyElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */; };
 		F3D7DFF32994324E0059B4C4 /* SelectTransportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */; };
@@ -64,6 +65,8 @@
 		F3F60803292E26810009E684 /* TransportGroupSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F60802292E26810009E684 /* TransportGroupSelector.swift */; };
 		F3F608052930D2960009E684 /* SelectTransportNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608042930D2960009E684 /* SelectTransportNumber.swift */; };
 		F3F608072930D3B90009E684 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608062930D3B90009E684 /* Model.swift */; };
+		F3F67DD62A27D0DE00165BB2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */; };
+		F3F67DD82A27D0E600165BB2 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F67DD72A27D0E600165BB2 /* MapModel.swift */; };
 		F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6ADB029D383F700D74D32 /* Vibration.swift */; };
 		F3F9A3CF29A95E9000EFBE33 /* FavoritesGroupSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F9A3CE29A95E9000EFBE33 /* FavoritesGroupSelector.swift */; };
 /* End PBXBuildFile section */
@@ -85,7 +88,7 @@
 		F335263729E029EA001A1017 /* ts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ts.json; sourceTree = "<group>"; };
 		F335263829E029EA001A1017 /* subroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subroute.json; sourceTree = "<group>"; };
 		F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimeAlert.swift; sourceTree = "<group>"; };
-		F3432A5B2A265AB9007AD619 /* ServiceStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceStation.swift; sourceTree = "<group>"; };
+		F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSocket.swift; sourceTree = "<group>"; };
 		F3451FB129ADC581008ECCF2 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		F3451FB829ADD427008ECCF2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
@@ -99,7 +102,7 @@
 		F3795AA029A3E0A000FF05FD /* FeedBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBackView.swift; sourceTree = "<group>"; };
 		F3795AA229A3F9EC00FF05FD /* QuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsView.swift; sourceTree = "<group>"; };
 		F3795AA429A4001F00FF05FD /* AnswersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersView.swift; sourceTree = "<group>"; };
-		F37E4AA92995530D00049934 /* ShowTransportOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportOnline.swift; sourceTree = "<group>"; };
+		F37E4AA92995530D00049934 /* ShowRouteOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowRouteOnline.swift; sourceTree = "<group>"; };
 		F3993E5F29A6B4540087C1B7 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		F39F13412993D699001E750B /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		F3BD09CC29F66687002669BA /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
 		F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertModifier.swift; sourceTree = "<group>"; };
 		F3BD09D029F81994002669BA /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportOnline.swift; sourceTree = "<group>"; };
 		F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyElements.swift; sourceTree = "<group>"; };
 		F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTransportType.swift; sourceTree = "<group>"; };
@@ -126,6 +130,8 @@
 		F3F60802292E26810009E684 /* TransportGroupSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportGroupSelector.swift; sourceTree = "<group>"; };
 		F3F608042930D2960009E684 /* SelectTransportNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTransportNumber.swift; sourceTree = "<group>"; };
 		F3F608062930D3B90009E684 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		F3F67DD72A27D0E600165BB2 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		F3F6ADB029D383F700D74D32 /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
 		F3F9A3CE29A95E9000EFBE33 /* FavoritesGroupSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesGroupSelector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -217,6 +223,8 @@
 			isa = PBXGroup;
 			children = (
 				F3451FC229ADDF5B008ECCF2 /* MapView.swift */,
+				F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */,
+				F3F67DD72A27D0E600165BB2 /* MapModel.swift */,
 			);
 			path = MapGroup;
 			sourceTree = "<group>";
@@ -277,8 +285,9 @@
 				F3F608042930D2960009E684 /* SelectTransportNumber.swift */,
 				F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */,
 				F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */,
-				F37E4AA92995530D00049934 /* ShowTransportOnline.swift */,
+				F37E4AA92995530D00049934 /* ShowRouteOnline.swift */,
 				F3E581FE29FB0B490062DD66 /* ShowStopOnline.swift */,
+				F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */,
 			);
 			path = ShowTransportGroup;
 			sourceTree = "<group>";
@@ -355,7 +364,7 @@
 				F311176B299A406100351326 /* DataBase.swift */,
 				F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */,
 				F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */,
-				F3432A5B2A265AB9007AD619 /* ServiceStation.swift */,
+				F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -451,9 +460,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F362C8DA29AA45820019B28C /* CustomScrollReader.swift in Sources */,
+				F3F67DD82A27D0E600165BB2 /* MapModel.swift in Sources */,
 				F362C8D429AA32260019B28C /* FavoriteStopOnline.swift in Sources */,
 				F362C8D229AA1EA60019B28C /* FavoriteTransportOnline.swift in Sources */,
 				F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */,
+				F3C78F152A422D4E0026A97E /* ShowTransportOnline.swift in Sources */,
 				F3F9A3CF29A95E9000EFBE33 /* FavoritesGroupSelector.swift in Sources */,
 				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
 				F3F608072930D3B90009E684 /* Model.swift in Sources */,
@@ -461,7 +472,7 @@
 				F3E581FF29FB0B490062DD66 /* ShowStopOnline.swift in Sources */,
 				F32F01FD29F55F7300F2B1A3 /* CheckConnection.swift in Sources */,
 				F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */,
-				F3432A5C2A265AB9007AD619 /* ServiceStation.swift in Sources */,
+				F3432A5C2A265AB9007AD619 /* ServiceSocket.swift in Sources */,
 				F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */,
 				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
 				F3DB410629A35B2D005497F7 /* SettingsView.swift in Sources */,
@@ -475,7 +486,7 @@
 				F3D7DFF129942C2B0059B4C4 /* ReadyElements.swift in Sources */,
 				F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */,
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
-				F37E4AAA2995530D00049934 /* ShowTransportOnline.swift in Sources */,
+				F37E4AAA2995530D00049934 /* ShowRouteOnline.swift in Sources */,
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */,
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
@@ -489,6 +500,7 @@
 				F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */,
 				F3DB410A29A3710F005497F7 /* AboutAppView.swift in Sources */,
 				F3993E6029A6B4540087C1B7 /* FavoritesView.swift in Sources */,
+				F3F67DD62A27D0DE00165BB2 /* MapViewModel.swift in Sources */,
 				F3F60803292E26810009E684 /* TransportGroupSelector.swift in Sources */,
 				F3451FBF29ADD53C008ECCF2 /* ChatView.swift in Sources */,
 				F3F607ED292E242E0009E684 /* IgisAppApp.swift in Sources */,

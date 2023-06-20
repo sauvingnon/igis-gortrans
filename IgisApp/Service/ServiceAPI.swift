@@ -10,7 +10,7 @@ import SwiftUI
 
 class ServiceAPI{
     
-    func fetchDataForRoute(configuration: Configuration){
+    func fetchDataForRoute(configuration: ConfigurationTransportOnline){
         // метод описан неверно, излишняя функциональность
         var routeInfo: RouteStructApi?
         
@@ -68,13 +68,13 @@ class ServiceAPI{
     func getPictureTransport(type: TypeTransport) -> String {
         switch type {
         case .bus:
-            return "bus"
+            return "bus_icon"
         case .train:
-            return "tram"
+            return "train_icon"
         case .trolleybus:
-            return "bus.doubledecker"
+            return "trolleybus_icon"
         case .countrybus:
-            return "bus.fill"
+            return "bus_icon"
         }
     }
 }

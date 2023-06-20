@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import CoreData
+import SocketIO
 
 class Model{
     
@@ -18,23 +19,32 @@ class Model{
     
     static func checkConnection(){
         let queue = DispatchQueue.global()
-        var isOnline = true
+        var isOnline = false
+        var status: SocketIOStatus = .notConnected
         
         queue.async {
             while(true){
-                sleep(2)
-                if(isOnline == Model.setCurrentModeNetwork() && (ServiceStation.status == .connected || ServiceStation.status == .connecting)){
+                if(isOnline == Model.setCurrentModeNetwork() && status == ServiceSocket.status && status == .connected){
                     continue
                 }
                 isOnline = Model.setCurrentModeNetwork()
+                status = ServiceSocket.status
                 if(!isOnline){
-                    appTabBarView?.changeStatus(isConnected: false)
-                    ServiceStation.shared.establishConnection()
+                    debugPrint("сокет-сервер не подключен \(Date.now)")
+                    appTabBarView?.changeStatus(isConnected: .notConnected)
 //                    appTabBarView?.showAlert(title: "Соединение потеряно", message: "Оффлайн режим активирован")
                 }else{
-                    appTabBarView?.changeStatus(isConnected: true)
+                    if(status == .connected){
+                        debugPrint("сокет-сервер подключен \(Date.now)")
+                        appTabBarView?.changeStatus(isConnected: .isConnected)
+                    }else{
+                        debugPrint("ожидание сокет-сервера \(Date.now)")
+                        appTabBarView?.changeStatus(isConnected: .waitSocket)
+                        ServiceSocket.shared.establishConnection()
+                    }
 //                    appTabBarView?.showAlert(title: "Соединение установлено", message: "Оффлайн режим выключен")
                 }
+                sleep(2)
             }
         }
     }
@@ -53,6 +63,9 @@ class Model{
     }
     
     static func getTimeToArrivalInMin(sec: Int) -> String{
+        if(sec < 0){
+            return "--"
+        }
         var min = sec/60
         if min == 0{
             min = 1
@@ -83,7 +96,7 @@ class Model{
         }
     }
     
-    static func FillMenu(configuration: Configuration){
+    static func FillMenu(configuration: ConfigurationTransportOnline){
         configuration.menu.menuItems.removeAll()
         
         var offset = 50
@@ -100,7 +113,7 @@ class Model{
         }
     }
     
-    static func PresentRoute(configuration: Configuration, direction: Direction? = nil){
+    static func PresentRoute(configuration: ConfigurationTransportOnline, direction: Direction? = nil){
         // Метод для отображения маршрута на экране
         var stopsOfRoute: [Int] = []
         
@@ -131,16 +144,16 @@ class Model{
         stopsOfRoute.forEach { stopId in
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
             withAnimation {
-                configuration.data.append(Station(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "\(Int.random(in: 1...50)) мин"))
+                configuration.data.append(Station(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "--"))
             }
             stationState = .someStation
         }
         
-        
-        ServiceAPI().fetchDataForRoute(configuration: configuration)
+        ServiceSocket.shared.getRouteData(configuration: configuration)
+//        ServiceAPI().fetchDataForRoute(configuration: configuration)
     }
     
-    static func favoriteRouteTapped(configuration: Configuration){
+    static func favoriteRouteTapped(configuration: ConfigurationTransportOnline){
         if var favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
             if isFavoriteRoute(routeId: configuration.routeId){
                 favoritesArray.removeAll { item in

@@ -61,6 +61,7 @@ struct ShowStopOnline: View {
                 Text(configuration.direction)
                     .foregroundColor(.gray)
                     .kerning(1)
+                    .padding(.horizontal, 10)
                 Spacer()
             }
             .padding(.horizontal, 20)
@@ -122,6 +123,9 @@ struct ShowStopOnline: View {
                     .padding(10)
                 }
             }
+            .padding(.horizontal, 20)
+            .opacity(configuration.opacity)
+            .scrollIndicators(.hidden)
             
             Spacer()
             
@@ -134,7 +138,7 @@ struct ShowStopOnline: View {
         configuration.direction = DataBase.getStopDirection(stopId: stop_id)
         configuration.isFavorite = Model.isFavoriteStop(stopId: stop_id)
         
-        ServiceStation.shared.getStationData(stop_id: stop_id, configuration: configuration)
+        ServiceSocket.shared.getStationData(configuration: configuration)
     }
     
 }
@@ -194,6 +198,7 @@ struct TransportWaiter: View, Identifiable, Equatable {
 }
 
 class ConfigurationStop: ObservableObject{
+    @Published var opacity = 1.0
     @Published var name = "мкрн Нагорный"
     @Published var direction = "В строну ж/д вокзала"
     @Published var stopId = 0
@@ -255,6 +260,12 @@ class ConfigurationStop: ObservableObject{
                 countryBuses_private[count-1].isLastSection = true
                 countryBuses_private[0].isFirstSection = true
             }
+        }
+    }
+    
+    func showData(){
+        withAnimation{
+            opacity = 1.0
         }
     }
 }

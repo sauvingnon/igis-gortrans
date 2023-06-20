@@ -53,6 +53,10 @@ struct SelectStopView: View {
                         }
                         .padding(.bottom, 10)
                         .padding(.horizontal, 20)
+                        .onTapGesture {
+                            navigation.showStopOnline.configureView(stop_id: item.stop_id)
+                            navigation.show(view: .showStopOnline)
+                        }
                     }
                 }
                 .animation(.default, value: searchText)

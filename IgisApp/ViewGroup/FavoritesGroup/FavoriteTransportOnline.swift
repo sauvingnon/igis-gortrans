@@ -13,7 +13,7 @@ struct FavoriteTransportOnline: View {
     
     @EnvironmentObject var navigator: currentFavoritesViewClass
     
-    @ObservedObject var configuration = Configuration()
+    @ObservedObject var configuration = ConfigurationTransportOnline()
     
     @State var sizeStar = 1.0
     @State var scaleBack = 1.0

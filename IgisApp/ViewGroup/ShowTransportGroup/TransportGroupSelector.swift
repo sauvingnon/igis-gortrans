@@ -45,7 +45,7 @@ class NavigationTransport: ObservableObject{
     let selectRouteOrStationView = SelectRouteOrStationView()
     let selectTransportType = SelectTransportType()
     let selectTransportNumber = SelectTransportNumber()
-    let showTransportOnline = ShowTransportOnline()
+    let showTransportOnline = ShowRouteOnline()
     let selectStopView = SelectStopView()
     let showStopOnline = ShowStopOnline()
     

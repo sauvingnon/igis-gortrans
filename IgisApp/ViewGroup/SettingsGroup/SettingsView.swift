@@ -72,6 +72,7 @@ struct SettingsView: View {
                     
                 }
                 .padding(.trailing, 20)
+                .disabled(true)
             }
             .frame(width: UIScreen.screenWidth-40)
             .padding(.vertical, 15)

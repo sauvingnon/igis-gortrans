@@ -42,7 +42,7 @@ struct AppTabBarView: View {
                     Text(configuration.textStatus)
                         .padding(.trailing, 10)
                         .foregroundColor(.white)
-                    if(configuration.isConnected){
+                    if(configuration.isConnected == .isConnected){
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.white)
                     }else{
@@ -63,13 +63,21 @@ struct AppTabBarView: View {
         }
     }
     
-    func changeStatus(isConnected: Bool){
+    func changeStatus(isConnected: ConnectionStatus){
         DispatchQueue.main.async {
-            if(isConnected){
+            if(isConnected == .notConnected){
+                withAnimation(){
+                    configuration.colorStatus = Color.red
+                    configuration.textStatus = "Ожидание подключения"
+                    configuration.isConnected = .notConnected
+                    configuration.showStatus = true
+                }
+            }
+            else if(isConnected == .isConnected){
                 withAnimation(){
                     configuration.colorStatus = Color.green
                     configuration.textStatus = "Подключение установлено"
-                    configuration.isConnected = true
+                    configuration.isConnected = .isConnected
                     DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(3)) {
                         DispatchQueue.main.async {
                             withAnimation {
@@ -78,12 +86,11 @@ struct AppTabBarView: View {
                         }
                     }
                 }
-            }
-            else{
+            }else{
                 withAnimation(){
-                    configuration.colorStatus = Color.red
-                    configuration.textStatus = "Ожидание подключения"
-                    configuration.isConnected = false
+                    configuration.colorStatus = Color.blue
+                    configuration.textStatus = "Cоединение"
+                    configuration.isConnected = .waitSocket
                     configuration.showStatus = true
                 }
             }
@@ -95,11 +102,17 @@ struct AppTabBarView: View {
 private class AppConfiguration: ObservableObject{
     // класс для показа custom alert - можно обраться и показать из любого места в приложении
     @Published var showStatus = false
-    @Published var isConnected = false
+    @Published var isConnected: ConnectionStatus = .notConnected
     @Published var colorStatus = Color.red
     @Published var textStatus = "Ожидание подключения"
     @Published var alertIsPresented = false
     var alert: CustomAlert?
+}
+
+enum ConnectionStatus{
+    case isConnected
+    case notConnected
+    case waitSocket
 }
 
 struct AppTabBarView_Previews: PreviewProvider {
