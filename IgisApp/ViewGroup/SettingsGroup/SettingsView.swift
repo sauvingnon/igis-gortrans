@@ -22,7 +22,7 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack {
             HStack{
                 Text("Настройки")
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))

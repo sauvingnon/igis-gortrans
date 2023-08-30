@@ -43,12 +43,12 @@
 		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
 		F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */; };
 		F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */; };
+		F3B369EA2A9E66F800859086 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B369E92A9E66F800859086 /* Errors.swift */; };
 		F3BD09CB29F6665E002669BA /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CA29F6665E002669BA /* CustomAlert.swift */; };
 		F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CC29F66687002669BA /* CustomAlertButton.swift */; };
 		F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */; };
 		F3BD09D129F81994002669BA /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09D029F81994002669BA /* ViewExtension.swift */; };
 		F3C78F152A422D4E0026A97E /* ShowTransportOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */; };
-		F3CCAA6E299643B100DEAF76 /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */; };
 		F3D7DFF129942C2B0059B4C4 /* ReadyElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */; };
 		F3D7DFF32994324E0059B4C4 /* SelectTransportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */; };
 		F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */; };
@@ -109,12 +109,12 @@
 		F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTabsPreferenceKey.swift; sourceTree = "<group>"; };
 		F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconView.swift; sourceTree = "<group>"; };
 		F3B26FF929ED95CC00F981F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F3B369E92A9E66F800859086 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		F3BD09CA29F6665E002669BA /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		F3BD09CC29F66687002669BA /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
 		F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertModifier.swift; sourceTree = "<group>"; };
 		F3BD09D029F81994002669BA /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportOnline.swift; sourceTree = "<group>"; };
-		F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 		F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyElements.swift; sourceTree = "<group>"; };
 		F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTransportType.swift; sourceTree = "<group>"; };
 		F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectRouteOrStationView.swift; sourceTree = "<group>"; };
@@ -180,6 +180,62 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		F30FD4902A9FAEC3008694E6 /* SelectTransportNumber */ = {
+			isa = PBXGroup;
+			children = (
+				F3F608042930D2960009E684 /* SelectTransportNumber.swift */,
+			);
+			path = SelectTransportNumber;
+			sourceTree = "<group>";
+		};
+		F30FD4912A9FAEDC008694E6 /* SelectTransportType */ = {
+			isa = PBXGroup;
+			children = (
+				F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */,
+			);
+			path = SelectTransportType;
+			sourceTree = "<group>";
+		};
+		F30FD4932A9FAEE5008694E6 /* SelectStopView */ = {
+			isa = PBXGroup;
+			children = (
+				F30BC48929A2C79000406D00 /* SelectStopView.swift */,
+			);
+			path = SelectStopView;
+			sourceTree = "<group>";
+		};
+		F30FD4942A9FAEE7008694E6 /* SelectRouteOrStationView */ = {
+			isa = PBXGroup;
+			children = (
+				F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */,
+			);
+			path = SelectRouteOrStationView;
+			sourceTree = "<group>";
+		};
+		F30FD4962A9FAEEF008694E6 /* ShowStopOnline */ = {
+			isa = PBXGroup;
+			children = (
+				F3E581FE29FB0B490062DD66 /* ShowStopOnline.swift */,
+			);
+			path = ShowStopOnline;
+			sourceTree = "<group>";
+		};
+		F30FD4972A9FAEF1008694E6 /* ShowRouteOnline */ = {
+			isa = PBXGroup;
+			children = (
+				F37E4AA92995530D00049934 /* ShowRouteOnline.swift */,
+			);
+			path = ShowRouteOnline;
+			sourceTree = "<group>";
+		};
+		F30FD4982A9FAF32008694E6 /* ShowTransportOnline */ = {
+			isa = PBXGroup;
+			children = (
+				F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */,
+			);
+			path = ShowTransportOnline;
+			sourceTree = "<group>";
+		};
 		F33E21DD2A22168300465C2E /* CustomChooseTimeAlert */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */,
+				F3B369E92A9E66F800859086 /* Errors.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
 				F3F6ADB029D383F700D74D32 /* Vibration.swift */,
 			);
@@ -281,13 +338,13 @@
 			isa = PBXGroup;
 			children = (
 				F3F60802292E26810009E684 /* TransportGroupSelector.swift */,
-				F30BC48929A2C79000406D00 /* SelectStopView.swift */,
-				F3F608042930D2960009E684 /* SelectTransportNumber.swift */,
-				F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */,
-				F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */,
-				F37E4AA92995530D00049934 /* ShowRouteOnline.swift */,
-				F3E581FE29FB0B490062DD66 /* ShowStopOnline.swift */,
-				F3C78F142A422D4E0026A97E /* ShowTransportOnline.swift */,
+				F30FD4982A9FAF32008694E6 /* ShowTransportOnline */,
+				F30FD4902A9FAEC3008694E6 /* SelectTransportNumber */,
+				F30FD4932A9FAEE5008694E6 /* SelectStopView */,
+				F30FD4942A9FAEE7008694E6 /* SelectRouteOrStationView */,
+				F30FD4912A9FAEDC008694E6 /* SelectTransportType */,
+				F30FD4972A9FAEF1008694E6 /* ShowRouteOnline */,
+				F30FD4962A9FAEEF008694E6 /* ShowStopOnline */,
 			);
 			path = ShowTransportGroup;
 			sourceTree = "<group>";
@@ -363,7 +420,6 @@
 				F3F608062930D3B90009E684 /* Model.swift */,
 				F311176B299A406100351326 /* DataBase.swift */,
 				F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */,
-				F3CCAA6D299643B100DEAF76 /* ServiceAPI.swift */,
 				F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */,
 			);
 			path = Service;
@@ -477,6 +533,7 @@
 				F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */,
 				F3DB410629A35B2D005497F7 /* SettingsView.swift in Sources */,
 				F3795AA329A3F9EC00FF05FD /* QuestionsView.swift in Sources */,
+				F3B369EA2A9E66F800859086 /* Errors.swift in Sources */,
 				F3BD09D129F81994002669BA /* ViewExtension.swift in Sources */,
 				F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */,
 				F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */,
@@ -496,7 +553,6 @@
 				F3451FC329ADDF5B008ECCF2 /* MapView.swift in Sources */,
 				F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */,
 				F3795AA529A4001F00FF05FD /* AnswersView.swift in Sources */,
-				F3CCAA6E299643B100DEAF76 /* ServiceAPI.swift in Sources */,
 				F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */,
 				F3DB410A29A3710F005497F7 /* AboutAppView.swift in Sources */,
 				F3993E6029A6B4540087C1B7 /* FavoritesView.swift in Sources */,
@@ -561,7 +617,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -615,7 +671,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -644,6 +700,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -653,9 +711,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EducationProjects.IgisApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -678,6 +739,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -687,9 +750,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.EducationProjects.IgisApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

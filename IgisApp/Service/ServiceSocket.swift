@@ -21,49 +21,67 @@ class ServiceSocket{
         }
     }
     
-    private let serverURL = "https://socket.igis-transport.ru"
+    private let serverURL = "https://devsocket.igis-transport.ru"
+//    private let serverURL = "https://socket.igis-transport.ru"
+    
+//    private let key = "mpqli8Jn2nUYxS1nf2wJbHXJCZWdtrWqPEV3wHJgjwzMgsRFmvpenZ7GghxwTZ14"
+    
+    private let key = "8pU5KKybo0Ivcz597yi23j9P37wzSzL6EP2jLoG7p5kUqX9S8S9vNiOMHlruwzYk"
     
     private var configurationStop: ConfigurationStop?
     private var configurationMap: MapModel?
-    private var configurationTransport: ConfigurationTransportOnline?
+    private var configurationRoute: ConfigurationRoute?
+    private var configurationTransport: ConfigurationTransport?
     
     private let manager: SocketManager
     private let socket: SocketIOClient
     
     private init() {
-        while(Model.userTrace.isEmpty){
-            sleep(1)
-            debugPrint("Error, userTrace is empty. Waiting userTrace")
+        if(Model.userTrace.isEmpty){
+            let message = "Ошибка. Попытка подлючения с сокет-серверу до того, как был сформирован user-trace."
+            debugPrint(message)
+            Exception.throwError(message: message)
         }
-        self.manager = SocketManager(socketURL: URL(string: serverURL)!, config: [.log(false), .compress, .extraHeaders(
-            ["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : "bjTE1AENWaVxFiKc5R1gA857NBo6XD2W",
+        self.manager = SocketManager(socketURL: URL(string: serverURL)!, config: [.log(true), .compress, .extraHeaders(
+            ["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : key,
              "language" : "ru",
              "city":"izh",
              "trace": Model.userTrace
             ])])
         self.socket = manager.defaultSocket
+        
+        manager.reconnectWait = 5;
+        manager.reconnectWaitMax = 5;
+        
+        setSubscribes()
     }
     
-    func establishConnection(){
-        // подписка на событие получения данных о прогнозе на конкретную остановку
-        if(socket.status == .connected || socket.status == .connecting){
-            return
-        }
-//        socket.on(clientEvent: .connect) { some1, some2 in
-//            debugPrint("socket connected - client message")
+    func unsubscribeCliSerSubscribeToEvent(){
+        socket.off("cliSerSubscribeTo");
+        debugPrint("Сокет был отписан от события: cliSerSubscribeTo")
+    }
+    
+    func setSubscribes(){
+        
+//        socket.onAny { SocketAnyEvent in
+//            debugPrint(SocketAnyEvent.description)
 //        }
         
         socket.on("connect") { some1 , some2 in
-            debugPrint("сокет подключен(событие сервере) \(Date.now)")
+            debugPrint("сокет подключен(событие сервера) \(Date.now)")
         }
         
         socket.on(clientEvent: .disconnect){ some1, some2 in
-            debugPrint("сокет отключен(событие клиента \(Date.now))")
+            debugPrint("сокет отключен(событие клиента) \(Date.now)")
         }
         
+//        socket.on("fromServerTest") { array, emmiter in
+//
+//        }
+        
         socket.on("serCliDataInPage"){ some1, some2 in
-            let queue = DispatchQueue.global(qos: .default)
-            queue.async {
+//            let queue = DispatchQueue.global(qos: .default)
+//            queue.sync {
                 if let obj = try? MessagePackDecoder().decode(StationResponse.self, from: some1.first as! Data){
                     debugPrint("были получены данные о остановке \(Date.now)")
                     self.UpdateStaionScreen(obj: obj)
@@ -79,12 +97,27 @@ class ServiceSocket{
                     self.UpdateRouteScreen(obj: obj)
                     return
                 }
+//                if let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: some1.first as! Data){
+//                    debugPrint("был получен прогноз транспорта \(Date.now)")
+//                    self.UpdateTransportScreen(obj: obj)
+//                    return
+//                }
                 debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
                 
-//                let obj = try! MessagePackDecoder().decode(RouteResponse.self, from: some1.first as! Data)
-//                self.UpdateRouteScreen(obj: obj)
-            }
+                let obj = try! MessagePackDecoder().decode(TransportResponse.self, from: some1.first as! Data)
+                self.UpdateTransportScreen(obj: obj)
+//            }
         }
+    }
+    
+    func establishConnection(){
+        // подписка на событие получения данных о прогнозе на конкретную остановку
+        if(socket.status == .connected || socket.status == .connecting){
+            return
+        }
+//        socket.on(clientEvent: .connect) { some1, some2 in
+//            debugPrint("socket connected - client message")
+//        }
         
         socket.connect()
     }
@@ -105,13 +138,13 @@ class ServiceSocket{
     }
     
     func clearMapView(){
-        DispatchQueue.main.async {
+//        DispatchQueue.main.async {
 //            self.configurationMap?.locations.removeAll()
-        }
+//        }
     }
     
     func UpdateRouteScreen(obj: RouteResponse){
-        if(configurationTransport == nil){
+        if(configurationRoute == nil){
             return
         }
         var result: [Station] = []
@@ -126,19 +159,19 @@ class ServiceSocket{
             debugPrint("На маршруте не отображается \(notSeenTransport) единиц/ы транспорта")
         }
         
-        configurationTransport?.data.forEach({ stationView in
+        configurationRoute?.data.forEach({ stationView in
             
             if let findStation = obj.data.scheme.first(where: { item in
                 return item.stop == String(stationView.id)
             }){
                 if(findStation.ts.count == 0){
                     if(findStation.sec > 3600){
-                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: String((findStation.time)!)))
+                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: String((findStation.time) ?? Model.getTimeToArrivalInMin(sec: findStation.sec))))
                     }else{
                         result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: Model.getTimeToArrivalInMin(sec: findStation.sec)))
                     }
                 }else{
-                    result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: getPictureTransport(type: (findStation.ts.first!.ts_type)), time: Model.getTimeToArrivalInMin(sec: findStation.sec)))
+                    result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: getPictureTransport(type: (findStation.ts.first!.ts_type)), time: Model.getTimeToArrivalInMin(sec: findStation.sec), transportId: findStation.ts.first?.id))
                 }
             }
         })
@@ -152,13 +185,68 @@ class ServiceSocket{
                     debugPrint("был отображен транспорт подьезд")
                     result[stationIndex].isNext = true
                     result[stationIndex].pictureTs = getPictureTransport(type: (item.ts.first!.ts_type))
+                    result[stationIndex].transportId = item.ts.first?.id
                 }
             }
         }
         
         DispatchQueue.main.async {
-            self.configurationTransport?.data = result
+            self.configurationRoute?.data = result
         }
+    }
+    
+    func UpdateTransportScreen(obj: TransportResponse) {
+        DispatchQueue.main.async {
+            if(self.configurationTransport == nil){
+                return
+            }
+
+            self.configurationTransport?.data.removeAll()
+           
+            var firstStationState = false
+            var stationState = StationState.someStation
+            obj.data.ts_stops.forEach { ts_stop in
+                if(ts_stop.finish == 0){
+                    stationState = .someStation
+                }else{
+                    if(firstStationState){
+                        stationState = .startStation
+                    }else{
+                        stationState = .endStation
+                        firstStationState = true
+                    }
+                }
+                self.configurationTransport?.data.append(Station(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "5 мин"))
+                
+            }
+            self.configurationTransport?.data.reverse()
+            
+            self.configurationTransport?.endStation = DataBase.getStopName(stopId: obj.data.ts_stops.first?.id ?? 0)
+            self.configurationTransport?.startStation = DataBase.getStopName(stopId: obj.data.ts_stops.last?.id ?? 0)
+            
+            self.configurationTransport?.locations.removeAll()
+            
+            self.configurationTransport?.locations.append(ConfigurationTransport.Location(name: "Name", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: obj.data.latlng.first ?? 0, longitude: obj.data.latlng.last ?? 0)))
+            
+            
+            self.configurationTransport?.maintenance = obj.data.reys_status
+            
+            self.configurationTransport?.priceCard = obj.data.price.bank_card ?? 0
+            self.configurationTransport?.priceCash = obj.data.price.cash ?? 0
+            self.configurationTransport?.priceTransportCard = obj.data.price.card ?? 0
+            
+            self.configurationTransport?.routeNumber = "№ \(obj.data.route)"
+            
+            self.configurationTransport?.timeWord = obj.data.time_reys
+            
+            self.configurationTransport?.transportNumber = obj.data.gosnumber
+            
+            DispatchQueue.main.async {
+                self.configurationTransport?.showData()
+            }
+        }
+        
+            
     }
     
     func UpdateStaionScreen(obj: StationResponse){
@@ -212,7 +300,7 @@ class ServiceSocket{
     
     func getStationData(configuration: ConfigurationStop){
         let queue = DispatchQueue.global(qos: .default)
-        queue.async {
+        queue.sync {
             if(self.configurationStop == nil){
                 self.configurationStop = configuration
             }
@@ -224,11 +312,25 @@ class ServiceSocket{
         }
     }
     
-    func getRouteData(configuration: ConfigurationTransportOnline){
+    func getTransportData(configuration: ConfigurationTransport){
         let queue = DispatchQueue.global(qos: .default)
-        queue.async {
+        queue.sync {
             if(self.configurationTransport == nil){
                 self.configurationTransport = configuration
+            }
+            configuration.opacity = 0
+            while(ServiceSocket.status != .connected){
+                
+            }
+            self.socket.emit("cliSerSubscribeTo", try! MessagePackEncoder().encode(TransportRequest(transportId: configuration.transportId)))
+        }
+    }
+    
+    func getRouteData(configuration: ConfigurationRoute){
+        let queue = DispatchQueue.global(qos: .default)
+        queue.sync {
+            if(self.configurationRoute == nil){
+                self.configurationRoute = configuration
             }
             while(ServiceSocket.status != .connected){
                 
@@ -270,7 +372,7 @@ class ServiceSocket{
     
     func getEverythingData(city: String, configuration: MapModel){
         let queue = DispatchQueue.global(qos: .default)
-        queue.async {
+        queue.sync {
             if(self.configurationMap == nil){
                 self.configurationMap = configuration
             }
@@ -283,8 +385,16 @@ class ServiceSocket{
     }
 }
 
+struct TransportRequest: Codable{
+    // объект с идентификатором транспорта для отправки запроса серверу
+    let channel: String
+    init(transportId: String){
+        self.channel = "/ts/\(transportId)"
+    }
+}
+
 struct StationRequest: Codable{
-    // объект с идентификатором нужной нам остановки для отправки серверу
+    // объект с идентификатором остановки для отправки запроса серверу
     let channel: String
     init(stop_id: Int) {
         self.channel = "/station/\(stop_id)"
@@ -299,14 +409,14 @@ struct EverythingRequest: Codable{
     }
 }
 
-struct RouteRequest: Codable{
+struct RouteRequest: Codable {
     let channel: String
     init(route_number: String, transport_type: TypeTransport) {
         let result = "/izh/\(RouteRequest.getName(transport_type: transport_type))/\(route_number)"
         self.channel = result
     }
     
-    private static func getName(transport_type: TypeTransport) -> String{
+    private static func getName(transport_type: TypeTransport) -> String {
         switch(transport_type){
         case .bus:
             return "citybus"
@@ -320,26 +430,58 @@ struct RouteRequest: Codable{
     }
 }
 
-struct RouteResponse: Codable{
+struct TransportResponse: Codable {
     let code: String
     let data: DataObject
-    struct DataObject: Codable{
+    struct DataObject: Codable {
+        let azimuth: Int
+//        let event_description: [Any]
+        let gosnumber: String
+        let latlng: [Float64]
+        let main: Int
+        let price: PriceObject
+        struct PriceObject: Codable {
+            let action: String?
+            let action_price: Int?
+            let bank_card: Int?
+            let card: Int?
+            let cash: Int?
+        }
+        let reys_status: String
+        let route: String
+        let time_reys: String
+        let ts_stops: [TsStopsObject]
+        struct TsStopsObject: Codable {
+            let demand: Int
+            let finish: Int
+            let id: Int
+            let latlng: [Float64]
+            let name: String
+//            let prediction: Array<String?>
+        }
+    }
+}
+
+struct RouteResponse: Codable {
+    let code: String
+    let data: DataObject
+    struct DataObject: Codable {
         let notwork: Notwork
-        struct Notwork: Codable{
+        struct Notwork: Codable {
             let code: String
             let description: String
             let network: [Int]
         }
         let scheme: [SchemeObject]
-        struct SchemeObject: Codable{
+        struct SchemeObject: Codable {
             let sec: Int
             let stop: String
             let time: String?
             let ts: [TsObject]
-            struct TsObject: Codable{
+            struct TsObject: Codable {
                 let azimuth: Int
                 let finish: FinishObject
-                struct FinishObject: Codable{
+                struct FinishObject: Codable {
                     let id: Int
                     let name: String
                 }

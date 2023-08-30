@@ -20,7 +20,7 @@ struct MapView: View {
             longitudeDelta: 0.1))
     
     var body: some View {
-        MapKit.Map.init(coordinateRegion: $region, annotationItems: viewModel.configuration.locations){ location in
+        Map(coordinateRegion: $region, annotationItems: viewModel.configuration.locations){ location in
             MapAnnotation(coordinate: location.coordinate){
                 Image(systemName: location.icon)
                     .resizable()

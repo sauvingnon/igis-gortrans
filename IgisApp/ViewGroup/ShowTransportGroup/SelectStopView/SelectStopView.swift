@@ -9,11 +9,9 @@ import SwiftUI
 
 struct SelectStopView: View {
     
-    @EnvironmentObject var navigation: NavigationTransport
+    @EnvironmentObject var coordinator: coordinatorTransport
     
     @State var searchText = ""
-    
-    @State private var scaleBack = 1.0
     
     @FocusState private var searchIsFocuced: Bool
     
@@ -24,13 +22,8 @@ struct SelectStopView: View {
     var body: some View {
         VStack{
             labelIzhevsk(withBackButton: true)
-                .scaleEffect(scaleBack)
                 .onTapGesture {
-                    scaleBack = 1.5
-                    withAnimation(.spring(dampingFraction: 0.5)){
-                        scaleBack = 1.0
-                    }
-                    navigation.show(view: .chooseRouteOrStation)
+                    coordinator.show(view: .chooseRouteOrStation)
                 }
             
             TextField("Поиск остановки", text: $searchText)
@@ -54,8 +47,9 @@ struct SelectStopView: View {
                         .padding(.bottom, 10)
                         .padding(.horizontal, 20)
                         .onTapGesture {
-                            navigation.showStopOnline.configureView(stop_id: item.stop_id)
-                            navigation.show(view: .showStopOnline)
+                            coordinator.showStopOnline.configureView(stop_id: item.stop_id)
+                            coordinator.showStopOnline.configuration.oldCoordinatorView = .selectStopView
+                            coordinator.show(view: .showStopOnline)
                         }
                     }
                 }

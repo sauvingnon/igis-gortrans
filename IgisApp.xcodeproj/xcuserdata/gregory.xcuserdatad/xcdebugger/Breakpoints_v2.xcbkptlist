@@ -119,79 +119,62 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B3DFEE6E-FEE5-4EC3-85C2-F411F39955CC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IgisApp/Service/Model.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
-            landmarkName = "PresentRoute(configuration:direction:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "913FB707-714B-4656-85E6-825A56E1E4DB"
+            uuid = "CCA5CA8D-FFD0-4163-B60D-826ECE49CB68"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IgisApp/Service/ServiceSocket.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "init(route_number:transport_type:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9F605A02-F0DC-4BB4-B4F3-780A1030E822"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IgisApp/Service/ServiceSocket.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "establishConnection()"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "setSubscribes()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "9F605A02-F0DC-4BB4-B4F3-780A1030E822 - e2c08ca32cc814fd"
+                  uuid = "CCA5CA8D-FFD0-4163-B60D-826ECE49CB68 - 9c13156502baec3b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #3 (Swift.Array&lt;Any&gt;, SocketIO.SocketAckEmitter) -&gt; () in IgisApp.ServiceSocket.establishConnection() -&gt; ()"
+                  symbolName = "IgisApp.ServiceSocket.setSubscribes() -&gt; ()"
                   moduleName = "IgisApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "86"
-                  endingLineNumber = "86"
-                  offsetFromSymbolStart = "2680">
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "512">
                </Location>
                <Location
-                  uuid = "9F605A02-F0DC-4BB4-B4F3-780A1030E822 - e2c08ca32cc8153f"
+                  uuid = "CCA5CA8D-FFD0-4163-B60D-826ECE49CB68 - bc9b4b90e906bc48"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #3 (Swift.Array&lt;Any&gt;, SocketIO.SocketAckEmitter) -&gt; () in IgisApp.ServiceSocket.establishConnection() -&gt; ()"
+                  symbolName = "closure #5 (Swift.Array&lt;Any&gt;, SocketIO.SocketAckEmitter) -&gt; () in IgisApp.ServiceSocket.setSubscribes() -&gt; ()"
                   moduleName = "IgisApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "84"
-                  endingLineNumber = "84"
-                  offsetFromSymbolStart = "108">
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "CCA5CA8D-FFD0-4163-B60D-826ECE49CB68 - 3c8c926a360f2660"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (Swift.Array&lt;Any&gt;, SocketIO.SocketAckEmitter) -&gt; () in IgisApp.ServiceSocket.setSubscribes() -&gt; ()"
+                  moduleName = "IgisApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -199,143 +182,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "86F7B935-C488-4E4E-BFD5-A4A6FA8A8260"
+            uuid = "44883F35-7E35-403A-BE1B-9BE38F565048"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IgisApp/Service/ServiceSocket.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "UpdateRouteScreen(obj:)"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "setSubscribes()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "86F7B935-C488-4E4E-BFD5-A4A6FA8A8260 - 38f36c52ebbf0ed3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IgisApp.ServiceSocket.UpdateRouteScreen(obj: IgisApp.RouteResponse) -&gt; ()"
-                  moduleName = "IgisApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "584">
-               </Location>
-               <Location
-                  uuid = "86F7B935-C488-4E4E-BFD5-A4A6FA8A8260 - 80057812b53dd624"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Swift.MainActor () -&gt; () in IgisApp.ServiceSocket.UpdateRouteScreen(obj: IgisApp.RouteResponse) -&gt; ()"
-                  moduleName = "IgisApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "86F7B935-C488-4E4E-BFD5-A4A6FA8A8260 - 38f36c52ebbf0ed3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IgisApp.ServiceSocket.UpdateRouteScreen(obj: IgisApp.RouteResponse) -&gt; ()"
-                  moduleName = "IgisApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "632">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7ABD2323-B1D8-4159-A388-FD323EB922EA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IgisApp/Service/ServiceSocket.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "UpdateRouteScreen(obj:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8DB020A6-0AEA-4574-A696-5320527A769F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "IgisApp/Service/ServiceSocket.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "UpdateRouteScreen(obj:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8DB020A6-0AEA-4574-A696-5320527A769F - a46bcaff37f31bb3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Swift.MainActor () -&gt; () in IgisApp.ServiceSocket.UpdateRouteScreen(obj: IgisApp.RouteResponse) -&gt; ()"
-                  moduleName = "IgisApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "159"
-                  endingLineNumber = "159"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  uuid = "8DB020A6-0AEA-4574-A696-5320527A769F - 38f36c52ebbf1545"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "IgisApp.ServiceSocket.UpdateRouteScreen(obj: IgisApp.RouteResponse) -&gt; ()"
-                  moduleName = "IgisApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "159"
-                  endingLineNumber = "159"
-                  offsetFromSymbolStart = "2780">
-               </Location>
-               <Location
-                  uuid = "8DB020A6-0AEA-4574-A696-5320527A769F - a46bcaff37f30025"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Swift.MainActor () -&gt; () in IgisApp.ServiceSocket.UpdateRouteScreen(obj: IgisApp.RouteResponse) -&gt; ()"
-                  moduleName = "IgisApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gregory/Documents/xCodeProjects/IgisApp/IgisApp/Service/ServiceSocket.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

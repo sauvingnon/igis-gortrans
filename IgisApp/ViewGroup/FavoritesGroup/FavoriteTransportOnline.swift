@@ -13,7 +13,7 @@ struct FavoriteTransportOnline: View {
     
     @EnvironmentObject var navigator: currentFavoritesViewClass
     
-    @ObservedObject var configuration = ConfigurationTransportOnline()
+    @ObservedObject var configuration = ConfigurationRoute()
     
     @State var sizeStar = 1.0
     @State var scaleBack = 1.0
@@ -72,7 +72,7 @@ struct FavoriteTransportOnline: View {
                 Grid(alignment: .trailing){
                     ForEach(configuration.data, id: \.self) { item in
                         GridRow{
-                            StationRow(station: item)
+//                            StationRow(station: item)
                         }
                     }
                 }

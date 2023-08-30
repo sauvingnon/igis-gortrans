@@ -12,24 +12,30 @@ class DataBase{
     private static var stops: [StopsStruct] = []
     
     public static func getStopName(stopId: Int) -> String {
-        if let stop = stops.first(where: { stop in
-            stop.stop_id == stopId
-        }), let name = stop.stop_name_short{
-            return name
-        }else{
-            print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "--"
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            if let stop = stops.first(where: { stop in
+                stop.stop_id == stopId
+            }), let name = stop.stop_name_short{
+                return name
+            }else{
+                print("Остановка по указанному id не найдена или ее имя не заполнено!")
+                return "--"
+            }
         }
     }
     
     public static func getStopDirection(stopId: Int) -> String{
-        if let stop = stops.first(where: { stop in
-            stop.stop_id == stopId
-        }), let name = stop.stop_direction{
-            return name
-        }else{
-            print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "--"
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            if let stop = stops.first(where: { stop in
+                stop.stop_id == stopId
+            }), let name = stop.stop_direction{
+                return name
+            }else{
+                print("Остановка по указанному id не найдена или ее имя не заполнено!")
+                return "--"
+            }
         }
     }
     
@@ -40,6 +46,7 @@ class DataBase{
     private static var routes: [RouteStruct] = []
     
     public static func getTypeTransportFromId(routeId: Int) -> TypeTransport?{
+        
         if let transport = routes.first(where: { item in
             item.route_id == routeId
         }){
@@ -67,63 +74,78 @@ class DataBase{
     }
     
     static func getRouteNumber(routeId: Int) -> String{
-        if let route = routes.first(where: { item in
-            item.route_id == routeId
-        }){
-            return route.route_number
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            if let route = routes.first(where: { item in
+                item.route_id == routeId
+            }){
+                return route.route_number
+            }
+            return "--"
         }
-        return "--"
     }
     
     static func getRouteId(type: TypeTransport, number: String) -> Int{
-        let intTypeTs = fromEnumTsTypeToIntTsType(type: type)
-        if let transport = routes.first(where: { item in
-            item.route_number == number && item.route_ts_type == intTypeTs
-        }){
-            return transport.route_id
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            let intTypeTs = fromEnumTsTypeToIntTsType(type: type)
+            if let transport = routes.first(where: { item in
+                item.route_number == number && item.route_ts_type == intTypeTs
+            }){
+                return transport.route_id
+            }
+            return 0
         }
-        return 0
     }
     
     public static func getArrayNumbersRoutes(type: TypeTransport) -> [String]{
-        var rawValue = type.rawValue
-        if(rawValue == 5){ rawValue = 1 }
-        var result: [String] = []
-        routes.forEach { item in
-            if((item.route_ts_type == rawValue) && !result.contains(item.route_number)) {
-                if(type == .bus || type == .countrybus){
-                    if(type == .bus && isCityRoute(routeId: item.route_id)){
-                        result.append(item.route_number)
-                    }else if(type == .countrybus && !isCityRoute(routeId: item.route_id)){
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            var rawValue = type.rawValue
+            if(rawValue == 5){ rawValue = 1 }
+            var result: [String] = []
+            routes.forEach { item in
+                if((item.route_ts_type == rawValue) && !result.contains(item.route_number)) {
+                    if(type == .bus || type == .countrybus){
+                        if(type == .bus && isCityRoute(routeId: item.route_id)){
+                            result.append(item.route_number)
+                        }else if(type == .countrybus && !isCityRoute(routeId: item.route_id)){
+                            result.append(item.route_number)
+                        }
+                    }
+                    else{
                         result.append(item.route_number)
                     }
                 }
-                else{
-                    result.append(item.route_number)
-                }
             }
+            return result
         }
-        return result
     }
     
     private static var subroutes: [SubrouteStruct] = []
     
     public static func getStopsOfRoute(routeId: Int) -> [SubrouteStruct]?{
-        var result: [SubrouteStruct] = []
-        subroutes.forEach { item in
-            if(item.subroute_route == routeId){
-                result.append(item)
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            var result: [SubrouteStruct] = []
+            subroutes.forEach { item in
+                if(item.subroute_route == routeId){
+                    result.append(item)
+                }
             }
+            return result
         }
-        return result
     }
     
     private static var city_routes: [CityRouteStruct] = []
     
     public static func isCityRoute(routeId: Int) -> Bool{
-        return (city_routes.first { item in
-            item.city_route_route == routeId && item.city_route_geo == 1
-        } != nil)
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            return (city_routes.first { item in
+                item.city_route_route == routeId && item.city_route_geo == 1
+            } != nil)
+        }
     }
     
     static func LoadJSON(){
@@ -181,42 +203,7 @@ class DataBase{
             }
         }
         
-        
-//        socket.on(clientEvent: .connect) { some1, some2 in
-//            print("socket connected")
-//
-////            let some = try? MessagePackDecoder().decode(, from: some1.first as! Data)
-//
-//            socket.emit("fromClientTest", try! MessagePackEncoder().encode("Hello world!!!"))
-//        }
-//
-//        socket.on("fromServerTest") { some1, some2 in
-//
-//            var obj = try! MessagePackDecoder().decode(Parse.self, from: some1.first as! Data)
-//            print("ping received")
-//        }
-//
-//        socket.on("connect") { some1 , some2 in
-//
-//        }
-//
-//        socket.onAny { SocketAnyEvent in
-//            print(SocketAnyEvent.event)
-//        }
-//
-//        socket.connect()
-        
-        
-//    }
-        
     }
-    
-//    struct Parse: Codable{
-//        let igis: String
-//    }
-//
-//    static var manager = SocketManager(socketURL: URL(string: "https://socket.igis-transport.ru")!, config: [.log(true), .compress, .extraHeaders(["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : "bjTE1AENWaVxFiKc5R1gA857NBo6XD2W", "language" : "ru", "city":"izh"])])
-//    static var socket = manager.defaultSocket
     
     static let titele1 = "Как настроить уведомления"
     static let description1 = " Для начала убедитесь, что показ уведомлений включен, для этого зайдите в настройки и найдите функцию \"Показывать уведомления\". \n\n После того, как вы убедились в том, что показ уведомлений включен, вам необходимо перейти на главное окно и нажать на кнопку \"Маршруты\". \n\n Выбрав нужный транспорт и его маршрут, перед вами окажется список остановок, через который проходит транспорт. Нажав на любую из остановок можно выставить уведомление на нужное время или поставить уведомление, которое сработает по прибытию транспорта на остановку."

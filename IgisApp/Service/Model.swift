@@ -54,12 +54,16 @@ class Model{
         
         if let trace = UserDefaults.standard.string(forKey: "UserTrace"){
             self.userTrace = trace
-            debugPrint("userTrace was setted")
+            debugPrint("user-trace был установлен")
         }else{
             let trace = generateTrace()
             UserDefaults.standard.set(trace, forKey: "UserTrace")
             self.userTrace = trace
         }
+    }
+    
+    static func endGetEvent(){
+        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
     }
     
     static func getTimeToArrivalInMin(sec: Int) -> String{
@@ -96,24 +100,31 @@ class Model{
         }
     }
     
-    static func FillMenu(configuration: ConfigurationTransportOnline){
-        configuration.menu.menuItems.removeAll()
-        
-        var offset = 50
-        if let allSubroutesThisRoute = DataBase.getStopsOfRoute(routeId: configuration.routeId){
+    static func FillMenu(configuration: ConfigurationRoute){
+        let queue = DispatchQueue.global(qos: .utility)
+        queue.async {
+            configuration.menu.menuItems.removeAll()
             
-            allSubroutesThisRoute.forEach { direction in
-                configuration.menu.menuItems.append(MenuItem(startStopId: direction.subroute_stops.first ?? 0, endStopId: direction.subroute_stops.last ?? 0, offset: offset))
-                offset += 50
+            var offset = 50
+            if let allSubroutesThisRoute = DataBase.getStopsOfRoute(routeId: configuration.routeId){
+                
+                allSubroutesThisRoute.forEach { direction in
+                    configuration.menu.menuItems.append(MenuItem(startStopId: direction.subroute_stops.first ?? 0, endStopId: direction.subroute_stops.last ?? 0, offset: offset))
+                    offset += 50
+                }
+                
+                let firstDirection = allSubroutesThisRoute.first?.subroute_stops
+                
+                configuration.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
             }
-            
-            let firstDirection = allSubroutesThisRoute.first?.subroute_stops
-            
-            configuration.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
         }
     }
     
-    static func PresentRoute(configuration: ConfigurationTransportOnline, direction: Direction? = nil){
+    static func PresentTransport(configuration: ConfigurationTransport) {
+        ServiceSocket.shared.getTransportData(configuration: configuration)
+    }
+    
+    static func PresentRoute(configuration: ConfigurationRoute, direction: Direction? = nil){
         // Метод для отображения маршрута на экране
         var stopsOfRoute: [Int] = []
         
@@ -153,7 +164,7 @@ class Model{
 //        ServiceAPI().fetchDataForRoute(configuration: configuration)
     }
     
-    static func favoriteRouteTapped(configuration: ConfigurationTransportOnline){
+    static func favoriteRouteTapped(configuration: ConfigurationRoute){
         if var favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
             if isFavoriteRoute(routeId: configuration.routeId){
                 favoritesArray.removeAll { item in

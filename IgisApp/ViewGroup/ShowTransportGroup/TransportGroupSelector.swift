@@ -9,27 +9,28 @@ import SwiftUI
 
 struct TransportGroupSelector: View {
 
-    @StateObject var navigation = NavigationTransport()
+    @StateObject var coordinator = coordinatorTransport()
 
     var body: some View {
-        // На данный момент zstack - в планах horizontal scroll
         ZStack{
-            switch navigation.state {
+            switch coordinator.state {
             case .chooseRouteOrStation:
-                navigation.selectRouteOrStationView
+                coordinator.selectRouteOrStationView
             case .chooseTypeTransport:
-                navigation.selectTransportType
+                coordinator.selectTransportType
             case .chooseNumberTransport:
-                navigation.selectTransportNumber
-            case .showTransportOnline:
-                navigation.showTransportOnline
+                coordinator.selectTransportNumber
+            case .showRouteOnline:
+                coordinator.showRouteOnline
             case .selectStopView:
-                navigation.selectStopView
+                coordinator.selectStopView
             case .showStopOnline:
-                navigation.showStopOnline
+                coordinator.showStopOnline
+            case .ShowTransportOnline:
+                coordinator.showTransportOnline
             }
         }
-        .environmentObject(navigation)
+        .environmentObject(coordinator)
     }
 
 }
@@ -40,19 +41,17 @@ struct TransportGroupSelector_Preview: PreviewProvider {
     }
 }
 
-class NavigationTransport: ObservableObject{
+class coordinatorTransport: ObservableObject{
     @Published var state: CurrentTransportSelectionView = .chooseRouteOrStation
     let selectRouteOrStationView = SelectRouteOrStationView()
     let selectTransportType = SelectTransportType()
     let selectTransportNumber = SelectTransportNumber()
-    let showTransportOnline = ShowRouteOnline()
+    let showRouteOnline = ShowRouteOnline()
     let selectStopView = SelectStopView()
     let showStopOnline = ShowStopOnline()
+    let showTransportOnline = ShowTransportOnline()
     
     func show(view: CurrentTransportSelectionView){
-        if(view == .showStopOnline){
-            self.showStopOnline.configuration.oldNavigationView = state
-        }
         withAnimation(.easeIn(duration: 0.2)){
             state = view
         }
@@ -63,8 +62,9 @@ enum CurrentTransportSelectionView{
     case chooseRouteOrStation
     case chooseTypeTransport
     case chooseNumberTransport
-    case showTransportOnline
+    case showRouteOnline
     case selectStopView
     case showStopOnline
+    case ShowTransportOnline
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTransportNumber: View {
     
-    @EnvironmentObject var navigation: NavigationTransport
+    @EnvironmentObject var coordinator: coordinatorTransport
     
     @ObservedObject var configuration = NumbersViewConfiguration()
     
@@ -21,18 +21,11 @@ struct SelectTransportNumber: View {
         GridItem(.flexible())
     ]
     
-    @State var scaleBack = 1.0
-    
     var body: some View {
         VStack(){
             labelIzhevsk(withBackButton: true)
-                .scaleEffect(scaleBack)
                 .onTapGesture {
-                    scaleBack = 1.5
-                    withAnimation(.spring(dampingFraction: 0.5)){
-                        scaleBack = 1.0
-                    }
-                    navigation.show(view: .chooseTypeTransport)
+                    coordinator.show(view: .chooseTypeTransport)
                 }
             
             ScrollView(.vertical, showsIndicators: false){
@@ -44,7 +37,7 @@ struct SelectTransportNumber: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if value.translation.width > 0{
-                    navigation.show(view: .chooseTypeTransport)
+                    coordinator.show(view: .chooseTypeTransport)
                 }
             }))
         
@@ -66,9 +59,9 @@ struct SelectTransportNumber: View {
     func chooseHandler(number: String, type: TypeTransport){
         let routeId = DataBase.getRouteId(type: type, number: number)
         
-        navigation.showTransportOnline.configureView(routeId: routeId, type: type, number: number)
+        coordinator.showRouteOnline.configureView(routeId: routeId, type: type, number: number)
         
-        navigation.show(view: .showTransportOnline)
+        coordinator.show(view: .showRouteOnline)
     }
     
 }

@@ -13,54 +13,53 @@ struct ShowRouteOnline: View {
     
     @State private var currentDate = Date()
     
-    @EnvironmentObject private var navigation: NavigationTransport
+    @EnvironmentObject private var coordinator: coordinatorTransport
     
-    @ObservedObject private var configuration = ConfigurationTransportOnline()
+    @ObservedObject private var configuration = ConfigurationRoute()
     
     @State private var sizeStar = 1.0
-    @State private var scaleBack = 1.0
     
     var body: some View {
         ZStack{
             VStack{
-                HStack{
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 25))
-                        .padding(.leading, 20)
-                        .foregroundColor(.white)
-                    Text(configuration.name)
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
-                    Spacer()
-                    Image(systemName: "star.fill")
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
-                        .fontWeight(.black)
-                        .scaleEffect(sizeStar)
-                        .onTapGesture {
-                            // Добавление маршрута в избранное или удаление
-                            sizeStar = 0.5
-                            withAnimation(.spring()) {
-                                Model.favoriteRouteTapped(configuration: configuration)
-                                Vibration.medium.vibrate()
-                                sizeStar = 1.0
-                            }
-                        }
-                }
-                .onTapGesture {
-                    scaleBack = 1.5
-                    withAnimation(.spring(dampingFraction: 0.5)){
-                        scaleBack = 1.0
-                    }
-                    navigation.show(view: .chooseNumberTransport)
-                }
-                .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
-                .background(Color.blue)
-                .clipShape(Rectangle())
-                .cornerRadius(25)
-                .padding(.vertical, 10)
-                .scaleEffect(scaleBack)
+//                HStack{
+//                    Image(systemName: "chevron.left")
+//                        .font(.system(size: 25))
+//                        .padding(.leading, 20)
+//                        .foregroundColor(.white)
+//                    Text(configuration.name)
+//                        .font(.system(size: 24))
+//                        .foregroundColor(.white)
+//                        .fontWeight(.medium)
+//                    Spacer()
+//                    Image(systemName: "star.fill")
+//                        .frame(width: 50, height: 50)
+//                        .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
+//                        .fontWeight(.black)
+//                        .scaleEffect(sizeStar)
+//                        .onTapGesture {
+//                            // Добавление маршрута в избранное или удаление
+//                            sizeStar = 0.5
+//                            withAnimation(.spring()) {
+//                                Model.favoriteRouteTapped(configuration: configuration)
+//                                Vibration.medium.vibrate()
+//                                sizeStar = 1.0
+//                            }
+//                        }
+//                }
+//                .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
+//                .background(Color.blue)
+//                .clipShape(Rectangle())
+//                .cornerRadius(25)
+//                .padding(.vertical, 10)
+//                .onTapGesture {
+//                    coordinator.show(view: .chooseNumberTransport)
+//                }
+                labelSomeTransport(name: configuration.name, isFavorite: Model.isFavoriteRoute(routeId: configuration.routeId), backTapp: {
+                    coordinator.show(view: .chooseNumberTransport)
+                }, starTapp: {
+                    Model.favoriteRouteTapped(configuration: configuration)
+                })
                 
                 customMenu(menu: configuration.menu)
                     .zIndex(1)
@@ -72,23 +71,9 @@ struct ShowRouteOnline: View {
                 
                 ScrollView{
                     Grid(alignment: .trailing){
-                        ForEach(configuration.data) { item in
+                        ForEach(configuration.data) { item in   
                             GridRow{
-                                StationRow(station: item)
-                                    .onTapGesture(count: 2) {
-                                        showAlert()
-                                    }
-                                    .onTapGesture(count: 1){
-                                        navigation.showStopOnline.configureView(stop_id: item.id)
-                                        navigation.show(view: .showStopOnline)
-                                    }
-//                                    .swipeActions(edge: .trailing, allowsFullSwipe: true){
-//                                        Button {
-//                                            print("Message deleted")
-//                                        } label: {
-//                                            Label("Delete", systemImage: "trash")
-//                                        }
-//                                    }
+                                StationRow(station: item, handlerTransportImageTapp: imageTransportTapped, handlerLabelStopTapp: labelStopTapped)
                             }
                         }
                     }
@@ -105,6 +90,18 @@ struct ShowRouteOnline: View {
             }
             
         }
+    }
+    
+    func labelStopTapped(stopId: Int?){
+        coordinator.showStopOnline.configureView(stop_id: stopId ?? 0)
+        coordinator.showStopOnline.configuration.oldCoordinatorView = .showRouteOnline
+        coordinator.show(view: .showStopOnline)
+    }
+    
+    func imageTransportTapped(transportId: String?){
+        coordinator.showTransportOnline.configureView(transportId: transportId)
+        coordinator.showTransportOnline.configuration.oldCoordinatorView = .showRouteOnline
+        coordinator.show(view: .ShowTransportOnline)
     }
     
     func showAlert(){
@@ -125,12 +122,8 @@ struct ShowRouteOnline: View {
         Model.FillMenu(configuration: configuration)
         Model.PresentRoute(configuration: configuration)
         
-//        Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.getRoute), userInfo: nil, repeats: true)
     }
-    
-//    @objc func getRoute(){
-//
-//    }
+
     
     func getName(type: TypeTransport, number: String) -> String {
         switch type {
@@ -159,12 +152,17 @@ class CurrentData: ObservableObject{
 
 struct StationRow: View{
     var station: Station
-    
+    var handlerTransportImageTapp: (String?) -> ()
+    var handlerLabelStopTapp: (Int?) -> ()
     var body: some View{
         HStack{
             Text(station.name)
                 .foregroundColor(.blue)
                 .fontWeight(.light)
+                .lineLimit(2)
+                .onTapGesture {
+                    labelStopTapped()
+                }
             switch(station.stationState){
             case .endStation:
                 Image("endStation")
@@ -191,6 +189,9 @@ struct StationRow: View{
                         .resizable()
                         .foregroundColor(.blue)
                         .frame(width: 25, height: 25)
+                        .onTapGesture {
+                            imageTransportTapped()
+                        }
                 }
                 .frame(width: 50, height: 50)
                 }else{
@@ -201,6 +202,9 @@ struct StationRow: View{
                                     .resizable()
                                     .foregroundColor(.blue)
                                     .frame(width: 20, height: 20)
+                                    .onTapGesture {
+                                        imageTransportTapped()
+                                    }
                             }
                             .frame(width: 50, height: 50)
                             .offset(y: +7)
@@ -226,6 +230,13 @@ struct StationRow: View{
         .frame(height: 35)
     }
     
+    func imageTransportTapped() {
+        handlerTransportImageTapp(station.transportId)
+    }
+    
+    func labelStopTapped() {
+        handlerLabelStopTapp(station.id)
+    }
 }
 
 struct Station: Identifiable, Hashable {
@@ -235,18 +246,20 @@ struct Station: Identifiable, Hashable {
     var pictureTs: String
     let time: String
     var isNext: Bool
-    init(id: Int, name: String, stationState: StationState, pictureTs: String, time: String, isNext: Bool = false) {
+    var transportId: String?
+    init(id: Int, name: String, stationState: StationState, pictureTs: String, time: String, isNext: Bool = false, transportId: String? = nil) {
         self.isNext = isNext
         self.id = id
         self.name = name
         self.stationState = stationState
         self.pictureTs = pictureTs
         self.time = time
+        self.transportId = transportId
     }
     // Ячейки можем пересоздать, тогда вью обновится
 }
 
-class ConfigurationTransportOnline: ObservableObject{
+class ConfigurationRoute: ObservableObject{
     var alert: ChooseTimeAlert?
     @Published var alertIsPresented = false
     @Published var name = "--"

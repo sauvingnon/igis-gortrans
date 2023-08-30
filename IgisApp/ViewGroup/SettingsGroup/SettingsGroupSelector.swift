@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SettingsGroupSelector: View {
-    
+
     @StateObject var currentView = currentSettingsViewClass()
-    
+
     var body: some View {
-        ZStack{
+        HStack {
             switch currentView.state{
             case .aboutApp:
                 currentView.aboutAppView
@@ -39,7 +39,7 @@ struct SettingsGroupSelector_Preview: PreviewProvider {
     }
 }
 
-class currentSettingsViewClass: ObservableObject{
+class currentSettingsViewClass: ObservableObject {
     @Published var state: CurrentSettingsSelectionView = .settings
     let settingsView = SettingsView()
     let aboutAppView = AboutAppView()
@@ -47,15 +47,15 @@ class currentSettingsViewClass: ObservableObject{
     let questionView = QuestionsView()
     let chooseIconView = ChooseIconView()
     var answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
-    
-    func show(view: CurrentSettingsSelectionView){
-        withAnimation(.easeIn(duration: 0.2)){
+
+    func show(view: CurrentSettingsSelectionView) {
+        withAnimation(.easeIn(duration: 0.2)) {
             state = view
         }
     }
 }
 
-enum CurrentSettingsSelectionView{
+enum CurrentSettingsSelectionView {
     case settings
     case aboutApp
     case feedBack

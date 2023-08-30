@@ -9,12 +9,11 @@ import SwiftUI
 
 struct ShowStopOnline: View {
     
-    @EnvironmentObject var navigation: NavigationTransport
+    @EnvironmentObject var coordinator: coordinatorTransport
     
     @ObservedObject var configuration = ConfigurationStop()
     
     @State private var sizeStar = 1.0
-    @State private var scaleBack = 1.0
     
     var body: some View {
         VStack{
@@ -43,19 +42,14 @@ struct ShowStopOnline: View {
                         }
                     }
             }
-            .onTapGesture {
-                scaleBack = 1.5
-                withAnimation(.spring(dampingFraction: 0.5)){
-                    scaleBack = 1.0
-                }
-                navigation.show(view: configuration.oldNavigationView)
-            }
             .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
             .background(Color.blue)
             .clipShape(Rectangle())
             .cornerRadius(25)
             .padding(.top, 10)
-            .scaleEffect(scaleBack)
+            .onTapGesture {
+                coordinator.show(view: configuration.oldCoordinatorView)
+            }
             
             HStack{
                 Text(configuration.direction)
@@ -199,12 +193,12 @@ struct TransportWaiter: View, Identifiable, Equatable {
 
 class ConfigurationStop: ObservableObject{
     @Published var opacity = 1.0
-    @Published var name = "мкрн Нагорный"
-    @Published var direction = "В строну ж/д вокзала"
+    var name = "мкрн Нагорный"
+    var direction = "В строну ж/д вокзала"
     @Published var stopId = 0
     @Published var isFavorite = false
     @Published var showIndicator = false
-    var oldNavigationView: CurrentTransportSelectionView = .selectStopView
+    var oldCoordinatorView: CurrentTransportSelectionView = .selectStopView
     
     @Published private var trains_private: [TransportWaiter] = []
     var trains: [TransportWaiter]{
