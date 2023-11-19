@@ -9,9 +9,8 @@ import SwiftUI
 
 struct ChooseIconView: View {
     
-    
-    
-    @EnvironmentObject var navigator: currentSettingsViewClass
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentSettingsSelectionView]
     
     @State private var scale = 1.0
     //    @State private var showingAlert = false
@@ -38,7 +37,7 @@ struct ChooseIconView: View {
                 withAnimation(.spring(dampingFraction: 0.5)){
                     scale = 1.0
                 }
-                navigator.show(view: .settings)
+                dismiss()
             }
             
             ScrollView{
@@ -97,9 +96,9 @@ struct ChooseIconView: View {
     
 }
 
-struct ChooseIconView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChooseIconView()
-    }
-}
+//struct ChooseIconView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChooseIconView()
+//    }
+//}
 

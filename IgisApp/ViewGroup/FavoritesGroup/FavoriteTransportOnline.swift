@@ -1,22 +1,27 @@
 //
-//  FavoriteStopOnline.swift
+//  ShowTransportOnline.swift
 //  IgisApp
 //
-//  Created by Гриша Шкробов on 25.02.2023.
+//  Created by Гриша Шкробов on 20.06.2023.
 //
 
 import SwiftUI
+import MapKit
 
 struct FavoriteTransportOnline: View {
     
-    @State var isMenuOpen = false
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentFavoritesSelectionView]
     
-    @EnvironmentObject var navigator: currentFavoritesViewClass
+    @ObservedObject var model = FavoriteTransportOnlineModel.shared
     
-    @ObservedObject var configuration = ConfigurationRoute()
-    
-    @State var sizeStar = 1.0
-    @State var scaleBack = 1.0
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(
+            latitude: 56.843599,
+            longitude: 53.202824),
+        span: MKCoordinateSpan(
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1))
     
     var body: some View {
         VStack{
@@ -25,152 +30,276 @@ struct FavoriteTransportOnline: View {
                     .font(.system(size: 25))
                     .padding(.leading, 20)
                     .foregroundColor(.white)
-                Text(configuration.name)
-                    .font(.system(size: 24))
-                    .foregroundColor(.white)
-                    .fontWeight(.medium)
-                Spacer()
-                Image(systemName: "star.fill")
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
-                    .fontWeight(.black)
-                    .scaleEffect(sizeStar)
-                    .onTapGesture {
-                        // Добавление маршрута в избранное или удаление
-                        sizeStar = 0.5
-                        withAnimation(.spring()) {
-                            Model.favoriteRouteTapped(configuration: configuration)
-                            Vibration.medium.vibrate()
-                            sizeStar = 1.0
-                        }
-                    }
+                VStack{
+                    Text("Автобус \(model.transportNumber ?? "-")")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                }
             }
             .onTapGesture {
-                scaleBack = 1.5
-                withAnimation(.spring(dampingFraction: 0.5)){
-                    scaleBack = 1.0
-                }
-                navigator.show(view: .favorites)
+                dismiss()
             }
             .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
             .background(Color.blue)
             .clipShape(Rectangle())
             .cornerRadius(25)
-            .padding(.vertical, 10)
-            .scaleEffect(scaleBack)
+            .padding(.top, 10)
             
-            customMenu(menu: configuration.menu)
-                .zIndex(1)
-                .onChange(of: configuration.menu.currentStop, perform: { newValue in
-                    
-                    let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
-                    
-                    Model.PresentRoute(configuration: configuration, direction: newDirection)
-                })
+            if(model.showIndicator){
+                ProgressView()
+            }
             
             ScrollView{
-                Grid(alignment: .trailing){
-                    ForEach(configuration.data, id: \.self) { item in
-                        GridRow{
-//                            StationRow(station: item)
+                
+                HStack{
+                    Text("Маршрут \(model.routeNumber ?? "-")")
+                        .foregroundColor(.gray)
+                        .kerning(1)
+                        .padding(.horizontal, 10)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                
+                Text("\(model.startStation ?? "") - \(model.endStation ?? "")")
+                    .opacity(0.8)
+                    .lineLimit(1)
+                    .padding(.horizontal, 20)
+                    .minimumScaleFactor(0.01)
+                    .padding(.vertical, 1)
+                
+//                ScrollView{
+                    Grid(alignment: .trailing){
+                        ForEach(model.data) { item in
+                            GridRow{
+                                StationRow(station: item, handlerTransportImageTapp: {_ in }, handlerLabelStopTapp: {_ in })
+                                    .onTapGesture(count: 1){
+                                        
+                                    }
+                                //                                    .swipeActions(edge: .trailing, allowsFullSwipe: true){
+                                //                                        Button {
+                                //                                            print("Message deleted")
+                                //                                        } label: {
+                                //                                            Label("Delete", systemImage: "trash")
+                                //                                        }
+                                //                                    }
+                            }
                         }
                     }
+                    .padding(.horizontal, 20)
+//                }
+//                .scrollIndicators(.hidden)
+//                .frame(width: UIScreen.screenWidth-40, height: UIScreen.screenHeight/3)
+                
+                HStack{
+                    Text("СТОИМОСТЬ ПРОЕЗДА")
+                        .opacity(0.8)
+                        .font(.system(size: 14))
+                        .opacity(0.8)
+                        .lineLimit(1)
+                        .padding(.horizontal, 20)
+                        .minimumScaleFactor(0.01)
+                        .padding(.vertical, 1)
+                    Spacer()
                 }
-            }.scrollIndicators(.hidden)
-            
-            Spacer()
-        }.onTapGesture {
-            isMenuOpen = false
-        }
-    }
-    
-    func configureView(routeId: Int, type: TypeTransport, number: String){
-        
-        configuration.type = type
-        configuration.name = getName(type: type, number: number)
-        configuration.routeId = routeId
-        configuration.isFavorite = Model.isFavoriteRoute(routeId: routeId)
-        
-        Model.FillMenu(configuration: configuration)
-        Model.PresentRoute(configuration: configuration)
-    }
-    
-    func getName(type: TypeTransport, number: String) -> String {
-        switch type {
-        case .bus:
-            return "АВТОБУС №\(number)"
-        case .train:
-            return "ТРАМВАЙ №\(number)"
-        case .trolleybus:
-            return "ТРОЛЛЕЙБУС №\(number)"
-        case .countrybus:
-            return "АВТОБУС №\(number)"
-        }
-    }
-    
-}
-    
-    struct FavoriteTransportOnline_Previews: PreviewProvider {
-        static var previews: some View {
-            FavoriteTransportOnline()
-        }
-    }
-
-extension FavoriteTransportOnline{
-    func customMenu(menu: Menu) -> some View {
-        return ZStack {
-            ForEach(menu.menuItems, id: \.self){ item in
-                ZStack {
+                
+                VStack{
                     HStack{
-                        Text("\(DataBase.getStopName(stopId: item.startStopId)) - \(DataBase.getStopName(stopId: item.endStopId))")
-                            .font(.system(size: 18))
-                            .foregroundColor(.white)
-                            .fontWeight(.medium)
-                            .minimumScaleFactor(0.01)
-                            .lineLimit(1)
-                    }
-                    .frame(maxWidth: UIScreen.screenWidth - 80)
-                    .padding(10)
-                    .background(Color.blue)
-                    .clipShape(Rectangle())
-                    .cornerRadius(25)
-                    .onTapGesture {
-                        menu.currentStop = item
-                        isMenuOpen.toggle()
+                        Text("\(model.priceCash)₽ наличными")
+                            .opacity(0.8)
+                        Spacer()
                     }
                     .padding(.horizontal, 20)
-                }
-                .shadow(color: .black.opacity(isMenuOpen ? 0.1 : 0.0), radius: 10, x: 0, y: 5)
-                .offset(y: isMenuOpen ? CGFloat(item.offset) : 0)
-                .opacity(isMenuOpen ? 100 : 0)
-                .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.5), value: isMenuOpen)
-            }
-            
-            ZStack {
-                HStack{
-                    Text("\(DataBase.getStopName(stopId: menu.currentStop.startStopId)) - \(DataBase.getStopName(stopId: menu.currentStop.endStopId))")
-                        .font(.system(size: 18))
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
-                        .minimumScaleFactor(0.01)
-                        .lineLimit(1)
+                    .padding(.vertical, 1)
+                    .kerning(1)
                     
-                    Image(systemName: isMenuOpen ? "chevron.up" : "chevron.down")
-                        .foregroundColor(.white)
-                        .fontWeight(.heavy)
-                        .animation(.easeInOut(duration: 0.3), value: isMenuOpen)
+                    HStack{
+                        Text("\(model.priceCard)₽ банковской картой")
+                            .opacity(0.8)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 1)
+                    .kerning(1)
+                    
+                    HStack{
+                        Text("\(model.priceTransportCard)₽ транспортной картой")
+                            .opacity(0.8)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 1)
+                    .kerning(1)
                 }
-                .frame(minWidth: UIScreen.screenWidth-40)
-                .padding(10)
-                .background(Color.blue)
-                .clipShape(Rectangle())
-                .cornerRadius(25)
+                .padding(.vertical, 15)
+                .background(Color.blue.opacity(0.2))
+                .cornerRadius(15)
                 .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                
+                HStack{
+                    Text("МАРШРУТ НА КАРТЕ")
+                        .opacity(0.8)
+                        .font(.system(size: 14))
+                        .opacity(0.8)
+                        .lineLimit(1)
+                        .padding(.horizontal, 20)
+                        .minimumScaleFactor(0.01)
+                        .padding(.vertical, 1)
+                    Spacer()
+                }
+                
+                Map(coordinateRegion: $region, annotationItems: model.locations){ location in
+                    MapAnnotation(coordinate: location.coordinate){
+                        Image(systemName: location.icon)
+                            .resizable()
+                            .foregroundColor(.white)
+                            .padding(3)
+                            .background(Color.blue)
+                            .cornerRadius(50)
+                    }
+                    
+                }
+                .frame(width: UIScreen.screenWidth-40, height: UIScreen.screenWidth-40)
+                .cornerRadius(30)
+                .padding(.bottom, 20)
+                
+                HStack{
+                    Text("ПОДРОБНЕЕ")
+                        .opacity(0.8)
+                        .font(.system(size: 14))
+                        .opacity(0.8)
+                        .lineLimit(1)
+                        .padding(.horizontal, 20)
+                        .minimumScaleFactor(0.01)
+                        .padding(.vertical, 1)
+                    Spacer()
+                }
+                
+                HStack(alignment: .top){
+                    VStack{
+                        HStack{
+                            Text("Модель ТС:")
+                                .opacity(0.8)
+                            Spacer()
+                        }
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 1)
+                        .kerning(1)
+                        HStack{
+                            Text("На рейсе:")
+                                .opacity(0.8)
+                            Spacer()
+                        }
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 1)
+                        .kerning(1)
+                        HStack{
+                            Text("Обслуживается:")
+                                .opacity(0.8)
+                            Spacer()
+                        }
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 1)
+                        .kerning(1)
+                    }
+                    VStack{
+                        HStack{
+                            Text("МАЗ-103486")
+                                .opacity(0.8)
+                            Spacer()
+                        }
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 1)
+                        .kerning(1)
+                        HStack{
+                            Text("\(model.timeWord ?? "--:--")")
+                                .opacity(0.8)
+                            Spacer()
+                        }
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 1)
+                        .kerning(1)
+                        HStack{
+                            Text("Автотранспортное предприятие №2")
+                                .opacity(0.8)
+                            Spacer()
+                        }
+                        .font(.system(size: 14))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 1)
+                        .kerning(1)
+                    }
+                }
+                .padding(.vertical, 15)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(15)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 10)
+                
+                Spacer()
             }
-            .onTapGesture {
-                isMenuOpen.toggle()
-            }
-            
+            .opacity(model.opacity)
         }
+    }
+}
+
+//struct ShowTransportOnline_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ShowTransportOnline()
+//    }
+//}
+
+@MainActor
+class FavoriteTransportOnlineModel: ObservableObject {
+    static let shared = FavoriteTransportOnlineModel()
+    private init(){
+        
+    }
+    
+    @Published var opacity = 1.0
+    @Published var showIndicator = false
+    var transportId = ""
+    var data: [Station] = []
+    var priceCash = 0
+    var priceCard = 0
+    var priceTransportCard = 0
+    var routeNumber: String?
+    var transportNumber: String?
+    var startStation: String?
+    var endStation: String?
+    var transportModel: String?
+    var timeWord: String?
+    var maintenance: String?
+    var currentStopId: Int = 0
+    
+    @Published var locations: [Location] = []
+    
+    func showData(){
+        showIndicator = false
+        withAnimation{
+            opacity = 1
+        }
+        self.objectWillChange.send()
+    }
+    
+    static func configureView(transportId: String?){
+        if(transportId == nil){
+            return
+        }
+        ShowTransportUnitModel.shared.transportId = transportId!
+//        Model.PresentTransport(configuration: ShowTransportUnitModel.shared)
+    }
+    
+    struct Location: Identifiable{
+        let id = UUID()
+        let name: String
+        let icon: String
+        let coordinate: CLLocationCoordinate2D
     }
 }

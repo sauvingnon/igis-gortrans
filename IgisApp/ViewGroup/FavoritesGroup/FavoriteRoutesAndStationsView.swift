@@ -7,21 +7,17 @@
 
 import SwiftUI
 
-struct FavoritesView: View {
+struct FavoriteRoutesAndStationsView: View {
     
-    @EnvironmentObject var navigator: currentFavoritesViewClass
+    @Binding var navigationStack: [CurrentFavoritesSelectionView]
     
-    @ObservedObject var favorites = Favorites()
-    
-    init(){
-        Model.favoritesView = self
-    }
+    @ObservedObject var model = FavoritesRoutesAndStationsModel.shared
     
     var body: some View {
         VStack{
             labelIzhevsk(withBackButton: false)
             ScrollView(.vertical, showsIndicators: false){
-                if favorites.items.count == 0 {
+                if model.items.count == 0 {
                     VStack(alignment: .center){
                         Text("Избранных нет")
                             .foregroundColor(.blue)
@@ -43,7 +39,7 @@ struct FavoritesView: View {
                         Spacer()
                     }
                 }
-                ForEach(favorites.items){ item in
+                ForEach(model.items){ item in
                     someTransport(typeTransport: item.type, arrayNumbers: item.numbers, handlerFunc: favoriteRouteTapped(number:type:))
                 }
                 Spacer()
@@ -55,20 +51,27 @@ struct FavoritesView: View {
     
     func favoriteRouteTapped(number: String, type: TypeTransport){
         let routeId = DataBase.getRouteId(type: type, number: number)
-        navigator.favoriteTransport.configureView(routeId: routeId, type: type, number: number)
         
-        navigator.show(view: .showTransport)
+        FavoriteRouteOnlineModel.configureView(routeId: routeId, type: type, number: number)
+        
+        navigationStack.append(.showFavoriteRoute)
     }
     
 }
 
-struct FavoritesView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoritesView()
-    }
-}
+//struct FavoritesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FavoriteRoutesAndStationsView()
+//    }
+//}
 
-class Favorites: ObservableObject{
+class FavoritesRoutesAndStationsModel: ObservableObject{
+    static let shared = FavoritesRoutesAndStationsModel()
+    
+    private init() {
+        self.items = Model.getFavoriteData()
+    }
+    
     @Published var items: [FavoriteRoute]
     class FavoriteRoute: Identifiable{
         var id = UUID()
@@ -80,9 +83,7 @@ class Favorites: ObservableObject{
             self.numbers = numbers
         }
     }
-    init() {
-        self.items = Model.getFavoriteData()
-    }
+    
 }
 
 

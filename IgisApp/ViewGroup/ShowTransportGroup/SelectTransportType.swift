@@ -9,18 +9,19 @@ import SwiftUI
 
 struct SelectTransportType: View {
     
-    @EnvironmentObject var coordinator: coordinatorTransport
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentTransportSelectionView]
 
     var body: some View {
         VStack(){
             labelIzhevsk(withBackButton: true)
                 .onTapGesture {
-                    coordinator.show(view: .chooseRouteOrStation)
+                    dismiss()
                 }
             HStack(){
                 Button {
-                    coordinator.selectTransportNumber.configureView(type: .bus)
-                    coordinator.show(view: .chooseNumberTransport)
+                    ChooseTransportRouteViewModel.configureView(type: .bus)
+                    navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus") .resizable()
@@ -34,8 +35,8 @@ struct SelectTransportType: View {
                     .cornerRadius(15)
                 }
                 Button {
-                    coordinator.selectTransportNumber.configureView(type: .trolleybus)
-                    coordinator.show(view: .chooseNumberTransport)
+                    ChooseTransportRouteViewModel.configureView(type: .trolleybus)
+                    navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.doubledecker") .resizable()
@@ -53,8 +54,8 @@ struct SelectTransportType: View {
             
             HStack(){
                 Button {
-                    coordinator.selectTransportNumber.configureView(type: .train)
-                    coordinator.show(view: .chooseNumberTransport)
+                    ChooseTransportRouteViewModel.configureView(type: .train)
+                    navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "tram") .resizable()
@@ -69,8 +70,8 @@ struct SelectTransportType: View {
                 }
                 
                 Button {
-                    coordinator.selectTransportNumber.configureView(type: .countrybus)
-                    coordinator.show(view: .chooseNumberTransport)
+                    ChooseTransportRouteViewModel.configureView(type: .countrybus)
+                    navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.fill") .resizable()
@@ -89,14 +90,14 @@ struct SelectTransportType: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if  value.translation.width > 0{
-                    coordinator.show(view: .chooseRouteOrStation)
+                    dismiss()
                 }
             }))
     }
 }
 
-struct SelectTransportType_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectTransportType()
-    }
-}
+//struct SelectTransportType_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SelectTransportType()
+//    }
+//}

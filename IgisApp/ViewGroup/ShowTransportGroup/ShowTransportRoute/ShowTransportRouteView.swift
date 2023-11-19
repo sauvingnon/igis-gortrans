@@ -7,71 +7,39 @@
 
 import SwiftUI
 
-struct ShowRouteOnline: View {
+struct ShowTransportRouteView: View {
     
     @State private var isMenuOpen = false
     
     @State private var currentDate = Date()
     
-    @EnvironmentObject private var coordinator: coordinatorTransport
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentTransportSelectionView]
     
-    @ObservedObject private var configuration = ConfigurationRoute()
+    @ObservedObject private var model = ShowTransportRouteModel.shared
     
     @State private var sizeStar = 1.0
     
     var body: some View {
         ZStack{
             VStack{
-//                HStack{
-//                    Image(systemName: "chevron.left")
-//                        .font(.system(size: 25))
-//                        .padding(.leading, 20)
-//                        .foregroundColor(.white)
-//                    Text(configuration.name)
-//                        .font(.system(size: 24))
-//                        .foregroundColor(.white)
-//                        .fontWeight(.medium)
-//                    Spacer()
-//                    Image(systemName: "star.fill")
-//                        .frame(width: 50, height: 50)
-//                        .foregroundColor(Model.isFavoriteRoute(routeId: configuration.routeId) ? .orange : .white)
-//                        .fontWeight(.black)
-//                        .scaleEffect(sizeStar)
-//                        .onTapGesture {
-//                            // Добавление маршрута в избранное или удаление
-//                            sizeStar = 0.5
-//                            withAnimation(.spring()) {
-//                                Model.favoriteRouteTapped(configuration: configuration)
-//                                Vibration.medium.vibrate()
-//                                sizeStar = 1.0
-//                            }
-//                        }
-//                }
-//                .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
-//                .background(Color.blue)
-//                .clipShape(Rectangle())
-//                .cornerRadius(25)
-//                .padding(.vertical, 10)
-//                .onTapGesture {
-//                    coordinator.show(view: .chooseNumberTransport)
-//                }
-                labelSomeTransport(name: configuration.name, isFavorite: Model.isFavoriteRoute(routeId: configuration.routeId), backTapp: {
-                    coordinator.show(view: .chooseNumberTransport)
+                labelSomeTransport(name: model.name, isFavorite: Model.isFavoriteRoute(routeId: model.routeId), backTapp: {
+                    dismiss()
                 }, starTapp: {
-                    Model.favoriteRouteTapped(configuration: configuration)
+                    Model.favoriteRouteTapped(configuration: model)
                 })
                 
-                customMenu(menu: configuration.menu)
+                customMenu(menu: model.menu)
                     .zIndex(1)
-                    .onChange(of: configuration.menu.currentStop, perform: { newValue in
+                    .onChange(of: model.menu.currentStop, perform: { newValue in
                         let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
                         
-                        Model.PresentRoute(configuration: configuration, direction: newDirection)
+                        ShowTransportRouteViewModel.shared.presentRoute(direction: newDirection)
                     })
                 
                 ScrollView{
                     Grid(alignment: .trailing){
-                        ForEach(configuration.data) { item in   
+                        ForEach(model.data) { item in   
                             GridRow{
                                 StationRow(station: item, handlerTransportImageTapp: imageTransportTapped, handlerLabelStopTapp: labelStopTapped)
                             }
@@ -85,70 +53,37 @@ struct ShowRouteOnline: View {
                 isMenuOpen = false
             }
             
-            if(configuration.alertIsPresented){
-                configuration.alert
+            if(model.alertIsPresented){
+                model.alert
             }
             
         }
     }
     
     func labelStopTapped(stopId: Int?){
-        coordinator.showStopOnline.configureView(stop_id: stopId ?? 0)
-        coordinator.showStopOnline.configuration.oldCoordinatorView = .showRouteOnline
-        coordinator.show(view: .showStopOnline)
+        ShowTransportStopViewModel.shared.configureView(stop_id: stopId ?? 0)
+        navigationStack.append(.showStopOnline)
     }
     
     func imageTransportTapped(transportId: String?){
-        coordinator.showTransportOnline.configureView(transportId: transportId)
-        coordinator.showTransportOnline.configuration.oldCoordinatorView = .showRouteOnline
-        coordinator.show(view: .ShowTransportOnline)
+        ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
+        navigationStack.append(.showTransportOnline)
     }
     
     func showAlert(){
-        configuration.alert = ChooseTimeAlert(isPresented: $configuration.alertIsPresented, currentTime: $currentDate)
+        model.alert = ChooseTimeAlert(isPresented: $model.alertIsPresented, currentTime: $currentDate)
         DispatchQueue.main.async {
-            configuration.alertIsPresented = true
-        }
-    }
-    
-    func configureView(routeId: Int, type: TypeTransport, number: String){
-        
-        configuration.type = type
-        configuration.name = getName(type: type, number: number)
-        configuration.routeId = routeId
-        configuration.isFavorite = Model.isFavoriteRoute(routeId: routeId)
-        configuration.number = number
-        
-        Model.FillMenu(configuration: configuration)
-        Model.PresentRoute(configuration: configuration)
-        
-    }
-
-    
-    func getName(type: TypeTransport, number: String) -> String {
-        switch type {
-        case .bus:
-            return "АВТОБУС №\(number)"
-        case .train:
-            return "ТРАМВАЙ №\(number)"
-        case .trolleybus:
-            return "ТРОЛЛЕЙБУС №\(number)"
-        case .countrybus:
-            return "АВТОБУС №\(number)"
+            model.alertIsPresented = true
         }
     }
     
 }
 
-struct ShowRouteOnline_Previews: PreviewProvider {
-    static var previews: some View {
-        ShowRouteOnline()
-    }
-}
-
-class CurrentData: ObservableObject{
-    @Published var stops: [Station] = []
-}
+//struct ShowRouteOnline_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ShowRouteOnline()
+//    }
+//}
 
 struct StationRow: View{
     var station: Station
@@ -259,19 +194,7 @@ struct Station: Identifiable, Hashable {
     // Ячейки можем пересоздать, тогда вью обновится
 }
 
-class ConfigurationRoute: ObservableObject{
-    var alert: ChooseTimeAlert?
-    @Published var alertIsPresented = false
-    @Published var name = "--"
-    @Published var type = TypeTransport.bus
-    @Published var number = "--"
-    @Published var isFavorite = false
-    var routeId = 0
-    @Published var menu = Menu(menuItems: [], currentStop: MenuItem(startStopId: 0, endStopId: 0, offset: 0))
-    @Published var data: [Station] = []
-}
-
-extension ShowRouteOnline{
+extension ShowTransportRouteView{
     func customMenu(menu: Menu) -> some View {
         return ZStack {
             ForEach(menu.menuItems, id: \.self){ item in

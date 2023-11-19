@@ -12,6 +12,6 @@ class Exception{
         debugPrint(message)
         print(message)
         var nullVar: String?
-        let error = nullVar!
+        _ = nullVar!
     }
 }

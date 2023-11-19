@@ -21,15 +21,15 @@ struct AppTabBarView: View {
         VStack{
             ZStack{
                 CustomTabBarContainerView(selection: $selection){
-                    TransportGroupSelector()
+                    TransportGroupStackManager()
                         .tabBarTab(tab: .home, selection: $selection)
                     NotificationsView()
                         .tabBarTab(tab: .alerts, selection: $selection)
                     MapView()
                         .tabBarTab(tab: .map, selection: $selection)
-                    FavoritesGroupSelector()
+                    FavoritesGroupStackManager()
                         .tabBarTab(tab: .favourites, selection: $selection)
-                    SettingsGroupSelector()
+                    SettingsGroupStackManager()
                         .tabBarTab(tab: .settings, selection: $selection)
                 }
                 if(configuration.alertIsPresented){

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct QuestionsView: View {
     
-    @EnvironmentObject var navigator: currentSettingsViewClass
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentSettingsSelectionView]
     
     @State var scaleBack = 1.0
     @State var scaleButton1 = 1.0
@@ -28,7 +29,8 @@ struct QuestionsView: View {
                         withAnimation(.spring(dampingFraction: 0.5)){
                             scaleBack = 1.0
                         }
-                        navigator.show(view: .settings)
+                        dismiss()
+                        
                     }
                 Spacer()
                 Text("Что такое \n IGIS:Транспорт?")
@@ -49,34 +51,34 @@ struct QuestionsView: View {
                 .padding(.vertical, 20)
                 .minimumScaleFactor(0.01)
             
-            questionButton(text: DataBase.titele3)
+            questionButton(text: DataBase.title3)
                 .onTapGesture {
                     scaleButton1 = 0.5
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleButton1 = 1.0
                     }
-                    navigator.answerView = AnswersView(title: DataBase.titele3, description: DataBase.description3)
-                    navigator.show(view: .answers)
+                    SettingsModel.setTitleDescription(title: DataBase.title3, description: DataBase.description3)
+                    navigationStack.append(.answers)
                 }
                 .scaleEffect(scaleButton1)
-            questionButton(text: DataBase.titele2)
+            questionButton(text: DataBase.title2)
                 .onTapGesture {
                     scaleButton2 = 0.5
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleButton2 = 1.0
                     }
-                    navigator.answerView = AnswersView(title: DataBase.titele2, description: DataBase.description2)
-                    navigator.show(view: .answers)
+                    SettingsModel.setTitleDescription(title: DataBase.title2, description: DataBase.description2)
+                    navigationStack.append(.answers)
                 }
                 .scaleEffect(scaleButton2)
-            questionButton(text: DataBase.titele1)
+            questionButton(text: DataBase.title1)
                 .onTapGesture {
                     scaleButton3 = 0.5
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleButton3 = 1.0
                     }
-                    navigator.answerView = AnswersView(title: DataBase.titele1, description: DataBase.description1)
-                    navigator.show(view: .answers)
+                    SettingsModel.setTitleDescription(title: DataBase.title1, description: DataBase.description1)
+                    navigationStack.append(.answers)
                 }
                 .scaleEffect(scaleButton3)
             
@@ -86,11 +88,11 @@ struct QuestionsView: View {
     }
 }
 
-struct QuestionsView_Previews: PreviewProvider {
-    static var previews: some View {
-        QuestionsView()
-    }
-}
+//struct QuestionsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        QuestionsView()
+//    }
+//}
 
 extension QuestionsView{
     

@@ -8,11 +8,12 @@
 import SwiftUI
 import MapKit
 
-struct ShowTransportOnline: View {
+struct ShowTransportUnitView: View {
     
-    @EnvironmentObject var coordinator: coordinatorTransport
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentTransportSelectionView]
     
-    @ObservedObject var configuration = ConfigurationTransport()
+    @ObservedObject var model = ShowTransportUnitModel.shared
     
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -22,16 +23,6 @@ struct ShowTransportOnline: View {
             latitudeDelta: 0.1,
             longitudeDelta: 0.1))
     
-//    @State private var array = [
-//        Station(id: 1, name: "Механизаторская улица", stationState: .startStation, pictureTs: "", time: "1 мин"),
-//        Station(id: 2, name: "Южные электросети", stationState: .someStation, pictureTs: "", time: "3 мин"),
-//        Station(id: 3, name: "Московская улица", stationState: .someStation, pictureTs: "", time: "4 мин"),
-//        Station(id: 4, name: "Железнодорожный вокзал", stationState: .someStation, pictureTs: "", time: "6 мин"),
-//        Station(id: 5, name: "Планерная улица", stationState: .someStation, pictureTs: "", time: "7 мин"),
-//        Station(id: 6, name: "Улица Гагарина", stationState: .someStation, pictureTs: "", time: "10 мин"),
-//        Station(id: 7, name: "Автопарк №1", stationState: .someStation, pictureTs: "", time: "12 мин"),
-//        Station(id: 8, name: "Администрация Ленинского района", stationState: .endStation, pictureTs: "", time: "18 мин"),]
-    
     var body: some View {
         VStack{
             HStack{
@@ -40,14 +31,14 @@ struct ShowTransportOnline: View {
                     .padding(.leading, 20)
                     .foregroundColor(.white)
                 VStack{
-                    Text("Автобус \(configuration.transportNumber ?? "-")")
+                    Text("Автобус \(model.transportNumber ?? "-")")
                         .font(.system(size: 24))
                         .foregroundColor(.white)
                         .fontWeight(.medium)
                 }
             }
             .onTapGesture {
-                coordinator.show(view: .showRouteOnline)
+                dismiss()
             }
             .frame(width: UIScreen.screenWidth - 40, height: 50, alignment: .leading)
             .background(Color.blue)
@@ -55,14 +46,14 @@ struct ShowTransportOnline: View {
             .cornerRadius(25)
             .padding(.top, 10)
             
-            if(configuration.showIndicator){
+            if(model.showIndicator){
                 ProgressView()
             }
             
             ScrollView{
                 
                 HStack{
-                    Text("Маршрут \(configuration.routeNumber ?? "-")")
+                    Text("Маршрут \(model.routeNumber ?? "-")")
                         .foregroundColor(.gray)
                         .kerning(1)
                         .padding(.horizontal, 10)
@@ -70,7 +61,7 @@ struct ShowTransportOnline: View {
                 }
                 .padding(.horizontal, 20)
                 
-                Text("\(configuration.startStation ?? "") - \(configuration.endStation ?? "")")
+                Text("\(model.startStation ?? "") - \(model.endStation ?? "")")
                     .opacity(0.8)
                     .lineLimit(1)
                     .padding(.horizontal, 20)
@@ -79,7 +70,7 @@ struct ShowTransportOnline: View {
                 
 //                ScrollView{
                     Grid(alignment: .trailing){
-                        ForEach(configuration.data) { item in
+                        ForEach(model.data) { item in
                             GridRow{
                                 StationRow(station: item, handlerTransportImageTapp: {_ in }, handlerLabelStopTapp: {_ in })
                                     .onTapGesture(count: 1){
@@ -114,7 +105,7 @@ struct ShowTransportOnline: View {
                 
                 VStack{
                     HStack{
-                        Text("\(configuration.priceCash)₽ наличными")
+                        Text("\(model.priceCash)₽ наличными")
                             .opacity(0.8)
                         Spacer()
                     }
@@ -123,7 +114,7 @@ struct ShowTransportOnline: View {
                     .kerning(1)
                     
                     HStack{
-                        Text("\(configuration.priceCard)₽ банковской картой")
+                        Text("\(model.priceCard)₽ банковской картой")
                             .opacity(0.8)
                         Spacer()
                     }
@@ -132,7 +123,7 @@ struct ShowTransportOnline: View {
                     .kerning(1)
                     
                     HStack{
-                        Text("\(configuration.priceTransportCard)₽ транспортной картой")
+                        Text("\(model.priceTransportCard)₽ транспортной картой")
                             .opacity(0.8)
                         Spacer()
                     }
@@ -158,7 +149,7 @@ struct ShowTransportOnline: View {
                     Spacer()
                 }
                 
-                Map(coordinateRegion: $region, annotationItems: configuration.locations){ location in
+                Map(coordinateRegion: $region, annotationItems: model.locations){ location in
                     MapAnnotation(coordinate: location.coordinate){
                         Image(systemName: location.icon)
                             .resizable()
@@ -226,7 +217,7 @@ struct ShowTransportOnline: View {
                         .padding(.vertical, 1)
                         .kerning(1)
                         HStack{
-                            Text("\(configuration.timeWord ?? "--:--")")
+                            Text("\(model.timeWord ?? "--:--")")
                                 .opacity(0.8)
                             Spacer()
                         }
@@ -253,59 +244,16 @@ struct ShowTransportOnline: View {
                 
                 Spacer()
             }
-            .opacity(configuration.opacity)
+            .opacity(model.opacity)
         }
-    }
-    
-    
-    func configureView(transportId: String?){
-        if(transportId == nil){
-            return
+        .onDisappear(){
+            ShowTransportUnitViewModel.shared.unsubscribe()
         }
-        configuration.transportId = transportId!
-        Model.PresentTransport(configuration: configuration)
     }
 }
 
-struct ShowTransportOnline_Previews: PreviewProvider {
-    static var previews: some View {
-        ShowTransportOnline()
-    }
-}
-
-@MainActor
-class ConfigurationTransport: ObservableObject {
-    @Published var opacity = 1.0
-    @Published var showIndicator = false
-    var transportId = ""
-    var oldCoordinatorView: CurrentTransportSelectionView = .showRouteOnline
-    var data: [Station] = []
-    var priceCash = 0
-    var priceCard = 0
-    var priceTransportCard = 0
-    var routeNumber: String?
-    var transportNumber: String?
-    var startStation: String?
-    var endStation: String?
-    var transportModel: String?
-    var timeWord: String?
-    var maintenance: String?
-    var currentStopId: Int = 0
-    
-    @Published var locations: [Location] = []
-    
-    func showData(){
-        showIndicator = false
-        withAnimation{
-            opacity = 1
-        }
-        self.objectWillChange.send()
-    }
-    
-    struct Location: Identifiable{
-        let id = UUID()
-        let name: String
-        let icon: String
-        let coordinate: CLLocationCoordinate2D
-    }
-}
+//struct ShowTransportOnline_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ShowTransportOnline()
+//    }
+//}

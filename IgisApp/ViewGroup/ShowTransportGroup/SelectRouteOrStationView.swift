@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectRouteOrStationView: View {
     
-    @EnvironmentObject var coordinator: coordinatorTransport
+    @Binding var navigationStack: [CurrentTransportSelectionView]
     
     @ObservedObject var dateTime = DateTime()
     
@@ -50,7 +50,7 @@ struct SelectRouteOrStationView: View {
             .padding(.horizontal, 20)
             
             Button(action: {
-                coordinator.show(view: .chooseTypeTransport)
+                navigationStack.append(.chooseTypeTransport)
             }, label: {
                 Text("Маршруты")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -65,7 +65,7 @@ struct SelectRouteOrStationView: View {
             
             
             Button(action: {
-                coordinator.show(view: .selectStopView)
+                navigationStack.append(.selectStopView)
             }, label: {
                 Text("Остановки")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -83,11 +83,11 @@ struct SelectRouteOrStationView: View {
     
 }
 
-struct SelectRouteOrStationView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectRouteOrStationView()
-    }
-}
+//struct SelectRouteOrStationView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SelectRouteOrStationView()
+//    }
+//}
 
 class DateTime: ObservableObject{
     @Published var time: String = ""

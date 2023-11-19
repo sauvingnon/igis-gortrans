@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @EnvironmentObject private var navigator: currentSettingsViewClass
+    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    
     @ObservedObject var configuration = SettingsConfiguration()
     
     @State private var scaleAbout = 1.0
@@ -17,9 +18,10 @@ struct SettingsView: View {
     @State private var scaleFeedBack = 1.0
     @State private var scaleIcon = 1.0
     
-    init(){
-        Model.settingsView = self
-    }
+//    init(navStack: [CurrentSettingsSelectionView]){
+//        Model.settingsView = self
+//        navigationStack = navStack
+//    }
     
     var body: some View {
         VStack {
@@ -87,7 +89,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleIcon = 1.0
                     }
-                    navigator.show(view: .changeIcon)
+                    navigationStack.append(.changeIcon)
                 }
                 .scaleEffect(scaleIcon)
             settingsButton(imageName: "info.circle", text: "О приложении")
@@ -96,7 +98,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleAbout = 1.0
                     }
-                    navigator.show(view: .aboutApp)
+                    navigationStack.append(.aboutApp)
                 }
                 .scaleEffect(scaleAbout)
             settingsButton(imageName: "questionmark.circle", text: "Помощь")
@@ -105,7 +107,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleHelp = 1.0
                     }
-                    navigator.show(view: .questions)
+                    navigationStack.append(.questions)
                 }
                 .scaleEffect(scaleHelp)
             settingsButton(imageName: "smiley", text: "Обратная связь")
@@ -114,7 +116,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleFeedBack = 1.0
                     }
-                    navigator.show(view: .feedBack)
+                    navigationStack.append(.feedBack)
                 }
                 .scaleEffect(scaleFeedBack)
             
@@ -130,11 +132,11 @@ class SettingsConfiguration: ObservableObject{
     @Published var offlineMode = false
 }
     
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
-}
+//struct SettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SettingsView(navigationStack: .constant([]))
+//    }
+//}
 
 extension SettingsView{
     

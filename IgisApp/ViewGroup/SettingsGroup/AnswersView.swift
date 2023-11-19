@@ -9,10 +9,10 @@ import SwiftUI
 
 struct AnswersView: View {
     
-    @EnvironmentObject var navigator: currentSettingsViewClass
+    @ObservedObject var model = SettingsModel.shared
     
-    @State var title: String
-    @State var description: String
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentSettingsSelectionView]
     
     @State var scaleBack = 1.0
     var body: some View {
@@ -28,14 +28,14 @@ struct AnswersView: View {
                         withAnimation(.spring(dampingFraction: 0.5)){
                             scaleBack = 1.0
                         }
-                        navigator.show(view: .questions)
+                        dismiss()
                     }
                 Spacer()
             }
             .padding(.top, 20)
             .padding(.horizontal, 20)
             
-            Text(title)
+            Text(model.answerTitle)
                 .padding(.horizontal, 20)
                 .lineLimit(2)
                 .multilineTextAlignment(.trailing)
@@ -46,7 +46,7 @@ struct AnswersView: View {
                 .minimumScaleFactor(0.01)
             
             HStack{
-                Text(description)
+                Text(model.answerDescription)
                     .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                     .fontWeight(.light)
                     .font(.system(size: 14))
@@ -66,8 +66,8 @@ struct AnswersView: View {
     }
 }
 
-struct AnswersView_Previews: PreviewProvider {
-    static var previews: some View {
-        AnswersView(title: DataBase.titele1, description: DataBase.description1)
-    }
-}
+//struct AnswersView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AnswersView()
+//    }
+//}

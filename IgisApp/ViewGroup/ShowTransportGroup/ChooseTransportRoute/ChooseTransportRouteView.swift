@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct SelectTransportNumber: View {
+struct ChooseTransportRouteView: View {
     
-    @EnvironmentObject var coordinator: coordinatorTransport
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentTransportSelectionView]
     
-    @ObservedObject var configuration = NumbersViewConfiguration()
+    @ObservedObject var configuration = ChooseTransportRouteModel.shared
     
     var columns: [GridItem] = [
         GridItem(.flexible()),
@@ -25,7 +26,7 @@ struct SelectTransportNumber: View {
         VStack(){
             labelIzhevsk(withBackButton: true)
                 .onTapGesture {
-                    coordinator.show(view: .chooseTypeTransport)
+                    dismiss()
                 }
             
             ScrollView(.vertical, showsIndicators: false){
@@ -37,45 +38,26 @@ struct SelectTransportNumber: View {
         .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
             .onEnded({ value in
                 if value.translation.width > 0{
-                    coordinator.show(view: .chooseTypeTransport)
+                    dismiss()
                 }
             }))
         
         
     }
     
-    func configureView(type: TypeTransport){
-        configuration.numArray = DataBase.getArrayNumbersRoutes(type: type)
-        
-        // Заглушка от теплоходов
-        if(type == .countrybus){
-            configuration.type = .bus
-        }else{
-            configuration.type = type
-        }
-        
-    }
-    
     func chooseHandler(number: String, type: TypeTransport){
         let routeId = DataBase.getRouteId(type: type, number: number)
-        
-        coordinator.showRouteOnline.configureView(routeId: routeId, type: type, number: number)
-        
-        coordinator.show(view: .showRouteOnline)
+        ShowTransportRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
+        navigationStack.append(.showRouteOnline)
     }
     
 }
 
-class NumbersViewConfiguration: ObservableObject{
-    @Published var numArray: [String] = []
-    @Published var type: TypeTransport = .bus
-}
-
-struct SelectNumTSView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectTransportNumber()
-    }
-}
+//struct SelectNumTSView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SelectTransportNumber()
+//    }
+//}
 
 extension View{
     func labelTypeTransport(typeTransport: TypeTransport) -> (some View) {

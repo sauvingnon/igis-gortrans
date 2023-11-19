@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    @State private var viewModel = MapViewModel()
+    @State private var viewModel = MapViewModel.shared
     
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -20,7 +20,7 @@ struct MapView: View {
             longitudeDelta: 0.1))
     
     var body: some View {
-        Map(coordinateRegion: $region, annotationItems: viewModel.configuration.locations){ location in
+        Map(coordinateRegion: $region, annotationItems: viewModel.model.locations){ location in
             MapAnnotation(coordinate: location.coordinate){
                 Image(systemName: location.icon)
                     .resizable()

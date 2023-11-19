@@ -9,13 +9,14 @@ import SwiftUI
 
 struct SelectStopView: View {
     
-    @EnvironmentObject var coordinator: coordinatorTransport
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentTransportSelectionView]
     
     @State var searchText = ""
     
     @FocusState private var searchIsFocuced: Bool
     
-    private var columns: [GridItem] = [
+    var columns: [GridItem] = [
         GridItem(.flexible())
     ]
     
@@ -23,7 +24,7 @@ struct SelectStopView: View {
         VStack{
             labelIzhevsk(withBackButton: true)
                 .onTapGesture {
-                    coordinator.show(view: .chooseRouteOrStation)
+                    dismiss()
                 }
             
             TextField("Поиск остановки", text: $searchText)
@@ -47,9 +48,8 @@ struct SelectStopView: View {
                         .padding(.bottom, 10)
                         .padding(.horizontal, 20)
                         .onTapGesture {
-                            coordinator.showStopOnline.configureView(stop_id: item.stop_id)
-                            coordinator.showStopOnline.configuration.oldCoordinatorView = .selectStopView
-                            coordinator.show(view: .showStopOnline)
+                            ShowTransportStopViewModel.shared.configureView(stop_id: item.stop_id)
+                            navigationStack.append(.showStopOnline)
                         }
                     }
                 }
@@ -79,8 +79,8 @@ struct SelectStopView: View {
     }
 }
 
-struct SelectStopView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectStopView()
-    }
-}
+//struct SelectStopView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SelectStopView()
+//    }
+//}

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct FeedBackView: View {
     
-    @EnvironmentObject var navigator: currentSettingsViewClass
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentSettingsSelectionView]
     
     @State var email: String = ""
     @State var feedBack: String = ""
@@ -34,7 +35,7 @@ struct FeedBackView: View {
                 withAnimation(.spring(dampingFraction: 0.5)){
                     scale = 1.0
                 }
-                navigator.show(view: .settings)
+                dismiss()
             }
             .padding(.top, 20)
             
@@ -87,15 +88,6 @@ struct FeedBackView: View {
                     .cornerRadius(25)
             }
             .padding(.horizontal, 20)
-            
-            
-            
-            
-            
-            
-            
-            
-            
             .onTapGesture {
                 
             }
@@ -105,8 +97,8 @@ struct FeedBackView: View {
     }
 }
 
-struct FeedBackView_Previews: PreviewProvider {
-    static var previews: some View {
-        FeedBackView()
-    }
-}
+//struct FeedBackView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FeedBackView()
+//    }
+//}

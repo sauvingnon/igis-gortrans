@@ -9,7 +9,8 @@ import SwiftUI
 
 struct AboutAppView: View {
     
-    @EnvironmentObject var navigator: currentSettingsViewClass
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: [CurrentSettingsSelectionView]
     
     @State var scale = 1.0
     var body: some View {
@@ -33,7 +34,7 @@ struct AboutAppView: View {
                 withAnimation(.spring(dampingFraction: 0.5)){
                     scale = 1.0
                 }
-                navigator.show(view: .settings)
+                dismiss()
             }
             
             
@@ -129,8 +130,8 @@ struct AboutAppView: View {
     }
 }
 
-struct AboutAppView_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutAppView()
-    }
-}
+//struct AboutAppView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AboutAppView()
+//    }
+//}
