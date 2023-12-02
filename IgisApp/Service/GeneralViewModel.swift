@@ -10,10 +10,8 @@ import SwiftUI
 import CoreData
 import SocketIO
 
-class Model{
+class GeneralViewModel{
 
-    static var appTabBarView: AppTabBarView?
-    static var settingsView: SettingsView?
     static var userTrace = ""
     
     static func checkConnection(){
@@ -23,17 +21,17 @@ class Model{
         
         queue.async {
             while(true){
-                if(isOnline == Model.setCurrentModeNetwork() && status == ServiceSocket.status && status == .connected){
+                if(isOnline == GeneralViewModel.setCurrentModeNetwork() && status == ServiceSocket.status && status == .connected){
                     sleep(1)
                     continue
                 }
-                isOnline = Model.setCurrentModeNetwork()
+                isOnline = GeneralViewModel.setCurrentModeNetwork()
                 status = ServiceSocket.status
                 if(isOnline){
                     switch(status){
                     case .notConnected:
                         debugPrint("запущен процесс соединения с сервером")
-                        appTabBarView?.changeStatus(isConnected: .waitSocket)
+                        AppTabBarViewModel.shared.changeStatus(isConnected: .waitSocket)
                         ServiceSocket.shared.establishConnection()
                     case .disconnected:
                         debugPrint("был отключен сервером, переподключение вручную \(Date.now)")
@@ -41,14 +39,14 @@ class Model{
                         ServiceSocket.shared.establishConnection()
                     case .connecting:
                         debugPrint("ожидание сокет-сервера \(Date.now)")
-                        appTabBarView?.changeStatus(isConnected: .waitSocket)
+                        AppTabBarViewModel.shared.changeStatus(isConnected: .waitSocket)
                     case .connected:
                         debugPrint("сокет-сервер подключен \(Date.now)")
-                        appTabBarView?.changeStatus(isConnected: .isConnected)
+                        AppTabBarViewModel.shared.changeStatus(isConnected: .isConnected)
                     }
                 }else{
                     debugPrint("сокет-сервер не подключен \(Date.now)")
-                    appTabBarView?.changeStatus(isConnected: .notConnected)
+                    AppTabBarViewModel.shared.changeStatus(isConnected: .notConnected)
                 }
                 sleep(2)
             }
@@ -92,47 +90,18 @@ class Model{
     static func setCurrentModeNetwork() -> Bool{
         if CheckInternetConnection.currentReachabilityStatus() == .notReachable {
             DispatchQueue.main.async {
-                settingsView?.configuration.offlineMode = true
+                SettingsModel.shared.offlineMode = true
             }
             return false
         }else{
             DispatchQueue.main.async {
-                settingsView?.configuration.offlineMode = false
+                SettingsModel.shared.offlineMode = false
             }
             return true
         }
     }
     
-    static func favoriteRouteTapped(configuration: ShowTransportRouteModel){
-        if var favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
-            if isFavoriteRoute(routeId: configuration.routeId){
-                favoritesArray.removeAll { item in
-                    item == configuration.routeId
-                }
-                configuration.isFavorite = false
-            }else{
-                favoritesArray.append(configuration.routeId)
-                configuration.isFavorite = true
-            }
-            favoritesArray.sort()
-            UserDefaults.standard.set(favoritesArray, forKey: "FavoriteRoutes")
-            
-        }else{
-            UserDefaults.standard.set([configuration.routeId], forKey: "FavoriteRoutes")
-        }
-        FavoritesRoutesAndStationsModel.shared.items = getFavoriteData()
-    }
-    
-    static func isFavoriteRoute(routeId: Int) -> Bool{
-        if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
-            return favoritesArray.contains { item in
-                item == routeId
-            }
-        }
-        return false
-    }
-    
-    static func getFavoriteData() -> [FavoritesRoutesAndStationsModel.FavoriteRoute]{
+    static func getFavoriteRouteData() -> [FavoritesRoutesAndStationsModel.FavoriteRoute]{
         var favorites: [FavoritesRoutesAndStationsModel.FavoriteRoute] = []
         favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .trolleybus, numbers: []))
         favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .train, numbers: []))
@@ -149,6 +118,27 @@ class Model{
             FavoriteRoute.numbers.count == 0
         }
         return favorites
+    }
+    
+    static func getFavoriteStopData() -> [FavoritesRoutesAndStationsModel.FavoriteStop]{
+        var favorites: [FavoritesRoutesAndStationsModel.FavoriteStop] = []
+        
+        if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteStops") as? [Int]{
+            favoritesArray.forEach { Int in
+                favorites.append(FavoritesRoutesAndStationsModel.FavoriteStop(stopId: Int, stopName: DataBase.getStopName(stopId: Int), stopDirection: DataBase.getStopDirection(stopId: Int)))
+            }
+        }
+        
+        return favorites
+    }
+    
+    static func isFavoriteRoute(routeId: Int) -> Bool{
+        if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
+            return favoritesArray.contains { item in
+                item == routeId
+            }
+        }
+        return false
     }
     
     static func isFavoriteStop(stopId: Int) -> Bool{
@@ -174,6 +164,22 @@ class Model{
             return ""
         }
     }
+    
+//    static func getPictureTransport(type: String) -> String {
+//        switch type {
+//        case "citybus":
+//            return "bus_icon"
+//        case "train_icon":
+//            return "tram"
+//        case "trolleybus":
+//            return "trolleybus_icon"
+//        case "suburbanbus":
+//            return "bus.fill"
+//        default:
+//            return ""
+//        }
+//    }
+
 }
 
 enum TypeTransport: Int {

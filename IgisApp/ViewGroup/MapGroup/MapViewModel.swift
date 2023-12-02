@@ -28,7 +28,7 @@ class MapViewModel{
         var bufferLocations: [MapModel.Location] = []
         obj.data.forEach { item in
             if(item.visible == 1 && item.reys_status == "ok"){
-                bufferLocations.append(MapModel.Location(name: item.gosnumber, icon: Model.getPictureTransport(type: item.ts_type), coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
+                bufferLocations.append(MapModel.Location(name: item.gosnumber, icon: GeneralViewModel.getPictureTransport(type: item.ts_type), coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
             }
         }
         DispatchQueue.main.async {
@@ -45,7 +45,7 @@ class MapViewModel{
                 
             }
             if let object = try? MessagePackEncoder().encode(EverythingRequest(city: "izh")){
-                ServiceSocket.shared.subscribeOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
                 debugPrint("Запрос к серверу на получение прогноза всего транспорта.")
             }else{
                 debugPrint("Запрос к серверу на получение прогноза всего транспорта не отправлен.")

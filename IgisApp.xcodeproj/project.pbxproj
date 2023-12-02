@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
 		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
+		F31E23642B0AA63E008BDFD7 /* AppTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */; };
+		F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */; };
 		F32F01FD29F55F7300F2B1A3 /* CheckConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */; };
 		F335263929E029EA001A1017 /* route.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262D29E029EA001A1017 /* route.json */; };
 		F335263A29E029EA001A1017 /* city_route.json in Resources */ = {isa = PBXBuildFile; fileRef = F335262E29E029EA001A1017 /* city_route.json */; };
@@ -39,19 +41,32 @@
 		F35B5E742B04F52400E82998 /* ChooseTransportRouteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E732B04F52400E82998 /* ChooseTransportRouteModel.swift */; };
 		F35B5E772B04F75200E82998 /* ShowTransportStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E762B04F75200E82998 /* ShowTransportStopViewModel.swift */; };
 		F35B5E792B04F75A00E82998 /* ShowTransportStopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E782B04F75A00E82998 /* ShowTransportStopModel.swift */; };
-		F362C8D229AA1EA60019B28C /* FavoriteRouteOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8D129AA1EA60019B28C /* FavoriteRouteOnline.swift */; };
+		F36152872B0B525B00A77C45 /* LabelSomeTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36152862B0B525B00A77C45 /* LabelSomeTransport.swift */; };
+		F36152892B0B551700A77C45 /* LabelIzhevsk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36152882B0B551700A77C45 /* LabelIzhevsk.swift */; };
+		F361528C2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F361528B2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift */; };
+		F361528E2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F361528D2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift */; };
+		F36152902B0B7B3000A77C45 /* SomeTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F361528F2B0B7B3000A77C45 /* SomeTransport.swift */; };
+		F36152942B0B7E2700A77C45 /* ShowFavoriteRouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36152932B0B7E2700A77C45 /* ShowFavoriteRouteViewModel.swift */; };
+		F36152962B0B7E2D00A77C45 /* ShowFavoriteRouteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36152952B0B7E2D00A77C45 /* ShowFavoriteRouteModel.swift */; };
+		F362C8D229AA1EA60019B28C /* ShowFavoriteRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8D129AA1EA60019B28C /* ShowFavoriteRouteView.swift */; };
 		F362C8D429AA32260019B28C /* FavoriteStopOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8D329AA32260019B28C /* FavoriteStopOnline.swift */; };
 		F362C8DA29AA45820019B28C /* CustomScrollReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8D929AA45820019B28C /* CustomScrollReader.swift */; };
 		F3795AA129A3E0A000FF05FD /* FeedBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA029A3E0A000FF05FD /* FeedBackView.swift */; };
 		F3795AA329A3F9EC00FF05FD /* QuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA229A3F9EC00FF05FD /* QuestionsView.swift */; };
 		F3795AA529A4001F00FF05FD /* AnswersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA429A4001F00FF05FD /* AnswersView.swift */; };
 		F37E4AAA2995530D00049934 /* ShowTransportRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E4AA92995530D00049934 /* ShowTransportRouteView.swift */; };
+		F3908C792B10EDCC0096BEFE /* SelectStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3908C782B10EDCC0096BEFE /* SelectStopViewModel.swift */; };
+		F3908C7C2B10EDD60096BEFE /* SelectStopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3908C7B2B10EDD60096BEFE /* SelectStopModel.swift */; };
 		F3993E6029A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3993E5F29A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift */; };
 		F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */; };
 		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
 		F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13432993D73A001E750B /* TabBarTabsPreferenceKey.swift */; };
 		F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */; };
 		F3B369EA2A9E66F800859086 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B369E92A9E66F800859086 /* Errors.swift */; };
+		F3B75E762B1B40FB00FD6524 /* FindNearestStopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B75E752B1B40FB00FD6524 /* FindNearestStopsView.swift */; };
+		F3B75E792B1B431200FD6524 /* FindNearestStopsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B75E782B1B431200FD6524 /* FindNearestStopsViewModel.swift */; };
+		F3B75E7B2B1B431A00FD6524 /* FindNearestStopsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B75E7A2B1B431A00FD6524 /* FindNearestStopsModel.swift */; };
+		F3B75E7D2B1B473E00FD6524 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B75E7C2B1B473E00FD6524 /* LocationManager.swift */; };
 		F3BD09CB29F6665E002669BA /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CA29F6665E002669BA /* CustomAlert.swift */; };
 		F3BD09CD29F66687002669BA /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CC29F66687002669BA /* CustomAlertButton.swift */; };
 		F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */; };
@@ -64,7 +79,6 @@
 		F3DB410829A36ED2005497F7 /* SettingsGroupStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DB410729A36ED2005497F7 /* SettingsGroupStackManager.swift */; };
 		F3DB410A29A3710F005497F7 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DB410929A3710F005497F7 /* AboutAppView.swift */; };
 		F3E581FF29FB0B490062DD66 /* ShowTransportStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E581FE29FB0B490062DD66 /* ShowTransportStopView.swift */; };
-		F3E98E5D2AF7C51A005D43EB /* FavoriteTransportOnline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E98E5C2AF7C51A005D43EB /* FavoriteTransportOnline.swift */; };
 		F3EAE5832A043DCB009391FA /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = F3EAE5822A043DCB009391FA /* SocketIO */; };
 		F3EAE5862A043DE2009391FA /* MessagePacker in Frameworks */ = {isa = PBXBuildFile; productRef = F3EAE5852A043DE2009391FA /* MessagePacker */; };
 		F3F607ED292E242E0009E684 /* IgisAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F607EC292E242E0009E684 /* IgisAppApp.swift */; };
@@ -73,7 +87,7 @@
 		F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F60800292E264D0009E684 /* CustomTabBar.swift */; };
 		F3F60803292E26810009E684 /* TransportGroupStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F60802292E26810009E684 /* TransportGroupStackManager.swift */; };
 		F3F608052930D2960009E684 /* ChooseTransportRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608042930D2960009E684 /* ChooseTransportRouteView.swift */; };
-		F3F608072930D3B90009E684 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608062930D3B90009E684 /* Model.swift */; };
+		F3F608072930D3B90009E684 /* GeneralViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F608062930D3B90009E684 /* GeneralViewModel.swift */; };
 		F3F67DD62A27D0DE00165BB2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */; };
 		F3F67DD82A27D0E600165BB2 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F67DD72A27D0E600165BB2 /* MapModel.swift */; };
 		F3F6ADB129D383F700D74D32 /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6ADB029D383F700D74D32 /* Vibration.swift */; };
@@ -83,6 +97,8 @@
 /* Begin PBXFileReference section */
 		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarViewModel.swift; sourceTree = "<group>"; };
+		F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarModel.swift; sourceTree = "<group>"; };
 		F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckConnection.swift; sourceTree = "<group>"; };
 		F335262D29E029EA001A1017 /* route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = route.json; sourceTree = "<group>"; };
 		F335262E29E029EA001A1017 /* city_route.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city_route.json; sourceTree = "<group>"; };
@@ -113,13 +129,22 @@
 		F35B5E732B04F52400E82998 /* ChooseTransportRouteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTransportRouteModel.swift; sourceTree = "<group>"; };
 		F35B5E762B04F75200E82998 /* ShowTransportStopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportStopViewModel.swift; sourceTree = "<group>"; };
 		F35B5E782B04F75A00E82998 /* ShowTransportStopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportStopModel.swift; sourceTree = "<group>"; };
-		F362C8D129AA1EA60019B28C /* FavoriteRouteOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRouteOnline.swift; sourceTree = "<group>"; };
+		F36152862B0B525B00A77C45 /* LabelSomeTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSomeTransport.swift; sourceTree = "<group>"; };
+		F36152882B0B551700A77C45 /* LabelIzhevsk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelIzhevsk.swift; sourceTree = "<group>"; };
+		F361528B2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRoutesAndStationsViewModel.swift; sourceTree = "<group>"; };
+		F361528D2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRoutesAndStationsModel.swift; sourceTree = "<group>"; };
+		F361528F2B0B7B3000A77C45 /* SomeTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SomeTransport.swift; sourceTree = "<group>"; };
+		F36152932B0B7E2700A77C45 /* ShowFavoriteRouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteRouteViewModel.swift; sourceTree = "<group>"; };
+		F36152952B0B7E2D00A77C45 /* ShowFavoriteRouteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteRouteModel.swift; sourceTree = "<group>"; };
+		F362C8D129AA1EA60019B28C /* ShowFavoriteRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteRouteView.swift; sourceTree = "<group>"; };
 		F362C8D329AA32260019B28C /* FavoriteStopOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStopOnline.swift; sourceTree = "<group>"; };
 		F362C8D929AA45820019B28C /* CustomScrollReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollReader.swift; sourceTree = "<group>"; };
 		F3795AA029A3E0A000FF05FD /* FeedBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBackView.swift; sourceTree = "<group>"; };
 		F3795AA229A3F9EC00FF05FD /* QuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsView.swift; sourceTree = "<group>"; };
 		F3795AA429A4001F00FF05FD /* AnswersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersView.swift; sourceTree = "<group>"; };
 		F37E4AA92995530D00049934 /* ShowTransportRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportRouteView.swift; sourceTree = "<group>"; };
+		F3908C782B10EDCC0096BEFE /* SelectStopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopViewModel.swift; sourceTree = "<group>"; };
+		F3908C7B2B10EDD60096BEFE /* SelectStopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopModel.swift; sourceTree = "<group>"; };
 		F3993E5F29A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRoutesAndStationsView.swift; sourceTree = "<group>"; };
 		F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		F39F13412993D699001E750B /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
@@ -127,6 +152,10 @@
 		F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconView.swift; sourceTree = "<group>"; };
 		F3B26FF929ED95CC00F981F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F3B369E92A9E66F800859086 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		F3B75E752B1B40FB00FD6524 /* FindNearestStopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearestStopsView.swift; sourceTree = "<group>"; };
+		F3B75E782B1B431200FD6524 /* FindNearestStopsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearestStopsViewModel.swift; sourceTree = "<group>"; };
+		F3B75E7A2B1B431A00FD6524 /* FindNearestStopsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearestStopsModel.swift; sourceTree = "<group>"; };
+		F3B75E7C2B1B473E00FD6524 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F3BD09CA29F6665E002669BA /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		F3BD09CC29F66687002669BA /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
 		F3BD09CE29F81966002669BA /* CustomAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertModifier.swift; sourceTree = "<group>"; };
@@ -139,7 +168,6 @@
 		F3DB410729A36ED2005497F7 /* SettingsGroupStackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGroupStackManager.swift; sourceTree = "<group>"; };
 		F3DB410929A3710F005497F7 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		F3E581FE29FB0B490062DD66 /* ShowTransportStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportStopView.swift; sourceTree = "<group>"; };
-		F3E98E5C2AF7C51A005D43EB /* FavoriteTransportOnline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTransportOnline.swift; sourceTree = "<group>"; };
 		F3F607E9292E242E0009E684 /* IgisApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IgisApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F607EC292E242E0009E684 /* IgisAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgisAppApp.swift; sourceTree = "<group>"; };
 		F3F607F0292E242F0009E684 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,7 +175,7 @@
 		F3F60800292E264D0009E684 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		F3F60802292E26810009E684 /* TransportGroupStackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportGroupStackManager.swift; sourceTree = "<group>"; };
 		F3F608042930D2960009E684 /* ChooseTransportRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTransportRouteView.swift; sourceTree = "<group>"; };
-		F3F608062930D3B90009E684 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		F3F608062930D3B90009E684 /* GeneralViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewModel.swift; sourceTree = "<group>"; };
 		F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		F3F67DD72A27D0E600165BB2 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		F3F6ADB029D383F700D74D32 /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
@@ -196,6 +224,16 @@
 				F335263729E029EA001A1017 /* ts.json */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		F31E23622B0AA5FF008BDFD7 /* AppTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				F39F13412993D699001E750B /* AppTabBarView.swift */,
+				F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */,
+				F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */,
+			);
+			path = AppTabBar;
 			sourceTree = "<group>";
 		};
 		F33E21DD2A22168300465C2E /* CustomChooseTimeAlert */ = {
@@ -258,7 +296,7 @@
 		F348F27229A1042F00AFFAA1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */,
+				F36152852B0B522600A77C45 /* ReadyElements */,
 				F3B369E92A9E66F800859086 /* Errors.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
 				F3F6ADB029D383F700D74D32 /* Vibration.swift */,
@@ -306,6 +344,45 @@
 			path = ShowTransportStop;
 			sourceTree = "<group>";
 		};
+		F36152852B0B522600A77C45 /* ReadyElements */ = {
+			isa = PBXGroup;
+			children = (
+				F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */,
+				F36152862B0B525B00A77C45 /* LabelSomeTransport.swift */,
+				F361528F2B0B7B3000A77C45 /* SomeTransport.swift */,
+				F36152882B0B551700A77C45 /* LabelIzhevsk.swift */,
+			);
+			path = ReadyElements;
+			sourceTree = "<group>";
+		};
+		F361528A2B0B5D5400A77C45 /* FavoriteRoutesAndStations */ = {
+			isa = PBXGroup;
+			children = (
+				F3993E5F29A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift */,
+				F361528B2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift */,
+				F361528D2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift */,
+			);
+			path = FavoriteRoutesAndStations;
+			sourceTree = "<group>";
+		};
+		F36152912B0B7D8100A77C45 /* ShowFavoriteRoute */ = {
+			isa = PBXGroup;
+			children = (
+				F362C8D129AA1EA60019B28C /* ShowFavoriteRouteView.swift */,
+				F36152932B0B7E2700A77C45 /* ShowFavoriteRouteViewModel.swift */,
+				F36152952B0B7E2D00A77C45 /* ShowFavoriteRouteModel.swift */,
+			);
+			path = ShowFavoriteRoute;
+			sourceTree = "<group>";
+		};
+		F36152922B0B7DBC00A77C45 /* ShowFavoriteStop */ = {
+			isa = PBXGroup;
+			children = (
+				F362C8D329AA32260019B28C /* FavoriteStopOnline.swift */,
+			);
+			path = ShowFavoriteStop;
+			sourceTree = "<group>";
+		};
 		F362C8D829AA456C0019B28C /* CustomScrollReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,16 +391,35 @@
 			path = CustomScrollReader;
 			sourceTree = "<group>";
 		};
+		F3908C772B10EDAD0096BEFE /* SelectStop */ = {
+			isa = PBXGroup;
+			children = (
+				F30BC48929A2C79000406D00 /* SelectStopView.swift */,
+				F3908C782B10EDCC0096BEFE /* SelectStopViewModel.swift */,
+				F3908C7B2B10EDD60096BEFE /* SelectStopModel.swift */,
+			);
+			path = SelectStop;
+			sourceTree = "<group>";
+		};
 		F3993E5E29A6B2650087C1B7 /* FavoritesGroup */ = {
 			isa = PBXGroup;
 			children = (
 				F3F9A3CE29A95E9000EFBE33 /* FavoritesGroupStackManager.swift */,
-				F3993E5F29A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift */,
-				F362C8D329AA32260019B28C /* FavoriteStopOnline.swift */,
-				F362C8D129AA1EA60019B28C /* FavoriteRouteOnline.swift */,
-				F3E98E5C2AF7C51A005D43EB /* FavoriteTransportOnline.swift */,
+				F361528A2B0B5D5400A77C45 /* FavoriteRoutesAndStations */,
+				F36152912B0B7D8100A77C45 /* ShowFavoriteRoute */,
+				F36152922B0B7DBC00A77C45 /* ShowFavoriteStop */,
 			);
 			path = FavoritesGroup;
+			sourceTree = "<group>";
+		};
+		F3B75E772B1B42F500FD6524 /* FindNearestStops */ = {
+			isa = PBXGroup;
+			children = (
+				F3B75E752B1B40FB00FD6524 /* FindNearestStopsView.swift */,
+				F3B75E7A2B1B431A00FD6524 /* FindNearestStopsModel.swift */,
+				F3B75E782B1B431200FD6524 /* FindNearestStopsViewModel.swift */,
+			);
+			path = FindNearestStops;
 			sourceTree = "<group>";
 		};
 		F3BD09C929F66623002669BA /* CustomAlert */ = {
@@ -345,9 +441,10 @@
 				F35B5E6B2B04F23900E82998 /* ShowTransportRoute */,
 				F35B5E702B04F4BA00E82998 /* ChooseTransportRoute */,
 				F35B5E752B04F6BF00E82998 /* ShowTransportStop */,
-				F30BC48929A2C79000406D00 /* SelectStopView.swift */,
+				F3908C772B10EDAD0096BEFE /* SelectStop */,
 				F3D7DFF529943AB50059B4C4 /* SelectRouteOrStationView.swift */,
 				F3D7DFF22994324E0059B4C4 /* SelectTransportType.swift */,
+				F3B75E772B1B42F500FD6524 /* FindNearestStops */,
 			);
 			path = ShowTransportGroup;
 			sourceTree = "<group>";
@@ -385,11 +482,11 @@
 		F3F607EB292E242E0009E684 /* IgisApp */ = {
 			isa = PBXGroup;
 			children = (
+				F3F607EC292E242E0009E684 /* IgisAppApp.swift */,
 				F3B26FF929ED95CC00F981F8 /* Info.plist */,
 				F302C2B929D371BD009020ED /* JSON */,
 				F302C2B829D37157009020ED /* ViewGroup */,
-				F3F607EC292E242E0009E684 /* IgisAppApp.swift */,
-				F39F13412993D699001E750B /* AppTabBarView.swift */,
+				F31E23622B0AA5FF008BDFD7 /* AppTabBar */,
 				F3F8AC3329A6238900F4B441 /* Service */,
 				F348F27229A1042F00AFFAA1 /* Other */,
 				F3F607F0292E242F0009E684 /* Assets.xcassets */,
@@ -420,8 +517,9 @@
 		F3F8AC3329A6238900F4B441 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				F3F608062930D3B90009E684 /* Model.swift */,
+				F3F608062930D3B90009E684 /* GeneralViewModel.swift */,
 				F311176B299A406100351326 /* DataBase.swift */,
+				F3B75E7C2B1B473E00FD6524 /* LocationManager.swift */,
 				F32F01FC29F55F7300F2B1A3 /* CheckConnection.swift */,
 				F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */,
 			);
@@ -520,17 +618,22 @@
 			files = (
 				F362C8DA29AA45820019B28C /* CustomScrollReader.swift in Sources */,
 				F3F67DD82A27D0E600165BB2 /* MapModel.swift in Sources */,
-				F3E98E5D2AF7C51A005D43EB /* FavoriteTransportOnline.swift in Sources */,
+				F3908C7C2B10EDD60096BEFE /* SelectStopModel.swift in Sources */,
+				F3B75E762B1B40FB00FD6524 /* FindNearestStopsView.swift in Sources */,
+				F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */,
 				F35B5E6D2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift in Sources */,
 				F362C8D429AA32260019B28C /* FavoriteStopOnline.swift in Sources */,
-				F362C8D229AA1EA60019B28C /* FavoriteRouteOnline.swift in Sources */,
+				F3B75E7B2B1B431A00FD6524 /* FindNearestStopsModel.swift in Sources */,
+				F362C8D229AA1EA60019B28C /* ShowFavoriteRouteView.swift in Sources */,
+				F3908C792B10EDCC0096BEFE /* SelectStopViewModel.swift in Sources */,
 				F35B5E772B04F75200E82998 /* ShowTransportStopViewModel.swift in Sources */,
 				F3BD09CF29F81966002669BA /* CustomAlertModifier.swift in Sources */,
 				F35B5E682B04EDF000E82998 /* ShowTransportUnitModel.swift in Sources */,
 				F3C78F152A422D4E0026A97E /* ShowTransportUnitView.swift in Sources */,
+				F361528C2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift in Sources */,
 				F3F9A3CF29A95E9000EFBE33 /* FavoritesGroupStackManager.swift in Sources */,
 				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
-				F3F608072930D3B90009E684 /* Model.swift in Sources */,
+				F3F608072930D3B90009E684 /* GeneralViewModel.swift in Sources */,
 				F3BD09CB29F6665E002669BA /* CustomAlert.swift in Sources */,
 				F35B5E742B04F52400E82998 /* ChooseTransportRouteModel.swift in Sources */,
 				F3E581FF29FB0B490062DD66 /* ShowTransportStopView.swift in Sources */,
@@ -546,21 +649,29 @@
 				F3B369EA2A9E66F800859086 /* Errors.swift in Sources */,
 				F3BD09D129F81994002669BA /* ViewExtension.swift in Sources */,
 				F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */,
+				F31E23642B0AA63E008BDFD7 /* AppTabBarViewModel.swift in Sources */,
 				F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */,
 				F3795AA129A3E0A000FF05FD /* FeedBackView.swift in Sources */,
 				F3DB410829A36ED2005497F7 /* SettingsGroupStackManager.swift in Sources */,
 				F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */,
+				F36152902B0B7B3000A77C45 /* SomeTransport.swift in Sources */,
 				F3D7DFF129942C2B0059B4C4 /* ReadyElements.swift in Sources */,
 				F3D7DFF629943AB50059B4C4 /* SelectRouteOrStationView.swift in Sources */,
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
+				F36152942B0B7E2700A77C45 /* ShowFavoriteRouteViewModel.swift in Sources */,
 				F37E4AAA2995530D00049934 /* ShowTransportRouteView.swift in Sources */,
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */,
 				F35B5E722B04F51B00E82998 /* ChooseTransportRouteViewModel.swift in Sources */,
 				F35B5E6A2B04EECB00E82998 /* ShowTransportUnitViewModel.swift in Sources */,
+				F361528E2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift in Sources */,
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
 				F3F608052930D2960009E684 /* ChooseTransportRouteView.swift in Sources */,
+				F36152872B0B525B00A77C45 /* LabelSomeTransport.swift in Sources */,
 				F311176C299A406100351326 /* DataBase.swift in Sources */,
+				F3B75E7D2B1B473E00FD6524 /* LocationManager.swift in Sources */,
+				F3B75E792B1B431200FD6524 /* FindNearestStopsViewModel.swift in Sources */,
+				F36152892B0B551700A77C45 /* LabelIzhevsk.swift in Sources */,
 				F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */,
 				F3451FC329ADDF5B008ECCF2 /* MapView.swift in Sources */,
 				F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */,
@@ -568,6 +679,7 @@
 				F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */,
 				F3DB410A29A3710F005497F7 /* AboutAppView.swift in Sources */,
 				F3993E6029A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift in Sources */,
+				F36152962B0B7E2D00A77C45 /* ShowFavoriteRouteModel.swift in Sources */,
 				F3F67DD62A27D0DE00165BB2 /* MapViewModel.swift in Sources */,
 				F3F60803292E26810009E684 /* TransportGroupStackManager.swift in Sources */,
 				F3451FBF29ADD53C008ECCF2 /* ChatView.swift in Sources */,
@@ -708,6 +820,7 @@
 				INFOPLIST_FILE = IgisApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IGIS: Транспорт Ижевска";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For get user location on map";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -747,6 +860,7 @@
 				INFOPLIST_FILE = IgisApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IGIS: Транспорт Ижевска";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For get user location on map";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

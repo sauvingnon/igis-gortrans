@@ -36,6 +36,9 @@ struct TransportGroupStackManager: View {
                     case .showTransportOnline:
                         ShowTransportUnitView(navigationStack: $navigationStack)
                             .navigationBarBackButtonHidden(true)
+                    case .findNearestStops:
+                        FindNearestStopsView(navigationStack: $navigationStack)
+                            .navigationBarBackButtonHidden(true)
                     }
                 }
         }
@@ -57,5 +60,6 @@ enum CurrentTransportSelectionView{
     case selectStopView
     case showStopOnline
     case showTransportOnline
+    case findNearestStops
 }
 

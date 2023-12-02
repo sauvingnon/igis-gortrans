@@ -17,19 +17,7 @@ class ShowTransportRouteViewModel{
     }
     
     private let model = ShowTransportRouteModel.shared
-    
-//    func handleRouteData(){
-//        ServiceSocket.shared.socket.on("serCliDataInPage") { some1, some2 in
-////            let queue = DispatchQueue.global(qos: .default)
-////            queue.async {
-//                if let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: some1.first as! Data){
-//                    debugPrint("был получен прогноз маршрута \(Date.now)")
-//                    ShowTransportRouteViewModel.shared.updateRouteScreen(obj: obj)
-//                    return
-//                }
-//                debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
-//        }
-//    }
+    private var alertAlreadyPresented = false
     
     func getRouteData(){
         let queue = DispatchQueue.global(qos: .default)
@@ -38,7 +26,7 @@ class ShowTransportRouteViewModel{
                 
             }
             if let object = try? MessagePackEncoder().encode(RouteRequest(route_number: self.model.number, transport_type: self.model.type)){
-                ServiceSocket.shared.subscribeOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, updateScreen: "ShowTransportRoute")
                 debugPrint("Запрос к серверу на получение прогноза маршрута транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза маршрута не отправлен.")
@@ -102,8 +90,28 @@ class ShowTransportRouteViewModel{
             stationState = .someStation
         }
         
-        self.getRouteData()
-//        self.handleRouteData()
+        getRouteData()
+        alertAlreadyPresented = false
+    }
+    
+    func favoriteRouteTapped(){
+        if var favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
+            if GeneralViewModel.isFavoriteRoute(routeId: model.routeId){
+                favoritesArray.removeAll { item in
+                    item == model.routeId
+                }
+                model.isFavorite = false
+            }else{
+                favoritesArray.append(model.routeId)
+                model.isFavorite = true
+            }
+            favoritesArray.sort()
+            UserDefaults.standard.set(favoritesArray, forKey: "FavoriteRoutes")
+            
+        }else{
+            UserDefaults.standard.set([model.routeId], forKey: "FavoriteRoutes")
+        }
+        FavoritesRoutesAndStationsModel.shared.favoriteRoutes = GeneralViewModel.getFavoriteRouteData()
     }
     
     func configureView(routeId: Int, type: TypeTransport, number: String){
@@ -111,11 +119,16 @@ class ShowTransportRouteViewModel{
         ShowTransportRouteModel.shared.type = type
         ShowTransportRouteModel.shared.name = getName(type: type, number: number)
         ShowTransportRouteModel.shared.routeId = routeId
-        ShowTransportRouteModel.shared.isFavorite = Model.isFavoriteRoute(routeId: routeId)
+        ShowTransportRouteModel.shared.isFavorite = GeneralViewModel.isFavoriteRoute(routeId: routeId)
         ShowTransportRouteModel.shared.number = number
         
         fillMenu()
         presentRoute()
+//        getRouteData()
+    }
+    
+    func disconfigureView(){
+//        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
     }
     
     func getName(type: TypeTransport, number: String) -> String {
@@ -134,8 +147,10 @@ class ShowTransportRouteViewModel{
     func updateRouteScreen(obj: RouteResponse){
         var result: [Station] = []
         
-        if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything"){
+        if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !alertAlreadyPresented){
             debugPrint("статус маршрута не рабочий - \(obj.data.notwork.code)")
+            AppTabBarViewModel.shared.showAlert(title: obj.data.notwork.code, message: "Маршрут не работает.")
+            alertAlreadyPresented = true
             return
         }
         
@@ -151,12 +166,12 @@ class ShowTransportRouteViewModel{
             }){
                 if(findStation.ts.count == 0){
                     if(findStation.sec > 3600){
-                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: String((findStation.time) ?? Model.getTimeToArrivalInMin(sec: findStation.sec))))
+                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: String((findStation.time) ?? GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec))))
                     }else{
-                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: Model.getTimeToArrivalInMin(sec: findStation.sec)))
+                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec)))
                     }
                 }else{
-                    result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: Model.getPictureTransport(type: (findStation.ts.first!.ts_type)), time: Model.getTimeToArrivalInMin(sec: findStation.sec), transportId: findStation.ts.first?.id))
+                    result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransport(type: (findStation.ts.first!.ts_type)), time: GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec), transportId: findStation.ts.first?.id))
                 }
             }
         })
@@ -167,9 +182,8 @@ class ShowTransportRouteViewModel{
                 if let stationIndex = result.firstIndex(where: { station in
                     String(station.id) == stop_id
                 }){
-                    debugPrint("был отображен транспорт подьезд")
                     result[stationIndex].isNext = true
-                    result[stationIndex].pictureTs = Model.getPictureTransport(type: (item.ts.first!.ts_type))
+                    result[stationIndex].pictureTs = GeneralViewModel.getPictureTransport(type: (item.ts.first!.ts_type))
                     result[stationIndex].transportId = item.ts.first?.id
                 }
             }

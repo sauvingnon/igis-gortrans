@@ -14,13 +14,13 @@ struct SelectTransportType: View {
 
     var body: some View {
         VStack(){
-            labelIzhevsk(withBackButton: true)
-                .onTapGesture {
-                    dismiss()
-                }
+            LabelIzhevsk(withBackButton: true)
+            {
+                dismiss()
+            }
             HStack(){
                 Button {
-                    ChooseTransportRouteViewModel.configureView(type: .bus)
+                    ChooseTransportRouteViewModel.shared.configureView(type: .bus)
                     navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
@@ -35,7 +35,7 @@ struct SelectTransportType: View {
                     .cornerRadius(15)
                 }
                 Button {
-                    ChooseTransportRouteViewModel.configureView(type: .trolleybus)
+                    ChooseTransportRouteViewModel.shared.configureView(type: .trolleybus)
                     navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
@@ -54,7 +54,7 @@ struct SelectTransportType: View {
             
             HStack(){
                 Button {
-                    ChooseTransportRouteViewModel.configureView(type: .train)
+                    ChooseTransportRouteViewModel.shared.configureView(type: .train)
                     navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){
@@ -70,7 +70,7 @@ struct SelectTransportType: View {
                 }
                 
                 Button {
-                    ChooseTransportRouteViewModel.configureView(type: .countrybus)
+                    ChooseTransportRouteViewModel.shared.configureView(type: .countrybus)
                     navigationStack.append(.chooseNumberTransport)
                 } label: {
                     VStack(){

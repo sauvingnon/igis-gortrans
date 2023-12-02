@@ -15,7 +15,9 @@ struct SelectRouteOrStationView: View {
     
     var body: some View {
         VStack{
-            labelIzhevsk(withBackButton: false)
+            LabelIzhevsk(withBackButton: false){
+                
+            }
             HStack{
                 Text(dateTime.date)
                     .foregroundColor(.blue)
@@ -49,34 +51,48 @@ struct SelectRouteOrStationView: View {
             .background(Color.blue)
             .padding(.horizontal, 20)
             
-            Button(action: {
-                navigationStack.append(.chooseTypeTransport)
-            }, label: {
-                Text("Маршруты")
-                    .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
-                    .background(Color.orange)
-                    .clipShape(Rectangle())
-                    .cornerRadius(10)
-                    .font(.system(size: 25))
-                    .foregroundColor(.white)
-                    .fontWeight(.medium)
-                    .padding(20)
-            })
-            
-            
-            Button(action: {
-                navigationStack.append(.selectStopView)
-            }, label: {
-                Text("Остановки")
-                    .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
-                    .background(Color.blue)
-                    .clipShape(Rectangle())
-                    .cornerRadius(10)
-                    .font(.system(size: 25))
-                    .foregroundColor(.white)
-                    .fontWeight(.medium)
-            })
-            
+            ScrollView{
+                Button(action: {
+                    navigationStack.append(.chooseTypeTransport)
+                }, label: {
+                    Text("Маршруты")
+                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
+                        .background(Color.orange)
+                        .clipShape(Rectangle())
+                        .cornerRadius(10)
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                })
+                
+                
+                Button(action: {
+                    navigationStack.append(.selectStopView)
+                }, label: {
+                    Text("Остановки")
+                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
+                        .background(Color.blue)
+                        .clipShape(Rectangle())
+                        .cornerRadius(10)
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                        .padding(20)
+                })
+                
+                Button(action: {
+                    navigationStack.append(.findNearestStops)
+                }, label: {
+                    Text("Определить остановку")
+                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
+                        .background(Color.green)
+                        .clipShape(Rectangle())
+                        .cornerRadius(10)
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                })
+            }
             Spacer()
         }
     }

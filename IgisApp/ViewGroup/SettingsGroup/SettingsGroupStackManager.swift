@@ -64,6 +64,9 @@ class SettingsModel: ObservableObject {
     @Published var answerTitle = ""
     @Published var answerDescription = ""
     
+    @Published var showNotifications = false
+    @Published var offlineMode = false
+    
     static func setTitleDescription(title: String, description: String) {
         SettingsModel.shared.answerTitle = title
         SettingsModel.shared.answerDescription = description

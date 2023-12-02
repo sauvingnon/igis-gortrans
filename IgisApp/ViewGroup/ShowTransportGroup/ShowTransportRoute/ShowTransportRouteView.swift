@@ -10,23 +10,22 @@ import SwiftUI
 struct ShowTransportRouteView: View {
     
     @State private var isMenuOpen = false
-    
+    @State private var sizeStar = 1.0
     @State private var currentDate = Date()
     
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: [CurrentTransportSelectionView]
     
     @ObservedObject private var model = ShowTransportRouteModel.shared
-    
-    @State private var sizeStar = 1.0
+    private let viewModel = ShowTransportRouteViewModel.shared
     
     var body: some View {
         ZStack{
             VStack{
-                labelSomeTransport(name: model.name, isFavorite: Model.isFavoriteRoute(routeId: model.routeId), backTapp: {
+                LabelSomeTransport(name: model.name, isFavorite: $model.isFavorite, backTapp: {
                     dismiss()
                 }, starTapp: {
-                    Model.favoriteRouteTapped(configuration: model)
+                    viewModel.favoriteRouteTapped()
                 })
                 
                 customMenu(menu: model.menu)
@@ -57,6 +56,9 @@ struct ShowTransportRouteView: View {
                 model.alert
             }
             
+        }
+        .onAppear(){
+            viewModel.getRouteData()
         }
     }
     

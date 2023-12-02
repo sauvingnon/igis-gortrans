@@ -24,23 +24,20 @@ struct ChooseTransportRouteView: View {
     
     var body: some View {
         VStack(){
-            labelIzhevsk(withBackButton: true)
-                .onTapGesture {
-                    dismiss()
-                }
+            LabelIzhevsk(withBackButton: true)
+            {
+                dismiss()
+            }
             
             ScrollView(.vertical, showsIndicators: false){
-                someTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
+                SomeTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
             }
             
             Spacer()
         }
-        .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
-            .onEnded({ value in
-                if value.translation.width > 0{
-                    dismiss()
-                }
-            }))
+        .onAppear(){
+            ServiceSocket.shared.emitOff()
+        }
         
         
     }
@@ -58,30 +55,3 @@ struct ChooseTransportRouteView: View {
 //        SelectTransportNumber()
 //    }
 //}
-
-extension View{
-    func labelTypeTransport(typeTransport: TypeTransport) -> (some View) {
-        var nameTransport = ""
-        switch typeTransport {
-        case .bus: nameTransport = "АВТОБУСЫ"
-        case .countrybus: nameTransport = "ПРИГОРОД АВТОБУСЫ"
-        case .train: nameTransport = "ТРАМВАИ"
-        case .trolleybus: nameTransport = "ТРОЛЛЕЙБУСЫ"
-        }
-        return(
-            VStack(alignment: .leading){
-                Text(nameTransport)
-                    .foregroundColor(.blue)
-                    .font(.system(size: 25))
-                    .kerning(2)
-                    .offset(y: 17)
-                    .padding(.leading, 20)
-                    .minimumScaleFactor(0.01)
-                GeometryReader{ geometry in
-                    
-                }
-                .frame(height: 2)
-                .background(Color.blue)
-                .padding(.horizontal, 20)})
-    }
-}

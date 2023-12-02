@@ -25,9 +25,8 @@ class ShowTransportUnitViewModel{
         model.objectWillChange.send()
     }
     
-    func unsubscribe(){
-        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
-        debugPrint("Экран просмотра юнита транспорта был закрыт.")
+    func disconfigureView(){
+//        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
     }
     
     func getTransportData(){
@@ -38,7 +37,7 @@ class ShowTransportUnitViewModel{
                 
             }
             if let object = try? MessagePackEncoder().encode(TransportRequest(transportId: model.transportId)){
-                ServiceSocket.shared.subscribeOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
                 debugPrint("Запрос к серверу на получение прогноза юнита транспорта.")
             }else{
                 debugPrint("Запрос к серверу на получение прогноза юнита транспорта не отправлен.")
@@ -51,7 +50,7 @@ class ShowTransportUnitViewModel{
             return
         }
         self.model.transportId = transportId!
-        self.getTransportData()
+//        self.getTransportData()
     }
     
     func updateTransportScreen(obj: TransportResponse) {

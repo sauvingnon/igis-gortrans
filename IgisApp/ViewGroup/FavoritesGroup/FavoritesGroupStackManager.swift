@@ -22,10 +22,7 @@ struct FavoritesGroupStackManager: View {
                         FavoriteStopOnline(navigationStack: $navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showFavoriteRoute:
-                        FavoriteRouteOnline(navigationStack: $navigationStack)
-                            .navigationBarBackButtonHidden(true)
-                    case .showTransportOnline:
-                        FavoriteTransportOnline(navigationStack: $navigationStack)
+                        ShowFavoriteRouteView(navigationStack: $navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
@@ -43,5 +40,4 @@ enum CurrentFavoritesSelectionView{
     case favoriteRoutesAndStations
     case showFavoriteRoute
     case showFavoriteStop
-    case showTransportOnline
 }

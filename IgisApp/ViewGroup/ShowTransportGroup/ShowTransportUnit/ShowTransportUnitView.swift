@@ -14,6 +14,7 @@ struct ShowTransportUnitView: View {
     @Binding var navigationStack: [CurrentTransportSelectionView]
     
     @ObservedObject var model = ShowTransportUnitModel.shared
+    private let viewModel = ShowTransportUnitViewModel.shared
     
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -246,8 +247,8 @@ struct ShowTransportUnitView: View {
             }
             .opacity(model.opacity)
         }
-        .onDisappear(){
-            ShowTransportUnitViewModel.shared.unsubscribe()
+        .onAppear(){
+            viewModel.getTransportData()
         }
     }
 }

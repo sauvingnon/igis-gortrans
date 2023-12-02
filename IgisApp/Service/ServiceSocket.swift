@@ -26,13 +26,13 @@ class ServiceSocket{
     
     private let key = "8pU5KKybo0Ivcz597yi23j9P37wzSzL6EP2jLoG7p5kUqX9S8S9vNiOMHlruwzYk"
     
-    private var configurationMap: MapModel?
-    
     private let manager: SocketManager
-    let socket: SocketIOClient
+    private let socket: SocketIOClient
+    
+    private var currentUpdateScreen = ""
     
     private init() {
-        if(Model.userTrace.isEmpty){
+        if(GeneralViewModel.userTrace.isEmpty){
             let message = "Ошибка. Попытка подлючения с сокет-серверу до того, как был сформирован user-trace."
             debugPrint(message)
             Exception.throwError(message: message)
@@ -41,7 +41,7 @@ class ServiceSocket{
             ["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : key,
              "language" : "ru",
              "city":"izh",
-             "trace": Model.userTrace
+             "trace": GeneralViewModel.userTrace
             ])])
         self.socket = manager.defaultSocket
         
@@ -49,23 +49,64 @@ class ServiceSocket{
         manager.reconnectWaitMax = 5;
         
         setSubscribes()
+        establishConnection()
     }
     
-    func unsubscribeCliSerSubscribeToEvent(){
-        socket.off("cliSerSubscribeTo");
-        debugPrint("Сокет был отписан от события: cliSerSubscribeTo")
+    private func subscribeCliSerSubscribeToEvent(){
+        // Надо бы распаралелить событие по названиям экранов
+        socket.on("serCliDataInPage") { some1, some2 in
+            let queue = DispatchQueue.global(qos: .default)
+            queue.async {
+            // Поочередно пробуем распарсить объект, чтобы понять к какому экрану он относится
+                if let obj = try? MessagePackDecoder().decode(StationResponse.self, from: some1.first as! Data){
+                    debugPrint("были получены данные о остановке \(Date.now)")
+                    ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
+                    return
+                }
+                if let obj = try? MessagePackDecoder().decode(EverythingResponse.self, from: some1.first as! Data){
+                    debugPrint("были получены данные о всем транспорте на карте \(Date.now)")
+                    MapViewModel.shared.updateMapScreen(obj: obj)
+                    return
+                }
+                if let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: some1.first as! Data){
+                    if(self.currentUpdateScreen == "ShowFavoriteRoute"){
+                        debugPrint("был получен прогноз избранного маршрута \(Date.now)")
+                        ShowFavoriteRouteViewModel.shared.updateRouteScreen(obj: obj)
+                    }else{
+                        debugPrint("был получен прогноз маршрута \(Date.now)")
+                        ShowTransportRouteViewModel.shared.updateRouteScreen(obj: obj)
+                    }
+                    return
+                }
+                if let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: some1.first as! Data){
+                    debugPrint("был получен прогноз транспорта \(Date.now)")
+                    ShowTransportUnitViewModel.shared.updateTransportScreen(obj: obj)
+                    return
+                }
+                debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
+            }
+        }
     }
     
     // MARK: - Подписка на событие.
-    func subscribeOn(event: String, items: SocketData...){
-            self.socket.emit(event, items)
+    func emitOn(event: String, items: SocketData, updateScreen: String? = nil){
+        if let screen = updateScreen{
+            self.currentUpdateScreen = screen
+        }
+        self.socket.emit(event, items)
     }
     
-    func setSubscribes(){
+    // MARK: - Отписка от события.
+    func emitOff(){
+        self.socket.emit("cliSerSubscribeOff")
+        debugPrint("Завершили прием данных на событие: serCliDataInPage")
+    }
+    
+    private func setSubscribes(){
         
-        socket.onAny { SocketAnyEvent in
-            debugPrint(SocketAnyEvent.description)
-        }
+//        socket.onAny { SocketAnyEvent in
+//            debugPrint(SocketAnyEvent.description)
+//        }
         
         socket.on("connect") { some1 , some2 in
             debugPrint("сокет подключен(событие сервера) \(Date.now)")
@@ -79,42 +120,11 @@ class ServiceSocket{
 //
 //        }
         
-        // Надо бы распаралелить событие по названиям экранов
-        socket.on("serCliDataInPage") { some1, some2 in
-//            let queue = DispatchQueue.global(qos: .default)
-//            queue.async {
-            // Поочередно пробуем распарсить объект, чтобы понять к какому экрану он относится
-                if let obj = try? MessagePackDecoder().decode(StationResponse.self, from: some1.first as! Data){
-                    debugPrint("были получены данные о остановке \(Date.now)")
-                    ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
-                    return
-                }
-                if let obj = try? MessagePackDecoder().decode(EverythingResponse.self, from: some1.first as! Data){
-                    debugPrint("были получены данные о всем транспорте на карте \(Date.now)")
-                    MapViewModel.shared.updateMapScreen(obj: obj)
-                    return
-                }
-                if let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: some1.first as! Data){
-                    debugPrint("был получен прогноз маршрута \(Date.now)")
-                    ShowTransportRouteViewModel.shared.updateRouteScreen(obj: obj)
-                    return
-                }
-                if let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: some1.first as! Data){
-                    debugPrint("был получен прогноз транспорта \(Date.now)")
-                    ShowTransportUnitViewModel.shared.updateTransportScreen(obj: obj)
-                    return
-                }
-                debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
-            }
-//        }
+        subscribeCliSerSubscribeToEvent()
+        
     }
     
     func establishConnection(){
-        // подписка на событие получения данных о прогнозе на конкретную остановку
-//        if(socket.status == .connected || socket.status == .connecting){
-//            return
-//        }
-        
         socket.connect()
         debugPrint("сокет-сервер - попытка подключения")
     }

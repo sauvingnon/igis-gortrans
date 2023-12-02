@@ -8,7 +8,12 @@
 import Foundation
 
 class ChooseTransportRouteViewModel {
-    static func configureView(type: TypeTransport){
+    static let shared = ChooseTransportRouteViewModel()
+    private init(){
+        
+    }
+    
+    func configureView(type: TypeTransport){
         ChooseTransportRouteModel.shared.numArray = DataBase.getArrayNumbersRoutes(type: type)
         
         // Заглушка от теплоходов

@@ -11,7 +11,7 @@ struct SettingsView: View {
     
     @Binding var navigationStack: [CurrentSettingsSelectionView]
     
-    @ObservedObject var configuration = SettingsConfiguration()
+    @ObservedObject var model = SettingsModel.shared
     
     @State private var scaleAbout = 1.0
     @State private var scaleHelp = 1.0
@@ -48,7 +48,7 @@ struct SettingsView: View {
                     
                 Spacer()
                 
-                Toggle(isOn: $configuration.showNotifications){
+                Toggle(isOn: $model.showNotifications){
                     
                 }
                 .padding(.trailing, 20)
@@ -70,7 +70,7 @@ struct SettingsView: View {
                     
                 Spacer()
                 
-                Toggle(isOn: $configuration.offlineMode){
+                Toggle(isOn: $model.offlineMode){
                     
                 }
                 .padding(.trailing, 20)
@@ -125,11 +125,6 @@ struct SettingsView: View {
         .background((LinearGradient(colors: [Color(red: 0.629, green: 0.803, blue: 1, opacity: 1), Color(red: 0.729, green: 0.856, blue: 1, opacity: 0.2)], startPoint: .topLeading, endPoint: .bottomTrailing)))
     }
     
-}
-
-class SettingsConfiguration: ObservableObject{
-    @Published var showNotifications = false
-    @Published var offlineMode = false
 }
     
 //struct SettingsView_Previews: PreviewProvider {

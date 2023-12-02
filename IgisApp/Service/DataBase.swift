@@ -45,6 +45,10 @@ class DataBase{
     
     private static var routes: [RouteStruct] = []
     
+    public static func getAllRoutes() -> [RouteStruct]{
+        return routes
+    }
+    
     public static func getTypeTransportFromId(routeId: Int) -> TypeTransport?{
         
         if let transport = routes.first(where: { item in
@@ -148,13 +152,13 @@ class DataBase{
         }
     }
     
+    // MARK: - Загрузка данных из json в память
     static func LoadJSON(){
         //        let queue = DispatchQueue.global(qos: .default)
         
         // Инициализация избранных раньше чем загрузка маршрутов в память!
         //        queue.async {
-        
-        // Функция для загрузки данных из json в статическую память
+        debugPrint("Загрузка json в память.")
         if let url = Bundle.main.url(forResource: "stop", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: url)

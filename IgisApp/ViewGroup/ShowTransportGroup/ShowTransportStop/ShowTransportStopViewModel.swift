@@ -23,6 +23,26 @@ class ShowTransportStopViewModel {
         }
     }
     
+    func favoriteStopTapped(){
+        if var favoritesArray = UserDefaults.standard.array(forKey: "FavoriteStops") as? [Int]{
+            if GeneralViewModel.isFavoriteStop(stopId: model.stopId){
+                favoritesArray.removeAll { item in
+                    item == model.stopId
+                }
+                model.isFavorite = false
+            }else{
+                favoritesArray.append(model.stopId)
+                model.isFavorite = true
+            }
+            favoritesArray.sort()
+            UserDefaults.standard.set(favoritesArray, forKey: "FavoriteStops")
+            
+        }else{
+            UserDefaults.standard.set([model.stopId], forKey: "FavoriteStops")
+        }
+        FavoritesRoutesAndStationsModel.shared.favoriteStops = GeneralViewModel.getFavoriteStopData()
+    }
+    
     func clearStationView(){
         DispatchQueue.main.async {
             self.model.opacity = 0
@@ -42,7 +62,7 @@ class ShowTransportStopViewModel {
                 
             }
             if let object = try? MessagePackEncoder().encode(StationRequest(stop_id: model.stopId)){
-                ServiceSocket.shared.subscribeOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
                 debugPrint("Запрос к серверу на получение прогноза остановки транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза остановки транспорта не отправлен.")
@@ -54,16 +74,20 @@ class ShowTransportStopViewModel {
         ShowStopOnlineModel.shared.stopId = stop_id
         ShowStopOnlineModel.shared.name = DataBase.getStopName(stopId: stop_id)
         ShowStopOnlineModel.shared.direction = DataBase.getStopDirection(stopId: stop_id)
-        ShowStopOnlineModel.shared.isFavorite = Model.isFavoriteStop(stopId: stop_id)
+        ShowStopOnlineModel.shared.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
-        getStationData()
+//        getStationData()
+    }
+    
+    func disconfigureView(){
+//        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
     }
     
     func updateStaionScreen(obj: StationResponse){
         if(!obj.data.citybus.isEmpty){
             var buses: [TransportWaiter] = []
             obj.data.citybus.forEach { item in
-                buses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName:  DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: Model.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                buses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName:  DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.buses = buses
@@ -73,7 +97,7 @@ class ShowTransportStopViewModel {
         if(!obj.data.suburbanbus.isEmpty){
             var countryBuses: [TransportWaiter] = []
             obj.data.suburbanbus.forEach { item in
-                countryBuses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: Model.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                countryBuses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.countryBuses = countryBuses
@@ -83,7 +107,7 @@ class ShowTransportStopViewModel {
         if(!obj.data.tram.isEmpty){
             var trains: [TransportWaiter] = []
             obj.data.tram.forEach { item in
-                trains.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: Model.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                trains.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.trains = trains
@@ -93,7 +117,7 @@ class ShowTransportStopViewModel {
         if(!obj.data.trolleybus.isEmpty){
             var trolleybuses: [TransportWaiter] = []
             obj.data.trolleybus.forEach { item in
-                trolleybuses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: item.finish.first?.stop.name ?? "--", time: Model.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? 0)))
+                trolleybuses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: item.finish.first?.stop.name ?? "--", time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? 0)))
             }
             DispatchQueue.main.async {
                 self.model.trolleybuses = trolleybuses
