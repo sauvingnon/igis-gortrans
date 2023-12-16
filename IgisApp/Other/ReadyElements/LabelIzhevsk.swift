@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct LabelIzhevsk: View {
+    
     @State var withBackButton: Bool
+    
     var handlerFunc: ()->()
+    
     var body: some View {
         Button(action: {
             handlerFunc()
@@ -33,7 +36,6 @@ struct LabelIzhevsk: View {
                         .foregroundColor(.white)
                         .fontWeight(.medium)
                 }
-                
             }
             .frame(width: UIScreen.screenWidth-40, height: 60, alignment: .leading)
             .background(Color.orange)
@@ -45,6 +47,5 @@ struct LabelIzhevsk: View {
 
 #Preview {
     LabelIzhevsk(withBackButton: true){
-        
     }
 }

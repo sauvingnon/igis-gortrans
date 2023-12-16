@@ -18,6 +18,10 @@ struct FindNearestStopsView: View {
     @ObservedObject private var model = FindNearestStopsModel.shared
     private let viewModel = FindNearestStopsViewModel.shared
     
+    var columns: [GridItem] = [
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
         VStack{
             LabelIzhevsk(withBackButton: true, handlerFunc: {
@@ -63,21 +67,21 @@ struct FindNearestStopsView: View {
                 .background(Color.blue)
                 .padding(.horizontal, 20)
                 
-                ForEach(model.stopsList) { item in
-                    GridRow{
-                        StopRowView(stop: item)
-                            .onTapGesture {
-                                ShowTransportStopViewModel.shared.configureView(stop_id: item.stop_id)
-                                navigationStack.append(.showStopOnline)
-                            }
+                LazyVGrid(columns: columns, alignment: .leading){
+                    ForEach(model.stopsList) { item in
+                        GridRow{
+                            StopRowView(stop: item)
+                        }
+                        .padding(.bottom, 10)
+                        .padding(.horizontal, 20)
+                        .onTapGesture {
+                            ShowTransportStopViewModel.shared.configureView(stop_id: item.stop_id)
+                            navigationStack.append(.showStopOnline)
+                        }
                     }
-                    .padding(.bottom, 10)
-                    .padding(.horizontal, 20)
                 }
                 
             }
-            
-            
             
             Spacer()
         }

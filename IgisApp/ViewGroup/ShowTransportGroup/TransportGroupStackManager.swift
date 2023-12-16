@@ -8,6 +8,12 @@
 import SwiftUI
 
 struct TransportGroupStackManager: View {
+    
+    static let shared = TransportGroupStackManager()
+    
+    private init(){
+        
+    }
 
     @State private var navigationStack = [CurrentTransportSelectionView]()
 
@@ -33,22 +39,52 @@ struct TransportGroupStackManager: View {
                     case .showStopOnline:
                         ShowTransportStopView(navigationStack: $navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .showTransportOnline:
+                    case .showTransportUnit:
                         ShowTransportUnitView(navigationStack: $navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .findNearestStops:
                         FindNearestStopsView(navigationStack: $navigationStack)
                             .navigationBarBackButtonHidden(true)
+                    case .QRScanner:
+                        ScannerView(navigationStack: $navigationStack)
+                            .navigationBarBackButtonHidden(true)
                     }
                 }
         }
     }
-
+    
+    func navigationStackWillAppear(){
+        if let lastView = navigationStack.last{
+            switch(lastView){
+            case .chooseRouteOrStation:
+                break
+            case .chooseTypeTransport:
+                break
+            case .chooseNumberTransport:
+                break
+            case .showRouteOnline:
+                ShowTransportRouteViewModel.shared.getRouteData()
+                break
+            case .selectStopView:
+                break
+            case .showStopOnline:
+                ShowTransportStopViewModel.shared.getStationData()
+                break
+            case .showTransportUnit:
+                ShowTransportUnitViewModel.shared.getTransportData()
+                break
+            case .findNearestStops:
+                break
+            case .QRScanner:
+                break
+            }
+        }
+    }
 }
 
 struct TransportGroupSelector_Preview: PreviewProvider {
     static var previews: some View {
-        TransportGroupStackManager()
+        TransportGroupStackManager.shared
     }
 }
 
@@ -59,7 +95,8 @@ enum CurrentTransportSelectionView{
     case showRouteOnline
     case selectStopView
     case showStopOnline
-    case showTransportOnline
+    case showTransportUnit
     case findNearestStops
+    case QRScanner
 }
 

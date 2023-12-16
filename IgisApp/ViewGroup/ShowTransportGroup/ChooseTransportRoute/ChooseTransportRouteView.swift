@@ -30,7 +30,7 @@ struct ChooseTransportRouteView: View {
             }
             
             ScrollView(.vertical, showsIndicators: false){
-                SomeTransport(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
+                TableOfRouteWithType(typeTransport: configuration.type, arrayNumbers: configuration.numArray, handlerFunc: chooseHandler(number:type:))
             }
             
             Spacer()

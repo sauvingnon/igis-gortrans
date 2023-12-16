@@ -17,13 +17,13 @@ class ShowTransportUnitModel: ObservableObject {
     
     @Published var opacity = 1.0
     @Published var showIndicator = false
+    @Published var transportUnitDescription = "-"
     var transportId = ""
     var data: [Station] = []
     var priceCash = 0
     var priceCard = 0
     var priceTransportCard = 0
     var routeNumber: String?
-    var transportNumber: String?
     var startStation: String?
     var endStation: String?
     var transportModel: String?

@@ -22,7 +22,7 @@ struct ShowFavoriteRouteView: View {
     
     var body: some View {
         VStack{
-            LabelSomeTransport(name: model.name, isFavorite: $model.isFavorite, backTapp: {
+            LabelOfStopOrRoute(name: model.name, isFavorite: $model.isFavorite, backTapp: {
                 dismiss()
             }, starTapp: {
                 viewModel.favoriteRouteTapped()
@@ -51,16 +51,19 @@ struct ShowFavoriteRouteView: View {
         }.onTapGesture {
             isMenuOpen = false
         }
+        .onAppear(){
+            viewModel.getRouteData()
+        }
     }
     
     func labelStopTapped(stopId: Int?){
-//        ShowTransportStopViewModel.shared.configureView(stop_id: stopId ?? 0)
-//        navigationStack.append(.showStopOnline)
+        ShowFavoriteStopViewModel.shared.configureView(stop_id: stopId ?? 0)
+        navigationStack.append(.showFavoriteStop)
     }
     
     func imageTransportTapped(transportId: String?){
-//        ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-//        navigationStack.append(.showTransportOnline)
+        ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
+        navigationStack.append(.showTransportUnit)
     }
     
 }

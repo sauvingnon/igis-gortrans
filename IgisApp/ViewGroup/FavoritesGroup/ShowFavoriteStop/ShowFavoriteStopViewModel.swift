@@ -1,25 +1,25 @@
 //
-//  ShowTransportStopViewModel.swift
+//  ShowFavoriteStopViewModel.swift
 //  IgisApp
 //
-//  Created by Гриша Шкробов on 15.11.2023.
+//  Created by Гриша Шкробов on 07.12.2023.
 //
 
 import Foundation
 import SwiftUI
 import MessagePacker
 
-class ShowTransportStopViewModel {
-    static let shared = ShowTransportStopViewModel()
+class ShowFavoriteStopViewModel{
+    static let shared = ShowFavoriteStopViewModel()
     private init(){
         
     }
     
-    private let model = ShowStopOnlineModel.shared
+    private let model = ShowFavoriteStopModel.shared
     
     func showData(){
         withAnimation{
-            ShowStopOnlineModel.shared.opacity = 1.0
+            ShowFavoriteStopModel.shared.opacity = 1.0
         }
     }
     
@@ -62,7 +62,7 @@ class ShowTransportStopViewModel {
                 
             }
             if let object = try? MessagePackEncoder().encode(StationRequest(stop_id: model.stopId)){
-                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, updateScreen: "ShowTransportStopView")
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, updateScreen: "ShowFavoriteStop")
                 debugPrint("Запрос к серверу на получение прогноза остановки транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза остановки транспорта не отправлен.")
@@ -71,10 +71,10 @@ class ShowTransportStopViewModel {
     }
     
     func configureView(stop_id: Int){
-        ShowStopOnlineModel.shared.stopId = stop_id
-        ShowStopOnlineModel.shared.name = DataBase.getStopName(stopId: stop_id)
-        ShowStopOnlineModel.shared.direction = DataBase.getStopDirection(stopId: stop_id)
-        ShowStopOnlineModel.shared.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
+        ShowFavoriteStopModel.shared.stopId = stop_id
+        ShowFavoriteStopModel.shared.name = DataBase.getStopName(stopId: stop_id)
+        ShowFavoriteStopModel.shared.direction = DataBase.getStopDirection(stopId: stop_id)
+        ShowFavoriteStopModel.shared.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
 //        getStationData()
     }

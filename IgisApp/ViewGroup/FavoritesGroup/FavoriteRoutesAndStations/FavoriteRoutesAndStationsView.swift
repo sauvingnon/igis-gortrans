@@ -42,7 +42,7 @@ struct FavoriteRoutesAndStationsView: View {
                             Spacer()
                         }
                         ForEach(model.favoriteRoutes){ item in
-                            SomeTransport(typeTransport: item.type, arrayNumbers: item.numbers, handlerFunc: favoriteRouteTapped(number:type:))
+                            TableOfRouteWithType(typeTransport: item.type, arrayNumbers: item.numbers, handlerFunc: favoriteRouteTapped(number:type:))
                         }
                     }
                     if(!model.favoriteStops.isEmpty){
@@ -56,8 +56,25 @@ struct FavoriteRoutesAndStationsView: View {
                                 .offset(x: 5)
                             Spacer()
                         }
+                        
+                        GeometryReader{ geometry in
+                            
+                        }
+                        .frame(height: 2)
+                        .background(Color.blue)
+                        .padding(.horizontal, 20)
+                        
                         ForEach(model.favoriteStops){ item in
-                            StopRowView(stop: StopItem(stop_id: item.stopId, typeTransportList: [], stopName: item.stopName, stopDirection: item.stopDirection))
+                            HStack{
+                                StopRowView(stop: StopItem(stop_id: item.stopId, typeTransportList: [], stopName: item.stopName, stopDirection: item.stopDirection))
+                                    .onTapGesture {
+                                        favoriteStopTapped(stopId: item.stopId)
+                                    }
+                                Spacer()
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 5)
+                            
                         }
                     }
                 }
@@ -75,6 +92,11 @@ struct FavoriteRoutesAndStationsView: View {
         ShowFavoriteRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
         
         navigationStack.append(.showFavoriteRoute)
+    }
+    
+    func favoriteStopTapped(stopId: Int){
+        ShowFavoriteStopViewModel.shared.configureView(stop_id: stopId)
+        navigationStack.append(.showFavoriteStop)
     }
     
 }

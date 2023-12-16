@@ -1,19 +1,19 @@
 //
-//  ShowStopOnline.swift
+//  FavoriteStopOnline.swift
 //  IgisApp
 //
-//  Created by Гриша Шкробов on 27.04.2023.
+//  Created by Гриша Шкробов on 25.02.2023.
 //
 
 import SwiftUI
 
-struct ShowTransportStopView: View {
+struct ShowFavoriteStopView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: [CurrentFavoritesSelectionView]
     
-    @ObservedObject var model = ShowStopOnlineModel.shared
-    private let viewModel = ShowTransportStopViewModel.shared
+    @ObservedObject var model = ShowFavoriteStopModel.shared
+    private let viewModel = ShowFavoriteStopViewModel.shared
     
     @State private var sizeStar = 1.0
     
@@ -102,65 +102,10 @@ struct ShowTransportStopView: View {
             viewModel.getStationData()
         }
     }
-    
 }
 
-struct TransportWaiter: View, Identifiable, Equatable {
-    let id = UUID()
-    let transportNumber: String
-    let endStationName: String
-    let time: String
-    var isLastSection = false
-    var isFirstSection = false
-    var body: some View{
-        VStack{
-            
-            if(isFirstSection){
-                GeometryReader{_ in
-                    
-                }
-                .frame(width: UIScreen.screenWidth-40, height: 1)
-                .background(Color.white.opacity(0))
-            }
-            
-            HStack{
-                Text(transportNumber)
-                    .font(.title)
-                    .foregroundColor(.blue)
-                Spacer()
-                Text(endStationName)
-                    .foregroundColor(.black.opacity(0.6))
-                    .kerning(2)
-                Spacer()
-                Text(time)
-                    .font(.title)
-                    .foregroundColor(.black.opacity(0.6))
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 1)
-            
-            if(isLastSection){
-                GeometryReader{_ in
-                    
-                }
-                .frame(width: UIScreen.screenWidth-40, height: 1)
-                .background(Color.black.opacity(0))
-            }else{
-                GeometryReader{_ in
-                    
-                }
-                .frame(width: UIScreen.screenWidth-40, height: 1)
-                .background(Color.black.opacity(0.6))
-            }
-            
-            
-            
-        }
-    }
-}
-
-//struct ShowStopOnline_Previews: PreviewProvider {
+//struct FavoriteStopOnline_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ShowStopOnline()
+//        FavoriteStopOnline()
 //    }
 //}

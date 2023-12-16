@@ -1,17 +1,17 @@
 //
-//  ShowTransportOnline.swift
+//  ShowFavoriteUnitView.swift
 //  IgisApp
 //
-//  Created by Гриша Шкробов on 20.06.2023.
+//  Created by Гриша Шкробов on 15.12.2023.
 //
 
 import SwiftUI
 import MapKit
 
-struct ShowTransportUnitView: View {
+struct ShowFavoriteUnitView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: [CurrentFavoritesSelectionView]
     
     @ObservedObject var model = ShowTransportUnitModel.shared
     private let viewModel = ShowTransportUnitViewModel.shared
@@ -236,8 +236,6 @@ struct ShowTransportUnitView: View {
     }
 }
 
-//struct ShowTransportOnline_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ShowTransportOnline()
-//    }
+//#Preview {
+//    ShowFavoriteUnitView()
 //}

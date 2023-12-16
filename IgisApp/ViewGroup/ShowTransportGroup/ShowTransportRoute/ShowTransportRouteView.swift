@@ -22,7 +22,7 @@ struct ShowTransportRouteView: View {
     var body: some View {
         ZStack{
             VStack{
-                LabelSomeTransport(name: model.name, isFavorite: $model.isFavorite, backTapp: {
+                LabelOfStopOrRoute(name: model.name, isFavorite: $model.isFavorite, backTapp: {
                     dismiss()
                 }, starTapp: {
                     viewModel.favoriteRouteTapped()
@@ -69,7 +69,7 @@ struct ShowTransportRouteView: View {
     
     func imageTransportTapped(transportId: String?){
         ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-        navigationStack.append(.showTransportOnline)
+        navigationStack.append(.showTransportUnit)
     }
     
     func showAlert(){

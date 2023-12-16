@@ -22,6 +22,17 @@ class AppTabBarViewModel{
         }
     }
     
+    func onChangeTab(oldTab: TabType, newTab: TabType){
+        if(oldTab != newTab){
+            if(newTab == .home){
+                TransportGroupStackManager.shared.navigationStackWillAppear()
+            }
+            if(newTab == .favourites){
+                FavoritesGroupStackManager.shared.navigationStackWillAppear()
+            }
+        }
+    }
+    
     func changeStatus(isConnected: ConnectionStatus){
         DispatchQueue.main.async {
             if(isConnected == .notConnected){

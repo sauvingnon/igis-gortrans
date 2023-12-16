@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SomeTransport: View {
+struct TableOfRouteWithType: View {
     @State var typeTransport: TypeTransport
     @State var arrayNumbers: [String]
     var handlerFunc: (String, TypeTransport) -> ()
@@ -40,8 +40,8 @@ struct SomeTransport: View {
     }
 }
 
-#Preview {
-    SomeTransport(typeTransport: .bus, arrayNumbers: ["25","22","36"], handlerFunc: { _, _ in
-        
-    })
-}
+//#Preview {
+//    SomeTransport(typeTransport: .bus, arrayNumbers: ["25","22","36"], handlerFunc: { _, _ in
+//
+//    })
+//}

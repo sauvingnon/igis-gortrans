@@ -14,6 +14,22 @@ class GeneralViewModel{
 
     static var userTrace = ""
     
+    private static var alertAlreadyShow = false
+    
+    static func showAlertBadResponse(){
+        if(alertAlreadyShow){
+            return
+        }
+        DispatchQueue.main.async {
+            AppTabBarViewModel.shared.showAlert(title: "Ошибка", message: "Нет данных")
+            self.alertAlreadyShow = true
+        }
+    }
+    
+    static func uncheckAlertAlreadyShow(){
+        alertAlreadyShow = false
+    }
+    
     static func checkConnection(){
         let queue = DispatchQueue.global(qos: .default)
         var isOnline = false
@@ -101,6 +117,19 @@ class GeneralViewModel{
         }
     }
     
+    
+    static func setAttributedStringFromHTML(htmlText: String) -> String? {
+        let htmlData = NSString(string: htmlText).data(using: String.Encoding.unicode.rawValue)
+        let options = [NSAttributedString.DocumentReadingOptionKey.documentType:
+                NSAttributedString.DocumentType.html]
+        let attributedString = try? NSMutableAttributedString(data: htmlData ?? Data(),
+                                                                  options: options,
+                                                                  documentAttributes: nil)
+        
+        return attributedString?.string
+    }
+    
+    
     static func getFavoriteRouteData() -> [FavoritesRoutesAndStationsModel.FavoriteRoute]{
         var favorites: [FavoritesRoutesAndStationsModel.FavoriteRoute] = []
         favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .trolleybus, numbers: []))
@@ -162,6 +191,22 @@ class GeneralViewModel{
             return "bus.fill"
         default:
             return ""
+        }
+    }
+    
+    static func getTransportTypeFromString(transport_type: String) -> TypeTransport {
+        switch(transport_type){
+        case "citybus":
+            return .bus
+        case "tram":
+            return .train
+        case "trolleybus":
+            return .trolleybus
+        case "suburbanbus":
+            return .countrybus
+        default:
+            debugPrint("Ошибка распознавания типа транспорта.")
+            return .bus
         }
     }
     

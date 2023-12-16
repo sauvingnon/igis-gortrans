@@ -18,11 +18,11 @@ class ShowTransportUnitViewModel{
     private let model = ShowTransportUnitModel.shared
     
     func showData(){
-        model.showIndicator = false
+        self.model.showIndicator = false
         withAnimation{
-            model.opacity = 1
+            self.model.opacity = 1
         }
-        model.objectWillChange.send()
+        self.model.objectWillChange.send()
     }
     
     func disconfigureView(){
@@ -31,12 +31,13 @@ class ShowTransportUnitViewModel{
     
     func getTransportData(){
         let queue = DispatchQueue.global(qos: .default)
-        queue.sync {
-            model.opacity = 0
-            while(ServiceSocket.status != .connected){
-                
+        queue.async {
+            if(ServiceSocket.status != .connected){
+                self.model.opacity = 0
             }
-            if let object = try? MessagePackEncoder().encode(TransportRequest(transportId: model.transportId)){
+            while(ServiceSocket.status != .connected){
+            }
+            if let object = try? MessagePackEncoder().encode(TransportRequest(transportId: self.model.transportId)){
                 ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
                 debugPrint("Запрос к серверу на получение прогноза юнита транспорта.")
             }else{
@@ -49,13 +50,15 @@ class ShowTransportUnitViewModel{
         if(transportId == nil){
             return
         }
+        
+        model.showIndicator = true
+        model.opacity = 0
         self.model.transportId = transportId!
-//        self.getTransportData()
+        self.model.transportUnitDescription = "-"
     }
     
     func updateTransportScreen(obj: TransportResponse) {
         DispatchQueue.main.async {
-
             self.model.data.removeAll()
            
             var firstStationState = false
@@ -65,19 +68,18 @@ class ShowTransportUnitViewModel{
                     stationState = .someStation
                 }else{
                     if(firstStationState){
-                        stationState = .startStation
-                    }else{
                         stationState = .endStation
+                    }else{
+                        stationState = .startStation
                         firstStationState = true
                     }
                 }
                 self.model.data.append(Station(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "5 мин"))
                 
             }
-            self.model.data.reverse()
             
-            self.model.endStation = DataBase.getStopName(stopId: obj.data.ts_stops.first?.id ?? 0)
-            self.model.startStation = DataBase.getStopName(stopId: obj.data.ts_stops.last?.id ?? 0)
+            self.model.startStation = DataBase.getStopName(stopId: obj.data.ts_stops.first?.id ?? 0)
+            self.model.endStation = DataBase.getStopName(stopId: obj.data.ts_stops.last?.id ?? 0)
             
             self.model.locations.removeAll()
             
@@ -94,13 +96,28 @@ class ShowTransportUnitViewModel{
             
             self.model.timeWord = obj.data.time_reys
             
-            self.model.transportNumber = obj.data.gosnumber
+            let type = GeneralViewModel.getTransportTypeFromString(transport_type: obj.data.ts_type)
             
-            DispatchQueue.main.async {
-                self.showData()
-            }
+            let typeString = self.getName(type: type)
+            
+            self.model.transportUnitDescription = "\(typeString) \(obj.data.gosnumber)"
+            
+            self.showData()
+            
         }
         
-            
+    }
+    
+    private func getName(type: TypeTransport) -> String {
+        switch type {
+        case .bus:
+            return "АВТОБУС"
+        case .train:
+            return "ТРАМВАЙ"
+        case .trolleybus:
+            return "ТРОЛЛЕЙБУС"
+        case .countrybus:
+            return "АВТОБУС"
+        }
     }
 }

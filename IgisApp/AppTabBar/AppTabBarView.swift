@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AppTabBarView: View {
     
-    @State private var selection: TabType = .home
+    @State var selection: TabType = .home
     @ObservedObject private var model = AppTabBarModel.shared
     
     init(){
@@ -20,13 +20,13 @@ struct AppTabBarView: View {
         VStack{
             ZStack{
                 CustomTabBarContainerView(selection: $selection){
-                    TransportGroupStackManager()
+                    TransportGroupStackManager.shared
                         .tabBarTab(tab: .home, selection: $selection)
                     NotificationsView()
                         .tabBarTab(tab: .alerts, selection: $selection)
                     MapView()
                         .tabBarTab(tab: .map, selection: $selection)
-                    FavoritesGroupStackManager()
+                    FavoritesGroupStackManager.shared
                         .tabBarTab(tab: .favourites, selection: $selection)
                     SettingsGroupStackManager()
                         .tabBarTab(tab: .settings, selection: $selection)

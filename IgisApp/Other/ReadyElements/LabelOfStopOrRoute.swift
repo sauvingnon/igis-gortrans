@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct LabelSomeTransport: View {
+struct LabelOfStopOrRoute: View {
     @State var name: String
     @Binding var isFavorite: Bool
     @State private var sizeStar = 1.0

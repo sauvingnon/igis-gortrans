@@ -42,7 +42,9 @@ struct CustomTabBar_Previews: PreviewProvider {
 extension CustomTabBar{
     private func CustomizeTabItem(tab: TabType) -> some View{
         Button {
+            AppTabBarViewModel.shared.onChangeTab(oldTab: selectedTab, newTab: tab)
             selectedTab = tab
+            
         } label: {
             VStack(alignment: .center, spacing: 4){
                 Image(selectedTab == tab ? tab.rawValue + "_selected" : tab.rawValue)

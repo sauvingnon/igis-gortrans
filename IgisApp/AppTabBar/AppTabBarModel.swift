@@ -21,6 +21,7 @@ class AppTabBarModel: ObservableObject{
     @Published var textStatus = "Ожидание подключения"
     @Published var alertIsPresented = false
     var alert: CustomAlert?
+    
 }
 
 enum ConnectionStatus{

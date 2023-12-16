@@ -71,7 +71,13 @@ class ShowFavoriteRouteViewModel {
         
         if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !alertAlreadyPresented){
             debugPrint("статус маршрута не рабочий - \(obj.data.notwork.code)")
-            AppTabBarViewModel.shared.showAlert(title: obj.data.notwork.code, message: "Маршрут не работает.")
+            if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description){
+                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "\(description) - (\(obj.data.notwork.code))")
+            }else{
+                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "Код причины - (\(obj.data.notwork.code))")
+                debugPrint("Не удалось раскодировать html строку!")
+            }
+            
             alertAlreadyPresented = true
             return
         }

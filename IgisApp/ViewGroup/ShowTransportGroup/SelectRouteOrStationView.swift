@@ -92,6 +92,20 @@ struct SelectRouteOrStationView: View {
                         .foregroundColor(.white)
                         .fontWeight(.medium)
                 })
+                
+                Button(action: {
+                    navigationStack.append(.QRScanner)
+                }, label: {
+                    Text("Сканировать QR")
+                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
+                        .background(Color.gray)
+                        .clipShape(Rectangle())
+                        .cornerRadius(10)
+                        .font(.system(size: 25))
+                        .foregroundColor(.white)
+                        .fontWeight(.medium)
+                        .padding(.top, 20)
+                })
             }
             Spacer()
         }

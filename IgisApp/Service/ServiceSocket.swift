@@ -59,8 +59,13 @@ class ServiceSocket{
             queue.async {
             // Поочередно пробуем распарсить объект, чтобы понять к какому экрану он относится
                 if let obj = try? MessagePackDecoder().decode(StationResponse.self, from: some1.first as! Data){
-                    debugPrint("были получены данные о остановке \(Date.now)")
-                    ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
+                    if(self.currentUpdateScreen == "ShowFavoriteStop"){
+                        debugPrint("были получены данные о избранной остановке \(Date.now)")
+                        ShowFavoriteStopViewModel.shared.updateStaionScreen(obj: obj)
+                    }else{
+                        debugPrint("были получены данные о остановке \(Date.now)")
+                        ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
+                    }
                     return
                 }
                 if let obj = try? MessagePackDecoder().decode(EverythingResponse.self, from: some1.first as! Data){
@@ -83,6 +88,11 @@ class ServiceSocket{
                     ShowTransportUnitViewModel.shared.updateTransportScreen(obj: obj)
                     return
                 }
+                if (try? MessagePackDecoder().decode(EmptryResponse.self, from: some1.first as! Data)) != nil{
+                    debugPrint("был получен пустой ответ \(Date.now)")
+                    GeneralViewModel.showAlertBadResponse()
+                    return
+                }
                 debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
             }
         }
@@ -90,6 +100,7 @@ class ServiceSocket{
     
     // MARK: - Подписка на событие.
     func emitOn(event: String, items: SocketData, updateScreen: String? = nil){
+        GeneralViewModel.uncheckAlertAlreadyShow()
         if let screen = updateScreen{
             self.currentUpdateScreen = screen
         }
@@ -208,7 +219,12 @@ struct TransportResponse: Codable {
             let name: String
 //            let prediction: Array<String?>
         }
+        let ts_type: String
     }
+}
+
+struct EmptryResponse: Codable {
+    let code: String
 }
 
 struct RouteResponse: Codable {
