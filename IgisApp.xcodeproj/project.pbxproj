@@ -10,6 +10,8 @@
 		F3007DD02B21F66B007CFC70 /* ShowFavoriteStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3007DCF2B21F66B007CFC70 /* ShowFavoriteStopViewModel.swift */; };
 		F3007DD22B21F67D007CFC70 /* ShowFavoriteStopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3007DD12B21F67D007CFC70 /* ShowFavoriteStopModel.swift */; };
 		F30BC48A29A2C79000406D00 /* SelectStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30BC48929A2C79000406D00 /* SelectStopView.swift */; };
+		F30FB5D22B62D30D0083114E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FB5D12B62D30D0083114E /* Extensions.swift */; };
+		F30FB5D42B62D39C0083114E /* CustomNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FB5D32B62D39C0083114E /* CustomNavigationStack.swift */; };
 		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
 		F31E23642B0AA63E008BDFD7 /* AppTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */; };
 		F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */; };
@@ -42,6 +44,7 @@
 		F3451FC329ADDF5B008ECCF2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FC229ADDF5B008ECCF2 /* MapView.swift */; };
 		F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */; };
 		F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27329A1044000AFFAA1 /* HashableClass.swift */; };
+		F34DB4082B5808C600718B3B /* ViewDismissable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34DB4072B5808C600718B3B /* ViewDismissable.swift */; };
 		F35B5E682B04EDF000E82998 /* ShowTransportUnitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E672B04EDF000E82998 /* ShowTransportUnitModel.swift */; };
 		F35B5E6A2B04EECB00E82998 /* ShowTransportUnitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E692B04EECB00E82998 /* ShowTransportUnitViewModel.swift */; };
 		F35B5E6D2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E6C2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift */; };
@@ -107,6 +110,8 @@
 		F3007DCF2B21F66B007CFC70 /* ShowFavoriteStopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteStopViewModel.swift; sourceTree = "<group>"; };
 		F3007DD12B21F67D007CFC70 /* ShowFavoriteStopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavoriteStopModel.swift; sourceTree = "<group>"; };
 		F30BC48929A2C79000406D00 /* SelectStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopView.swift; sourceTree = "<group>"; };
+		F30FB5D12B62D30D0083114E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F30FB5D32B62D39C0083114E /* CustomNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationStack.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 		F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarViewModel.swift; sourceTree = "<group>"; };
 		F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarModel.swift; sourceTree = "<group>"; };
@@ -139,6 +144,7 @@
 		F3451FC229ADDF5B008ECCF2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		F348F27329A1044000AFFAA1 /* HashableClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashableClass.swift; sourceTree = "<group>"; };
+		F34DB4072B5808C600718B3B /* ViewDismissable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDismissable.swift; sourceTree = "<group>"; };
 		F35B5E672B04EDF000E82998 /* ShowTransportUnitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportUnitModel.swift; sourceTree = "<group>"; };
 		F35B5E692B04EECB00E82998 /* ShowTransportUnitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportUnitViewModel.swift; sourceTree = "<group>"; };
 		F35B5E6C2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportRouteViewModel.swift; sourceTree = "<group>"; };
@@ -333,10 +339,12 @@
 		F348F27229A1042F00AFFAA1 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				F36152852B0B522600A77C45 /* ReadyElements */,
+				F36152852B0B522600A77C45 /* UIElements */,
 				F3B369E92A9E66F800859086 /* Errors.swift */,
 				F348F27329A1044000AFFAA1 /* HashableClass.swift */,
+				F34DB4072B5808C600718B3B /* ViewDismissable.swift */,
 				F3F6ADB029D383F700D74D32 /* Vibration.swift */,
+				F30FB5D32B62D39C0083114E /* CustomNavigationStack.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -381,16 +389,17 @@
 			path = ShowTransportStop;
 			sourceTree = "<group>";
 		};
-		F36152852B0B522600A77C45 /* ReadyElements */ = {
+		F36152852B0B522600A77C45 /* UIElements */ = {
 			isa = PBXGroup;
 			children = (
 				F3D7DFF029942C2B0059B4C4 /* ReadyElements.swift */,
 				F36152862B0B525B00A77C45 /* LabelOfStopOrRoute.swift */,
 				F361528F2B0B7B3000A77C45 /* TableOfRouteWithType.swift */,
+				F30FB5D12B62D30D0083114E /* Extensions.swift */,
 				F337E4242B2CE60300D4C2AA /* LabelOfTransportUnit.swift */,
 				F36152882B0B551700A77C45 /* LabelIzhevsk.swift */,
 			);
-			path = ReadyElements;
+			path = UIElements;
 			sourceTree = "<group>";
 		};
 		F361528A2B0B5D5400A77C45 /* FavoriteRoutesAndStations */ = {
@@ -666,6 +675,7 @@
 				F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */,
 				F3007DD22B21F67D007CFC70 /* ShowFavoriteStopModel.swift in Sources */,
 				F35B5E6D2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift in Sources */,
+				F34DB4082B5808C600718B3B /* ViewDismissable.swift in Sources */,
 				F362C8D429AA32260019B28C /* ShowFavoriteStopView.swift in Sources */,
 				F3B75E7B2B1B431A00FD6524 /* FindNearestStopsModel.swift in Sources */,
 				F32013C72B28513400A8727A /* ScannerView.swift in Sources */,
@@ -714,6 +724,7 @@
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */,
 				F35B5E722B04F51B00E82998 /* ChooseTransportRouteViewModel.swift in Sources */,
+				F30FB5D42B62D39C0083114E /* CustomNavigationStack.swift in Sources */,
 				F35B5E6A2B04EECB00E82998 /* ShowTransportUnitViewModel.swift in Sources */,
 				F361528E2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift in Sources */,
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
@@ -733,6 +744,7 @@
 				F3993E6029A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift in Sources */,
 				F36152962B0B7E2D00A77C45 /* ShowFavoriteRouteModel.swift in Sources */,
 				F3F67DD62A27D0DE00165BB2 /* MapViewModel.swift in Sources */,
+				F30FB5D22B62D30D0083114E /* Extensions.swift in Sources */,
 				F3F60803292E26810009E684 /* TransportGroupStackManager.swift in Sources */,
 				F3451FBF29ADD53C008ECCF2 /* ChatView.swift in Sources */,
 				F3F607ED292E242E0009E684 /* IgisAppApp.swift in Sources */,
@@ -887,7 +899,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.EducationProjects.IgisApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.IzhinformProject.IgisApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -928,7 +940,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.EducationProjects.IgisApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.IzhinformProject.IgisApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

@@ -22,14 +22,20 @@ class AppTabBarViewModel{
         }
     }
     
-    func onChangeTab(oldTab: TabType, newTab: TabType){
-        if(oldTab != newTab){
-            if(newTab == .home){
-                TransportGroupStackManager.shared.navigationStackWillAppear()
-            }
-            if(newTab == .favourites){
-                FavoritesGroupStackManager.shared.navigationStackWillAppear()
-            }
+    // Ранее выбранный элемент таб-бара был нажат повторно.
+    func onDoubleSelectTab(tab: TabType){
+        switch(tab){
+        case .home:
+            TransportGroupStackManager.shared.clearNavigationStack()
+            break
+        case .alerts:
+            break
+        case .map:
+            break
+        case .favourites:
+            break
+        case .settings:
+            break
         }
     }
     

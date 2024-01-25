@@ -12,7 +12,7 @@ struct AnswersView: View {
     @ObservedObject var model = SettingsModel.shared
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State var scaleBack = 1.0
     var body: some View {

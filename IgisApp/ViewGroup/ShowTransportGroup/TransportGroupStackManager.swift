@@ -11,74 +11,56 @@ struct TransportGroupStackManager: View {
     
     static let shared = TransportGroupStackManager()
     
+    @ObservedObject private var model = TransportGroupStackManagerModel()
+    
     private init(){
-        
     }
-
-    @State private var navigationStack = [CurrentTransportSelectionView]()
-
+    
+    private class TransportGroupStackManagerModel: ObservableObject {
+        @Published var navigationStack = NavigationPath([CurrentTransportSelectionView]())
+    }
+    
     var body: some View {
-        NavigationStack(path: $navigationStack){
-            SelectRouteOrStationView(navigationStack: $navigationStack)
+        CustomNavigationStack(path: $model.navigationStack){
+            SelectRouteOrStationView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
                     case .chooseRouteOrStation:
-                        SelectRouteOrStationView(navigationStack: $navigationStack)
+                        SelectRouteOrStationView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
                     case .chooseTypeTransport:
-                        SelectTransportType(navigationStack: $navigationStack)
+                        SelectTransportType(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .chooseNumberTransport:
-                        ChooseTransportRouteView(navigationStack: $navigationStack)
+                        ChooseTransportRouteView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showRouteOnline:
-                        ShowTransportRouteView(navigationStack: $navigationStack)
+                        ShowTransportRouteView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .selectStopView:
-                        SelectStopView(navigationStack: $navigationStack)
+                        SelectStopView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showStopOnline:
-                        ShowTransportStopView(navigationStack: $navigationStack)
+                        ShowTransportStopView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showTransportUnit:
-                        ShowTransportUnitView(navigationStack: $navigationStack)
+                        ShowTransportUnitView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .findNearestStops:
-                        FindNearestStopsView(navigationStack: $navigationStack)
+                        FindNearestStopsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .QRScanner:
-                        ScannerView(navigationStack: $navigationStack)
+                        ScannerView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
+                .navigationBarBackButtonHidden(true)
         }
     }
     
-    func navigationStackWillAppear(){
-        if let lastView = navigationStack.last{
-            switch(lastView){
-            case .chooseRouteOrStation:
-                break
-            case .chooseTypeTransport:
-                break
-            case .chooseNumberTransport:
-                break
-            case .showRouteOnline:
-                ShowTransportRouteViewModel.shared.getRouteData()
-                break
-            case .selectStopView:
-                break
-            case .showStopOnline:
-                ShowTransportStopViewModel.shared.getStationData()
-                break
-            case .showTransportUnit:
-                ShowTransportUnitViewModel.shared.getTransportData()
-                break
-            case .findNearestStops:
-                break
-            case .QRScanner:
-                break
-            }
-        }
+    // Очистка навигационного стека
+    public func clearNavigationStack(){
+        model.navigationStack.removeLast(model.navigationStack.count-1)
     }
 }
 

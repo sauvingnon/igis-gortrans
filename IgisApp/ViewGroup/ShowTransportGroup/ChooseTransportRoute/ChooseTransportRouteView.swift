@@ -10,7 +10,7 @@ import SwiftUI
 struct ChooseTransportRouteView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @ObservedObject var configuration = ChooseTransportRouteModel.shared
     
@@ -45,7 +45,7 @@ struct ChooseTransportRouteView: View {
     func chooseHandler(number: String, type: TypeTransport){
         let routeId = DataBase.getRouteId(type: type, number: number)
         ShowTransportRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
-        navigationStack.append(.showRouteOnline)
+        navigationStack.append(CurrentTransportSelectionView.showRouteOnline)
     }
     
 }

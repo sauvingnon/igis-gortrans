@@ -11,7 +11,7 @@ import AVKit
 struct ScannerView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State private var isScanning: Bool = false
     @State private var session: AVCaptureSession = .init()
@@ -133,7 +133,7 @@ struct ScannerView: View {
             
             if let transportId = scanText.components(separatedBy: "/").last{
                 ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-                navigationStack.append(.showTransportUnit)
+                navigationStack.append(CurrentTransportSelectionView.showTransportUnit)
             }else{
                 presentError ("QR-код не валидный.")
             }
@@ -142,7 +142,7 @@ struct ScannerView: View {
             
             if let transportId = scanText.components(separatedBy: "/").last{
                 ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-                navigationStack.append(.showTransportUnit)
+                navigationStack.append(CurrentTransportSelectionView.showTransportUnit)
             }else{
                 presentError("QR-код не валидный.")
             }

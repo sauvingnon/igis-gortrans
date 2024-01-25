@@ -10,7 +10,7 @@ import SwiftUI
 struct AboutAppView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State var scale = 1.0
     var body: some View {

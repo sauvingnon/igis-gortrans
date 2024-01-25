@@ -14,7 +14,7 @@ struct ShowTransportRouteView: View {
     @State private var currentDate = Date()
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @ObservedObject private var model = ShowTransportRouteModel.shared
     private let viewModel = ShowTransportRouteViewModel.shared
@@ -64,12 +64,12 @@ struct ShowTransportRouteView: View {
     
     func labelStopTapped(stopId: Int?){
         ShowTransportStopViewModel.shared.configureView(stop_id: stopId ?? 0)
-        navigationStack.append(.showStopOnline)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
     }
     
     func imageTransportTapped(transportId: String?){
         ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-        navigationStack.append(.showTransportUnit)
+        navigationStack.append(CurrentTransportSelectionView.showTransportUnit)
     }
     
     func showAlert(){

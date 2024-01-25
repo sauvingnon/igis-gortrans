@@ -13,7 +13,7 @@ struct TableOfRouteWithType: View {
     var handlerFunc: (String, TypeTransport) -> ()
     var body: some View {
         VStack{
-            labelTypeTransport(typeTransport: typeTransport)
+            LabelTypeTransport(typeTransport: typeTransport)
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible()),

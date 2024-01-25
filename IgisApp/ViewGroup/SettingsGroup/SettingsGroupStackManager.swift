@@ -9,10 +9,11 @@ import SwiftUI
 
 struct SettingsGroupStackManager: View {
     
-    @State private var navigationStack = [CurrentSettingsSelectionView]()
+    @State private var navigationStack = NavigationPath([CurrentSettingsSelectionView]())
 
     var body: some View {
-        NavigationStack(path: $navigationStack){
+        
+        CustomNavigationStack(path: $navigationStack){
             SettingsView(navigationStack: $navigationStack)
                 .navigationDestination(for: CurrentSettingsSelectionView.self){ selectionView in
                     switch(selectionView){
@@ -36,6 +37,7 @@ struct SettingsGroupStackManager: View {
                     }
                 }
         }
+
     }
 }
 

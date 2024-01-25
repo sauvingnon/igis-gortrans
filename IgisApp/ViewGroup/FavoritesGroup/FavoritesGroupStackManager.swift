@@ -37,24 +37,6 @@ struct FavoritesGroupStackManager: View {
                 }
         }
     }
-    
-    func navigationStackWillAppear(){
-        if let lastView = navigationStack.last{
-            switch(lastView){
-            case .favoriteRoutesAndStations:
-                break
-            case .showFavoriteStop:
-                ShowFavoriteStopViewModel.shared.getStationData()
-                break
-            case .showFavoriteRoute:
-                ShowFavoriteRouteViewModel.shared.getRouteData()
-                break
-            case .showTransportUnit:
-                ShowTransportUnitViewModel.shared.getTransportData()
-                break
-            }
-        }
-    }
 }
 
 struct FavoritesGroupSelector_Previews: PreviewProvider {

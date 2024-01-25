@@ -10,7 +10,7 @@ import SwiftUI
 struct FeedBackView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State var email: String = ""
     @State var feedBack: String = ""

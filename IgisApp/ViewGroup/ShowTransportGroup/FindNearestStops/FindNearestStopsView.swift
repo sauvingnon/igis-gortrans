@@ -11,7 +11,7 @@ import MapKit
 struct FindNearestStopsView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State var mode = MapUserTrackingMode.follow
     
@@ -76,7 +76,7 @@ struct FindNearestStopsView: View {
                         .padding(.horizontal, 20)
                         .onTapGesture {
                             ShowTransportStopViewModel.shared.configureView(stop_id: item.stop_id)
-                            navigationStack.append(.showStopOnline)
+                            navigationStack.append(CurrentTransportSelectionView.showStopOnline)
                         }
                     }
                 }
@@ -96,7 +96,7 @@ struct FindNearestStopsView: View {
 
 struct FindNearestStops_Preview: PreviewProvider {
     
-    @State static var stack: [CurrentTransportSelectionView] = [.findNearestStops]
+    @State static var stack = NavigationPath([CurrentTransportSelectionView]())
     
     static var previews: some View {
         FindNearestStopsView(navigationStack: $stack)

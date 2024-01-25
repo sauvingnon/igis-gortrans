@@ -10,12 +10,13 @@ import SwiftUI
 struct QuestionsView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State var scaleBack = 1.0
     @State var scaleButton1 = 1.0
     @State var scaleButton2 = 1.0
     @State var scaleButton3 = 1.0
+    
     var body: some View {
         VStack{
             HStack(alignment: .top){
@@ -58,7 +59,7 @@ struct QuestionsView: View {
                         scaleButton1 = 1.0
                     }
                     SettingsModel.setTitleDescription(title: DataBase.title3, description: DataBase.description3)
-                    navigationStack.append(.answers)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
                 }
                 .scaleEffect(scaleButton1)
             questionButton(text: DataBase.title2)
@@ -68,7 +69,7 @@ struct QuestionsView: View {
                         scaleButton2 = 1.0
                     }
                     SettingsModel.setTitleDescription(title: DataBase.title2, description: DataBase.description2)
-                    navigationStack.append(.answers)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
                 }
                 .scaleEffect(scaleButton2)
             questionButton(text: DataBase.title1)
@@ -78,7 +79,7 @@ struct QuestionsView: View {
                         scaleButton3 = 1.0
                     }
                     SettingsModel.setTitleDescription(title: DataBase.title1, description: DataBase.description1)
-                    navigationStack.append(.answers)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
                 }
                 .scaleEffect(scaleButton3)
             

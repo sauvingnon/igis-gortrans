@@ -10,10 +10,9 @@ import SwiftUI
 struct ChooseIconView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @State private var scale = 1.0
-    //    @State private var showingAlert = false
     @State private var iconNames = ["OtherIcon_1", "OtherIcon_2", "OtherIcon_3", "MainIcon"]
     
     var body: some View {
@@ -48,16 +47,11 @@ struct ChooseIconView: View {
                     ForEach(iconNames, id: \.self){ name in
                         Button(action: {
                             changeIcon(to: name)
-                            //                            showingAlert.toggle()
                         }){
                             Image(name)
                                 .resizable()
                                 .frame(maxWidth: 100, maxHeight: 100)
                         }
-                        //                        .alert("Успешно!", isPresented: $showingAlert) {
-                        //                            Button("OK", role: .cancel) { }
-                        //                        }
-                        
                     }
                 }.padding(.horizontal, 20)
             }

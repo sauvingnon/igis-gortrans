@@ -28,7 +28,9 @@ class SelectStopViewModel{
         
         stops.forEach { stopItem in
             
-            model.stopsList.append(StopItem(stop_id: stopItem.stop_id, typeTransportList: [.bus, .train, .trolleybus], stopName: stopItem.stop_name ?? "ошибка", stopDirection: stopItem.stop_direction ?? "ошибка"))
+            let stopsType = DataBase.getTypesTransportForStop(stopId: stopItem.stop_id)
+            
+            model.stopsList.append(StopItem(stop_id: stopItem.stop_id, typeTransportList: stopsType, stopName: stopItem.stop_name ?? "ошибка", stopDirection: stopItem.stop_direction ?? "ошибка"))
         }
         
     }

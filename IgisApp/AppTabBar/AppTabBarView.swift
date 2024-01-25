@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AppTabBarView: View {
     
-    @State var selection: TabType = .home
     @ObservedObject private var model = AppTabBarModel.shared
     
     init(){
@@ -19,17 +18,22 @@ struct AppTabBarView: View {
     var body: some View {
         VStack{
             ZStack{
-                CustomTabBarContainerView(selection: $selection){
+                CustomTabBarContainerView(selection: $model.selection){
                     TransportGroupStackManager.shared
-                        .tabBarTab(tab: .home, selection: $selection)
+                        .tabBarItem(tab: .home, selection: $model.selection)
+                        .tag(TabType.home)
                     NotificationsView()
-                        .tabBarTab(tab: .alerts, selection: $selection)
+                        .tabBarItem(tab: .alerts, selection: $model.selection)
+                        .tag(TabType.alerts)
                     MapView()
-                        .tabBarTab(tab: .map, selection: $selection)
+                        .tabBarItem(tab: .map, selection: $model.selection)
+                        .tag(TabType.map)
                     FavoritesGroupStackManager.shared
-                        .tabBarTab(tab: .favourites, selection: $selection)
+                        .tabBarItem(tab: .favourites, selection: $model.selection)
+                        .tag(TabType.favourites)
                     SettingsGroupStackManager()
-                        .tabBarTab(tab: .settings, selection: $selection)
+                        .tabBarItem(tab: .settings, selection: $model.selection)
+                        .tag(TabType.settings)
                 }
                 if(model.alertIsPresented){
                     model.alert

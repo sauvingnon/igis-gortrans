@@ -11,7 +11,7 @@ import MapKit
 struct ShowTransportUnitView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @ObservedObject var model = ShowTransportUnitModel.shared
     private let viewModel = ShowTransportUnitViewModel.shared

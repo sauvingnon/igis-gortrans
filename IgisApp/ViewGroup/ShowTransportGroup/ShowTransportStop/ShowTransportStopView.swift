@@ -10,7 +10,7 @@ import SwiftUI
 struct ShowTransportStopView: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
     @ObservedObject var model = ShowStopOnlineModel.shared
     private let viewModel = ShowTransportStopViewModel.shared
@@ -40,7 +40,7 @@ struct ShowTransportStopView: View {
             
             ScrollView(.vertical){
                 if(!model.buses.isEmpty){
-                    labelTypeTransport(typeTransport: .bus)
+                    LabelTypeTransport(typeTransport: .bus)
                     Grid(alignment: .center){
                         ForEach(model.buses){ item in
                             item.body
@@ -53,7 +53,7 @@ struct ShowTransportStopView: View {
                 }
                 
                 if(!model.trains.isEmpty){
-                    labelTypeTransport(typeTransport: .train)
+                    LabelTypeTransport(typeTransport: .train)
                     Grid(alignment: .center){
                         ForEach(model.trains){ item in
                             item.body
@@ -66,7 +66,7 @@ struct ShowTransportStopView: View {
                 }
                 
                 if(!model.trolleybuses.isEmpty){
-                    labelTypeTransport(typeTransport: .trolleybus)
+                    LabelTypeTransport(typeTransport: .trolleybus)
                     Grid(alignment: .center){
                         ForEach(model.trolleybuses){ item in
                             item.body
@@ -79,7 +79,7 @@ struct ShowTransportStopView: View {
                 }
                 
                 if(!model.countryBuses.isEmpty){
-                    labelTypeTransport(typeTransport: .countrybus)
+                    LabelTypeTransport(typeTransport: .countrybus)
                     Grid(alignment: .center){
                         ForEach(model.countryBuses){ item in
                             item.body

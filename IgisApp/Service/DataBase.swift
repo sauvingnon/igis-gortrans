@@ -60,8 +60,10 @@ class DataBase{
             case 3: return .train
             default: return nil
             }
+        }else{
+            debugPrint("Маршрут не был найден. Невозможно определить тип транспорта.")
+            return nil
         }
-        return nil
     }
     
     private static func fromEnumTsTypeToIntTsType(type: TypeTransport) -> Int{
@@ -152,13 +154,49 @@ class DataBase{
         }
     }
     
+    private static var stopsOfTypeTransport: [Int: [TypeTransport]] = [:]
+    
+    public static func getTypesTransportForStop(stopId: Int) -> [TypeTransport]{
+        if let types = stopsOfTypeTransport.first(where: { element in
+            element.key == stopId
+        })?.value{
+            return types
+        }else{
+            debugPrint("Для указанной остановки не были найдены соответсвующие типы транспорта.")
+            return []
+        }
+    }
+    
+    private static func fillStopsOfTypeTransport(){
+        // Соберем информацию для всех остановок
+        stops.forEach { stopItem in
+            let id = stopItem.stop_id
+            var types: [TypeTransport] = []
+            // Информацию будем брать из маршрутов, на которых есть эта остановка
+            subroutes.forEach { subrouteItem in
+                // Если она есть там, нам надо узнать к какому маршруту она относится
+                if(subrouteItem.subroute_stops.contains(id)){
+                    // Фильтр, нам нужны только те маршруты, на которых есть наша остановка
+                    routes.filter(){ routeItem in
+                        routeItem.route_id == subrouteItem.subroute_route
+                    }.forEach { routeItem in
+                        let stopType = getTypeTransportFromId(routeId: routeItem.route_id)
+                        types.append(stopType ?? .bus)
+                    }
+                    
+                }
+            }
+            stopsOfTypeTransport.updateValue(types, forKey: id)
+        }
+    }
+    
     // MARK: - Загрузка данных из json в память
     static func LoadJSON(){
         //        let queue = DispatchQueue.global(qos: .default)
         
         // Инициализация избранных раньше чем загрузка маршрутов в память!
         //        queue.async {
-        debugPrint("Загрузка json в память.")
+        debugPrint("Загрузка json в память начата.")
         if let url = Bundle.main.url(forResource: "stop", withExtension: "json") {
             do {
                 let data = try Data(contentsOf: url)
@@ -206,6 +244,12 @@ class DataBase{
                 print("Загрузка json структуры city_route не удалась!")
             }
         }
+        debugPrint("Загрузка json в память завершена.")
+        // Костыль! Перебор всех остановок и маршрутов циклом в цикле для получения соответствия: остановка - ее типы транспорта
+        // Может существенно замедлить запуск приложения. Выполнение желательно на отдельном потоке.
+        debugPrint("Старт загрузки типов транспорта - \(Date().description)")
+        fillStopsOfTypeTransport()
+        debugPrint("Окончание загрузки типов транспорта - \(Date().description)")
     }
     
     static let title1 = "Как настроить уведомления"

@@ -9,14 +9,15 @@ import SwiftUI
 
 struct SelectRouteOrStationView: View {
     
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
     
+    @ObservedObject var model = AppTabBarModel.shared
     @ObservedObject var dateTime = DateTime()
     
     var body: some View {
         VStack{
             LabelIzhevsk(withBackButton: false){
-                
+                model.selection = .settings
             }
             HStack{
                 Text(dateTime.date)
@@ -53,7 +54,7 @@ struct SelectRouteOrStationView: View {
             
             ScrollView{
                 Button(action: {
-                    navigationStack.append(.chooseTypeTransport)
+                    navigationStack.append(CurrentTransportSelectionView.chooseTypeTransport)
                 }, label: {
                     Text("Маршруты")
                         .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -67,7 +68,7 @@ struct SelectRouteOrStationView: View {
                 
                 
                 Button(action: {
-                    navigationStack.append(.selectStopView)
+                    navigationStack.append(CurrentTransportSelectionView.selectStopView)
                 }, label: {
                     Text("Остановки")
                         .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -81,7 +82,7 @@ struct SelectRouteOrStationView: View {
                 })
                 
                 Button(action: {
-                    navigationStack.append(.findNearestStops)
+                    navigationStack.append(CurrentTransportSelectionView.findNearestStops)
                 }, label: {
                     Text("Определить остановку")
                         .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -94,7 +95,7 @@ struct SelectRouteOrStationView: View {
                 })
                 
                 Button(action: {
-                    navigationStack.append(.QRScanner)
+                    navigationStack.append(CurrentTransportSelectionView.QRScanner)
                 }, label: {
                     Text("Сканировать QR")
                         .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -107,7 +108,6 @@ struct SelectRouteOrStationView: View {
                         .padding(.top, 20)
                 })
             }
-            Spacer()
         }
     }
     

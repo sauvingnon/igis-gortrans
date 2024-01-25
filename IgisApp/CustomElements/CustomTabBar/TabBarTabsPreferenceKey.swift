@@ -30,7 +30,7 @@ struct TabBarTabsModifier: ViewModifier{
 }
 
 extension View{
-    func tabBarTab(tab: TabType, selection: Binding<TabType>) -> some View{
+    func tabBarItem(tab: TabType, selection: Binding<TabType>) -> some View{
         modifier(TabBarTabsModifier(tab: tab, selection: selection))
     }
 }

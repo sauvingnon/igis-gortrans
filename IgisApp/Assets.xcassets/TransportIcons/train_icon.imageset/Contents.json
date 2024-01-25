@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "Трамвай 1.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "tramvay.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -40,7 +40,7 @@ struct ShowFavoriteStopView: View {
             
             ScrollView(.vertical){
                 if(!model.buses.isEmpty){
-                    labelTypeTransport(typeTransport: .bus)
+                    LabelTypeTransport(typeTransport: .bus)
                     Grid(alignment: .center){
                         ForEach(model.buses){ item in
                             item.body
@@ -53,7 +53,7 @@ struct ShowFavoriteStopView: View {
                 }
                 
                 if(!model.trains.isEmpty){
-                    labelTypeTransport(typeTransport: .train)
+                    LabelTypeTransport(typeTransport: .train)
                     Grid(alignment: .center){
                         ForEach(model.trains){ item in
                             item.body
@@ -66,7 +66,7 @@ struct ShowFavoriteStopView: View {
                 }
                 
                 if(!model.trolleybuses.isEmpty){
-                    labelTypeTransport(typeTransport: .trolleybus)
+                    LabelTypeTransport(typeTransport: .trolleybus)
                     Grid(alignment: .center){
                         ForEach(model.trolleybuses){ item in
                             item.body
@@ -79,7 +79,7 @@ struct ShowFavoriteStopView: View {
                 }
                 
                 if(!model.countryBuses.isEmpty){
-                    labelTypeTransport(typeTransport: .countrybus)
+                    LabelTypeTransport(typeTransport: .countrybus)
                     Grid(alignment: .center){
                         ForEach(model.countryBuses){ item in
                             item.body

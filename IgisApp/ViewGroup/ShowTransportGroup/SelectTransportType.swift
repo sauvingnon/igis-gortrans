@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectTransportType: View {
     
     @Environment(\.dismiss) var dismiss
-    @Binding var navigationStack: [CurrentTransportSelectionView]
+    @Binding var navigationStack: NavigationPath
 
     var body: some View {
         VStack(){
@@ -21,7 +21,7 @@ struct SelectTransportType: View {
             HStack(){
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .bus)
-                    navigationStack.append(.chooseNumberTransport)
+                    navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus") .resizable()
@@ -36,7 +36,7 @@ struct SelectTransportType: View {
                 }
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .trolleybus)
-                    navigationStack.append(.chooseNumberTransport)
+                    navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.doubledecker") .resizable()
@@ -55,7 +55,7 @@ struct SelectTransportType: View {
             HStack(){
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .train)
-                    navigationStack.append(.chooseNumberTransport)
+                    navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "tram") .resizable()
@@ -71,7 +71,7 @@ struct SelectTransportType: View {
                 
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .countrybus)
-                    navigationStack.append(.chooseNumberTransport)
+                    navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
                         Image(systemName: "bus.fill") .resizable()

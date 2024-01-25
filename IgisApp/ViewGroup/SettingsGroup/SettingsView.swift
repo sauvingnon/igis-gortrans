@@ -9,14 +9,16 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @Binding var navigationStack: [CurrentSettingsSelectionView]
+    @Binding var navigationStack: NavigationPath
     
-    @ObservedObject var model = SettingsModel.shared
+    @ObservedObject private var model = SettingsModel.shared
+    @State private var value: Float = 0.1
     
     @State private var scaleAbout = 1.0
     @State private var scaleHelp = 1.0
     @State private var scaleFeedBack = 1.0
     @State private var scaleIcon = 1.0
+    @State private var scaleSliderBlock = 1.0
     
 //    init(navStack: [CurrentSettingsSelectionView]){
 //        Model.settingsView = self
@@ -81,6 +83,48 @@ struct SettingsView: View {
             .background(Color.white)
             .cornerRadius(15)
             
+            VStack{
+                HStack{
+                    Text("Расстояние до ближайших остановок")
+    //                    .fixedSize()
+                        .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                        .fontWeight(.light)
+                        .font(.system(size: 18))
+                        .kerning(0.7)
+                        .lineLimit(2)
+                        .padding(.leading, 20)
+                        .minimumScaleFactor(0.01)
+                    Spacer()
+                    Text("\(Int(value*3000)) м")
+                        .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                        .fontWeight(.light)
+                        .font(.system(size: 18))
+                        .kerning(0.7)
+                        .lineLimit(1)
+                        .padding(.trailing, 20)
+                }
+                
+                
+                Slider(value: $value, onEditingChanged: {_ in 
+                    FindNearestStopsViewModel.shared.setValueDiff(value: value)
+                })
+                .padding(.horizontal, 20)
+            }
+            .frame(width: UIScreen.screenWidth-40)
+            .padding(.vertical, 15)
+            .background(Color.white)
+            .cornerRadius(15)
+            .scaleEffect(scaleSliderBlock)
+            .onTapGesture(count: 2){
+                FindNearestStopsViewModel.shared.setValueDiff(value: 0.1)
+                Vibration.selection.vibrate()
+                scaleSliderBlock = 0.5
+                withAnimation(.spring(dampingFraction: 0.5)) {
+                    scaleSliderBlock = 1.0
+                    self.value = 0.1
+                }
+            }
+            
             Spacer()
             
             settingsButton(imageName: "app.badge", text: "Изменить иконку")
@@ -89,7 +133,8 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleIcon = 1.0
                     }
-                    navigationStack.append(.changeIcon)
+                    navigationStack.append(CurrentSettingsSelectionView.changeIcon)
+                    
                 }
                 .scaleEffect(scaleIcon)
             settingsButton(imageName: "info.circle", text: "О приложении")
@@ -98,7 +143,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleAbout = 1.0
                     }
-                    navigationStack.append(.aboutApp)
+                    navigationStack.append(CurrentSettingsSelectionView.aboutApp)
                 }
                 .scaleEffect(scaleAbout)
             settingsButton(imageName: "questionmark.circle", text: "Помощь")
@@ -107,7 +152,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleHelp = 1.0
                     }
-                    navigationStack.append(.questions)
+                    navigationStack.append(CurrentSettingsSelectionView.questions)
                 }
                 .scaleEffect(scaleHelp)
             settingsButton(imageName: "smiley", text: "Обратная связь")
@@ -116,7 +161,7 @@ struct SettingsView: View {
                     withAnimation(.spring(dampingFraction: 0.5)) {
                         scaleFeedBack = 1.0
                     }
-                    navigationStack.append(.feedBack)
+                    navigationStack.append(CurrentSettingsSelectionView.feedBack)
                 }
                 .scaleEffect(scaleFeedBack)
             

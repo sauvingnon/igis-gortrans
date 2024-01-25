@@ -19,10 +19,16 @@ class FindNearestStopsViewModel {
     private let model = FindNearestStopsModel.shared
     private var locationManager = LocationManager()
     private var mapAlreadyCenter = false
+    private var value: Int = 300
     // Каждые 10 секунд обновляем список остановок относительно геопозиции
-    private let timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {_ in
+    private let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
         timerFire()
     })
+    
+    func setValueDiff(value: Float){
+        self.value = Int(value*3000)
+        self.getNearestStops()
+    }
     
     func configureView(){
         debugPrint("Начат поиск ближайших остановок.")
@@ -65,42 +71,42 @@ class FindNearestStopsViewModel {
     
     private func getNearestStops(){
         if let userLocation = self.locationManager.lastLocation?.coordinate{
+            
             var locations: [FindNearestStopsModel.Location] = []
-            var sortedStopsList: [StopItem] = []
-            var stopsList: [StopItemsSorter] = []
+            var stopsList: [StopItem] = []
             
             let stops = DataBase.getAllStops()
             
             stops.forEach { stop in
                 let latDiff = abs(stop.stop_lat! - Float(userLocation.latitude ))
                 let lonDiff = abs(stop.stop_long! - Float(userLocation.longitude ))
+                let latDiffInMetters = Double(latDiff * 111000)
+                let lonDiffInMetters = Double(lonDiff * 111000 * 0.5468357229)
+                let resultDiffInMetters = Int(sqrt(pow(Double(lonDiffInMetters),2) + pow(Double(latDiffInMetters),2)))
+                // А если использовать вот эту переменную как ограничитель?
                 let summDistance = lonDiff + latDiff
-                if(latDiff < 0.005 && lonDiff < 0.005){
-                    locations.append(FindNearestStopsModel.Location(name: stop.stop_name!, icon: "xmark.circle", coordinate: CLLocationCoordinate2D(latitude: Double(stop.stop_lat!), longitude: Double(stop.stop_long!))))
-                    stopsList.append(StopItemsSorter(summDistance: summDistance, item: StopItem(stop_id: stop.stop_id, typeTransportList: [], stopName: stop.stop_name!, stopDirection: stop.stop_direction!)))
-                    
+                if(resultDiffInMetters < value){
+                    if let name = stop.stop_name, let lon = stop.stop_long, let lat = stop.stop_lat, let direction = stop.stop_direction{
+                        locations.append(FindNearestStopsModel.Location(name: name, icon: "xmark.circle", coordinate: CLLocationCoordinate2D(latitude: Double(lat), longitude: Double(lon))))
+                        let typesTransport = DataBase.getTypesTransportForStop(stopId: stop.stop_id)
+                        stopsList.append(StopItem(stop_id: stop.stop_id, typeTransportList: typesTransport, stopName: name, stopDirection: direction, distance: Int(resultDiffInMetters)))
+                    }else{
+                        debugPrint("Ошибка при получении данных из таблицы stops. id - \(stop.stop_id)")
+                    }
                 }
             }
             
-            stopsList.sort { item1, item2 in
-                item1.summDistance < item2.summDistance
+            stopsList.sort { item_1, item_2 in
+                item_1.distance! < item_2.distance!
             }
-            
-            sortedStopsList = stopsList.compactMap { item in
-                item.item
-            }
+    
             
             DispatchQueue.main.async {
                 self.model.locations = locations
-                self.model.stopsList = sortedStopsList
+                self.model.stopsList = stopsList
             }
             
         }
-    }
-    
-    private struct StopItemsSorter{
-        let summDistance: Float
-        let item: StopItem
     }
     
 }
