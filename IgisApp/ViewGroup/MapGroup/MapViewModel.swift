@@ -39,7 +39,7 @@ class MapViewModel{
     
     func getEverythingData(city: String){
         let queue = DispatchQueue.global(qos: .default)
-        queue.sync {
+        queue.async {
             self.clearMapView()
             while(ServiceSocket.status != .connected){
                 

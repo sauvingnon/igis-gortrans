@@ -230,9 +230,9 @@ struct ShowTransportUnitView: View {
             }
             .opacity(model.opacity)
         }
-        .onAppear(){
-            viewModel.getTransportData()
-        }
+//        .onAppear(){
+//            viewModel.getTransportData()
+//        }
     }
 }
 

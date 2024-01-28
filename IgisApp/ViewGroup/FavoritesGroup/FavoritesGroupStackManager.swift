@@ -15,27 +15,41 @@ struct FavoritesGroupStackManager: View {
         
     }
     
-    @State private var navigationStack = [CurrentFavoritesSelectionView]()
+    private class FavoritesGroupStackManagerModel: ObservableObject {
+        @Published var navigationStack = NavigationPath([CurrentTransportSelectionView]())
+    }
+    
+    @ObservedObject private var model = FavoritesGroupStackManagerModel()
     
     var body: some View {
-        NavigationStack(path: $navigationStack){
-            FavoriteRoutesAndStationsView(navigationStack: $navigationStack)
-                .navigationDestination(for: CurrentFavoritesSelectionView.self){ selectionView in
+        CustomNavigationStack(path: $model.navigationStack){
+            FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+                .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
-                    case .favoriteRoutesAndStations:
-                        FavoriteRoutesAndStationsView(navigationStack: $navigationStack)
-                    case .showFavoriteStop:
-                        ShowFavoriteStopView(navigationStack: $navigationStack)
+                    case .showFavoriteItems:
+                        FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .showFavoriteRoute:
-                        ShowFavoriteRouteView(navigationStack: $navigationStack)
+                    case .showStopOnline:
+                        ShowTransportStopView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
+                    case .showRouteOnline:
+                        ShowTransportRouteView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showTransportUnit:
-                        ShowFavoriteUnitView(navigationStack: $navigationStack)
+                        ShowTransportUnitView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
+                    default:
+                        FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
+                .navigationBarBackButtonHidden(true)
         }
+    }
+    
+    // Очистка навигационного стека
+    public func clearNavigationStack(){
+        model.navigationStack.removeLast(model.navigationStack.count)
     }
 }
 
@@ -43,11 +57,4 @@ struct FavoritesGroupSelector_Previews: PreviewProvider {
     static var previews: some View {
         FavoritesGroupStackManager.shared
     }
-}
-
-enum CurrentFavoritesSelectionView{
-    case favoriteRoutesAndStations
-    case showFavoriteRoute
-    case showFavoriteStop
-    case showTransportUnit
 }

@@ -10,14 +10,11 @@ import SwiftUI
 struct SelectRouteOrStationView: View {
     
     @Binding var navigationStack: NavigationPath
-    
-    @ObservedObject var model = AppTabBarModel.shared
     @ObservedObject var dateTime = DateTime()
     
     var body: some View {
         VStack{
             LabelIzhevsk(withBackButton: false){
-                model.selection = .settings
             }
             HStack{
                 Text(dateTime.date)

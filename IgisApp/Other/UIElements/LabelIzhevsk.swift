@@ -42,6 +42,7 @@ struct LabelIzhevsk: View {
             .cornerRadius(25)
             .padding(.top, 10)
         })
+        .disabled(!withBackButton)
     }
 }
 

@@ -20,16 +20,14 @@ class ServiceSocket{
     }
     
     private let serverURL = "https://devsocket.igis-transport.ru"
-//    private let serverURL = "https://socket.igis-transport.ru"
     
+//    private let serverURL = "https://socket.igis-transport.ru"
 //    private let key = "mpqli8Jn2nUYxS1nf2wJbHXJCZWdtrWqPEV3wHJgjwzMgsRFmvpenZ7GghxwTZ14"
     
     private let key = "8pU5KKybo0Ivcz597yi23j9P37wzSzL6EP2jLoG7p5kUqX9S8S9vNiOMHlruwzYk"
     
     private let manager: SocketManager
     private let socket: SocketIOClient
-    
-    private var currentUpdateScreen = ""
     
     private init() {
         if(GeneralViewModel.userTrace.isEmpty){
@@ -59,13 +57,8 @@ class ServiceSocket{
             queue.async {
             // Поочередно пробуем распарсить объект, чтобы понять к какому экрану он относится
                 if let obj = try? MessagePackDecoder().decode(StationResponse.self, from: some1.first as! Data){
-                    if(self.currentUpdateScreen == "ShowFavoriteStop"){
-                        debugPrint("были получены данные о избранной остановке \(Date.now)")
-                        ShowFavoriteStopViewModel.shared.updateStaionScreen(obj: obj)
-                    }else{
-                        debugPrint("были получены данные о остановке \(Date.now)")
-                        ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
-                    }
+                    debugPrint("были получены данные о остановке \(Date.now)")
+                    ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
                     return
                 }
                 if let obj = try? MessagePackDecoder().decode(EverythingResponse.self, from: some1.first as! Data){
@@ -74,13 +67,8 @@ class ServiceSocket{
                     return
                 }
                 if let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: some1.first as! Data){
-                    if(self.currentUpdateScreen == "ShowFavoriteRoute"){
-                        debugPrint("был получен прогноз избранного маршрута \(Date.now)")
-                        ShowFavoriteRouteViewModel.shared.updateRouteScreen(obj: obj)
-                    }else{
-                        debugPrint("был получен прогноз маршрута \(Date.now)")
-                        ShowTransportRouteViewModel.shared.updateRouteScreen(obj: obj)
-                    }
+                    debugPrint("был получен прогноз маршрута \(Date.now)")
+                    ShowTransportRouteViewModel.shared.updateRouteScreen(obj: obj)
                     return
                 }
                 if let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: some1.first as! Data){
@@ -99,11 +87,8 @@ class ServiceSocket{
     }
     
     // MARK: - Подписка на событие.
-    func emitOn(event: String, items: SocketData, updateScreen: String? = nil){
+    func emitOn(event: String, items: SocketData){
         GeneralViewModel.uncheckAlertAlreadyShow()
-        if let screen = updateScreen{
-            self.currentUpdateScreen = screen
-        }
         self.socket.emit(event, items)
     }
     

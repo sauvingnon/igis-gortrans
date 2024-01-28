@@ -31,7 +31,7 @@ struct AppTabBarView: View {
                     FavoritesGroupStackManager.shared
                         .tabBarItem(tab: .favourites, selection: $model.selection)
                         .tag(TabType.favourites)
-                    SettingsGroupStackManager()
+                    SettingsGroupStackManager.shared
                         .tabBarItem(tab: .settings, selection: $model.selection)
                         .tag(TabType.settings)
                 }

@@ -9,41 +9,57 @@ import SwiftUI
 
 struct SettingsGroupStackManager: View {
     
-    @State private var navigationStack = NavigationPath([CurrentSettingsSelectionView]())
+    public static let shared = SettingsGroupStackManager()
+    
+    private init() {
+        
+    }
+    
+    private class SettingsGroupStackManagerModel: ObservableObject {
+        @Published var navigationStack = NavigationPath([CurrentSettingsSelectionView]())
+    }
+    
+    @ObservedObject private var model = SettingsGroupStackManagerModel()
 
     var body: some View {
         
-        CustomNavigationStack(path: $navigationStack){
-            SettingsView(navigationStack: $navigationStack)
+        CustomNavigationStack(path: $model.navigationStack){
+            SettingsView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentSettingsSelectionView.self){ selectionView in
                     switch(selectionView){
                     case .settings:
-                        SettingsView(navigationStack: $navigationStack)
+                        SettingsView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
                     case .aboutApp:
-                        AboutAppView(navigationStack: $navigationStack)
+                        AboutAppView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .changeIcon:
-                        ChooseIconView(navigationStack: $navigationStack)
+                        ChooseIconView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .questions:
-                        QuestionsView(navigationStack: $navigationStack)
+                        QuestionsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .answers:
-                        AnswersView(navigationStack: $navigationStack)
+                        AnswersView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .feedBack:
-                        FeedBackView(navigationStack: $navigationStack)
+                        FeedBackView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
+                .navigationBarBackButtonHidden(true)
         }
-
+    }
+    
+    // Очистка навигационного стека
+    public func clearNavigationStack(){
+        model.navigationStack.removeLast(model.navigationStack.count)
     }
 }
 
 struct SettingsGroupSelector_Preview: PreviewProvider {
     static var previews: some View {
-        SettingsGroupStackManager()
+        SettingsGroupStackManager.shared
     }
 }
 

@@ -9,17 +9,17 @@ import Foundation
 import SwiftUI
 import MessagePacker
 
-class ShowTransportStopViewModel {
+class ShowTransportStopViewModel: ObservableObject {
     static let shared = ShowTransportStopViewModel()
     private init(){
         
     }
     
-    private let model = ShowStopOnlineModel.shared
+    @Published var model = ShowStopOnlineModel.shared
     
     func showData(){
         withAnimation{
-            ShowStopOnlineModel.shared.opacity = 1.0
+            model.opacity = 1.0
         }
     }
     
@@ -56,13 +56,13 @@ class ShowTransportStopViewModel {
     
     func getStationData(){
         let queue = DispatchQueue.global(qos: .default)
-        queue.sync {
+        queue.async {
             self.clearStationView()
             while(ServiceSocket.status != .connected){
                 
             }
-            if let object = try? MessagePackEncoder().encode(StationRequest(stop_id: model.stopId)){
-                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, updateScreen: "ShowTransportStopView")
+            if let object = try? MessagePackEncoder().encode(StationRequest(stop_id: self.model.stopId)){
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
                 debugPrint("Запрос к серверу на получение прогноза остановки транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза остановки транспорта не отправлен.")
@@ -71,12 +71,12 @@ class ShowTransportStopViewModel {
     }
     
     func configureView(stop_id: Int){
-        ShowStopOnlineModel.shared.stopId = stop_id
-        ShowStopOnlineModel.shared.name = DataBase.getStopName(stopId: stop_id)
-        ShowStopOnlineModel.shared.direction = DataBase.getStopDirection(stopId: stop_id)
-        ShowStopOnlineModel.shared.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
+        self.model.stopId = stop_id
+        self.model.name = DataBase.getStopName(stopId: stop_id)
+        self.model.direction = DataBase.getStopDirection(stopId: stop_id)
+        self.model.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
-//        getStationData()
+        self.getStationData()
     }
     
     func disconfigureView(){

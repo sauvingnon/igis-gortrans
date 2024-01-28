@@ -57,9 +57,9 @@ struct ShowTransportRouteView: View {
             }
             
         }
-        .onAppear(){
-            viewModel.getRouteData()
-        }
+//        .onAppear(){
+//            viewModel.getRouteData()
+//        }
     }
     
     func labelStopTapped(stopId: Int?){

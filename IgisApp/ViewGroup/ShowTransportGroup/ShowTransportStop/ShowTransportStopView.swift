@@ -98,9 +98,9 @@ struct ShowTransportStopView: View {
             Spacer()
             
         }
-        .onAppear(){
-            viewModel.getStationData()
-        }
+//        .onAppear(){
+//            viewModel.getStationData()
+//        }
     }
     
 }

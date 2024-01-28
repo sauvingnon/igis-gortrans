@@ -55,6 +55,8 @@ class ShowTransportUnitViewModel{
         model.opacity = 0
         self.model.transportId = transportId!
         self.model.transportUnitDescription = "-"
+        
+        getTransportData()
     }
     
     func updateTransportScreen(obj: TransportResponse) {

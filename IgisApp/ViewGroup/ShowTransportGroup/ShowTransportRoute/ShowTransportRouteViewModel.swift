@@ -26,7 +26,7 @@ class ShowTransportRouteViewModel{
                 
             }
             if let object = try? MessagePackEncoder().encode(RouteRequest(route_number: self.model.number, transport_type: self.model.type)){
-                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, updateScreen: "ShowTransportRoute")
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
                 debugPrint("Запрос к серверу на получение прогноза маршрута транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза маршрута не отправлен.")
@@ -124,7 +124,7 @@ class ShowTransportRouteViewModel{
         
         fillMenu()
         presentRoute()
-//        getRouteData()
+        getRouteData()
     }
     
     func disconfigureView(){

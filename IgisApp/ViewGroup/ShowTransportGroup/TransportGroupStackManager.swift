@@ -10,15 +10,15 @@ import SwiftUI
 struct TransportGroupStackManager: View {
     
     static let shared = TransportGroupStackManager()
-    
-    @ObservedObject private var model = TransportGroupStackManagerModel()
-    
+
     private init(){
     }
     
     private class TransportGroupStackManagerModel: ObservableObject {
         @Published var navigationStack = NavigationPath([CurrentTransportSelectionView]())
     }
+    
+    @ObservedObject private var model = TransportGroupStackManagerModel()
     
     var body: some View {
         CustomNavigationStack(path: $model.navigationStack){
@@ -52,6 +52,9 @@ struct TransportGroupStackManager: View {
                     case .QRScanner:
                         ScannerView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
+                    default:
+                        SelectRouteOrStationView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
                     }
                 }
                 .navigationBarBackButtonHidden(true)
@@ -60,7 +63,7 @@ struct TransportGroupStackManager: View {
     
     // Очистка навигационного стека
     public func clearNavigationStack(){
-        model.navigationStack.removeLast(model.navigationStack.count-1)
+        model.navigationStack.removeLast(model.navigationStack.count)
     }
 }
 
@@ -71,6 +74,7 @@ struct TransportGroupSelector_Preview: PreviewProvider {
 }
 
 enum CurrentTransportSelectionView{
+    case showFavoriteItems
     case chooseRouteOrStation
     case chooseTypeTransport
     case chooseNumberTransport

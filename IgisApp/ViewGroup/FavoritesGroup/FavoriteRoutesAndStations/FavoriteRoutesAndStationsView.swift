@@ -9,9 +9,9 @@ import SwiftUI
 
 struct FavoriteRoutesAndStationsView: View {
     
-    @Binding var navigationStack: [CurrentFavoritesSelectionView]
-    
     @ObservedObject var model = FavoritesRoutesAndStationsModel.shared
+    @ObservedObject var tabBar = AppTabBarModel.shared
+    @Binding var navigationStack: NavigationPath
     
     var body: some View {
         VStack{
@@ -87,16 +87,21 @@ struct FavoriteRoutesAndStationsView: View {
     }
     
     func favoriteRouteTapped(number: String, type: TypeTransport){
+        TransportGroupStackManager.shared.clearNavigationStack()
+        
         let routeId = DataBase.getRouteId(type: type, number: number)
         
-        ShowFavoriteRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
+        ShowTransportRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
         
-        navigationStack.append(.showFavoriteRoute)
+        navigationStack.append(CurrentTransportSelectionView.showRouteOnline)
     }
     
     func favoriteStopTapped(stopId: Int){
-        ShowFavoriteStopViewModel.shared.configureView(stop_id: stopId)
-        navigationStack.append(.showFavoriteStop)
+        TransportGroupStackManager.shared.clearNavigationStack()
+        
+        ShowTransportStopViewModel.shared.configureView(stop_id: stopId)
+        
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
     }
     
 }

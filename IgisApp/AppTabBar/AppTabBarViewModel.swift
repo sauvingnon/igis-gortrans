@@ -33,8 +33,10 @@ class AppTabBarViewModel{
         case .map:
             break
         case .favourites:
+            FavoritesGroupStackManager.shared.clearNavigationStack()
             break
         case .settings:
+            SettingsGroupStackManager.shared.clearNavigationStack()
             break
         }
     }
