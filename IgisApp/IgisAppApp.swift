@@ -12,6 +12,7 @@ struct IgisAppApp: App {
     
     // Аналог AppDelegate из UIKit
     init(){
+        UITabBar.appearance().isHidden = true
         DataBase.LoadJSON()
         GeneralViewModel.checkTrace()
     }

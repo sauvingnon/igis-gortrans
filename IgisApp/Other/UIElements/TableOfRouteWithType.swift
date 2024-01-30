@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TableOfRouteWithType: View {
-    @State var typeTransport: TypeTransport
-    @State var arrayNumbers: [String]
+    var typeTransport: TypeTransport
+    var arrayNumbers: [String]
     var handlerFunc: (String, TypeTransport) -> ()
     var body: some View {
         VStack{
@@ -40,8 +40,8 @@ struct TableOfRouteWithType: View {
     }
 }
 
-//#Preview {
-//    SomeTransport(typeTransport: .bus, arrayNumbers: ["25","22","36"], handlerFunc: { _, _ in
-//
-//    })
-//}
+#Preview {
+    TableOfRouteWithType(typeTransport: .bus, arrayNumbers: ["25","22","36"], handlerFunc: { _, _ in
+
+    })
+}

@@ -15,50 +15,50 @@ struct AppTabBarView: View {
         GeneralViewModel.checkConnection()
     }
     
+    @State private var selection: TabType = .home
+    
     var body: some View {
-        VStack{
-            ZStack{
-                CustomTabBarContainerView(selection: $model.selection){
+        ZStack{
+            VStack{
+                // Контент - часть.
+                TabView(selection: $selection){
                     TransportGroupStackManager.shared
-                        .tabBarItem(tab: .home, selection: $model.selection)
                         .tag(TabType.home)
                     NotificationsView()
-                        .tabBarItem(tab: .alerts, selection: $model.selection)
                         .tag(TabType.alerts)
                     MapView()
-                        .tabBarItem(tab: .map, selection: $model.selection)
                         .tag(TabType.map)
                     FavoritesGroupStackManager.shared
-                        .tabBarItem(tab: .favourites, selection: $model.selection)
                         .tag(TabType.favourites)
                     SettingsGroupStackManager.shared
-                        .tabBarItem(tab: .settings, selection: $model.selection)
                         .tag(TabType.settings)
                 }
-                if(model.alertIsPresented){
-                    model.alert
+
+                // Таб-бар
+                CustomTabBar(selectedTab: $selection)
+                
+                // Статус соединения
+                if(model.showStatus){
+                    HStack(alignment: .center){
+                        Text(model.textStatus)
+                            .padding(.trailing, 10)
+                            .foregroundColor(.white)
+                        if(model.isConnected == .isConnected){
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.white)
+                        }else{
+                            ProgressView()
+                        }
+                    }
+                    .frame(width: UIScreen.screenWidth)
+                    .background(model.colorStatus)
                 }
             }
-            
-            if(model.showStatus){
-                HStack(alignment: .center){
-                    Text(model.textStatus)
-                        .padding(.trailing, 10)
-                        .foregroundColor(.white)
-                    if(model.isConnected == .isConnected){
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.white)
-                    }else{
-                        ProgressView()
-                    }
-                }
-                .frame(width: UIScreen.screenWidth)
-                .background(model.colorStatus)
+            if(model.alertIsPresented){
+                model.alert
             }
         }
-        
     }
-    
 }
 
 struct AppTabBarView_Previews: PreviewProvider {

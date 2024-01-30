@@ -17,25 +17,7 @@ struct ChooseIconView: View {
     
     var body: some View {
         VStack(){
-            HStack(alignment: .top){
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 25))
-                    .padding(.leading, 40)
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .scaleEffect(scale)
-                Text("Изменить иконку")
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .fontWeight(.light)
-                    .font(.system(size: 25))
-                Spacer()
-                
-            }
-            .padding(.top, 20)
-            .onTapGesture {
-                scale = 2.0
-                withAnimation(.spring(dampingFraction: 0.5)){
-                    scale = 1.0
-                }
+            CustomBackLabel(text: "Изменить иконку"){
                 dismiss()
             }
             
@@ -90,9 +72,12 @@ struct ChooseIconView: View {
     
 }
 
-//struct ChooseIconView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChooseIconView()
-//    }
-//}
+struct ChooseIconView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        ChooseIconView(navigationStack: $stack)
+    }
+}
 

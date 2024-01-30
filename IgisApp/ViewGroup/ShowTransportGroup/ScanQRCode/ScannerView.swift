@@ -240,6 +240,11 @@ struct ScannerView: View {
     }
 }
 
-//#Preview {
-//    ScannerView()
-//}
+struct ScannerView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        ScannerView(navigationStack: $stack)
+    }
+}

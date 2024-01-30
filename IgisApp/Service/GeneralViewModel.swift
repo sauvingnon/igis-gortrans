@@ -149,12 +149,15 @@ class GeneralViewModel{
         return favorites
     }
     
-    static func getFavoriteStopData() -> [FavoritesRoutesAndStationsModel.FavoriteStop]{
-        var favorites: [FavoritesRoutesAndStationsModel.FavoriteStop] = []
+    static func getFavoriteStopData() -> [StopItem]{
+        var favorites: [StopItem] = []
         
         if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteStops") as? [Int]{
-            favoritesArray.forEach { Int in
-                favorites.append(FavoritesRoutesAndStationsModel.FavoriteStop(stopId: Int, stopName: DataBase.getStopName(stopId: Int), stopDirection: DataBase.getStopDirection(stopId: Int)))
+            favoritesArray.forEach { stop_id in
+                
+                let stopsType = DataBase.getTypesTransportForStop(stopId: stop_id)
+                
+                favorites.append(StopItem(stop_id: stop_id, typeTransportList: stopsType, stopName: DataBase.getStopName(stopId: stop_id), stopDirection: DataBase.getStopDirection(stopId: stop_id)))
             }
         }
         
@@ -191,6 +194,21 @@ class GeneralViewModel{
             return "bus.fill"
         default:
             return ""
+        }
+    }
+    
+    static func getTransportColor(type: String) -> Color {
+        switch type {
+        case "citybus":
+            return Color.green
+        case "tram":
+            return Color.red
+        case "trolleybus":
+            return Color.blue
+        case "suburbanbus":
+            return Color.green
+        default:
+            return Color.green
         }
     }
     

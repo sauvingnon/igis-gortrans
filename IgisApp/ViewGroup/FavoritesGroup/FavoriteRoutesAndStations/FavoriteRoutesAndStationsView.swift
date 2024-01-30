@@ -66,10 +66,7 @@ struct FavoriteRoutesAndStationsView: View {
                         
                         ForEach(model.favoriteStops){ item in
                             HStack{
-                                StopRowView(stop: StopItem(stop_id: item.stopId, typeTransportList: [], stopName: item.stopName, stopDirection: item.stopDirection))
-                                    .onTapGesture {
-                                        favoriteStopTapped(stopId: item.stopId)
-                                    }
+                                StopRowView(stop: StopItem(stop_id: item.stop_id, typeTransportList: item.typeTransportList, stopName: item.stopName, stopDirection: item.stopDirection), handlerFunc: favoriteStopTapped)
                                 Spacer()
                             }
                             .padding(.horizontal, 20)
@@ -86,7 +83,12 @@ struct FavoriteRoutesAndStationsView: View {
         .frame(width: UIScreen.screenWidth)
     }
     
-    func favoriteRouteTapped(number: String, type: TypeTransport){
+    private func favoriteStopTapped(stop_id: Int){
+        ShowTransportStopViewModel.shared.configureView(stop_id: stop_id)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
+    }
+    
+    private func favoriteRouteTapped(number: String, type: TypeTransport){
         TransportGroupStackManager.shared.clearNavigationStack()
         
         let routeId = DataBase.getRouteId(type: type, number: number)
@@ -96,21 +98,16 @@ struct FavoriteRoutesAndStationsView: View {
         navigationStack.append(CurrentTransportSelectionView.showRouteOnline)
     }
     
-    func favoriteStopTapped(stopId: Int){
-        TransportGroupStackManager.shared.clearNavigationStack()
-        
-        ShowTransportStopViewModel.shared.configureView(stop_id: stopId)
-        
-        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
-    }
-    
 }
 
-//struct FavoritesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FavoriteRoutesAndStationsView()
-//    }
-//}
+struct FavoritesView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        FavoriteRoutesAndStationsView(navigationStack: $stack)
+    }
+}
 
 
 

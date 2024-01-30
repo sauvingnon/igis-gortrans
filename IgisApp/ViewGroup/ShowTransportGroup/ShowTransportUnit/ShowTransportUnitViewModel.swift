@@ -56,7 +56,7 @@ class ShowTransportUnitViewModel{
         self.model.transportId = transportId!
         self.model.transportUnitDescription = "-"
         
-        getTransportData()
+//        getTransportData()
     }
     
     func updateTransportScreen(obj: TransportResponse) {
@@ -85,7 +85,10 @@ class ShowTransportUnitViewModel{
             
             self.model.locations.removeAll()
             
-            self.model.locations.append(ShowTransportUnitModel.Location(name: "Name", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: obj.data.latlng.first ?? 0, longitude: obj.data.latlng.last ?? 0)))
+            let transportIcon = GeneralViewModel.getPictureTransport(type: obj.data.ts_type)
+            let color = GeneralViewModel.getTransportColor(type: obj.data.ts_type)
+            
+            self.model.locations.append(ShowTransportUnitModel.Location(name: obj.data.route, icon: transportIcon, coordinate: CLLocationCoordinate2D(latitude: obj.data.latlng.first ?? 0, longitude: obj.data.latlng.last ?? 0), color: color))
             
             
             self.model.maintenance = obj.data.reys_status

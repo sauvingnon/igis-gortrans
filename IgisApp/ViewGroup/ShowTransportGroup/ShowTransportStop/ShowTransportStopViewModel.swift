@@ -76,7 +76,7 @@ class ShowTransportStopViewModel: ObservableObject {
         self.model.direction = DataBase.getStopDirection(stopId: stop_id)
         self.model.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
-        self.getStationData()
+//        self.getStationData()
     }
     
     func disconfigureView(){

@@ -9,9 +9,9 @@ import SwiftUI
 
 struct LabelOfTransportUnit: View {
     
-    @Binding var transportUnitDescription: String
+    let transportUnitDescription: String
     
-    var handlerFunc: ()->()
+    let handlerFunc: ()->()
     
     var body: some View {
         Button(action: {
@@ -38,13 +38,8 @@ struct LabelOfTransportUnit: View {
     }
 }
 
-//#Preview {
-//    
-//    @State var desc = "АВТОБУС - А658РИ"
-//    
-//    var body: any View{
-//        LabelOfTransportUnit(transportUnitDescription: $desc, handlerFunc: {
-//            
-//        })
-//    }
-//}
+#Preview {
+    LabelOfTransportUnit(transportUnitDescription: "АВТОБУС М123ГУ", handlerFunc: {
+        
+    })
+}

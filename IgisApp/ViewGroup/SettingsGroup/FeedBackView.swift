@@ -18,26 +18,10 @@ struct FeedBackView: View {
     @State var scale = 1.0
     var body: some View {
         VStack{
-            HStack(alignment: .top){
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 25))
-                    .padding(.leading, 40)
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .scaleEffect(scale)
-                Text("Обратная связь")
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .fontWeight(.light)
-                    .font(.system(size: 25))
-                Spacer()
-                
-            }.onTapGesture {
-                scale = 2.0
-                withAnimation(.spring(dampingFraction: 0.5)){
-                    scale = 1.0
-                }
+            
+            CustomBackLabel(text: "Обратная связь"){
                 dismiss()
             }
-            .padding(.top, 20)
             
             Text("Здесь Вы можете оставить свой отзыв по работе приложения IGIS:Транспорт - благодарим :)")
                 .frame(width: UIScreen.screenWidth-40)
@@ -97,8 +81,11 @@ struct FeedBackView: View {
     }
 }
 
-//struct FeedBackView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FeedBackView()
-//    }
-//}
+struct FeedBackView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        FeedBackView(navigationStack: $stack)
+    }
+}

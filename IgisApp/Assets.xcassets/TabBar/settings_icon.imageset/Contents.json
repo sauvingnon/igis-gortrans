@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "fi-rr-settings.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "fi-rr-settings.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },

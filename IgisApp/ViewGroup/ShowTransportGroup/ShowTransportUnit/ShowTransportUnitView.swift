@@ -26,7 +26,7 @@ struct ShowTransportUnitView: View {
     
     var body: some View {
         VStack{
-            LabelOfTransportUnit(transportUnitDescription: $model.transportUnitDescription, handlerFunc: {
+            LabelOfTransportUnit(transportUnitDescription: model.transportUnitDescription, handlerFunc: {
                 dismiss()
             })
             
@@ -135,12 +135,21 @@ struct ShowTransportUnitView: View {
                 
                 Map(coordinateRegion: $region, annotationItems: model.locations){ location in
                     MapAnnotation(coordinate: location.coordinate){
-                        Image(systemName: location.icon)
-                            .resizable()
-                            .foregroundColor(.white)
-                            .padding(3)
-                            .background(Color.blue)
-                            .cornerRadius(50)
+                        ZStack{
+                            Image(systemName: location.icon)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.white)
+                                .padding(3)
+                                .background(location.color)
+                                .cornerRadius(50)
+                            Text(location.name)
+                                .padding(.horizontal, 10)
+                                .background(.white)
+                                .cornerRadius(10)
+                                .position(x: 30, y: 30)
+                                .font(.system(size: 14))
+                        }
                     }
                     
                 }
@@ -230,14 +239,17 @@ struct ShowTransportUnitView: View {
             }
             .opacity(model.opacity)
         }
-//        .onAppear(){
-//            viewModel.getTransportData()
-//        }
+        .onAppear(){
+            viewModel.getTransportData()
+        }
     }
 }
 
-//struct ShowTransportOnline_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ShowTransportOnline()
-//    }
-//}
+struct ShowTransportUnitView_Preview: PreviewProvider {
+    
+    @State static var path = NavigationPath()
+    
+    static var previews: some View {
+        ShowTransportUnitView(navigationStack: $path)
+    }
+}

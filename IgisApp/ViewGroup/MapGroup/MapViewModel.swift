@@ -10,7 +10,7 @@ import SwiftUI
 import MapKit
 import MessagePacker
 
-class MapViewModel{
+class MapViewModel {
     
     static let shared = MapViewModel()
     
@@ -18,23 +18,53 @@ class MapViewModel{
         
     }
     
-    var model = MapModel()
+    private var model = MapModel.shared
+    private var bufferResponse: EverythingResponse?
     
     func getTransportCoordinate(){
         self.getEverythingData(city: "izh")
     }
     
-    func updateMapScreen(obj: EverythingResponse){
-        var bufferLocations: [MapModel.Location] = []
-        obj.data.forEach { item in
+    func fillLocations(obj: EverythingResponse) -> [MapModel.Location]{
+        var locations: [MapModel.Location] = []
+        
+        for item in obj.data {
+            
+            let type = GeneralViewModel.getTransportTypeFromString(transport_type: item.ts_type)
+            
+            if((model.hideBus && (type == .bus || type == .countrybus)) || (model.hideTrain && type == .train) || (model.hideTrolleybus && type == .trolleybus)){
+                continue
+            }
+            
             if(item.visible == 1 && item.reys_status == "ok"){
-                bufferLocations.append(MapModel.Location(name: item.gosnumber, icon: GeneralViewModel.getPictureTransport(type: item.ts_type), coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
+                
+                let transportIcon = GeneralViewModel.getPictureTransport(type: item.ts_type)
+                let color = GeneralViewModel.getTransportColor(type: item.ts_type)
+                
+                locations.append(MapModel.Location(name: item.route, icon: transportIcon, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!), color: color, type: type))
             }
         }
-        DispatchQueue.main.async {
-            self.model.locations = bufferLocations
+        
+        
+        return locations
+    }
+    
+    func reloadMap(){
+        if let bufferResponse = self.bufferResponse{
+            self.model.locations = fillLocations(obj: bufferResponse)
         }
-        debugPrint("map was updated")
+    }
+    
+    func updateMapScreen(obj: EverythingResponse){
+        
+        self.bufferResponse = obj
+        
+        let result = fillLocations(obj: obj)
+        
+        DispatchQueue.main.async {
+            self.model.locations = result
+        }
+        debugPrint("карта была обновлена")
     }
     
     func getEverythingData(city: String){

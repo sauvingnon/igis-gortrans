@@ -39,3 +39,7 @@ struct LabelTypeTransport: View {
     }
 }
 
+#Preview {
+    LabelTypeTransport(typeTransport: .bus)
+}
+

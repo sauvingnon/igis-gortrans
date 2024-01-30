@@ -11,14 +11,13 @@ class SelectStopViewModel{
     
     static let shared = SelectStopViewModel()
     private init(){
-        fillStopList(searchText: "")
+        
     }
     
-    private let model = SelectStopModel.shared
-    
-    func fillStopList(searchText: String){
+    func fillStopList(searchText: String) -> [StopItem]{
         var stops = DataBase.getAllStops()
         let text = searchText.lowercased()
+        var result: [StopItem] = []
         
         if(!text.isEmpty){
             stops = stops.filter { item in
@@ -30,9 +29,39 @@ class SelectStopViewModel{
             
             let stopsType = DataBase.getTypesTransportForStop(stopId: stopItem.stop_id)
             
-            model.stopsList.append(StopItem(stop_id: stopItem.stop_id, typeTransportList: stopsType, stopName: stopItem.stop_name ?? "ошибка", stopDirection: stopItem.stop_direction ?? "ошибка"))
+            result.append(StopItem(stop_id: stopItem.stop_id, typeTransportList: stopsType, stopName: stopItem.stop_name ?? "ошибка", stopDirection: stopItem.stop_direction ?? "ошибка"))
         }
+        
+        
+        
+        return result
         
     }
     
+}
+
+struct StopItem: Identifiable{
+    let id = UUID()
+    let stop_id: Int
+    let typeTransportList: [TypeTransport]
+    let stopName: String
+    let stopDirection: String
+    let distance: Int?
+    
+    init(stop_id: Int, typeTransportList: [TypeTransport], stopName: String, stopDirection: String, distance: Int? = nil) {
+        self.stop_id = stop_id
+        self.typeTransportList = typeTransportList
+        self.stopName = stopName
+        self.stopDirection = stopDirection
+        
+        if var distanceValue = distance{
+            // Округлим значение метров до +-5
+            let diff = distanceValue % 5
+            distanceValue -= diff
+            self.distance = distanceValue
+        }else{
+            self.distance = nil
+        }
+        
+    }
 }

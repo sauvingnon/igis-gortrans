@@ -124,7 +124,7 @@ class ShowTransportRouteViewModel{
         
         fillMenu()
         presentRoute()
-        getRouteData()
+//        getRouteData()
     }
     
     func disconfigureView(){
@@ -147,12 +147,12 @@ class ShowTransportRouteViewModel{
     func updateRouteScreen(obj: RouteResponse){
         var result: [Station] = []
         
-        if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !alertAlreadyPresented){
+        if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !alertAlreadyPresented) {
             debugPrint("статус маршрута не рабочий - \(obj.data.notwork.code)")
-            if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description){
-                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "\(description) - (\(obj.data.notwork.code))")
-            }else{
-                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "Код причины - (\(obj.data.notwork.code))")
+            if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description) {
+                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "\(description).")
+            } else {
+                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "Код причины - (\(obj.data.notwork.code)).")
                 debugPrint("Не удалось раскодировать html строку!")
             }
             
@@ -170,20 +170,20 @@ class ShowTransportRouteViewModel{
             if let findStation = obj.data.scheme.first(where: { item in
                 return item.stop == String(stationView.id)
             }){
-                if(findStation.ts.count == 0){
-                    if(findStation.sec > 3600){
+                if(findStation.ts.count == 0) {
+                    if(findStation.sec > 3600) {
                         result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: String((findStation.time) ?? GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec))))
-                    }else{
+                    } else {
                         result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec)))
                     }
-                }else{
+                } else {
                     result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransport(type: (findStation.ts.first!.ts_type)), time: GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec), transportId: findStation.ts.first?.id))
                 }
             }
         })
         
         obj.data.scheme.forEach { item in
-            if(item.stop.contains("-")){
+            if(item.stop.contains("-")) {
                 let stop_id = String(item.stop.split(separator: "-").last ?? "0")
                 if let stationIndex = result.firstIndex(where: { station in
                     String(station.id) == stop_id

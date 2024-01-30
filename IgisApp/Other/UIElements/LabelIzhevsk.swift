@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LabelIzhevsk: View {
     
-    @State var withBackButton: Bool
+    var withBackButton: Bool
     
     var handlerFunc: ()->()
     

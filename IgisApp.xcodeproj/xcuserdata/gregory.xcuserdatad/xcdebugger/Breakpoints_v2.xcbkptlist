@@ -103,15 +103,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2513A4E9-521C-4A5A-8DDB-26663E948A55"
+            uuid = "AE9CB087-B6E8-4EAB-A115-CFF6E7E1681A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "IgisApp/ViewGroup/MapGroup/MapView.swift"
+            filePath = "IgisApp/ViewGroup/ShowTransportGroup/ShowTransportRoute/ShowTransportRouteView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

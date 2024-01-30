@@ -17,33 +17,20 @@ struct AnswersView: View {
     @State var scaleBack = 1.0
     var body: some View {
         VStack{
-            HStack(alignment: .top){
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 25))
-                    .padding(.leading, 20)
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .scaleEffect(scaleBack)
-                    .onTapGesture {
-                        scaleBack = 2.0
-                        withAnimation(.spring(dampingFraction: 0.5)){
-                            scaleBack = 1.0
-                        }
-                        dismiss()
-                    }
-                Spacer()
-            }
-            .padding(.top, 20)
-            .padding(.horizontal, 20)
             
-            Text(model.answerTitle)
-                .padding(.horizontal, 20)
-                .lineLimit(2)
-                .multilineTextAlignment(.trailing)
-                .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                .fontWeight(.light)
-                .font(.system(size: 25))
-                .padding(.top, 20)
-                .minimumScaleFactor(0.01)
+            CustomBackLabel(text: model.answerTitle){
+                dismiss()
+            }
+            
+//            Text(model.answerTitle)
+//                .padding(.horizontal, 20)
+//                .lineLimit(2)
+//                .multilineTextAlignment(.trailing)
+//                .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+//                .fontWeight(.light)
+//                .font(.system(size: 25))
+//                .padding(.top, 20)
+//                .minimumScaleFactor(0.01)
             
             HStack{
                 Text(model.answerDescription)
@@ -66,8 +53,11 @@ struct AnswersView: View {
     }
 }
 
-//struct AnswersView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AnswersView()
-//    }
-//}
+struct AnswersView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        AnswersView(navigationStack: $stack)
+    }
+}

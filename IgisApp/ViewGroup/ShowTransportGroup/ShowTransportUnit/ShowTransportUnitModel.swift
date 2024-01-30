@@ -17,7 +17,7 @@ class ShowTransportUnitModel: ObservableObject {
     
     @Published var opacity = 1.0
     @Published var showIndicator = false
-    @Published var transportUnitDescription = "-"
+    var transportUnitDescription = "-"
     var transportId = ""
     var data: [Station] = []
     var priceCash = 0
@@ -38,5 +38,6 @@ class ShowTransportUnitModel: ObservableObject {
         let name: String
         let icon: String
         let coordinate: CLLocationCoordinate2D
+        let color: Color
     }
 }

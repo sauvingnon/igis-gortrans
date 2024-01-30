@@ -98,9 +98,9 @@ struct ShowTransportStopView: View {
             Spacer()
             
         }
-//        .onAppear(){
-//            viewModel.getStationData()
-//        }
+        .onAppear(){
+            viewModel.getStationData()
+        }
     }
     
 }
@@ -159,8 +159,11 @@ struct TransportWaiter: View, Identifiable, Equatable {
     }
 }
 
-//struct ShowStopOnline_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ShowStopOnline()
-//    }
-//}
+struct ShowTransportStopView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        ShowTransportStopView(navigationStack: $stack)
+    }
+}

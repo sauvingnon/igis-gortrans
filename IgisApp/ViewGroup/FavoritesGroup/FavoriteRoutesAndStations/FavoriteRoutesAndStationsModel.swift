@@ -26,16 +26,5 @@ class FavoritesRoutesAndStationsModel: ObservableObject{
         }
     }
     
-    @Published var favoriteStops: [FavoriteStop]
-    class FavoriteStop: Identifiable{
-        var id = UUID()
-        var stopId: Int
-        var stopName: String
-        var stopDirection: String
-        init(stopId: Int, stopName: String, stopDirection: String) {
-            self.stopId = stopId
-            self.stopName = stopName
-            self.stopDirection = stopDirection
-        }
-    }
+    @Published var favoriteStops: [StopItem]
 }

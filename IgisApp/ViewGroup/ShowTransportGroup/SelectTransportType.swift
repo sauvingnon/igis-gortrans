@@ -11,7 +11,7 @@ struct SelectTransportType: View {
     
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
-
+    
     var body: some View {
         VStack(){
             LabelIzhevsk(withBackButton: true)
@@ -24,8 +24,9 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "bus") .resizable()
-                            .scaledToFit()
+                        Image(systemName: "bus")
+                            .resizable()
+//                            .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Автобусы")
                             .foregroundColor(Color.white)
@@ -39,7 +40,8 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "bus.doubledecker") .resizable()
+                        Image(systemName: "bus.doubledecker")
+                            .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Троллейбусы")
@@ -58,7 +60,8 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "tram") .resizable()
+                        Image(systemName: "tram") 
+                            .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Трамваи")
@@ -74,7 +77,8 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "bus.fill") .resizable()
+                        Image(systemName: "bus.fill") 
+                            .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Пригородные автобусы")
@@ -96,8 +100,11 @@ struct SelectTransportType: View {
     }
 }
 
-//struct SelectTransportType_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SelectTransportType()
-//    }
-//}
+struct SelectTransportType_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        SelectTransportType(navigationStack: $stack)
+    }
+}

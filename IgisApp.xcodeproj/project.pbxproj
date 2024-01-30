@@ -11,6 +11,9 @@
 		F30FB5D22B62D30D0083114E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FB5D12B62D30D0083114E /* Extensions.swift */; };
 		F30FB5D42B62D39C0083114E /* CustomNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FB5D32B62D39C0083114E /* CustomNavigationStack.swift */; };
 		F311176C299A406100351326 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F311176B299A406100351326 /* DataBase.swift */; };
+		F31E02B12B690D13003527AF /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E02B02B690D13003527AF /* SettingsButton.swift */; };
+		F31E02B32B69107F003527AF /* QuestionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E02B22B69107F003527AF /* QuestionButton.swift */; };
+		F31E02B52B6911DE003527AF /* CustomBackLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E02B42B6911DE003527AF /* CustomBackLabel.swift */; };
 		F31E23642B0AA63E008BDFD7 /* AppTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */; };
 		F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */; };
 		F32013C72B28513400A8727A /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32013C62B28513400A8727A /* ScannerView.swift */; };
@@ -61,7 +64,6 @@
 		F3795AA529A4001F00FF05FD /* AnswersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3795AA429A4001F00FF05FD /* AnswersView.swift */; };
 		F37E4AAA2995530D00049934 /* ShowTransportRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37E4AA92995530D00049934 /* ShowTransportRouteView.swift */; };
 		F3908C792B10EDCC0096BEFE /* SelectStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3908C782B10EDCC0096BEFE /* SelectStopViewModel.swift */; };
-		F3908C7C2B10EDD60096BEFE /* SelectStopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3908C7B2B10EDD60096BEFE /* SelectStopModel.swift */; };
 		F3993E6029A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3993E5F29A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift */; };
 		F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */; };
 		F39F13422993D69A001E750B /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39F13412993D699001E750B /* AppTabBarView.swift */; };
@@ -104,6 +106,9 @@
 		F30FB5D12B62D30D0083114E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F30FB5D32B62D39C0083114E /* CustomNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationStack.swift; sourceTree = "<group>"; };
 		F311176B299A406100351326 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		F31E02B02B690D13003527AF /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
+		F31E02B22B69107F003527AF /* QuestionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionButton.swift; sourceTree = "<group>"; };
+		F31E02B42B6911DE003527AF /* CustomBackLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackLabel.swift; sourceTree = "<group>"; };
 		F31E23632B0AA63E008BDFD7 /* AppTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarViewModel.swift; sourceTree = "<group>"; };
 		F31E23652B0AA650008BDFD7 /* AppTabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarModel.swift; sourceTree = "<group>"; };
 		F32013C62B28513400A8727A /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
@@ -154,7 +159,6 @@
 		F3795AA429A4001F00FF05FD /* AnswersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersView.swift; sourceTree = "<group>"; };
 		F37E4AA92995530D00049934 /* ShowTransportRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportRouteView.swift; sourceTree = "<group>"; };
 		F3908C782B10EDCC0096BEFE /* SelectStopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopViewModel.swift; sourceTree = "<group>"; };
-		F3908C7B2B10EDD60096BEFE /* SelectStopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStopModel.swift; sourceTree = "<group>"; };
 		F3993E5F29A6B4540087C1B7 /* FavoriteRoutesAndStationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRoutesAndStationsView.swift; sourceTree = "<group>"; };
 		F39F133F2993CEF4001E750B /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		F39F13412993D699001E750B /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
@@ -376,6 +380,9 @@
 				F30FB5D12B62D30D0083114E /* Extensions.swift */,
 				F337E4242B2CE60300D4C2AA /* LabelOfTransportUnit.swift */,
 				F36152882B0B551700A77C45 /* LabelIzhevsk.swift */,
+				F31E02B02B690D13003527AF /* SettingsButton.swift */,
+				F31E02B22B69107F003527AF /* QuestionButton.swift */,
+				F31E02B42B6911DE003527AF /* CustomBackLabel.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -403,7 +410,6 @@
 			children = (
 				F30BC48929A2C79000406D00 /* SelectStopView.swift */,
 				F3908C782B10EDCC0096BEFE /* SelectStopViewModel.swift */,
-				F3908C7B2B10EDD60096BEFE /* SelectStopModel.swift */,
 			);
 			path = SelectStop;
 			sourceTree = "<group>";
@@ -633,12 +639,12 @@
 			files = (
 				F362C8DA29AA45820019B28C /* CustomScrollReader.swift in Sources */,
 				F3F67DD82A27D0E600165BB2 /* MapModel.swift in Sources */,
-				F3908C7C2B10EDD60096BEFE /* SelectStopModel.swift in Sources */,
 				F3B75E762B1B40FB00FD6524 /* FindNearestStopsView.swift in Sources */,
 				F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */,
 				F35B5E6D2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift in Sources */,
 				F34DB4082B5808C600718B3B /* ViewDismissable.swift in Sources */,
 				F3B75E7B2B1B431A00FD6524 /* FindNearestStopsModel.swift in Sources */,
+				F31E02B52B6911DE003527AF /* CustomBackLabel.swift in Sources */,
 				F32013C72B28513400A8727A /* ScannerView.swift in Sources */,
 				F3908C792B10EDCC0096BEFE /* SelectStopViewModel.swift in Sources */,
 				F35B5E772B04F75200E82998 /* ShowTransportStopViewModel.swift in Sources */,
@@ -677,9 +683,11 @@
 				F34439102B2DE7F900376238 /* NavigationStackManager.swift in Sources */,
 				F3F60801292E264D0009E684 /* CustomTabBar.swift in Sources */,
 				F32013CB2B2857F800A8727A /* Permission.swift in Sources */,
+				F31E02B32B69107F003527AF /* QuestionButton.swift in Sources */,
 				F37E4AAA2995530D00049934 /* ShowTransportRouteView.swift in Sources */,
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */,
+				F31E02B12B690D13003527AF /* SettingsButton.swift in Sources */,
 				F35B5E722B04F51B00E82998 /* ChooseTransportRouteViewModel.swift in Sources */,
 				F30FB5D42B62D39C0083114E /* CustomNavigationStack.swift in Sources */,
 				F35B5E6A2B04EECB00E82998 /* ShowTransportUnitViewModel.swift in Sources */,

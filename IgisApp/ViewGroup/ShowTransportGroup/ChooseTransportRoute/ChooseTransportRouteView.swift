@@ -50,8 +50,11 @@ struct ChooseTransportRouteView: View {
     
 }
 
-//struct SelectNumTSView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SelectTransportNumber()
-//    }
-//}
+struct ChooseTransportRouteView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        ChooseTransportRouteView(navigationStack: $stack)
+    }
+}

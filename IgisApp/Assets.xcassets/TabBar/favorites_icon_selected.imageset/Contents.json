@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "favorites_icon_selected.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "favorites_icon_selected.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },

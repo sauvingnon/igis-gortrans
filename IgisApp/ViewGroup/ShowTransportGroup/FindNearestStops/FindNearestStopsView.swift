@@ -70,14 +70,10 @@ struct FindNearestStopsView: View {
                 LazyVGrid(columns: columns, alignment: .leading){
                     ForEach(model.stopsList) { item in
                         GridRow{
-                            StopRowView(stop: item)
+                            StopRowView(stop: item, handlerFunc: stopTapped)
                         }
                         .padding(.bottom, 10)
                         .padding(.horizontal, 20)
-                        .onTapGesture {
-                            ShowTransportStopViewModel.shared.configureView(stop_id: item.stop_id)
-                            navigationStack.append(CurrentTransportSelectionView.showStopOnline)
-                        }
                     }
                 }
                 
@@ -91,6 +87,11 @@ struct FindNearestStopsView: View {
         .onDisappear(){
             viewModel.disConfigureView()
         }
+    }
+    
+    private func stopTapped(stop_id: Int){
+        ShowTransportStopViewModel.shared.configureView(stop_id: stop_id)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
     }
 }
 

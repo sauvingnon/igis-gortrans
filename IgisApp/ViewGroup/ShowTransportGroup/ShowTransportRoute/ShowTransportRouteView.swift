@@ -33,7 +33,7 @@ struct ShowTransportRouteView: View {
                     .onChange(of: model.menu.currentStop, perform: { newValue in
                         let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
                         
-                        ShowTransportRouteViewModel.shared.presentRoute(direction: newDirection)
+                        viewModel.presentRoute(direction: newDirection)
                     })
                 
                 ScrollView{
@@ -57,9 +57,9 @@ struct ShowTransportRouteView: View {
             }
             
         }
-//        .onAppear(){
-//            viewModel.getRouteData()
-//        }
+        .onAppear(){
+            viewModel.presentRoute()
+        }
     }
     
     func labelStopTapped(stopId: Int?){
@@ -81,11 +81,14 @@ struct ShowTransportRouteView: View {
     
 }
 
-//struct ShowRouteOnline_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ShowRouteOnline()
-//    }
-//}
+struct ShowRouteOnline_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        ShowTransportRouteView(navigationStack: $stack)
+    }
+}
 
 struct StationRow: View{
     var station: Station
@@ -124,6 +127,7 @@ struct StationRow: View{
                 HStack{
                     Image(systemName: station.pictureTs)
                         .resizable()
+                        .scaledToFit()
                         .foregroundColor(.blue)
                         .frame(width: 25, height: 25)
                         .onTapGesture {
@@ -137,6 +141,7 @@ struct StationRow: View{
                             HStack(alignment: .top){
                                 Image(systemName: station.pictureTs)
                                     .resizable()
+                                    .scaledToFit()
                                     .foregroundColor(.blue)
                                     .frame(width: 20, height: 20)
                                     .onTapGesture {

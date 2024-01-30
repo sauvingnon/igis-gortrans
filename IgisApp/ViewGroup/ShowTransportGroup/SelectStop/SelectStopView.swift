@@ -15,7 +15,6 @@ struct SelectStopView: View {
     @State var searchText = ""
     @FocusState private var searchIsFocuced: Bool
     
-    @ObservedObject var model = SelectStopModel.shared
     private let viewModel = SelectStopViewModel.shared
     
     var columns: [GridItem] = [
@@ -39,16 +38,12 @@ struct SelectStopView: View {
             
             ScrollView{
                 LazyVGrid(columns: columns, alignment: .leading){
-                    ForEach(model.stopsList) { item in
+                    ForEach(viewModel.fillStopList(searchText: searchText)) { item in
                         GridRow{
-                            StopRowView(stop: item)
+                            StopRowView(stop: item, handlerFunc: stopTapped)
                         }
                         .padding(.bottom, 10)
                         .padding(.horizontal, 20)
-                        .onTapGesture {
-                            ShowTransportStopViewModel.shared.configureView(stop_id: item.stop_id)
-                            navigationStack.append(CurrentTransportSelectionView.showStopOnline)
-                        }
                     }
                 }
                 .animation(.default, value: searchText)
@@ -63,48 +58,57 @@ struct SelectStopView: View {
             ServiceSocket.shared.emitOff()
         }
     }
+    
+    private func stopTapped(stop_id: Int){
+        ShowTransportStopViewModel.shared.configureView(stop_id: stop_id)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
+    }
 }
 
 struct StopRowView: View {
     
     @State var stop: StopItem
-
+    var handlerFunc: (Int) -> ()
     var body: some View {
-        HStack{
-            if(stop.typeTransportList.contains(.bus)){
-                Image("bus_icon")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-            }
-            if(stop.typeTransportList.contains(.countrybus)){
-                Image("bus_icon")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-            }
-            if(stop.typeTransportList.contains(.train)){
-                Image("train_icon")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-            }
-            if(stop.typeTransportList.contains(.trolleybus)){
-                Image("trolleybus_icon")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-            }
-            Text(stop.stopName)
-                .foregroundColor(.blue)
-                .bold()
-            Text("-")
-                .foregroundColor(.blue)
-            Text(stop.stopDirection)
-                .foregroundColor(.blue)
-            if let distance = stop.distance{
-                Text("\(distance) м")
+        Button(action: {
+            handlerFunc(stop.stop_id)
+        }, label: {
+            HStack{
+                if(stop.typeTransportList.contains(.bus)){
+                    Image("bus_icon")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                if(stop.typeTransportList.contains(.countrybus)){
+                    Image("bus_icon")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                if(stop.typeTransportList.contains(.train)){
+                    Image("train_icon")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                if(stop.typeTransportList.contains(.trolleybus)){
+                    Image("trolleybus_icon")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                Text(stop.stopName)
                     .foregroundColor(.blue)
-                    .font(.title3)
+                    .bold()
+                Text("-")
+                    .foregroundColor(.blue)
+                Text(stop.stopDirection)
+                    .foregroundColor(.blue)
+                if let distance = stop.distance{
+                    Text("\(distance) м")
+                        .foregroundColor(.blue)
+                        .font(.title3)
+                }
+                
             }
-            
-        }
+        })
     }
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct LabelOfStopOrRoute: View {
-    @State var name: String
+    var name: String
     @Binding var isFavorite: Bool
     @State private var sizeStar = 1.0
     var backTapp: ()->()
@@ -48,6 +48,19 @@ struct LabelOfStopOrRoute: View {
             .clipShape(Rectangle())
             .cornerRadius(25)
             .padding(.top, 10)
+        })
+    }
+}
+
+struct LabelOfStopOrRoute_Previews: PreviewProvider {
+    
+    @State static var isFavorite = true
+    
+    static var previews: some View {
+        LabelOfStopOrRoute(name: "Леваневского", isFavorite: $isFavorite, backTapp: {
+            
+        }, starTapp: {
+            
         })
     }
 }

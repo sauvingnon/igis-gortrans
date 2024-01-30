@@ -51,6 +51,7 @@ struct SelectRouteOrStationView: View {
             
             ScrollView{
                 Button(action: {
+                    FavoritesGroupStackManager.shared.clearNavigationStack()
                     navigationStack.append(CurrentTransportSelectionView.chooseTypeTransport)
                 }, label: {
                     Text("Маршруты")
@@ -65,6 +66,7 @@ struct SelectRouteOrStationView: View {
                 
                 
                 Button(action: {
+                    FavoritesGroupStackManager.shared.clearNavigationStack()
                     navigationStack.append(CurrentTransportSelectionView.selectStopView)
                 }, label: {
                     Text("Остановки")
@@ -79,6 +81,7 @@ struct SelectRouteOrStationView: View {
                 })
                 
                 Button(action: {
+                    FavoritesGroupStackManager.shared.clearNavigationStack()
                     navigationStack.append(CurrentTransportSelectionView.findNearestStops)
                 }, label: {
                     Text("Определить остановку")
@@ -92,6 +95,7 @@ struct SelectRouteOrStationView: View {
                 })
                 
                 Button(action: {
+                    FavoritesGroupStackManager.shared.clearNavigationStack()
                     navigationStack.append(CurrentTransportSelectionView.QRScanner)
                 }, label: {
                     Text("Сканировать QR")
@@ -104,17 +108,22 @@ struct SelectRouteOrStationView: View {
                         .fontWeight(.medium)
                         .padding(.top, 20)
                 })
+                
+                Spacer()
             }
         }
     }
     
 }
 
-//struct SelectRouteOrStationView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SelectRouteOrStationView()
-//    }
-//}
+struct SelectRouteOrStationView_Previews: PreviewProvider {
+    
+    @State static var stack = NavigationPath()
+    
+    static var previews: some View {
+        SelectRouteOrStationView(navigationStack: $stack)
+    }
+}
 
 class DateTime: ObservableObject{
     @Published var time: String = ""
