@@ -24,25 +24,21 @@ struct MapView: View {
         ZStack{
             Map(coordinateRegion: $region, annotationItems: model.locations){ location in
                 MapAnnotation(coordinate: location.coordinate){
-                    ZStack{
-                        Image(systemName: location.icon)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.white)
-                            .padding(3)
-                            .background(location.color)
-                            .cornerRadius(50)
-                        Text(location.name)
-                            .padding(.horizontal, 10)
-                            .background(.white)
-                            .cornerRadius(10)
-                            .position(x: 30, y: 30)
-                            .font(.system(size: 14))
+                    if(model.useSmallMapItems){
+                        MapItemSmall(location: location)
+                    }else{
+                        MapItem(location: location)
                     }
+                    
                 }
-                
             }
             .ignoresSafeArea()
+            .onChange(of: region.span) { currentSpan in
+                viewModel.mapSpanWasChanged(mapSpan: currentSpan)
+            }
+            .onChange(of: region.center) { currentCenter in
+                viewModel.mapCenterWasChanged(center: currentCenter)
+            }
             
             VStack{
                 Button(action: {
@@ -87,11 +83,24 @@ struct MapView: View {
                         .opacity((model.hideTrolleybus) ? 0.5 : 1.0)
                 })
                 .padding(10)
+                Button(action: {
+                    model.onlyFavoritesTransport.toggle()
+                    viewModel.reloadMap()
+                }, label: {
+                    Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundColor(.white)
+                        .padding(3)
+                        .background(.green)
+                        .cornerRadius(10)
+                })
+                .padding(10)
             }
-            .frame(width: 50, height: 200)
+            .frame(width: 50, height: 240)
             .background(Color.white.opacity(0.7))
             .cornerRadius(20)
-            .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight-270)
+            .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight-290)
         }
         .onAppear{
             viewModel.getTransportCoordinate()

@@ -38,6 +38,9 @@ struct FavoritesGroupStackManager: View {
                     case .showTransportUnit:
                         ShowTransportUnitView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
+                    case .QRScanner:
+                        ScannerView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
                     default:
                         FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)

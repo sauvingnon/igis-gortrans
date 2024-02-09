@@ -137,16 +137,24 @@ class GeneralViewModel{
         favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .bus, numbers: []))
         favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .countrybus, numbers: []))
         if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
-            favoritesArray.forEach { Int in
+            favoritesArray.forEach { routeId in
                 favorites.first { FavoriteRoute in
-                    FavoriteRoute.type == DataBase.getTypeTransportFromId(routeId: Int)
-                }?.numbers.append(DataBase.getRouteNumber(routeId: Int))
+                    FavoriteRoute.type == DataBase.getTypeTransportFromId(routeId: routeId)
+                }?.numbers.append(DataBase.getRouteNumber(routeId: routeId))
             }
         }
         favorites.removeAll { FavoriteRoute in
             FavoriteRoute.numbers.count == 0
         }
         return favorites
+    }
+    
+    static func getFavoriteRouteId() -> [Int]{
+        if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
+            return favoritesArray
+        }else{
+            return []
+        }
     }
     
     static func getFavoriteStopData() -> [StopItem]{

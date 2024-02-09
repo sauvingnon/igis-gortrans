@@ -23,7 +23,7 @@ struct SelectStopView: View {
     
     var body: some View {
         VStack{
-            LabelIzhevsk(withBackButton: true)
+            LabelIzhevsk(withBackButton: true, stack: $navigationStack)
             {
                 dismiss()
             }

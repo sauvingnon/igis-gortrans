@@ -24,7 +24,7 @@ struct FindNearestStopsView: View {
     
     var body: some View {
         VStack{
-            LabelIzhevsk(withBackButton: true, handlerFunc: {
+            LabelIzhevsk(withBackButton: true, stack: $navigationStack, handlerFunc: {
                 dismiss()
             })
             

@@ -19,7 +19,7 @@ class ShowTransportUnitModel: ObservableObject {
     @Published var showIndicator = false
     var transportUnitDescription = "-"
     var transportId = ""
-    var data: [Station] = []
+    var data: [Stop] = []
     var priceCash = 0
     var priceCard = 0
     var priceTransportCard = 0

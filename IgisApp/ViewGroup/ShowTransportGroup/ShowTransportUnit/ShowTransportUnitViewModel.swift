@@ -76,7 +76,7 @@ class ShowTransportUnitViewModel{
                         firstStationState = true
                     }
                 }
-                self.model.data.append(Station(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "5 мин"))
+                self.model.data.append(Stop(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "5 мин"))
                 
             }
             

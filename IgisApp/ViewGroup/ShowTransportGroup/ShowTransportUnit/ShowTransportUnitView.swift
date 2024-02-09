@@ -56,17 +56,10 @@ struct ShowTransportUnitView: View {
                     Grid(alignment: .trailing){
                         ForEach(model.data) { item in
                             GridRow{
-                                StationRow(station: item, handlerTransportImageTapp: {_ in }, handlerLabelStopTapp: {_ in })
+                                StopListRow(station: item, handlerTransportImageTapp: {_ in }, handlerLabelStopTapp: {_ in }, handlerLabelTimeTapp: {_ in })
                                     .onTapGesture(count: 1){
                                         
                                     }
-                                //                                    .swipeActions(edge: .trailing, allowsFullSwipe: true){
-                                //                                        Button {
-                                //                                            print("Message deleted")
-                                //                                        } label: {
-                                //                                            Label("Delete", systemImage: "trash")
-                                //                                        }
-                                //                                    }
                             }
                         }
                     }

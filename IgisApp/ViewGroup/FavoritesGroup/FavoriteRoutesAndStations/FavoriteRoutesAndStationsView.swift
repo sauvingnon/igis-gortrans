@@ -15,7 +15,7 @@ struct FavoriteRoutesAndStationsView: View {
     
     var body: some View {
         VStack{
-            LabelIzhevsk(withBackButton: false){
+            LabelIzhevsk(stack: $navigationStack){
                 
             }
             ScrollView(.vertical, showsIndicators: false){

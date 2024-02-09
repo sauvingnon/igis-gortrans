@@ -85,7 +85,7 @@ class ShowTransportRouteViewModel{
         stopsOfRoute.forEach { stopId in
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
             withAnimation {
-                model.data.append(Station(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "--"))
+                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "--"))
             }
             stationState = .someStation
         }
@@ -145,10 +145,12 @@ class ShowTransportRouteViewModel{
     }
     
     func updateRouteScreen(obj: RouteResponse){
-        var result: [Station] = []
+        var result: [Stop] = []
         
+        // Проверяем статус маршрута
         if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !alertAlreadyPresented) {
             debugPrint("статус маршрута не рабочий - \(obj.data.notwork.code)")
+            // Попытка распарсить html текст и показ алерта.
             if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description) {
                 AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "\(description).")
             } else {
@@ -160,35 +162,38 @@ class ShowTransportRouteViewModel{
             return
         }
         
-        let notSeenTransport = (obj.data.notwork.network.first ?? 0) - (obj.data.notwork.network.last ?? 0)
-        if(notSeenTransport != 0){
-            debugPrint("На маршруте не отображается \(notSeenTransport) единиц/ы транспорта")
+        DispatchQueue.main.async {
+            if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description) {
+                self.model.status = description
+            }else{
+                debugPrint("Не удалось раскодировать html строку!")
+                self.model.status = "-"
+            }
         }
         
+        // Перебор всех остановок
         model.data.forEach({ stationView in
             
             if let findStation = obj.data.scheme.first(where: { item in
                 return item.stop == String(stationView.id)
             }){
+                // Вывод данных
                 if(findStation.ts.count == 0) {
-                    if(findStation.sec > 3600) {
-                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: String((findStation.time) ?? GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec))))
-                    } else {
-                        result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec)))
-                    }
+                    let timeToArrival = GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec)
+                    
+                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: findStation.sec > 3600 ? (findStation.time ?? timeToArrival) : timeToArrival))
                 } else {
-                    result.append(Station(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransport(type: (findStation.ts.first!.ts_type)), time: GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec), transportId: findStation.ts.first?.id))
+                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransport(type: (findStation.ts.first!.ts_type)), time:"", transportId: findStation.ts.first?.id))
                 }
             }
         })
         
         obj.data.scheme.forEach { item in
             if(item.stop.contains("-")) {
-                let stop_id = String(item.stop.split(separator: "-").last ?? "0")
+                let stop_id_next = String(item.stop.split(separator: "-").last ?? "0")
                 if let stationIndex = result.firstIndex(where: { station in
-                    String(station.id) == stop_id
+                    String(station.id) == stop_id_next
                 }){
-                    result[stationIndex].isNext = true
                     result[stationIndex].pictureTs = GeneralViewModel.getPictureTransport(type: (item.ts.first!.ts_type))
                     result[stationIndex].transportId = item.ts.first?.id
                 }

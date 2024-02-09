@@ -26,6 +26,15 @@
         "revision" : "df8d82047f6654d8e4b655d1b1525c64e1059d21",
         "version" : "4.0.4"
       }
+    },
+    {
+      "identity" : "swiftuimap",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Mcrich23/SwiftUIMap.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f3d62154a7f6f58011b3a8abb57883f924a9a0bf"
+      }
     }
   ],
   "version" : 2
