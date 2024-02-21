@@ -17,7 +17,11 @@ class MapModel: ObservableObject{
         
     }
     
-    @Published var locations: [LocationTransport] = []
+    @Published var locations: [CustomAnnotation] = []{
+        willSet{
+            CustomMap.updateAnnotation(locations: newValue)
+        }
+    }
     @Published var hideBus = false
     @Published var hideTrain = false
     @Published var hideTrolleybus = false

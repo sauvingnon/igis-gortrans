@@ -44,20 +44,20 @@ struct ShowTransportRouteView: View {
                         }
                     }
                     
-                    HStack{
-                        Text("ПОДРОБНОСТИ")
-                            .opacity(0.8)
-                            .font(.system(size: 14))
-                            .opacity(0.8)
-                            .lineLimit(1)
-                            .padding(.horizontal, 20)
-                            .minimumScaleFactor(0.01)
-                            .padding(.vertical, 1)
-                        
-                        Spacer()
-                    }
-                    
                     if(model.status != "-"){
+                        HStack{
+                            Text("ПОДРОБНОСТИ")
+                                .opacity(0.8)
+                                .font(.system(size: 14))
+                                .opacity(0.8)
+                                .lineLimit(1)
+                                .padding(.horizontal, 20)
+                                .minimumScaleFactor(0.01)
+                                .padding(.vertical, 1)
+                            
+                            Spacer()
+                        }
+                        
                         VStack{
                             HStack{
                                 Text(model.status)

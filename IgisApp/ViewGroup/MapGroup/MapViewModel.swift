@@ -70,8 +70,8 @@ class MapViewModel {
         }
     }
     
-    func fillLocations(obj: EverythingResponse) -> [LocationTransport]{
-        var locations: [LocationTransport] = []
+    func fillLocations(obj: EverythingResponse) -> [CustomAnnotation]{
+        var locations: [CustomAnnotation] = []
         
         let favoriteRoutes = GeneralViewModel.getFavoriteRouteId()
         
@@ -99,7 +99,8 @@ class MapViewModel {
                 let transportIcon = GeneralViewModel.getPictureTransport(type: item.ts_type)
                 let color = GeneralViewModel.getTransportColor(type: item.ts_type)
                 
-                locations.append(LocationTransport(name: item.route, icon: transportIcon, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!), color: color, type: type, azimuth: item.azimuth))
+//                locations.append(CustomAnnotation(name: item.route, icon: transportIcon, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!), color: color, type: type, azimuth: item.azimuth))
+                locations.append(CustomAnnotation(name: item.route, icon: transportIcon, color: color, type: type, azimuth: item.azimuth, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
             }
         }
         

@@ -10,7 +10,7 @@ import MapKit
 
 struct MapItemSmall: View {
     
-    var location: LocationTransport
+    var location: CustomAnnotation
     
     var body: some View {
         ZStack{
@@ -32,7 +32,7 @@ struct MapItemSmall: View {
     }
 }
 
-#Preview {
-    MapItemSmall(location: LocationTransport(name: "21", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: 56.0, longitude: 53.0), color: .green, type: .bus, azimuth: 0))
-}
+//#Preview {
+//    MapItemSmall(location: LocationTransport(name: "21", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: 56.0, longitude: 53.0), color: .green, type: .bus, azimuth: 0))
+//}
 

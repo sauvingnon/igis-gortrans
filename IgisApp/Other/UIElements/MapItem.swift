@@ -10,7 +10,7 @@ import MapKit
 
 struct MapItem: View {
     
-    var location: LocationTransport
+    var location: CustomAnnotation
     
     var body: some View {
         ZStack{
@@ -53,9 +53,9 @@ struct MapItem: View {
     }
 }
 
-#Preview {
-    MapItem(location: LocationTransport(name: "21", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: 56.0, longitude: 53.0), color: .green, type: .bus, azimuth: 0))
-}
+//#Preview {
+//    MapItem(location: CustomAnnotation(name: "21", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: 56.0, longitude: 53.0), color: .green, type: .bus, azimuth: 0))
+//}
 
 private struct Triangle: Shape {
   let cornerRadius: CGFloat

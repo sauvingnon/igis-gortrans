@@ -22,85 +22,96 @@ struct MapView: View {
     
     var body: some View {
         ZStack{
-            Map(coordinateRegion: $region, annotationItems: model.locations){ location in
-                MapAnnotation(coordinate: location.coordinate){
-                    if(model.useSmallMapItems){
-                        MapItemSmall(location: location)
-                    }else{
-                        MapItem(location: location)
+            CustomMap(locations: $model.locations, region: $region)
+                .ignoresSafeArea()
+                .onChange(of: region.span) { currentSpan in
+                        viewModel.mapSpanWasChanged(mapSpan: currentSpan)
                     }
-                    
-                }
-            }
-            .ignoresSafeArea()
-            .onChange(of: region.span) { currentSpan in
-                viewModel.mapSpanWasChanged(mapSpan: currentSpan)
-            }
-            .onChange(of: region.center) { currentCenter in
-                viewModel.mapCenterWasChanged(center: currentCenter)
-            }
+                    .onChange(of: region.center) { currentCenter in
+                        viewModel.mapCenterWasChanged(center: currentCenter)
+                    }
             
-            VStack{
-                Button(action: {
-                    model.hideBus.toggle()
-                    viewModel.reloadMap()
-                }, label: {
-                    Image(systemName: "bus")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundColor(.white)
-                        .padding(3)
-                        .background(.green)
-                        .cornerRadius(10)
-                        .opacity((model.hideBus) ? 0.5 : 1.0)
-                })
-                .padding(10)
-                Button(action: {
-                    model.hideTrain.toggle()
-                    viewModel.reloadMap()
-                }, label: {
-                    Image(systemName: "tram")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundColor(.white)
-                        .padding(3)
-                        .background(.red)
-                        .cornerRadius(10)
-                        .opacity((model.hideTrain) ? 0.5 : 1.0)
-                })
-                .padding(10)
-                Button(action: {
-                    model.hideTrolleybus.toggle()
-                    viewModel.reloadMap()
-                }, label: {
-                    Image(systemName: "bus.doubledecker")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundColor(.white)
-                        .padding(3)
-                        .background(.blue)
-                        .cornerRadius(10)
-                        .opacity((model.hideTrolleybus) ? 0.5 : 1.0)
-                })
-                .padding(10)
-                Button(action: {
-                    model.onlyFavoritesTransport.toggle()
-                    viewModel.reloadMap()
-                }, label: {
-                    Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
-                        .resizable()
-                        .scaledToFill()
-                        .foregroundColor(.white)
-                        .padding(3)
-                        .background(.green)
-                        .cornerRadius(10)
-                })
-                .padding(10)
-            }
-            .frame(width: 50, height: 240)
-            .background(Color.white.opacity(0.7))
-            .cornerRadius(20)
-            .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight-290)
+//            Map(coordinateRegion: $region, annotationItems: model.locations){ location in
+//                MapAnnotation(coordinate: location.coordinate){
+//                    if(model.useSmallMapItems){
+//                        MapItemSmall(location: location)
+//                    }else{
+//                        MapItem(location: location)
+//                    }
+//                    
+//                }
+//            }
+//                .mapStyle(.standard)
+//            .ignoresSafeArea()
+//            .onChange(of: region.span) { currentSpan in
+//                viewModel.mapSpanWasChanged(mapSpan: currentSpan)
+//            }
+//            .onChange(of: region.center) { currentCenter in
+//                viewModel.mapCenterWasChanged(center: currentCenter)
+//            }
+//            .overlay{
+//                VStack{
+//                    Button(action: {
+//                        model.hideBus.toggle()
+//                        viewModel.reloadMap()
+//                    }, label: {
+//                        Image(systemName: "bus")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .foregroundColor(.white)
+//                            .padding(3)
+//                            .background(.green)
+//                            .cornerRadius(10)
+//                            .opacity((model.hideBus) ? 0.5 : 1.0)
+//                    })
+//                    .padding(10)
+//                    Button(action: {
+//                        model.hideTrain.toggle()
+//                        viewModel.reloadMap()
+//                    }, label: {
+//                        Image(systemName: "tram")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .foregroundColor(.white)
+//                            .padding(3)
+//                            .background(.red)
+//                            .cornerRadius(10)
+//                            .opacity((model.hideTrain) ? 0.5 : 1.0)
+//                    })
+//                    .padding(10)
+//                    Button(action: {
+//                        model.hideTrolleybus.toggle()
+//                        viewModel.reloadMap()
+//                    }, label: {
+//                        Image(systemName: "bus.doubledecker")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .foregroundColor(.white)
+//                            .padding(3)
+//                            .background(.blue)
+//                            .cornerRadius(10)
+//                            .opacity((model.hideTrolleybus) ? 0.5 : 1.0)
+//                    })
+//                    .padding(10)
+//                    Button(action: {
+//                        model.onlyFavoritesTransport.toggle()
+//                        viewModel.reloadMap()
+//                    }, label: {
+//                        Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .foregroundColor(.white)
+//                            .padding(3)
+//                            .background(.green)
+//                            .cornerRadius(10)
+//                    })
+//                    .padding(10)
+//                }
+//                .frame(width: 50, height: 240)
+//                .background(Color.white.opacity(0.7))
+//                .cornerRadius(20)
+//                .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2)
+//            }
         }
         .onAppear{
             viewModel.getTransportCoordinate()

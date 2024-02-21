@@ -42,6 +42,7 @@
 		F3451FBD29ADD4CD008ECCF2 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */; };
 		F3451FBF29ADD53C008ECCF2 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FBE29ADD53C008ECCF2 /* ChatView.swift */; };
 		F3451FC329ADDF5B008ECCF2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FC229ADDF5B008ECCF2 /* MapView.swift */; };
+		F3474EC42B77782C0074A9D1 /* CustomMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3474EC32B77782C0074A9D1 /* CustomMap.swift */; };
 		F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */; };
 		F348F27429A1044000AFFAA1 /* HashableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348F27329A1044000AFFAA1 /* HashableClass.swift */; };
 		F34DB4082B5808C600718B3B /* ViewDismissable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34DB4072B5808C600718B3B /* ViewDismissable.swift */; };
@@ -141,6 +142,7 @@
 		F3451FBC29ADD4CD008ECCF2 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		F3451FBE29ADD53C008ECCF2 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		F3451FC229ADDF5B008ECCF2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F3474EC32B77782C0074A9D1 /* CustomMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMap.swift; sourceTree = "<group>"; };
 		F348F27029A0E34B00AFFAA1 /* CustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		F348F27329A1044000AFFAA1 /* HashableClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashableClass.swift; sourceTree = "<group>"; };
 		F34DB4072B5808C600718B3B /* ViewDismissable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDismissable.swift; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				F3451FC229ADDF5B008ECCF2 /* MapView.swift */,
+				F3474EC32B77782C0074A9D1 /* CustomMap.swift */,
 				F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */,
 				F3F67DD72A27D0E600165BB2 /* MapModel.swift */,
 			);
@@ -610,7 +613,6 @@
 			packageReferences = (
 				F3EAE5812A043DCB009391FA /* XCRemoteSwiftPackageReference "socket" */,
 				F3EAE5842A043DE2009391FA /* XCRemoteSwiftPackageReference "MessagePacker" */,
-				F3265D842B70DD6E00F7FC3E /* XCRemoteSwiftPackageReference "SwiftUIMap" */,
 			);
 			productRefGroup = F3F607EA292E242E0009E684 /* Products */;
 			projectDirPath = "";
@@ -708,6 +710,7 @@
 				F30FB5D42B62D39C0083114E /* CustomNavigationStack.swift in Sources */,
 				F35B5E6A2B04EECB00E82998 /* ShowTransportUnitViewModel.swift in Sources */,
 				F361528E2B0B5DB500A77C45 /* FavoriteRoutesAndStationsModel.swift in Sources */,
+				F3474EC42B77782C0074A9D1 /* CustomMap.swift in Sources */,
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
 				F3F608052930D2960009E684 /* ChooseTransportRouteView.swift in Sources */,
 				F337E4252B2CE60300D4C2AA /* LabelOfTransportUnit.swift in Sources */,
@@ -956,14 +959,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F3265D842B70DD6E00F7FC3E /* XCRemoteSwiftPackageReference "SwiftUIMap" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Mcrich23/SwiftUIMap.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		F3EAE5812A043DCB009391FA /* XCRemoteSwiftPackageReference "socket" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
