@@ -27,49 +27,6 @@ class MapViewModel {
         self.getEverythingData(city: "izh")
     }
     
-    func mapWasMove(){
-        counter = 0
-        if(self.model.locations.count != 0){
-            self.model.locations = []
-            print("локации очищены")
-            startThread()
-        }
-    }
-    
-    func startThread(){
-        if(flagTrue){
-            return
-        }
-        flagTrue = true
-        let queue = DispatchQueue.global()
-        queue.async {
-            while(true){
-                Thread.sleep(forTimeInterval: 0.1)
-                self.counter += 1
-                if(self.counter == 5){
-                    self.reloadMap()
-                    self.flagTrue = false
-                    break
-                }
-            }
-        }
-        queue.activate()
-    }
-    
-    func mapCenterWasChanged(center: CLLocationCoordinate2D){
-        mapWasMove()
-    }
-    
-    func mapSpanWasChanged(mapSpan: MKCoordinateSpan){
-        // Если карта отдалена больше чем наши пороговые значения - надо изменить иконки
-        mapWasMove()
-        if(mapSpan.longitudeDelta > 0.07 || mapSpan.latitudeDelta > 0.07){
-            model.useSmallMapItems = true
-        }else{
-            model.useSmallMapItems = false
-        }
-    }
-    
     func fillLocations(obj: EverythingResponse) -> [CustomAnnotation]{
         var locations: [CustomAnnotation] = []
         
@@ -99,8 +56,7 @@ class MapViewModel {
                 let transportIcon = GeneralViewModel.getPictureTransport(type: item.ts_type)
                 let color = GeneralViewModel.getTransportColor(type: item.ts_type)
                 
-//                locations.append(CustomAnnotation(name: item.route, icon: transportIcon, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!), color: color, type: type, azimuth: item.azimuth))
-                locations.append(CustomAnnotation(name: item.route, icon: transportIcon, color: color, type: type, azimuth: item.azimuth, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
+                locations.append(CustomAnnotation(icon: transportIcon, color: color, type: type, route: item.route, ts_id: item.id, gosnumber: item.gosnumber, azimuth: item.azimuth, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
             }
         }
         

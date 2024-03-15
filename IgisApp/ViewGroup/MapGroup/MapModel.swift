@@ -18,8 +18,8 @@ class MapModel: ObservableObject{
     }
     
     @Published var locations: [CustomAnnotation] = []{
-        willSet{
-            CustomMap.updateAnnotation(locations: newValue)
+        didSet{
+            CustomMap.updateAnnotation()
         }
     }
     @Published var hideBus = false
@@ -27,14 +27,7 @@ class MapModel: ObservableObject{
     @Published var hideTrolleybus = false
     @Published var useSmallMapItems = false
     @Published var onlyFavoritesTransport = false
-}
-
-struct LocationTransport: Identifiable{
-    let id = UUID()
-    let name: String
-    let icon: String
-    let coordinate: CLLocationCoordinate2D
-    let color: Color
-    let type: TypeTransport
-    let azimuth: Int
+    @Published var sheetIsPresented = false
+    @Published var routeDescription = "-"
+    @Published var routeDirection = "-"
 }

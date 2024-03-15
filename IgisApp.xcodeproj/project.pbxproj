@@ -55,6 +55,7 @@
 		F35B5E772B04F75200E82998 /* ShowTransportStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E762B04F75200E82998 /* ShowTransportStopViewModel.swift */; };
 		F35B5E792B04F75A00E82998 /* ShowTransportStopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B5E782B04F75A00E82998 /* ShowTransportStopModel.swift */; };
 		F35D204C2B752FFB00EDB831 /* DirectionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35D204B2B752FFB00EDB831 /* DirectionsMenu.swift */; };
+		F35ED9152BA4BD3200F26326 /* DropDownAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35ED9142BA4BD3200F26326 /* DropDownAlert.swift */; };
 		F36152872B0B525B00A77C45 /* LabelOfStopOrRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36152862B0B525B00A77C45 /* LabelOfStopOrRoute.swift */; };
 		F36152892B0B551700A77C45 /* LabelIzhevsk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36152882B0B551700A77C45 /* LabelIzhevsk.swift */; };
 		F361528C2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F361528B2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift */; };
@@ -155,6 +156,7 @@
 		F35B5E762B04F75200E82998 /* ShowTransportStopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportStopViewModel.swift; sourceTree = "<group>"; };
 		F35B5E782B04F75A00E82998 /* ShowTransportStopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTransportStopModel.swift; sourceTree = "<group>"; };
 		F35D204B2B752FFB00EDB831 /* DirectionsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsMenu.swift; sourceTree = "<group>"; };
+		F35ED9142BA4BD3200F26326 /* DropDownAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownAlert.swift; sourceTree = "<group>"; };
 		F36152862B0B525B00A77C45 /* LabelOfStopOrRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelOfStopOrRoute.swift; sourceTree = "<group>"; };
 		F36152882B0B551700A77C45 /* LabelIzhevsk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelIzhevsk.swift; sourceTree = "<group>"; };
 		F361528B2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRoutesAndStationsViewModel.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				F3474EC32B77782C0074A9D1 /* CustomMap.swift */,
 				F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */,
 				F3F67DD72A27D0E600165BB2 /* MapModel.swift */,
+				F35ED9142BA4BD3200F26326 /* DropDownAlert.swift */,
 			);
 			path = MapGroup;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */,
 				F39FB5062B66D83800C1C8F9 /* FavoritesGroupStackManager.swift in Sources */,
 				F31E23642B0AA63E008BDFD7 /* AppTabBarViewModel.swift in Sources */,
+				F35ED9152BA4BD3200F26326 /* DropDownAlert.swift in Sources */,
 				F348F27129A0E34B00AFFAA1 /* CustomMenu.swift in Sources */,
 				F3795AA129A3E0A000FF05FD /* FeedBackView.swift in Sources */,
 				F3DB410829A36ED2005497F7 /* SettingsGroupStackManager.swift in Sources */,

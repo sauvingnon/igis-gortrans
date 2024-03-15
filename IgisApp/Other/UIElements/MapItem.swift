@@ -40,7 +40,7 @@ struct MapItem: View {
                 .padding(3)
                 .scaleEffect(0.8)
                 
-            Text(location.name)
+            Text(location.route)
                 .padding(.horizontal, 5)
                 .background(.white)
                 .cornerRadius(10)

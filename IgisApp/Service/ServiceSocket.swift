@@ -43,8 +43,8 @@ class ServiceSocket{
             ])])
         self.socket = manager.defaultSocket
         
-        manager.reconnectWait = 5;
-        manager.reconnectWaitMax = 5;
+        manager.reconnectWait = 10;
+        manager.reconnectWaitMax = 10;
         
         setSubscribes()
         establishConnection()

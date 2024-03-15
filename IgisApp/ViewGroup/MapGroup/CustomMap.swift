@@ -10,13 +10,19 @@ import MapKit
 
 struct CustomMap: UIViewRepresentable {
     
-    @Binding var locations: [CustomAnnotation]
-    @Binding var region: MKCoordinateRegion
+    private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(
+            latitude: 56.843599,
+            longitude: 53.202824),
+        span: MKCoordinateSpan(
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1))
+    
     private static var map = MKMapView()
     public static var useSmallItems = false{
         willSet{
             if newValue != useSmallItems{
-                CustomMap.
+                updateAnnotation()
             }
         }
     }
@@ -29,15 +35,13 @@ struct CustomMap: UIViewRepresentable {
             self.parent = parent
         }
         
-        /// showing annotation on the map
+        // Отображение аннотаций на карте
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//            if annotation is MKClusterAnnotation {
-//                return ClusterAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-//            }
-            guard let annotation = annotation as? CustomAnnotation else { return nil }
+            
             return CustomAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         }
         
+        // Изменение обозреваемого региона
         func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
             if(mapView.region.span.longitudeDelta > 0.07 || mapView.region.span.latitudeDelta > 0.07){
                 CustomMap.useSmallItems = true
@@ -46,15 +50,46 @@ struct CustomMap: UIViewRepresentable {
             }
         }
         
+        func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            if let transportAnnotation = view.annotation as? CustomAnnotation{
+                
+//                view.transform = CGAffineTransformMakeScale(1.5, 1.5);
+                
+                if(MapModel.shared.sheetIsPresented){
+                    withAnimation(.default, {
+                        MapModel.shared.routeDescription = getName(type: transportAnnotation.type, number: transportAnnotation.route)
+                        MapModel.shared.routeDirection = transportAnnotation.gosnumber
+                    })
+                }else{
+                    MapModel.shared.routeDescription = getName(type: transportAnnotation.type, number: transportAnnotation.route)
+                    MapModel.shared.routeDirection = transportAnnotation.gosnumber
+                    MapModel.shared.sheetIsPresented = true
+                }
+            }
+        }
+        
+        func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+//            view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        }
+        
+        private func getName(type: TypeTransport, number: String) -> String {
+            switch type {
+            case .bus:
+                return "АВТОБУС № \(number)"
+            case .train:
+                return "ТРАМВАЙ №\(number)"
+            case .trolleybus:
+                return "ТРОЛЛЕЙБУС №\(number)"
+            case .countrybus:
+                return "АВТОБУС №\(number)"
+            }
+        }
+        
     }
     
     public static func updateAnnotation() {
         CustomMap.map.removeAnnotations(CustomMap.map.annotations)
-        CustomMap.map.addAnnotations(CustomMap)
-    }
-    
-    public static func reloadMapAnnotations(){
-        let locations =
+        CustomMap.map.addAnnotations(MapModel.shared.locations)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -69,9 +104,7 @@ struct CustomMap: UIViewRepresentable {
         CustomMap.map.delegate = context.coordinator
         CustomMap.map.setRegion(region, animated: true)
         CustomMap.map.mapType = .standard
-//        CustomMap.map.register(
-//        ClusterAnnotationView.self, forAnnotationViewWithReuseIdentifier:MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-        CustomMap.map.showsCompass = true
+        CustomMap.map.isRotateEnabled = false
         
         return CustomMap.map
         
@@ -84,38 +117,25 @@ struct CustomMap: UIViewRepresentable {
 
 class CustomAnnotation: NSObject, MKAnnotation {
     let id = UUID()
-    let name: String
     let icon: String
     let color: Color
     let type: TypeTransport
+    let route: String
+    let ts_id: String
+    let gosnumber: String
     let azimuth: Int
     let coordinate: CLLocationCoordinate2D
-    init(name: String, icon: String, color: Color, type: TypeTransport, azimuth: Int, coordinate: CLLocationCoordinate2D) {
-        self.name = name
+    init(icon: String, color: Color, type: TypeTransport, route: String, ts_id: String, gosnumber: String, azimuth: Int, coordinate: CLLocationCoordinate2D) {
         self.icon = icon
         self.color = color
         self.type = type
+        self.route = route
+        self.ts_id = ts_id
+        self.gosnumber = gosnumber
         self.azimuth = azimuth
         self.coordinate = coordinate
-        super.init()
     }
 }
-
-class ClusterAnnotationView: MKAnnotationView { 
-    override var annotation: MKAnnotation? {
-        didSet {
-            displayPriority = .defaultLow
-//            image = UIImage(systemName: "bus")
-            let view = UIView(frame: CGRect(x: -25, y: -25, width: 50, height: 50))
-            view.backgroundColor = .red
-            view.layer.cornerRadius = 25
-            addSubview(view)
-        }
-    }
-}
-
-/// here posible to customize annotation view
-let clusterID = "clustering"
 
 class CustomAnnotationView: MKAnnotationView {
     
@@ -124,11 +144,10 @@ class CustomAnnotationView: MKAnnotationView {
     /// setting the key for clustering annotations
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         
         if let annotation = annotation as? CustomAnnotation{
             if CustomMap.useSmallItems {
-                let item = MapItemSmall(location: CustomAnnotation(name: annotation.name, icon: annotation.icon, color: annotation.color, type: annotation.type, azimuth: annotation.azimuth, coordinate: annotation.coordinate))
+                let item = MapItemSmall(location: CustomAnnotation(icon: annotation.icon, color: annotation.color, type: annotation.type, route: annotation.route, ts_id: annotation.ts_id, gosnumber: annotation.gosnumber, azimuth: annotation.azimuth, coordinate: annotation.coordinate))
                 let vc = UIHostingController(rootView: item)
 
                 let swiftuiView = vc.view!
@@ -136,7 +155,7 @@ class CustomAnnotationView: MKAnnotationView {
                 
                 addSubview(swiftuiView)
             }else{
-                let item = MapItem(location: CustomAnnotation(name: annotation.name, icon: annotation.icon, color: annotation.color, type: annotation.type, azimuth: annotation.azimuth, coordinate: annotation.coordinate))
+                let item = MapItem(location: CustomAnnotation(icon: annotation.icon, color: annotation.color, type: annotation.type, route: annotation.route, ts_id: annotation.ts_id, gosnumber: annotation.gosnumber, azimuth: annotation.azimuth, coordinate: annotation.coordinate))
                 let vc = UIHostingController(rootView: item)
 
                 let swiftuiView = vc.view!
@@ -157,6 +176,6 @@ class CustomAnnotationView: MKAnnotationView {
     
     override func prepareForDisplay() {
         super.prepareForDisplay()
-        displayPriority = .defaultLow
+        displayPriority = .defaultHigh
     }
 }
