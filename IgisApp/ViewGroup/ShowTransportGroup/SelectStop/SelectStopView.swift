@@ -97,7 +97,7 @@ struct StopRowView: View {
                 Text(stop.stopName)
                     .foregroundColor(.blue)
                     .bold()
-                Text("-")
+                Text("—")
                     .foregroundColor(.blue)
                 Text(stop.stopDirection)
                     .foregroundColor(.blue)

@@ -54,7 +54,9 @@ class ShowTransportRouteViewModel{
         }
     }
     
-    func presentRoute( direction: Direction? = nil){
+    func presentRoute(direction: Direction? = nil){
+        model.status = nil
+        
         // Метод для отображения маршрута на экране
         var stopsOfRoute: [Int] = []
         
@@ -167,7 +169,7 @@ class ShowTransportRouteViewModel{
                 self.model.status = description
             }else{
                 debugPrint("Не удалось раскодировать html строку!")
-                self.model.status = "-"
+                self.model.status = "—"
             }
         }
         
@@ -189,8 +191,8 @@ class ShowTransportRouteViewModel{
         })
         
         obj.data.scheme.forEach { item in
-            if(item.stop.contains("-")) {
-                let stop_id_next = String(item.stop.split(separator: "-").last ?? "0")
+            if(item.stop.contains("—")) {
+                let stop_id_next = String(item.stop.split(separator: "—").last ?? "0")
                 if let stationIndex = result.firstIndex(where: { station in
                     String(station.id) == stop_id_next
                 }){

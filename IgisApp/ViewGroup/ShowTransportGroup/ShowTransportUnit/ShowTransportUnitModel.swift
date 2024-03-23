@@ -17,7 +17,7 @@ class ShowTransportUnitModel: ObservableObject {
     
     @Published var opacity = 1.0
     @Published var showIndicator = false
-    var transportUnitDescription = "-"
+    var transportUnitDescription = "—"
     var transportId = ""
     var data: [Stop] = []
     var priceCash = 0

@@ -10,7 +10,7 @@ import MapKit
 
 struct MapItem: View {
     
-    var location: CustomAnnotation
+    var transportAnnotation: TransportAnnotation
     
     var body: some View {
         ZStack{
@@ -25,22 +25,22 @@ struct MapItem: View {
                 .scaleEffect(1.2)
                 ZStack{
                     Triangle(cornerRadius: 10)
-                        .foregroundStyle(location.color)
+                        .foregroundStyle(transportAnnotation.color)
                         .offset(CGSize(width: 0, height: -62))
                     Circle()
-                        .foregroundStyle(location.color)
+                        .foregroundStyle(transportAnnotation.color)
                 }
             }
-            .rotationEffect(.degrees(Double(location.azimuth)))
+            .rotationEffect(.degrees(Double(transportAnnotation.azimuth)))
             
-            Image(systemName: location.icon)
+            Image(systemName: transportAnnotation.icon)
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.white)
                 .padding(3)
                 .scaleEffect(0.8)
                 
-            Text(location.route)
+            Text(transportAnnotation.route)
                 .padding(.horizontal, 5)
                 .background(.white)
                 .cornerRadius(10)
@@ -53,9 +53,11 @@ struct MapItem: View {
     }
 }
 
-//#Preview {
-//    MapItem(location: CustomAnnotation(name: "21", icon: "bus", coordinate: CLLocationCoordinate2D(latitude: 56.0, longitude: 53.0), color: .green, type: .bus, azimuth: 0))
-//}
+#Preview {
+    MapItem(transportAnnotation: TransportAnnotation(icon: "bus", color: .green, type: .bus, finish_stop: "мкрн Нагорный", current_stop: "ул. Планерная", route: "22", ts_id: "", inPark: true, gosnumber: "М245РУ18", azimuth: 150, coordinate: CLLocationCoordinate2D(
+        latitude: 56.843599,
+        longitude: 53.202824)))
+}
 
 private struct Triangle: Shape {
   let cornerRadius: CGFloat

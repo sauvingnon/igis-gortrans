@@ -16,8 +16,8 @@ class ShowStopOnlineModel: ObservableObject{
     }
     
     @Published var opacity = 1.0
-    @Published var name = "-"
-    @Published var direction = "-"
+    @Published var name = "—"
+    @Published var direction = "—"
     @Published var stopId = 0
     @Published var isFavorite = false
     @Published var showIndicator = false

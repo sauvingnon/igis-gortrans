@@ -27,8 +27,12 @@ class MapViewModel {
         self.getEverythingData(city: "izh")
     }
     
-    func fillLocations(obj: EverythingResponse) -> [CustomAnnotation]{
-        var locations: [CustomAnnotation] = []
+    func centerRegionOnUserLocation(){
+        CustomMap.setRegionOnUserLocation()
+    }
+    
+    func fillLocations(obj: EverythingResponse) -> [TransportAnnotation]{
+        var locations: [TransportAnnotation] = []
         
         let favoriteRoutes = GeneralViewModel.getFavoriteRouteId()
         
@@ -56,7 +60,21 @@ class MapViewModel {
                 let transportIcon = GeneralViewModel.getPictureTransport(type: item.ts_type)
                 let color = GeneralViewModel.getTransportColor(type: item.ts_type)
                 
-                locations.append(CustomAnnotation(icon: transportIcon, color: color, type: type, route: item.route, ts_id: item.id, gosnumber: item.gosnumber, azimuth: item.azimuth, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
+                let inPark = item.inpark == 1
+                
+                var currentStop = ""
+                
+                if(item.stop.current != nil){
+                    currentStop = "Сейчас на \(DataBase.getStopName(stopId: item.stop.current!))"
+                }else if(item.stop.next != nil){
+                    currentStop = "В пути к \(DataBase.getStopName(stopId: item.stop.next!))"
+                }else{
+                    currentStop = "—"
+                }
+                
+                let finishStop = "Транспорт движется до \(DataBase.getStopFinalName(stopId: item.stop.finish.id))"
+
+                locations.append(TransportAnnotation(icon: transportIcon, color: color, type: type, finish_stop: finishStop, current_stop: currentStop, route: item.route, ts_id: item.id, inPark: inPark, gosnumber: item.gosnumber, azimuth: item.azimuth, coordinate: CLLocationCoordinate2D(latitude: item.latlng.first!, longitude: item.latlng.last!)))
             }
         }
         
@@ -67,7 +85,7 @@ class MapViewModel {
     func reloadMap(){
         if let bufferResponse = self.bufferResponse{
             DispatchQueue.main.async{
-                self.model.locations = self.fillLocations(obj: bufferResponse)
+                self.model.transportAnnotations = self.fillLocations(obj: bufferResponse)
             }
         }
     }
@@ -79,7 +97,7 @@ class MapViewModel {
         let result = fillLocations(obj: obj)
         
         DispatchQueue.main.async {
-            self.model.locations = result
+            self.model.transportAnnotations = result
         }
         debugPrint("карта была обновлена")
     }
@@ -98,6 +116,43 @@ class MapViewModel {
                 debugPrint("Запрос к серверу на получение прогноза всего транспорта не отправлен.")
             }
         }
+    }
+    
+    func getStringOfTypesTransport(types: [TypeTransport]) -> String{
+        if(types.isEmpty){
+            return "Данных о транспорте нет"
+        }
+        
+        var result = "Остановка "
+        
+        if(types.contains(where: { type in
+            type == .bus
+        })){
+            result.append("автобуса, ")
+        }
+        
+        if(types.contains(where: { type in
+            type == .countrybus
+        })){
+            result.append("пригородного автобуса, ")
+        }
+        
+        if(types.contains(where: { type in
+            type == .train
+        })){
+            result.append("трамвая, ")
+        }
+        
+        if(types.contains(where: { type in
+            type == .trolleybus
+        })){
+            result.append("троллейбуса, ")
+        }
+        
+        result.removeLast(2)
+        result.append(".")
+        
+        return result
     }
     
     func clearMapView(){

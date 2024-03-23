@@ -18,6 +18,8 @@ struct ShowTransportRouteView: View {
     @ObservedObject private var model = ShowTransportRouteModel.shared
     private let viewModel = ShowTransportRouteViewModel.shared
     
+    @State var direction: Direction?
+    
     var body: some View {
         ZStack{
             VStack{
@@ -32,6 +34,8 @@ struct ShowTransportRouteView: View {
                     .onChange(of: model.menu.currentStop, perform: { newValue in
                         let newDirection = Direction(startStation: newValue.startStopId, endStation: newValue.endStopId)
                         
+                        direction = newDirection
+                        
                         viewModel.presentRoute(direction: newDirection)
                     })
                 
@@ -44,7 +48,7 @@ struct ShowTransportRouteView: View {
                         }
                     }
                     
-                    if(model.status != "-"){
+                    if(model.status != nil){
                         HStack{
                             Text("ПОДРОБНОСТИ")
                                 .opacity(0.8)
@@ -60,7 +64,8 @@ struct ShowTransportRouteView: View {
                         
                         VStack{
                             HStack{
-                                Text(model.status)
+                                Text(model.status!)
+                                    .font(.system(size: 14))
                                     .opacity(0.8)
                                 Spacer()
                             }
@@ -86,7 +91,11 @@ struct ShowTransportRouteView: View {
             
         }
         .onAppear(){
-            viewModel.presentRoute()
+            if let direction = direction{
+                viewModel.presentRoute(direction: direction)
+            }else{
+                viewModel.presentRoute()
+            }
         }
     }
     

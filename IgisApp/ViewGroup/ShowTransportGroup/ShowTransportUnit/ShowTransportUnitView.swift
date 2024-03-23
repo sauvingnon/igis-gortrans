@@ -37,7 +37,7 @@ struct ShowTransportUnitView: View {
             ScrollView{
                 
                 HStack{
-                    Text("Маршрут \(model.routeNumber ?? "-")")
+                    Text("Маршрут \(model.routeNumber ?? "—")")
                         .foregroundColor(.gray)
                         .kerning(1)
                         .padding(.horizontal, 10)

@@ -13,6 +13,9 @@ struct DropDownAlert: View {
     @State private var yMove = 0.0
     @ObservedObject private var model = MapModel.shared
     
+    var tapUnit: ()->()
+    var tapRoute: ()->()
+    
     var body: some View {
         ZStack{
             VStack{
@@ -24,7 +27,7 @@ struct DropDownAlert: View {
                 .padding(.vertical, 5)
                 
                 HStack{
-                    Text(model.routeDescription)
+                    Text(model.mainText)
                         .bold()
                     
                     Spacer()
@@ -37,27 +40,54 @@ struct DropDownAlert: View {
                 }
                 
                 HStack{
-                    Text(model.routeDirection)
+                    Text(model.secondText)
                     Spacer()
                     
                 }
                 
                 HStack{
+                    Text(model.thirdText)
+                    Spacer()
+                }
+                
+                if(model.inPark){
+                    HStack{
+                        Spacer()
+                        Text("В парк/депо")
+                            .padding(3)
+                            .bold()
+                            .foregroundStyle(.white)
+                            .background(.red)
+                            .cornerRadius(10)
+                    }
+                }
+                
+                HStack(alignment: .center){
+                    Spacer()
                     Button(action: {
-                        
+                        tapUnit()
                     }, label: {
-                        Text("В избранное")
+                        Text("Подробнее")
+                            .padding(7)
+                            .bold()
+                            .foregroundStyle(.white)
+                            .background(.blue)
+                            .cornerRadius(10)
                     })
-                    Button(action: {
-                        
-                    }, label: {
-                        Text("Это ТС")
-                    })
-                    Button(action: {
-                        
-                    }, label: {
-                        Text("Весь маршрут")
-                    })
+                    Spacer()
+                    if(model.selectedStopAnnotation == nil){
+                        Button(action: {
+                            tapRoute()
+                        }, label: {
+                            Text("Маршрут")
+                                .padding(7)
+                                .bold()
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .cornerRadius(10)
+                        })
+                        Spacer()
+                    }
                 }
                 .padding(.bottom, 30)
             }
@@ -95,6 +125,10 @@ struct DropDownAlert_Previews: PreviewProvider {
     @State static var isPresent = true
     
     static var previews: some View {
-        DropDownAlert(isPresent: $isPresent)
+        DropDownAlert(isPresent: $isPresent, tapUnit: {
+            
+        }, tapRoute: {
+            
+        })
     }
 }

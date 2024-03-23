@@ -54,7 +54,7 @@ class ShowTransportUnitViewModel{
         model.showIndicator = true
         model.opacity = 0
         self.model.transportId = transportId!
-        self.model.transportUnitDescription = "-"
+        self.model.transportUnitDescription = "—"
         
 //        getTransportData()
     }

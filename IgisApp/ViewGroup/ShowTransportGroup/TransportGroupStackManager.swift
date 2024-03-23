@@ -84,5 +84,6 @@ enum CurrentTransportSelectionView{
     case showTransportUnit
     case findNearestStops
     case QRScanner
+    case mapView
 }
 

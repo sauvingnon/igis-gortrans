@@ -17,9 +17,22 @@ class MapModel: ObservableObject{
         
     }
     
-    @Published var locations: [CustomAnnotation] = []{
+    @Published private var stopAnnotations_private: [StopAnnotation]?
+    
+    var stopAnnotations: [StopAnnotation]{
+        get{
+            if let annotations = stopAnnotations_private{
+                return annotations
+            }
+            
+            stopAnnotations_private = DataBase.getStopAnnotations()
+            return stopAnnotations_private!
+        }
+    }
+    
+    @Published var transportAnnotations: [TransportAnnotation] = []{
         didSet{
-            CustomMap.updateAnnotation()
+            CustomMap.updateTransportAnnotation()
         }
     }
     @Published var hideBus = false
@@ -27,7 +40,12 @@ class MapModel: ObservableObject{
     @Published var hideTrolleybus = false
     @Published var useSmallMapItems = false
     @Published var onlyFavoritesTransport = false
+    
     @Published var sheetIsPresented = false
-    @Published var routeDescription = "-"
-    @Published var routeDirection = "-"
+    @Published var mainText = "—"
+    @Published var inPark = false
+    @Published var thirdText = ""
+    @Published var secondText = ""
+    var selectedTransportAnnotation: TransportAnnotation?
+    var selectedStopAnnotation: StopAnnotation?
 }

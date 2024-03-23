@@ -6,41 +6,71 @@
 //
 
 import Foundation
+import MapKit
+import SwiftUI
 
 class DataBase{
     // Класс для хранения данных json
     private static var stops: [StopsStruct] = []
     
-    public static func getStopName(stopId: Int) -> String {
-        let queue = DispatchQueue.global(qos: .default)
-        return queue.sync {
-            if let stop = stops.first(where: { stop in
-                stop.stop_id == stopId
-            }), let name = stop.stop_name_short{
-                return name
-            }else{
-                print("Остановка по указанному id не найдена или ее имя не заполнено!")
-                return "--"
+    // Получить название остановки в родительном падеже
+    public static func getStopFinalName(stopId: Int) -> String {
+        if let stop = stops.first(where: { stop in
+            stop.stop_id == stopId
+        }), let name = stop.stop_final_name{
+            return name
+        }else{
+            print("Остановка по указанному id не найдена или ее имя не заполнено!")
+            return "--"
+        }
+    }
+    
+    public static func getStopAnnotations() -> [StopAnnotation]{
+        var stopAnnotations: [StopAnnotation] = []
+        
+        stops.forEach { stop in
+            if(stop.stop_type != 0){
+                let types = getTypesTransportForStop(stopId: stop.stop_id)
+                
+                var color: Color = .blue
+                
+                if(types.contains(.train)){
+                    color = .red
+                }
+                
+                stopAnnotations.append(StopAnnotation(stop_id: stop.stop_id, stop_name: stop.stop_name, stop_name_short: stop.stop_name_short, color: color, stop_direction: stop.stop_direction, stop_types: types, coordinate: CLLocationCoordinate2D(latitude: Double(stop.stop_lat ?? 0), longitude: Double(stop.stop_long ?? 0)), stop_demand: stop.stop_demand))
             }
+        }
+        
+        return stopAnnotations
+    }
+    
+    public static func getStopName(stopId: Int) -> String {
+        if let stop = stops.first(where: { stop in
+            stop.stop_id == stopId
+        }), let name = stop.stop_name_short{
+            return name
+        }else{
+            print("Остановка по указанному id не найдена или ее имя не заполнено!")
+            return "--"
         }
     }
     
     public static func getStopDirection(stopId: Int) -> String{
-        let queue = DispatchQueue.global(qos: .default)
-        return queue.sync {
-            if let stop = stops.first(where: { stop in
-                stop.stop_id == stopId
-            }), let name = stop.stop_direction{
-                return name
-            }else{
-                print("Остановка по указанному id не найдена или ее имя не заполнено!")
-                return "--"
-            }
+        if let stop = stops.first(where: { stop in
+            stop.stop_id == stopId
+        }), let name = stop.stop_direction{
+            return name
+        }else{
+            print("Остановка по указанному id не найдена или ее имя не заполнено!")
+            return "--"
         }
     }
     
     public static func getAllStops() -> [StopsStruct]{
-        return stops
+        return stops.filter { item in
+            item.stop_type != 0
+        }
     }
     
     private static var routes: [RouteStruct] = []
@@ -170,23 +200,25 @@ class DataBase{
     private static func fillStopsOfTypeTransport(){
         // Соберем информацию для всех остановок
         stops.forEach { stopItem in
-            let id = stopItem.stop_id
-            var types: [TypeTransport] = []
-            // Информацию будем брать из маршрутов, на которых есть эта остановка
-            subroutes.forEach { subrouteItem in
-                // Если она есть там, нам надо узнать к какому маршруту она относится
-                if(subrouteItem.subroute_stops.contains(id)){
-                    // Фильтр, нам нужны только те маршруты, на которых есть наша остановка
-                    routes.filter(){ routeItem in
-                        routeItem.route_id == subrouteItem.subroute_route
-                    }.forEach { routeItem in
-                        let stopType = getTypeTransportFromId(routeId: routeItem.route_id)
-                        types.append(stopType ?? .bus)
+            if(stopItem.stop_type != 0){
+                let id = stopItem.stop_id
+                var types: [TypeTransport] = []
+                // Информацию будем брать из маршрутов, на которых есть эта остановка
+                subroutes.forEach { subrouteItem in
+                    // Если она есть там, нам надо узнать к какому маршруту она относится
+                    if(subrouteItem.subroute_stops.contains(id)){
+                        // Фильтр, нам нужны только те маршруты, на которых есть наша остановка
+                        routes.filter(){ routeItem in
+                            routeItem.route_id == subrouteItem.subroute_route
+                        }.forEach { routeItem in
+                            let stopType = getTypeTransportFromId(routeId: routeItem.route_id)
+                            types.append(stopType ?? .bus)
+                        }
+                        
                     }
-                    
                 }
+                stopsOfTypeTransport.updateValue(types, forKey: id)
             }
-            stopsOfTypeTransport.updateValue(types, forKey: id)
         }
     }
     

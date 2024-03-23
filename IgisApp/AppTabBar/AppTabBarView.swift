@@ -26,7 +26,7 @@ struct AppTabBarView: View {
                         .tag(TabType.home)
                     NotificationsView()
                         .tag(TabType.alerts)
-                    MapView()
+                    MapGroupStackManager.shared
                         .tag(TabType.map)
                     FavoritesGroupStackManager.shared
                         .tag(TabType.favourites)
