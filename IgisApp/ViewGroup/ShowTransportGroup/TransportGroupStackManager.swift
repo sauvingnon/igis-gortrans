@@ -46,11 +46,11 @@ struct TransportGroupStackManager: View {
                     case .showTransportUnit:
                         ShowTransportUnitView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .findNearestStops:
-                        FindNearestStopsView(navigationStack: $model.navigationStack)
-                            .navigationBarBackButtonHidden(true)
                     case .QRScanner:
                         ScannerView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
+                    case .notifications:
+                        NotificationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     default:
                         SelectRouteOrStationView(navigationStack: $model.navigationStack)
@@ -85,5 +85,6 @@ enum CurrentTransportSelectionView{
     case findNearestStops
     case QRScanner
     case mapView
+    case notifications
 }
 

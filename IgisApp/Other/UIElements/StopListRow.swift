@@ -49,7 +49,7 @@ struct StopListRow: View{
                         Button(action: {
                             handlerTransportImageTapp(station.transportId)
                         }, label: {
-                            Image(systemName: station.pictureTs)
+                            Image(station.pictureTs)
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundColor(.blue)
@@ -97,7 +97,7 @@ struct Stop: Identifiable, Hashable {
 }
 
 #Preview {
-    StopListRow(station: Stop(id: 1156, name: "Леваневского", stationState: .someStation, pictureTs: "bus", time: "5 мин", transportId: ""), handlerTransportImageTapp: {_ in
+    StopListRow(station: Stop(id: 1156, name: "Леваневского", stationState: .someStation, pictureTs: "bus_icon_white", time: "5 мин", transportId: ""), handlerTransportImageTapp: {_ in
         
     }, handlerLabelStopTapp: {_ in 
         

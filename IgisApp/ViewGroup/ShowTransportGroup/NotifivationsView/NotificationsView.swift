@@ -9,6 +9,9 @@ import SwiftUI
 
 struct NotificationsView: View {
     
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: NavigationPath
+    
     @ObservedObject var chatModel = ChatModel.shared
     
     var body: some View {
@@ -41,11 +44,11 @@ struct NotificationsView: View {
     }
 }
 
-struct NotificationsView_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationsView()
-    }
-}
+//struct NotificationsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NotificationsView()
+//    }
+//}
 
 extension NotificationsView{
     func notificationsLabel(handlerDelete: @escaping () -> ()) -> some View{

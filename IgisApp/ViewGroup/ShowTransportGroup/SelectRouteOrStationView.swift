@@ -80,35 +80,6 @@ struct SelectRouteOrStationView: View {
                         .padding(20)
                 })
                 
-                Button(action: {
-                    FavoritesGroupStackManager.shared.clearNavigationStack()
-                    navigationStack.append(CurrentTransportSelectionView.findNearestStops)
-                }, label: {
-                    Text("Определить остановку")
-                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
-                        .background(Color.green)
-                        .clipShape(Rectangle())
-                        .cornerRadius(10)
-                        .font(.system(size: 25))
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
-                })
-                
-//                Button(action: {
-//                    FavoritesGroupStackManager.shared.clearNavigationStack()
-//                    navigationStack.append(CurrentTransportSelectionView.QRScanner)
-//                }, label: {
-//                    Text("Сканировать QR")
-//                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
-//                        .background(Color.gray)
-//                        .clipShape(Rectangle())
-//                        .cornerRadius(10)
-//                        .font(.system(size: 25))
-//                        .foregroundColor(.white)
-//                        .fontWeight(.medium)
-//                        .padding(.top, 20)
-//                })
-                
                 Spacer()
             }
         }

@@ -1,33 +1,33 @@
 //
-//  FavoritesGroupSelector.swift
+//  NearestStopGroupStackManager.swift
 //  IgisApp
 //
-//  Created by Гриша Шкробов on 25.02.2023.
+//  Created by Гриша Шкробов on 23.03.2024.
 //
 
 import SwiftUI
 
-struct FavoritesGroupStackManager: View {
+struct NearestStopGroupStackManager: View {
     
-    static let shared = FavoritesGroupStackManager()
+    static let shared = NearestStopGroupStackManager()
     
     private init(){
         
     }
     
-    private class FavoritesGroupStackManagerModel: ObservableObject {
+    private class NearestStopGroupStackManagerModel: ObservableObject {
         @Published var navigationStack = NavigationPath([CurrentTransportSelectionView]())
     }
     
-    @ObservedObject private var model = FavoritesGroupStackManagerModel()
+    @ObservedObject private var model = NearestStopGroupStackManagerModel()
     
     var body: some View {
         CustomNavigationStack(path: $model.navigationStack){
-            FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+            FindNearestStopsView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
                     case .showFavoriteItems:
-                        FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+                        FindNearestStopsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showStopOnline:
                         ShowTransportStopView(navigationStack: $model.navigationStack)
@@ -38,14 +38,11 @@ struct FavoritesGroupStackManager: View {
                     case .showTransportUnit:
                         ShowTransportUnitView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .QRScanner:
-                        ScannerView(navigationStack: $model.navigationStack)
-                            .navigationBarBackButtonHidden(true)
                     case .notifications:
                         NotificationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     default:
-                        FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+                        FindNearestStopsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
@@ -59,7 +56,7 @@ struct FavoritesGroupStackManager: View {
     }
 }
 
-struct FavoritesGroupSelector_Previews: PreviewProvider {
+struct NearestStopGroupStackManager_Previews: PreviewProvider {
     static var previews: some View {
         FavoritesGroupStackManager.shared
     }

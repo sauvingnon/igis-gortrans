@@ -9,7 +9,7 @@ import SwiftUI
 
 enum TabType: String{
     case home = "home_icon"
-    case alerts = "alerts_icon"
+    case alerts = "nearest_icon"
     case map = "map_icon"
     case favourites = "favorites_icon"
     case settings = "settings_icon"

@@ -58,6 +58,17 @@ struct LabelIzhevsk: View {
             .cornerRadius(15)
             .padding(.top, 10)
             .offset(x: UIScreen.screenWidth/2-60, y: 0)
+            
+            Button(action: {
+                stack.append(CurrentTransportSelectionView.notifications)
+            }, label: {
+                Image(systemName: "bell.fill")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+            })
+            .cornerRadius(15)
+            .padding(.top, 10)
+            .offset(x: UIScreen.screenWidth/2-120, y: 0)
         }
     }
 }

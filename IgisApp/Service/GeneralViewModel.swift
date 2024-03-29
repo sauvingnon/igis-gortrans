@@ -21,7 +21,7 @@ class GeneralViewModel{
             return
         }
         DispatchQueue.main.async {
-            AppTabBarViewModel.shared.showAlert(title: "Ошибка", message: "Нет данных")
+            AppTabBarViewModel.shared.showAlert(title: "Нет сведений по транспорту на данной остановке.", message: "Нет данных.")
             self.alertAlreadyShow = true
         }
     }
@@ -85,7 +85,7 @@ class GeneralViewModel{
     
     static func getTimeToArrivalInMin(sec: Int) -> String{
         if(sec < 0){
-            return "--"
+            return "—"
         }
         var min = sec/60
         if min == 0{
@@ -138,9 +138,16 @@ class GeneralViewModel{
         favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .countrybus, numbers: []))
         if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
             favoritesArray.forEach { routeId in
+                
+                var route = DataBase.getRouteNumber(routeId: routeId)
+                
+                if(route.contains("№")){
+                    route.removeFirst(2)
+                }
+                
                 favorites.first { FavoriteRoute in
                     FavoriteRoute.type == DataBase.getTypeTransportFromId(routeId: routeId)
-                }?.numbers.append(DataBase.getRouteNumber(routeId: routeId))
+                }?.numbers.append(route)
             }
         }
         favorites.removeAll { FavoriteRoute in
@@ -190,16 +197,31 @@ class GeneralViewModel{
         return false
     }
     
-    static func getPictureTransport(type: String) -> String {
+    static func getPictureTransportWhite(type: String) -> String {
         switch type {
         case "citybus":
-            return "bus"
+            return "bus_icon_white"
         case "tram":
-            return "tram"
+            return "train_icon_white"
         case "trolleybus":
-            return "bus.doubledecker"
+            return "trolleybus_icon_white"
         case "suburbanbus":
-            return "bus.fill"
+            return "bus_icon_white"
+        default:
+            return ""
+        }
+    }
+    
+    static func getPictureTransportColor(type: String) -> String {
+        switch type {
+        case "citybus":
+            return "bus_icon_green"
+        case "tram":
+            return "train_icon_red"
+        case "trolleybus":
+            return "trolleybus_icon_blue"
+        case "suburbanbus":
+            return "bus_icon_green"
         default:
             return ""
         }
@@ -235,21 +257,36 @@ class GeneralViewModel{
             return .bus
         }
     }
-    
-//    static func getPictureTransport(type: String) -> String {
-//        switch type {
-//        case "citybus":
-//            return "bus_icon"
-//        case "train_icon":
-//            return "tram"
-//        case "trolleybus":
-//            return "trolleybus_icon"
-//        case "suburbanbus":
-//            return "bus.fill"
-//        default:
-//            return ""
-//        }
-//    }
+        
+    static func getName(type: TypeTransport, number: String) -> String {
+        if(number.isEmpty){
+            return "—"
+        }
+        
+        if(number.first!.isNumber){
+            switch type {
+            case .bus:
+                return "АВТОБУС №\(number)"
+            case .train:
+                return "ТРАМВАЙ №\(number)"
+            case .trolleybus:
+                return "ТРОЛЛЕЙБУС №\(number)"
+            case .countrybus:
+                return "АВТОБУС №\(number)"
+            }
+        }else{
+            switch type {
+            case .bus:
+                return "АВТОБУС \(number)"
+            case .train:
+                return "ТРАМВАЙ \(number)"
+            case .trolleybus:
+                return "ТРОЛЛЕЙБУС \(number)"
+            case .countrybus:
+                return "АВТОБУС \(number)"
+            }
+        }
+    }
 
 }
 

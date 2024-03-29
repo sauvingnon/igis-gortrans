@@ -24,7 +24,7 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "bus")
+                        Image("bus_icon_white")
                             .resizable()
 //                            .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
@@ -40,7 +40,7 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "bus.doubledecker")
+                        Image("trolleybus_icon_white")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
@@ -60,7 +60,7 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "tram") 
+                        Image("train_icon_white")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
@@ -77,7 +77,7 @@ struct SelectTransportType: View {
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
                 } label: {
                     VStack(){
-                        Image(systemName: "bus.fill") 
+                        Image("bus_icon_white") 
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)

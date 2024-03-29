@@ -16,14 +16,6 @@ struct ShowTransportUnitView: View {
     @ObservedObject var model = ShowTransportUnitModel.shared
     private let viewModel = ShowTransportUnitViewModel.shared
     
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(
-            latitude: 56.843599,
-            longitude: 53.202824),
-        span: MKCoordinateSpan(
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.1))
-    
     var body: some View {
         VStack{
             LabelOfTransportUnit(transportUnitDescription: model.transportUnitDescription, handlerFunc: {
@@ -126,23 +118,9 @@ struct ShowTransportUnitView: View {
                     Spacer()
                 }
                 
-                Map(coordinateRegion: $region, annotationItems: model.locations){ location in
+                Map(coordinateRegion: $model.region, annotationItems: model.locations){ location in
                     MapAnnotation(coordinate: location.coordinate){
-                        ZStack{
-                            Image(systemName: location.icon)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.white)
-                                .padding(3)
-                                .background(location.color)
-                                .cornerRadius(50)
-                            Text(location.name)
-                                .padding(.horizontal, 10)
-                                .background(.white)
-                                .cornerRadius(10)
-                                .position(x: 30, y: 30)
-                                .font(.system(size: 14))
-                        }
+                        MapItem(transportAnnotation: TransportAnnotation(icon: location.icon, color: location.color, type: location.type, finish_stop: location.finish_stop, current_stop: location.current_stop, route: location.route, ts_id: location.ts_id, inPark: location.inPark, gosnumber: location.gosnumber, azimuth: location.azimuth, coordinate: location.coordinate))
                     }
                     
                 }

@@ -57,7 +57,7 @@ class MapViewModel {
             
             if(item.visible == 1 && item.reys_status == "ok"){
                 
-                let transportIcon = GeneralViewModel.getPictureTransport(type: item.ts_type)
+                let transportIcon = GeneralViewModel.getPictureTransportWhite(type: item.ts_type)
                 let color = GeneralViewModel.getTransportColor(type: item.ts_type)
                 
                 let inPark = item.inpark == 1

@@ -21,7 +21,7 @@ class DataBase{
             return name
         }else{
             print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "--"
+            return "—"
         }
     }
     
@@ -52,7 +52,7 @@ class DataBase{
             return name
         }else{
             print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "--"
+            return "—"
         }
     }
     
@@ -63,7 +63,7 @@ class DataBase{
             return name
         }else{
             print("Остановка по указанному id не найдена или ее имя не заполнено!")
-            return "--"
+            return "—"
         }
     }
     
@@ -115,9 +115,15 @@ class DataBase{
             if let route = routes.first(where: { item in
                 item.route_id == routeId
             }){
-                return route.route_number
+                if(!route.route_number.isEmpty){
+                    if(route.route_number.first!.isNumber){
+                        return "№ \(route.route_number)"
+                    }else{
+                        return "\(route.route_number)"
+                    }
+                }
             }
-            return "--"
+            return "—"
         }
     }
     

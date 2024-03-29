@@ -13,7 +13,7 @@ struct SettingsView: View {
     
     @ObservedObject private var model = SettingsModel.shared
     
-    @State private var value: Float = 0.1
+    @State private var value: Float = 0.05
     @State private var scaleSliderBlock = 1.0
     
     var body: some View {
@@ -38,7 +38,7 @@ struct SettingsView: View {
                     .font(.system(size: 18))
                     .padding(.leading, 20)
                     .kerning(0.7)
-                    
+                
                 Spacer()
                 
                 Toggle(isOn: $model.showNotifications){
@@ -51,33 +51,10 @@ struct SettingsView: View {
             .background(Color.white)
             .cornerRadius(15)
             
-            HStack{
-                Text("Оффлайн режим")
-                    .fixedSize()
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .fontWeight(.light)
-                    .font(.system(size: 18))
-                    .padding(.leading, 20)
-                    .kerning(0.7)
-                    
-                    
-                Spacer()
-                
-                Toggle(isOn: $model.offlineMode){
-                    
-                }
-                .padding(.trailing, 20)
-                .disabled(true)
-            }
-            .frame(width: UIScreen.screenWidth-40)
-            .padding(.vertical, 15)
-            .background(Color.white)
-            .cornerRadius(15)
-            
             VStack{
                 HStack{
                     Text("Расстояние до ближайших остановок")
-    //                    .fixedSize()
+                    //                    .fixedSize()
                         .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
                         .fontWeight(.light)
                         .font(.system(size: 18))
@@ -96,7 +73,30 @@ struct SettingsView: View {
                 }
                 
                 
-                Slider(value: $value, onEditingChanged: {_ in 
+                Slider(value: $value, onEditingChanged: {_ in
+                    
+                    var valueInMetters = Int(value*3000)
+                    
+                    if(valueInMetters < 500){
+                        
+                        valueInMetters = roundToInt(value: valueInMetters, devider: 50)
+                        
+                    }else if(valueInMetters < 1000){
+                        
+                        valueInMetters = roundToInt(value: valueInMetters, devider: 100)
+                        
+                    }else if(valueInMetters < 2000){
+                        
+                        valueInMetters = roundToInt(value: valueInMetters, devider: 250)
+                        
+                    }else if(valueInMetters < 3000){
+                        
+                        valueInMetters = roundToInt(value: valueInMetters, devider: 500)
+                        
+                    }
+                    
+                    value = Float(valueInMetters)/3000
+                    
                     FindNearestStopsViewModel.shared.setValueDiff(value: value)
                 })
                 .padding(.horizontal, 20)
@@ -136,8 +136,23 @@ struct SettingsView: View {
         .background((LinearGradient(colors: [Color(red: 0.629, green: 0.803, blue: 1, opacity: 1), Color(red: 0.729, green: 0.856, blue: 1, opacity: 0.2)], startPoint: .topLeading, endPoint: .bottomTrailing)))
     }
     
-}
+    private func roundToInt(value: Int, devider: Int) -> Int {
+        
+        let result = value.quotientAndRemainder(dividingBy: devider)
+        
+        let a = Double(result.remainder)/Double(devider)
+        
+        if(a > 0.5){
+            // округляем вверх
+            return devider*(result.quotient+1)
+        }else{
+            // округляем вниз
+            return devider*result.quotient
+        }
+    }
     
+}
+
 struct SettingsView_Previews: PreviewProvider {
     
     @State static var stack = NavigationPath()

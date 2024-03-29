@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 import Combine
+import SwiftUI
 
 class FindNearestStopsModel: ObservableObject {
     
@@ -25,13 +26,7 @@ class FindNearestStopsModel: ObservableObject {
             latitudeDelta: 0.1,
             longitudeDelta: 0.1))
     
-    @Published var locations: [Location] = []
+    @Published var locations: [StopAnnotation] = []
     @Published var stopsList: [StopItem] = []
     
-    struct Location: Identifiable{
-        let id = UUID()
-        let name: String
-        let icon: String
-        let coordinate: CLLocationCoordinate2D
-    }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import MapKit
+import SwiftUI
 
 class FindNearestStopsViewModel {
     
@@ -27,7 +28,9 @@ class FindNearestStopsViewModel {
     
     func setValueDiff(value: Float){
         self.value = Int(value*3000)
-        self.getNearestStops()
+        if(mapAlreadyCenter){
+            self.getNearestStops()
+        }
     }
     
     func configureView(){
@@ -72,7 +75,7 @@ class FindNearestStopsViewModel {
     private func getNearestStops(){
         if let userLocation = self.locationManager.lastLocation?.coordinate{
             
-            var locations: [FindNearestStopsModel.Location] = []
+            var locations: [StopAnnotation] = []
             var stopsList: [StopItem] = []
             
             let stops = DataBase.getAllStops()
@@ -87,8 +90,17 @@ class FindNearestStopsViewModel {
                 let summDistance = lonDiff + latDiff
                 if(resultDiffInMetters < value){
                     if let name = stop.stop_name, let lon = stop.stop_long, let lat = stop.stop_lat, let direction = stop.stop_direction{
-                        locations.append(FindNearestStopsModel.Location(name: name, icon: "xmark.circle", coordinate: CLLocationCoordinate2D(latitude: Double(lat), longitude: Double(lon))))
+                        
                         let typesTransport = DataBase.getTypesTransportForStop(stopId: stop.stop_id)
+                        
+                        var color: Color = .blue
+                        
+                        if(typesTransport.contains(.train)){
+                            color = .red
+                        }
+                        
+                        locations.append(StopAnnotation(stop_id: stop.stop_id, stop_name: stop.stop_name, stop_name_short: stop.stop_name_short, color: color, stop_direction: stop.stop_direction, stop_types: typesTransport, coordinate: CLLocationCoordinate2D(latitude: Double(lat), longitude: Double(lon)), stop_demand: stop.stop_demand))
+                        
                         stopsList.append(StopItem(stop_id: stop.stop_id, typeTransportList: typesTransport, stopName: name, stopDirection: direction, distance: Int(resultDiffInMetters)))
                     }else{
                         debugPrint("Ошибка при получении данных из таблицы stops. id - \(stop.stop_id)")

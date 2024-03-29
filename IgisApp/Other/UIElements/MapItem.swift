@@ -33,7 +33,7 @@ struct MapItem: View {
             }
             .rotationEffect(.degrees(Double(transportAnnotation.azimuth)))
             
-            Image(systemName: transportAnnotation.icon)
+            Image(transportAnnotation.icon)
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.white)
@@ -54,7 +54,7 @@ struct MapItem: View {
 }
 
 #Preview {
-    MapItem(transportAnnotation: TransportAnnotation(icon: "bus", color: .green, type: .bus, finish_stop: "мкрн Нагорный", current_stop: "ул. Планерная", route: "22", ts_id: "", inPark: true, gosnumber: "М245РУ18", azimuth: 150, coordinate: CLLocationCoordinate2D(
+    MapItem(transportAnnotation: TransportAnnotation(icon: "bus_icon_white", color: .green, type: .bus, finish_stop: "мкрн Нагорный", current_stop: "ул. Планерная", route: "22", ts_id: "", inPark: true, gosnumber: "М245РУ18", azimuth: 150, coordinate: CLLocationCoordinate2D(
         latitude: 56.843599,
         longitude: 53.202824)))
 }

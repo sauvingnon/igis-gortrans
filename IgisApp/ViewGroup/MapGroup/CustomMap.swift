@@ -82,7 +82,7 @@ struct CustomMap: UIViewRepresentable {
                 CustomMap.useSmallItems = false
             }
             
-            if(mapView.region.span.longitudeDelta > 0.016 || mapView.region.span.latitudeDelta > 0.016){
+            if(mapView.region.span.longitudeDelta > 0.01 || mapView.region.span.latitudeDelta > 0.01){
                 CustomMap.showStops = false
             }else{
                 CustomMap.showStops = true
@@ -94,7 +94,7 @@ struct CustomMap: UIViewRepresentable {
             if let stopAnnotation = view.annotation as? StopAnnotation{
                 MapModel.shared.selectedStopAnnotation = stopAnnotation
                 MapModel.shared.selectedTransportAnnotation = nil
-                mapView.setRegion(MKCoordinateRegion(center: stopAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)), animated: true)
+                mapView.setRegion(MKCoordinateRegion(center: stopAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)), animated: true)
                 
                 if(MapModel.shared.sheetIsPresented){
                     withAnimation(.default, {
@@ -119,13 +119,13 @@ struct CustomMap: UIViewRepresentable {
                 
                 if(MapModel.shared.sheetIsPresented){
                     withAnimation(.default, {
-                        MapModel.shared.mainText = getName(type: transportAnnotation.type, number: transportAnnotation.route)
+                        MapModel.shared.mainText = GeneralViewModel.getName(type: transportAnnotation.type, number: transportAnnotation.route)
                         MapModel.shared.secondText = transportAnnotation.current_stop
                         MapModel.shared.thirdText = transportAnnotation.finish_stop
                         MapModel.shared.inPark = transportAnnotation.inPark
                     })
                 }else{
-                    MapModel.shared.mainText = getName(type: transportAnnotation.type, number: transportAnnotation.route)
+                    MapModel.shared.mainText = GeneralViewModel.getName(type: transportAnnotation.type, number: transportAnnotation.route)
                     MapModel.shared.secondText = transportAnnotation.current_stop
                     MapModel.shared.thirdText = transportAnnotation.finish_stop
                     MapModel.shared.inPark = transportAnnotation.inPark
@@ -138,20 +138,7 @@ struct CustomMap: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
             
         }
-        
-        private func getName(type: TypeTransport, number: String) -> String {
-            switch type {
-            case .bus:
-                return "АВТОБУС № \(number)"
-            case .train:
-                return "ТРАМВАЙ №\(number)"
-            case .trolleybus:
-                return "ТРОЛЛЕЙБУС №\(number)"
-            case .countrybus:
-                return "АВТОБУС №\(number)"
-            }
-        }
-        
+
     }
     
     public static func setRegionOnUserLocation(){
@@ -159,6 +146,10 @@ struct CustomMap: UIViewRepresentable {
             map.setRegion(MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)), animated: true)
         }
         
+    }
+    
+    public static func deselectAnnotation(annotation: MKAnnotation){
+        map.deselectAnnotation(annotation, animated: true)
     }
     
     public static func updateTransportAnnotation() {
@@ -213,7 +204,7 @@ struct CustomMap: UIViewRepresentable {
     }
 }
 
-class TransportAnnotation: NSObject, MKAnnotation {
+class TransportAnnotation: NSObject, MKAnnotation, Identifiable {
     let id = UUID()
     let icon: String
     let color: Color
@@ -241,7 +232,7 @@ class TransportAnnotation: NSObject, MKAnnotation {
     }
 }
 
-class StopAnnotation: NSObject, MKAnnotation {
+class StopAnnotation: NSObject, MKAnnotation, Identifiable {
     let id = UUID()
     let stop_id: Int
     let stop_name: String?
@@ -293,7 +284,7 @@ class StopAnnotationView: MKAnnotationView {
     
     override func prepareForDisplay() {
         super.prepareForDisplay()
-        displayPriority = .defaultHigh
+        displayPriority = .defaultLow
     }
 }
 

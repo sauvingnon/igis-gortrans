@@ -87,7 +87,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.citybus.isEmpty){
             var buses: [TransportWaiter] = []
             obj.data.citybus.forEach { item in
-                buses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName:  DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                buses.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName:  DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.buses = buses
@@ -97,7 +97,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.suburbanbus.isEmpty){
             var countryBuses: [TransportWaiter] = []
             obj.data.suburbanbus.forEach { item in
-                countryBuses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                countryBuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.countryBuses = countryBuses
@@ -107,7 +107,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.tram.isEmpty){
             var trains: [TransportWaiter] = []
             obj.data.tram.forEach { item in
-                trains.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                trains.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.trains = trains
@@ -117,7 +117,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.trolleybus.isEmpty){
             var trolleybuses: [TransportWaiter] = []
             obj.data.trolleybus.forEach { item in
-                trolleybuses.append(TransportWaiter(transportNumber: "№ \(DataBase.getRouteNumber(routeId: item.route.id))", endStationName: item.finish.first?.stop.name ?? "--", time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? 0)))
+                trolleybuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName: item.finish.first?.stop.name ?? "—", time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? 0)))
             }
             DispatchQueue.main.async {
                 self.model.trolleybuses = trolleybuses

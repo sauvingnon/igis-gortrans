@@ -127,7 +127,6 @@ struct TransportWaiter: View, Identifiable, Equatable {
                 Text(transportNumber)
                     .font(.title)
                     .foregroundColor(.blue)
-                Spacer()
                 Text(endStationName)
                     .foregroundColor(.black.opacity(0.6))
                     .kerning(2)

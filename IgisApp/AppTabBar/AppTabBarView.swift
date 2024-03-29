@@ -24,7 +24,7 @@ struct AppTabBarView: View {
                 TabView(selection: $selection){
                     TransportGroupStackManager.shared
                         .tag(TabType.home)
-                    NotificationsView()
+                    NearestStopGroupStackManager.shared
                         .tag(TabType.alerts)
                     MapGroupStackManager.shared
                         .tag(TabType.map)

@@ -87,7 +87,7 @@ class ShowTransportRouteViewModel{
         stopsOfRoute.forEach { stopId in
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
             withAnimation {
-                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "--"))
+                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "—"))
             }
             stationState = .someStation
         }
@@ -119,7 +119,7 @@ class ShowTransportRouteViewModel{
     func configureView(routeId: Int, type: TypeTransport, number: String){
         
         ShowTransportRouteModel.shared.type = type
-        ShowTransportRouteModel.shared.name = getName(type: type, number: number)
+        ShowTransportRouteModel.shared.name = GeneralViewModel.getName(type: type, number: number)
         ShowTransportRouteModel.shared.routeId = routeId
         ShowTransportRouteModel.shared.isFavorite = GeneralViewModel.isFavoriteRoute(routeId: routeId)
         ShowTransportRouteModel.shared.number = number
@@ -131,19 +131,6 @@ class ShowTransportRouteViewModel{
     
     func disconfigureView(){
 //        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
-    }
-    
-    func getName(type: TypeTransport, number: String) -> String {
-        switch type {
-        case .bus:
-            return "АВТОБУС №\(number)"
-        case .train:
-            return "ТРАМВАЙ №\(number)"
-        case .trolleybus:
-            return "ТРОЛЛЕЙБУС №\(number)"
-        case .countrybus:
-            return "АВТОБУС №\(number)"
-        }
     }
     
     func updateRouteScreen(obj: RouteResponse){
@@ -165,11 +152,10 @@ class ShowTransportRouteViewModel{
         }
         
         DispatchQueue.main.async {
-            if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description) {
+            if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description), !description.isEmpty  {
                 self.model.status = description
             }else{
-                debugPrint("Не удалось раскодировать html строку!")
-                self.model.status = "—"
+                self.model.status = nil
             }
         }
         
@@ -185,18 +171,18 @@ class ShowTransportRouteViewModel{
                     
                     result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: findStation.sec > 3600 ? (findStation.time ?? timeToArrival) : timeToArrival))
                 } else {
-                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransport(type: (findStation.ts.first!.ts_type)), time:"", transportId: findStation.ts.first?.id))
+                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransportColor(type: (findStation.ts.first!.ts_type)), time:"", transportId: findStation.ts.first?.id))
                 }
             }
         })
         
         obj.data.scheme.forEach { item in
-            if(item.stop.contains("—")) {
-                let stop_id_next = String(item.stop.split(separator: "—").last ?? "0")
+            if(item.stop.contains("-")) {
+                let stop_id_next = String(item.stop.split(separator: "-").last ?? "0")
                 if let stationIndex = result.firstIndex(where: { station in
                     String(station.id) == stop_id_next
                 }){
-                    result[stationIndex].pictureTs = GeneralViewModel.getPictureTransport(type: (item.ts.first!.ts_type))
+                    result[stationIndex].pictureTs = GeneralViewModel.getPictureTransportColor(type: (item.ts.first!.ts_type))
                     result[stationIndex].transportId = item.ts.first?.id
                 }
             }

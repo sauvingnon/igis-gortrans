@@ -10,7 +10,6 @@ import MapKit
 
 struct FindNearestStopsView: View {
     
-    @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
     
     @State var mode = MapUserTrackingMode.follow
@@ -24,24 +23,18 @@ struct FindNearestStopsView: View {
     
     var body: some View {
         VStack{
-            LabelIzhevsk(withBackButton: true, stack: $navigationStack, handlerFunc: {
-                dismiss()
-            })
+            LabelIzhevsk(stack: $navigationStack){
+                
+            }
             
             ScrollView{
                 Map(coordinateRegion: $model.region, showsUserLocation: true, userTrackingMode: $mode, annotationItems: model.locations){
                     location in
                     MapAnnotation(coordinate: location.coordinate){
                         Button(action: {
-                            AppTabBarViewModel.shared.showAlert(title: "Показать остановку", message: location.name)
+                            AppTabBarViewModel.shared.showAlert(title: "Показать остановку", message: location.stop_name ?? "-")
                         }, label: {
-                            Image(systemName: location.icon)
-                                .resizable()
-                                .foregroundColor(.white)
-                                .padding(3)
-                                .background(Color.blue)
-                                .cornerRadius(50)
-                                .frame(width: 20, height: 20)
+                            MapStop(stopAnnotation: StopAnnotation(stop_id: location.stop_id, stop_name: location.stop_name, stop_name_short: location.stop_name_short, color: location.color, stop_direction: location.stop_direction, stop_types: location.stop_types, coordinate: location.coordinate, stop_demand: location.stop_demand))
                         })
                     }
                 }

@@ -41,7 +41,18 @@ class MapModel: ObservableObject{
     @Published var useSmallMapItems = false
     @Published var onlyFavoritesTransport = false
     
-    @Published var sheetIsPresented = false
+    @Published var sheetIsPresented = false{
+        didSet{
+            if(!sheetIsPresented){
+                if let annotation = selectedTransportAnnotation{
+                    CustomMap.deselectAnnotation(annotation: annotation)
+                }
+                if let annotation = selectedStopAnnotation{
+                    CustomMap.deselectAnnotation(annotation: annotation)
+                }
+            }
+        }
+    }
     @Published var mainText = "—"
     @Published var inPark = false
     @Published var thirdText = ""

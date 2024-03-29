@@ -20,78 +20,78 @@ struct MapView: View {
             CustomMap()
                 .ignoresSafeArea()
                 .overlay{
-                    
-                    Button(action: {
-                        viewModel.centerRegionOnUserLocation()
-                    }, label: {
-                        Image(systemName: "location.fill")
+                    ZStack{
+                        VStack{
+                            Button(action: {
+                                model.hideBus.toggle()
+                                viewModel.reloadMap()
+                            }, label: {
+                                Image("bus_icon_white")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .foregroundColor(.white)
+                                    .padding(3)
+                                    .background(.green)
+                                    .cornerRadius(10)
+                                    .opacity((model.hideBus) ? 0.5 : 1.0)
+                            })
                             .padding(10)
-                            .background(Color.white.opacity(0.7))
-                            .cornerRadius(50)
-                            .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-250)
-                    })
-                    
-                    VStack{
+                            Button(action: {
+                                model.hideTrain.toggle()
+                                viewModel.reloadMap()
+                            }, label: {
+                                Image("train_icon_white")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .foregroundColor(.white)
+                                    .padding(3)
+                                    .background(.red)
+                                    .cornerRadius(10)
+                                    .opacity((model.hideTrain) ? 0.5 : 1.0)
+                            })
+                            .padding(10)
+                            Button(action: {
+                                model.hideTrolleybus.toggle()
+                                viewModel.reloadMap()
+                            }, label: {
+                                Image("trolleybus_icon_white")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .foregroundColor(.white)
+                                    .padding(3)
+                                    .background(.blue)
+                                    .cornerRadius(10)
+                                    .opacity((model.hideTrolleybus) ? 0.5 : 1.0)
+                            })
+                            .padding(10)
+                            Button(action: {
+                                model.onlyFavoritesTransport.toggle()
+                                viewModel.reloadMap()
+                            }, label: {
+                                Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .foregroundColor(.white)
+                                    .padding(3)
+                                    .background(.green)
+                                    .cornerRadius(10)
+                            })
+                            .padding(10)
+                        }
+                        .frame(width: 50, height: 240)
+                        .background(Color.white.opacity(0.7))
+                        .cornerRadius(20)
+                        .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-100)
                         Button(action: {
-                            model.hideBus.toggle()
-                            viewModel.reloadMap()
+                            viewModel.centerRegionOnUserLocation()
                         }, label: {
-                            Image(systemName: "bus")
-                                .resizable()
-                                .scaledToFill()
-                                .foregroundColor(.white)
-                                .padding(3)
-                                .background(.green)
-                                .cornerRadius(10)
-                                .opacity((model.hideBus) ? 0.5 : 1.0)
+                            Image(systemName: "location.fill")
+                                .padding(10)
+                                .background(Color.white.opacity(0.7))
+                                .cornerRadius(50)
                         })
-                        .padding(10)
-                        Button(action: {
-                            model.hideTrain.toggle()
-                            viewModel.reloadMap()
-                        }, label: {
-                            Image(systemName: "tram")
-                                .resizable()
-                                .scaledToFill()
-                                .foregroundColor(.white)
-                                .padding(3)
-                                .background(.red)
-                                .cornerRadius(10)
-                                .opacity((model.hideTrain) ? 0.5 : 1.0)
-                        })
-                        .padding(10)
-                        Button(action: {
-                            model.hideTrolleybus.toggle()
-                            viewModel.reloadMap()
-                        }, label: {
-                            Image(systemName: "bus.doubledecker")
-                                .resizable()
-                                .scaledToFill()
-                                .foregroundColor(.white)
-                                .padding(3)
-                                .background(.blue)
-                                .cornerRadius(10)
-                                .opacity((model.hideTrolleybus) ? 0.5 : 1.0)
-                        })
-                        .padding(10)
-                        Button(action: {
-                            model.onlyFavoritesTransport.toggle()
-                            viewModel.reloadMap()
-                        }, label: {
-                            Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
-                                .resizable()
-                                .scaledToFill()
-                                .foregroundColor(.white)
-                                .padding(3)
-                                .background(.green)
-                                .cornerRadius(10)
-                        })
-                        .padding(10)
+                        .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-250)
                     }
-                    .frame(width: 50, height: 240)
-                    .background(Color.white.opacity(0.7))
-                    .cornerRadius(20)
-                    .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-100)
                 }
             
             DropDownAlert(isPresent: $model.sheetIsPresented, tapUnit: {
