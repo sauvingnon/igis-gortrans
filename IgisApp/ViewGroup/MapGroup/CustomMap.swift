@@ -19,7 +19,7 @@ struct CustomMap: UIViewRepresentable {
             latitudeDelta: 0.1,
             longitudeDelta: 0.1))
     
-    private let locationManager = CLLocationManager()
+    private static let locationManager = CLLocationManager()
     
     private static var userLocation: CLLocation?
     
@@ -34,11 +34,14 @@ struct CustomMap: UIViewRepresentable {
     
     public static var showStops = false{
         willSet{
+            if(MapModel.shared.selectedTransportAnnotation != nil){
+                return
+            }
             if newValue != showStops{
                 if(newValue){
-                    appendStopsAnnotation()
+                    appendStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
                 }else{
-                    removeStopsAnnotation()
+                    removeStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
                 }
             }
         }
@@ -71,6 +74,10 @@ struct CustomMap: UIViewRepresentable {
                 return StopAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
             }
             
+            if annotation.isEqual(mapView.userLocation) {
+                return UserLocationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+            }
+            
             return nil
         }
         
@@ -101,37 +108,17 @@ struct CustomMap: UIViewRepresentable {
                         MapModel.shared.mainText = stopAnnotation.stop_name ?? ""
                         MapModel.shared.secondText = stopAnnotation.stop_direction ?? ""
                         MapModel.shared.thirdText = MapViewModel.shared.getStringOfTypesTransport(types: stopAnnotation.stop_types)
-                        MapModel.shared.inPark = false
                     })
                 }else{
                     MapModel.shared.mainText = stopAnnotation.stop_name ?? ""
                     MapModel.shared.secondText = stopAnnotation.stop_direction ?? ""
                     MapModel.shared.thirdText = MapViewModel.shared.getStringOfTypesTransport(types: stopAnnotation.stop_types)
-                    MapModel.shared.inPark = false
                     MapModel.shared.sheetIsPresented = true
                 }
             }
             
             if let transportAnnotation = view.annotation as? TransportAnnotation{
-                MapModel.shared.selectedStopAnnotation = nil
-                MapModel.shared.selectedTransportAnnotation = transportAnnotation
-                mapView.setRegion(MKCoordinateRegion(center: transportAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)), animated: true)
-                
-                if(MapModel.shared.sheetIsPresented){
-                    withAnimation(.default, {
-                        MapModel.shared.mainText = GeneralViewModel.getName(type: transportAnnotation.type, number: transportAnnotation.route)
-                        MapModel.shared.secondText = transportAnnotation.current_stop
-                        MapModel.shared.thirdText = transportAnnotation.finish_stop
-                        MapModel.shared.inPark = transportAnnotation.inPark
-                    })
-                }else{
-                    MapModel.shared.mainText = GeneralViewModel.getName(type: transportAnnotation.type, number: transportAnnotation.route)
-                    MapModel.shared.secondText = transportAnnotation.current_stop
-                    MapModel.shared.thirdText = transportAnnotation.finish_stop
-                    MapModel.shared.inPark = transportAnnotation.inPark
-                    MapModel.shared.sheetIsPresented = true
-                }
-                
+                MapViewModel.shared.selectTransportAnnotation(transportAnnotation: transportAnnotation)
             }
         }
         
@@ -145,7 +132,10 @@ struct CustomMap: UIViewRepresentable {
         if let coordinate = userLocation?.coordinate {
             map.setRegion(MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)), animated: true)
         }
-        
+    }
+    
+    public static func setRegion(region: MKCoordinateRegion){
+        map.setRegion(region, animated: true)
     }
     
     public static func deselectAnnotation(annotation: MKAnnotation){
@@ -162,12 +152,12 @@ struct CustomMap: UIViewRepresentable {
         CustomMap.map.addAnnotations(MapModel.shared.transportAnnotations)
     }
     
-    public static func appendStopsAnnotation(){
-        CustomMap.map.addAnnotations(MapModel.shared.stopAnnotations)
+    public static func appendStopsAnnotation(stopAnnotations: [StopAnnotation]){
+        CustomMap.map.addAnnotations(stopAnnotations)
     }
     
-    public static func removeStopsAnnotation(){
-        CustomMap.map.removeAnnotations(MapModel.shared.stopAnnotations)
+    public static func removeStopsAnnotation(stopAnnotations: [StopAnnotation]){
+        CustomMap.map.removeAnnotations(stopAnnotations)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -187,16 +177,17 @@ struct CustomMap: UIViewRepresentable {
         CustomMap.map.setRegion(region, animated: true)
         
         // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = context.coordinator
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
+        CustomMap.locationManager.requestWhenInUseAuthorization()
+        
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                CustomMap.locationManager.delegate = context.coordinator
+                CustomMap.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                CustomMap.locationManager.startUpdatingLocation()
+            }
         }
         
         return CustomMap.map
-        
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
@@ -234,6 +225,7 @@ class TransportAnnotation: NSObject, MKAnnotation, Identifiable {
 
 class StopAnnotation: NSObject, MKAnnotation, Identifiable {
     let id = UUID()
+    let letter: String
     let stop_id: Int
     let stop_name: String?
     let stop_name_short: String?
@@ -243,7 +235,7 @@ class StopAnnotation: NSObject, MKAnnotation, Identifiable {
     let coordinate: CLLocationCoordinate2D
     let stop_demand: Int?
     
-    init(stop_id: Int, stop_name: String?, stop_name_short: String?, color: Color, stop_direction: String?, stop_types: [TypeTransport], coordinate: CLLocationCoordinate2D, stop_demand: Int?) {
+    init(stop_id: Int, stop_name: String?, stop_name_short: String?, color: Color, stop_direction: String?, stop_types: [TypeTransport], coordinate: CLLocationCoordinate2D, stop_demand: Int?, letter: String) {
         self.stop_id = stop_id
         self.stop_name = stop_name
         self.stop_name_short = stop_name_short
@@ -252,6 +244,7 @@ class StopAnnotation: NSObject, MKAnnotation, Identifiable {
         self.stop_types = stop_types
         self.coordinate = coordinate
         self.stop_demand = stop_demand
+        self.letter = letter
     }
 }
 
@@ -265,7 +258,7 @@ class StopAnnotationView: MKAnnotationView {
         
         if let annotation = annotation as? StopAnnotation{
             
-            let item = MapStop(stopAnnotation: StopAnnotation(stop_id: annotation.stop_id, stop_name: annotation.stop_name, stop_name_short: annotation.stop_name_short, color: annotation.color, stop_direction: annotation.stop_direction, stop_types: annotation.stop_types, coordinate: annotation.coordinate, stop_demand: annotation.stop_demand))
+            let item = MapStop(stopAnnotation: StopAnnotation(stop_id: annotation.stop_id, stop_name: annotation.stop_name, stop_name_short: annotation.stop_name_short, color: annotation.color, stop_direction: annotation.stop_direction, stop_types: annotation.stop_types, coordinate: annotation.coordinate, stop_demand: annotation.stop_demand, letter: annotation.letter))
             let vc = UIHostingController(rootView: item)
 
             let swiftuiView = vc.view!
@@ -285,6 +278,39 @@ class StopAnnotationView: MKAnnotationView {
     override func prepareForDisplay() {
         super.prepareForDisplay()
         displayPriority = .defaultLow
+    }
+}
+
+class UserLocationView: MKAnnotationView {
+    
+    static let ReuseID = "userLocation"
+    
+    /// setting the key for clustering annotations
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        
+        if let annotation = annotation as? MKUserLocation{
+            
+            let item = MapUserLocation(userLocation: annotation)
+            let vc = UIHostingController(rootView: item)
+
+            let swiftuiView = vc.view!
+//            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
+            
+            addSubview(swiftuiView)
+        }
+        
+        prepareForDisplay()
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForDisplay() {
+        super.prepareForDisplay()
+        displayPriority = .defaultHigh
     }
 }
 
@@ -327,6 +353,6 @@ class TransportAnnotationView: MKAnnotationView {
     
     override func prepareForDisplay() {
         super.prepareForDisplay()
-        displayPriority = .defaultHigh
+        displayPriority = .defaultLow
     }
 }

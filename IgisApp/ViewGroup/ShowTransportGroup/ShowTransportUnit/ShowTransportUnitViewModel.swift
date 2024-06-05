@@ -11,11 +11,12 @@ import MapKit
 import MessagePacker
 
 class ShowTransportUnitViewModel{
-    static let shared = ShowTransportUnitViewModel()
-    private init(){
-        
+
+    private var model: ShowTransportUnitModel!
+    
+    init(model: ShowTransportUnitModel){
+        self.model = model
     }
-    private let model = ShowTransportUnitModel.shared
     
     func showData(){
         self.model.showIndicator = false
@@ -38,7 +39,7 @@ class ShowTransportUnitViewModel{
             while(ServiceSocket.status != .connected){
             }
             if let object = try? MessagePackEncoder().encode(TransportRequest(transportId: self.model.transportId)){
-                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, callback: self.updateTransportScreen)
                 debugPrint("Запрос к серверу на получение прогноза юнита транспорта.")
             }else{
                 debugPrint("Запрос к серверу на получение прогноза юнита транспорта не отправлен.")
@@ -56,15 +57,38 @@ class ShowTransportUnitViewModel{
         self.model.transportId = transportId!
         self.model.transportUnitDescription = "—"
         
-//        getTransportData()
+        getTransportData()
     }
     
-    func updateTransportScreen(obj: TransportResponse) {
+    func showAlertBadResponse(){
+        if(model.alertAlreadyShow){
+            return
+        }
+        DispatchQueue.main.async {
+            AppTabBarViewModel.shared.showAlert(title: "Нет сведений о данном транспортном средстве", message: "Нет данных")
+            self.model.alertAlreadyShow = true
+        }
+    }
+    
+    func updateTransportScreen(data: Data) {
+        
+        guard let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: data)else {
+            debugPrint("Ошибка при декодировании объекта TransportResponse \(Date.now)")
+            if(model.showIndicator){
+//                showAlertBadResponse()
+            }
+            return
+        }
+        
+        debugPrint("был получен прогноз транспорта \(Date.now)")
+        
         DispatchQueue.main.async {
             self.model.data.removeAll()
            
             var firstStationState = false
             var stationState = StationState.someStation
+            var counter = 1
+            
             obj.data.ts_stops.forEach { ts_stop in
                 if(ts_stop.finish == 0){
                     stationState = .someStation
@@ -76,7 +100,9 @@ class ShowTransportUnitViewModel{
                         firstStationState = true
                     }
                 }
-                self.model.data.append(Stop(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "5 мин"))
+                self.model.data.append(Stop(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "5 мин", withArrow: (counter % 4 == 0)))
+                
+                counter += 1
                 
             }
             
@@ -86,7 +112,7 @@ class ShowTransportUnitViewModel{
             self.model.locations.removeAll()
             
             let transportIcon = GeneralViewModel.getPictureTransportWhite(type: obj.data.ts_type)
-            let color = GeneralViewModel.getTransportColor(type: obj.data.ts_type)
+            let color = GeneralViewModel.getTransportColor(typeIgis: obj.data.ts_type)
             let coordinate = CLLocationCoordinate2D(latitude: obj.data.latlng.first ?? 0, longitude: obj.data.latlng.last ?? 0)
             
             self.model.locations.append(TransportAnnotation(icon: transportIcon, color: color, type: GeneralViewModel.getTransportTypeFromString(transport_type: obj.data.ts_type), finish_stop: "", current_stop: "", route: obj.data.route, ts_id: "", inPark: false, gosnumber: obj.data.gosnumber, azimuth: obj.data.azimuth, coordinate: coordinate))
@@ -113,9 +139,20 @@ class ShowTransportUnitViewModel{
             
             let type = GeneralViewModel.getTransportTypeFromString(transport_type: obj.data.ts_type)
             
+            self.model.transportType = type
+            
             let typeString = self.getName(type: type)
             
-            self.model.transportUnitDescription = "\(typeString) \(obj.data.gosnumber)"
+            if(!obj.data.gosnumber.isEmpty){
+                if(obj.data.gosnumber.first!.isLetter){
+                    self.model.transportUnitDescription = "\(typeString) \(obj.data.gosnumber)"
+                }else{
+                    self.model.transportUnitDescription = "\(typeString) №\(obj.data.gosnumber)"
+                }
+            }else{
+                self.model.transportUnitDescription = "\(typeString)"
+            }
+            
             
             self.showData()
             

@@ -10,10 +10,6 @@ import MapKit
 import SwiftUI
 
 class ShowTransportUnitModel: ObservableObject {
-    static let shared = ShowTransportUnitModel()
-    private init(){
-        
-    }
     
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -25,6 +21,7 @@ class ShowTransportUnitModel: ObservableObject {
     
     @Published var opacity = 1.0
     @Published var showIndicator = false
+    var transportType: TypeTransport = .bus
     var transportUnitDescription = "—"
     var transportId = ""
     var data: [Stop] = []
@@ -38,6 +35,7 @@ class ShowTransportUnitModel: ObservableObject {
     var timeWord: String?
     var maintenance: String?
     var currentStopId: Int = 0
+    var alertAlreadyShow = false
     
     @Published var locations: [TransportAnnotation] = []
     

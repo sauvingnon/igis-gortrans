@@ -12,6 +12,8 @@ struct CustomMenu: View {
     @State var menu: Menu
     @Binding var isMenuOpen: Bool
     
+    let tappHandler: (MenuItem) -> ()
+    
     var body: some View {
         ZStack {
             ForEach(menu.menuItems, id: \.self){ item in
@@ -31,6 +33,7 @@ struct CustomMenu: View {
                     .cornerRadius(25)
                     .onTapGesture {
                         menu.currentStop = item
+                        tappHandler(item)
                         isMenuOpen.toggle()
                     }
                     .padding(.horizontal, 20)

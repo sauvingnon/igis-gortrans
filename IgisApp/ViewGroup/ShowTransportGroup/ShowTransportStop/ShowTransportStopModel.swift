@@ -10,17 +10,13 @@ import SwiftUI
 
 class ShowStopOnlineModel: ObservableObject{
     
-    static let shared = ShowStopOnlineModel()
-    private init(){
-        
-    }
-    
     @Published var opacity = 1.0
     @Published var name = "—"
     @Published var direction = "—"
     @Published var stopId = 0
     @Published var isFavorite = false
     @Published var showIndicator = false
+    var alertAlreadyShow = false
     
     @Published private var trains_private: [TransportWaiter] = []
     var trains: [TransportWaiter]{

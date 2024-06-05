@@ -32,9 +32,9 @@ struct FindNearestStopsView: View {
                     location in
                     MapAnnotation(coordinate: location.coordinate){
                         Button(action: {
-                            AppTabBarViewModel.shared.showAlert(title: "Показать остановку", message: location.stop_name ?? "-")
+//                            AppTabBarViewModel.shared.showAlert(title: "Показать остановку", message: location.stop_name ?? "-")
                         }, label: {
-                            MapStop(stopAnnotation: StopAnnotation(stop_id: location.stop_id, stop_name: location.stop_name, stop_name_short: location.stop_name_short, color: location.color, stop_direction: location.stop_direction, stop_types: location.stop_types, coordinate: location.coordinate, stop_demand: location.stop_demand))
+                            MapStop(stopAnnotation: StopAnnotation(stop_id: location.stop_id, stop_name: location.stop_name, stop_name_short: location.stop_name_short, color: location.color, stop_direction: location.stop_direction, stop_types: location.stop_types, coordinate: location.coordinate, stop_demand: location.stop_demand, letter: location.letter))
                         })
                     }
                 }
@@ -83,8 +83,8 @@ struct FindNearestStopsView: View {
     }
     
     private func stopTapped(stop_id: Int){
-        ShowTransportStopViewModel.shared.configureView(stop_id: stop_id)
-        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline(stop_id))
+        
     }
 }
 

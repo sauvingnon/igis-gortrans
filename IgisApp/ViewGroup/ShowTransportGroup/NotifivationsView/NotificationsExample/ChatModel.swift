@@ -15,25 +15,26 @@ public class ChatModel : ObservableObject {
     
     public static let shared = ChatModel()
     
-    private init(didChange: PassthroughSubject<Void, Never> = PassthroughSubject<Void, Never>()) {
+    init(didChange: PassthroughSubject<Void, Never> = PassthroughSubject<Void, Never>()) {
         self.didChange = didChange
+        self.realTimeMessages = getMessages()
+    }
+    
+    func updateMessages(){
         realTimeMessages = getMessages()
     }
     
     func sendMessage(currentMessage: Message, countTime: Double) {
-        realTimeMessages.append(currentMessage)
-        didChange.send(())
-        saveMessage(messages: realTimeMessages)
+        saveMessage(message: currentMessage)
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
-                print("All set!")
+                print("Уведомление зарегестрировано")
             } else if let error = error {
                 print(error.localizedDescription)
             }
         }
         let content = UNMutableNotificationContent()
-        content.title = "IGIS:Транспорт Ижевска"
-        content.subtitle = currentMessage.title
+        content.title = "IGIS: Транспорт Ижевска"
         content.body = currentMessage.content
         content.sound = UNNotificationSound.default
 
@@ -49,21 +50,37 @@ public class ChatModel : ObservableObject {
     
     func removeAllMessages(){
         realTimeMessages.removeAll()
-        didChange.send(())
-        saveMessage(messages: realTimeMessages)
+        UserDefaults.standard.removeObject(forKey: "Messages")
     }
     
     private func getMessages() -> [Message]{
         if let data = UserDefaults.standard.object(forKey: "Messages") as? Data,
            let allMessages = try? JSONDecoder().decode([Message].self, from: data) {
-             return allMessages
+            
+            let fillter = allMessages.filter { message in
+                message.date <= Date()
+            }
+            
+            return fillter
         }
         return []
     }
     
-    private func saveMessage(messages: [Message]){
-        if let encoded = try? JSONEncoder().encode(messages) {
-            UserDefaults.standard.set(encoded, forKey: "Messages")
+    private func saveMessage(message: Message){
+        
+        if let data = UserDefaults.standard.object(forKey: "Messages") as? Data, var allMessages = try? JSONDecoder().decode([Message].self, from: data) {
+            
+            allMessages.append(message)
+            
+            if let encoded = try? JSONEncoder().encode(allMessages) {
+                UserDefaults.standard.set(encoded, forKey: "Messages")
+            }
+        }else{
+            var newArray: [Message] = []
+            newArray.append(message)
+            if let encoded = try? JSONEncoder().encode(newArray) {
+                UserDefaults.standard.set(encoded, forKey: "Messages")
+            }
         }
     }
     

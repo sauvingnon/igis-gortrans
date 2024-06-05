@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 import MessagePacker
 
-class ShowTransportStopViewModel: ObservableObject {
-    static let shared = ShowTransportStopViewModel()
-    private init(){
-        
-    }
+class ShowTransportStopViewModel {
+
+    var model: ShowStopOnlineModel!
     
-    @Published var model = ShowStopOnlineModel.shared
+    init(model: ShowStopOnlineModel!) {
+        self.model = model
+    }
     
     func showData(){
         withAnimation{
@@ -62,7 +62,7 @@ class ShowTransportStopViewModel: ObservableObject {
                 
             }
             if let object = try? MessagePackEncoder().encode(StationRequest(stop_id: self.model.stopId)){
-                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, callback: self.updateStaionScreen)
                 debugPrint("Запрос к серверу на получение прогноза остановки транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза остановки транспорта не отправлен.")
@@ -76,18 +76,41 @@ class ShowTransportStopViewModel: ObservableObject {
         self.model.direction = DataBase.getStopDirection(stopId: stop_id)
         self.model.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
-//        self.getStationData()
+        self.getStationData()
     }
     
     func disconfigureView(){
 //        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
     }
     
-    func updateStaionScreen(obj: StationResponse){
+    
+    
+    func showAlertBadResponse(){
+        if(model.alertAlreadyShow){
+            return
+        }
+        DispatchQueue.main.async {
+            AppTabBarViewModel.shared.showAlert(title: "Нет сведений о данной остановке", message: "Нет данных")
+            self.model.alertAlreadyShow = true
+        }
+    }
+    
+    func updateStaionScreen(data: Data){
+        
+        guard let obj = try? MessagePackDecoder().decode(StationResponse.self, from: data)else {
+            debugPrint("Ошибка при декодировании объекта StationResponse \(Date.now)")
+            if(model.showIndicator){
+//                showAlertBadResponse()
+            }
+            return
+        }
+        
+        debugPrint("были получены данные о остановке \(Date.now)")
+        
         if(!obj.data.citybus.isEmpty){
             var buses: [TransportWaiter] = []
             obj.data.citybus.forEach { item in
-                buses.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName:  DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                buses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .bus, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.buses = buses
@@ -97,7 +120,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.suburbanbus.isEmpty){
             var countryBuses: [TransportWaiter] = []
             obj.data.suburbanbus.forEach { item in
-                countryBuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                countryBuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .countrybus, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.countryBuses = countryBuses
@@ -107,7 +130,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.tram.isEmpty){
             var trains: [TransportWaiter] = []
             obj.data.tram.forEach { item in
-                trains.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? -1)))
+                trains.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .train, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.trains = trains
@@ -117,7 +140,7 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.trolleybus.isEmpty){
             var trolleybuses: [TransportWaiter] = []
             obj.data.trolleybus.forEach { item in
-                trolleybuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumber(routeId: item.route.id), endStationName: item.finish.first?.stop.name ?? "—", time: GeneralViewModel.getTimeToArrivalInMin(sec: item.finish.first?.sec ?? 0)))
+                trolleybuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .trolleybus, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
             }
             DispatchQueue.main.async {
                 self.model.trolleybuses = trolleybuses

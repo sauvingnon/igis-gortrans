@@ -84,8 +84,8 @@ struct FavoriteRoutesAndStationsView: View {
     }
     
     private func favoriteStopTapped(stop_id: Int){
-        ShowTransportStopViewModel.shared.configureView(stop_id: stop_id)
-        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline(stop_id))
+        
     }
     
     private func favoriteRouteTapped(number: String, type: TypeTransport){
@@ -93,9 +93,7 @@ struct FavoriteRoutesAndStationsView: View {
         
         let routeId = DataBase.getRouteId(type: type, number: number)
         
-        ShowTransportRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
-        
-        navigationStack.append(CurrentTransportSelectionView.showRouteOnline)
+        navigationStack.append(CurrentTransportSelectionView.showRouteOnline(routeId))
     }
     
 }

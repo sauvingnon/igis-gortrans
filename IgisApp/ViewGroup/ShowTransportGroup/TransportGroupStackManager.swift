@@ -12,13 +12,14 @@ struct TransportGroupStackManager: View {
     static let shared = TransportGroupStackManager()
 
     private init(){
+        
     }
     
-    private class TransportGroupStackManagerModel: ObservableObject {
+    class TransportGroupStackManagerModel: ObservableObject {
         @Published var navigationStack = NavigationPath([CurrentTransportSelectionView]())
     }
     
-    @ObservedObject private var model = TransportGroupStackManagerModel()
+    @ObservedObject var model = TransportGroupStackManagerModel()
     
     var body: some View {
         CustomNavigationStack(path: $model.navigationStack){
@@ -34,17 +35,17 @@ struct TransportGroupStackManager: View {
                     case .chooseNumberTransport:
                         ChooseTransportRouteView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .showRouteOnline:
-                        ShowTransportRouteView(navigationStack: $model.navigationStack)
+                    case .showRouteOnline(let routeId):
+                        ShowTransportRouteView(navigationStack: $model.navigationStack, routeId: routeId)
                             .navigationBarBackButtonHidden(true)
                     case .selectStopView:
                         SelectStopView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .showStopOnline:
-                        ShowTransportStopView(navigationStack: $model.navigationStack)
+                    case .showStopOnline(let stopId):
+                        ShowTransportStopView(navigationStack: $model.navigationStack, stopId: stopId)
                             .navigationBarBackButtonHidden(true)
-                    case .showTransportUnit:
-                        ShowTransportUnitView(navigationStack: $model.navigationStack)
+                    case .showTransportUnit(let transportId):
+                        ShowTransportUnitView(navigationStack: $model.navigationStack, transportId: transportId)
                             .navigationBarBackButtonHidden(true)
                     case .QRScanner:
                         ScannerView(navigationStack: $model.navigationStack)
@@ -64,6 +65,7 @@ struct TransportGroupStackManager: View {
     // Очистка навигационного стека
     public func clearNavigationStack(){
         model.navigationStack.removeLast(model.navigationStack.count)
+        self.model.objectWillChange.send()
     }
 }
 
@@ -73,15 +75,15 @@ struct TransportGroupSelector_Preview: PreviewProvider {
     }
 }
 
-enum CurrentTransportSelectionView{
+enum CurrentTransportSelectionView: Hashable{
     case showFavoriteItems
     case chooseRouteOrStation
     case chooseTypeTransport
     case chooseNumberTransport
-    case showRouteOnline
+    case showRouteOnline(Int)
     case selectStopView
-    case showStopOnline
-    case showTransportUnit
+    case showStopOnline(Int)
+    case showTransportUnit(String)
     case findNearestStops
     case QRScanner
     case mapView

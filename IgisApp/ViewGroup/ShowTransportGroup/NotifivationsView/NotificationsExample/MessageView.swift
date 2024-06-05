@@ -33,17 +33,13 @@ struct MessageView: View {
 
 struct MessageView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageView(currentMessage: Message(title: "Автобус №29 гос. номер Е456ТМ18", content: "Ваш транспорт скоро прибудет на ост. \"Аврора\".", dateTime: DateTime()))
+        MessageView(currentMessage: Message(date: Date(), title: "Автобус №29 гос. номер Е456ТМ18", content: "Ваш транспорт скоро прибудет на ост. \"Аврора\".", time: "19:30"))
     }
 }
 
 struct Message: Hashable, Codable {
-    var title: String
-    var content: String
-    var time: String
-    init(title: String, content: String, dateTime: DateTime) {
-        self.title = title
-        self.content = content
-        self.time = dateTime.time
-    }
+    let date: Date
+    let title: String
+    let content: String
+    let time: String
 }

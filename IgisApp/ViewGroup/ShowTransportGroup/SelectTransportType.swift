@@ -22,33 +22,33 @@ struct SelectTransportType: View {
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .bus)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
+                    TransportGroupStackManager.shared.model.objectWillChange.send()
                 } label: {
                     VStack(){
                         Image("bus_icon_white")
                             .resizable()
-//                            .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Автобусы")
                             .foregroundColor(Color.white)
                     }
                     .frame(width: 150, height: 150)
-                    .background(Color.blue)
+                    .background(.blue)
                     .cornerRadius(15)
                 }
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .trolleybus)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
+                    TransportGroupStackManager.shared.model.objectWillChange.send()
                 } label: {
                     VStack(){
                         Image("trolleybus_icon_white")
                             .resizable()
-                            .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Троллейбусы")
                             .foregroundColor(Color.white)
                     }
                     .frame(width: 150, height: 150)
-                    .background(Color.blue)
+                    .background(.blue)
                     .cornerRadius(15)
                 }
             }
@@ -58,34 +58,34 @@ struct SelectTransportType: View {
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .train)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
+                    TransportGroupStackManager.shared.model.objectWillChange.send()
                 } label: {
                     VStack(){
                         Image("train_icon_white")
                             .resizable()
-                            .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Трамваи")
                             .foregroundColor(Color.white)
                     }
                     .frame(width: 150, height: 150)
-                    .background(Color.blue)
+                    .background(.blue)
                     .cornerRadius(15)
                 }
                 
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .countrybus)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
+                    TransportGroupStackManager.shared.model.objectWillChange.send()
                 } label: {
                     VStack(){
                         Image("bus_icon_white") 
                             .resizable()
-                            .scaledToFit()
                             .frame(width: 50, height: 50).foregroundColor(Color.white)
                         Text("Пригородные автобусы")
                             .foregroundColor(Color.white)
                     }
                     .frame(width: 150, height: 150)
-                    .background(Color.blue)
+                    .background(.blue)
                     .cornerRadius(15)
                 }
             }

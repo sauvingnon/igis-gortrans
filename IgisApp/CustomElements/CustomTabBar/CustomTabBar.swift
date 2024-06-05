@@ -9,7 +9,7 @@ import SwiftUI
 
 enum TabType: String{
     case home = "home_icon"
-    case alerts = "nearest_icon"
+    case nearest = "nearest_icon"
     case map = "map_icon"
     case favourites = "favorites_icon"
     case settings = "settings_icon"
@@ -23,7 +23,7 @@ struct CustomTabBar: View {
         
         HStack(alignment: .center){
             CustomizeTabItem(tab: .home)
-            CustomizeTabItem(tab: .alerts)
+            CustomizeTabItem(tab: .nearest)
             CustomizeTabItem(tab: .map)
             CustomizeTabItem(tab: .favourites)
             CustomizeTabItem(tab: .settings)
@@ -34,6 +34,7 @@ struct CustomTabBar: View {
 }
 
 struct CustomTabBar_Previews: PreviewProvider {
+    
     static var previews: some View {
         CustomTabBar(selectedTab: .constant(TabType.home))
     }

@@ -14,22 +14,6 @@ class GeneralViewModel{
 
     static var userTrace = ""
     
-    private static var alertAlreadyShow = false
-    
-    static func showAlertBadResponse(){
-        if(alertAlreadyShow){
-            return
-        }
-        DispatchQueue.main.async {
-            AppTabBarViewModel.shared.showAlert(title: "Нет сведений по транспорту на данной остановке.", message: "Нет данных.")
-            self.alertAlreadyShow = true
-        }
-    }
-    
-    static func uncheckAlertAlreadyShow(){
-        alertAlreadyShow = false
-    }
-    
     static func checkConnection(){
         let queue = DispatchQueue.global(qos: .default)
         var isOnline = false
@@ -92,6 +76,17 @@ class GeneralViewModel{
             min = 1
         }
         return "\(min) мин"
+    }
+    
+    static func getTimeToArrivalInMinWithoutLetters(sec: Int) -> String{
+        if(sec < 0){
+            return "—"
+        }
+        var min = sec/60
+        if min == 0{
+            min = 1
+        }
+        return "\(min)"
     }
     
     private static func generateTrace() -> String{
@@ -215,31 +210,49 @@ class GeneralViewModel{
     static func getPictureTransportColor(type: String) -> String {
         switch type {
         case "citybus":
-            return "bus_icon_green"
+            return "bus_icon_orange"
         case "tram":
             return "train_icon_red"
         case "trolleybus":
             return "trolleybus_icon_blue"
         case "suburbanbus":
-            return "bus_icon_green"
+            return "bus_icon_orange"
         default:
             return ""
         }
     }
     
-    static func getTransportColor(type: String) -> Color {
-        switch type {
-        case "citybus":
-            return Color.green
-        case "tram":
-            return Color.red
-        case "trolleybus":
-            return Color.blue
-        case "suburbanbus":
-            return Color.green
-        default:
-            return Color.green
+    static func getTransportColor(typeIgis: String? = nil, type: TypeTransport? = nil) -> Color {
+        
+        if let type = typeIgis{
+            switch typeIgis {
+            case "citybus":
+                return Color.orange
+            case "tram":
+                return Color.red
+            case "trolleybus":
+                return Color.blue
+            case "suburbanbus":
+                return Color.init(red: 0, green: 0.85, blue: 0.85)
+            default:
+                return Color.blue
+            }
         }
+        
+        if let type = type{
+            switch(type){
+            case .bus:
+                return Color.orange
+            case .train:
+                return Color.red
+            case .trolleybus:
+                return Color.blue
+            case .countrybus:
+                return Color.init(red: 0, green: 0.85, blue: 0.85)
+            }
+        }
+        
+        return .blue
     }
     
     static func getTransportTypeFromString(transport_type: String) -> TypeTransport {
@@ -258,13 +271,21 @@ class GeneralViewModel{
         }
     }
         
-    static func getName(type: TypeTransport, number: String) -> String {
+    static func getName(type: TypeTransport?, number: String) -> String {
         if(number.isEmpty){
             return "—"
         }
         
+        if(type == nil){
+            if(number.first!.isNumber){
+                return "ТС №\(number)"
+            }else{
+                return "ТС \(number)"
+            }
+        }
+        
         if(number.first!.isNumber){
-            switch type {
+            switch type! {
             case .bus:
                 return "АВТОБУС №\(number)"
             case .train:
@@ -275,7 +296,7 @@ class GeneralViewModel{
                 return "АВТОБУС №\(number)"
             }
         }else{
-            switch type {
+            switch type! {
             case .bus:
                 return "АВТОБУС \(number)"
             case .train:

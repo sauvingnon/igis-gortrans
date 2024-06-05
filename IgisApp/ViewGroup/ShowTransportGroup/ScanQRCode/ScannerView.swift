@@ -132,23 +132,21 @@ struct ScannerView: View {
         if(scanText.contains("https://igis-transport.ru/qr/")){
             
             if let transportId = scanText.components(separatedBy: "/").last{
-                ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-                navigationStack.append(CurrentTransportSelectionView.showTransportUnit)
+                navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportId))
             }else{
-                presentError ("QR-код не валидный.")
+                presentError ("QR-код не валидный")
             }
             
         }else if(scanText.contains("http://m.igis.ru/ts/")){
             
             if let transportId = scanText.components(separatedBy: "/").last{
-                ShowTransportUnitViewModel.shared.configureView(transportId: transportId)
-                navigationStack.append(CurrentTransportSelectionView.showTransportUnit)
+                navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportId))
             }else{
-                presentError("QR-код не валидный.")
+                presentError("QR-код не валидный")
             }
             
         }else{
-            presentError("Cканируемый QR-код не имеет отношения к порталу IGIS.")
+            presentError("Cканируемый QR-код не имеет отношения к порталу IGIS")
         }
         
     }
@@ -169,7 +167,7 @@ struct ScannerView: View {
         do{
             guard let device = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video,
                                                                 position: .back) .devices.first else {
-            presentError ("Ошибка устройства.")
+            presentError ("Ошибка устройства")
             return
             }
             
@@ -177,7 +175,7 @@ struct ScannerView: View {
             // For Extra Saftey
             // Checking Whether input & output can be added to the session
             guard session.canAddInput (input), session.canAddOutput(qrOutput) else {
-            presentError ("Ошибка видеопотока.")
+            presentError ("Ошибка видеопотока")
             return
             }
             
@@ -224,11 +222,11 @@ struct ScannerView: View {
                 } else {
                     // Permission Denied
                     cameraPermission = .denied
-                    presentError ("Для сканирования QR-кода необходим доступ к камере.")
+                    presentError ("Для сканирования QR-кода необходим доступ к камере")
                 }
             case .denied, .restricted:
                 cameraPermission = .denied
-                presentError ("Для сканирования QR-кода необходим доступ к камере.")
+                presentError ("Для сканирования QR-кода необходим доступ к камере")
             default: break
             }
         }

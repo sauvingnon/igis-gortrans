@@ -14,7 +14,6 @@ struct SettingsView: View {
     @ObservedObject private var model = SettingsModel.shared
     
     @State private var value: Float = 0.05
-    @State private var scaleSliderBlock = 1.0
     
     var body: some View {
         VStack {
@@ -100,21 +99,27 @@ struct SettingsView: View {
                     FindNearestStopsViewModel.shared.setValueDiff(value: value)
                 })
                 .padding(.horizontal, 20)
+                
+                Button(action: {
+                    Vibration.selection.vibrate()
+                    self.value = 0.05
+                    FindNearestStopsViewModel.shared.setValueDiff(value: value)
+                }, label: {
+                    Text("Сброс")
+                        .fontWeight(.light)
+                        .font(.system(size: 18))
+                        .kerning(0.7)
+                        .padding(8)
+                        .foregroundStyle(.white)
+                        .background(.blue)
+                        .cornerRadius(15)
+                })
+                
             }
             .frame(width: UIScreen.screenWidth-40)
             .padding(.vertical, 15)
             .background(Color.white)
             .cornerRadius(15)
-            .scaleEffect(scaleSliderBlock)
-            .onTapGesture(count: 2){
-                FindNearestStopsViewModel.shared.setValueDiff(value: 0.1)
-                Vibration.selection.vibrate()
-                scaleSliderBlock = 0.5
-                withAnimation(.spring(dampingFraction: 0.5)) {
-                    scaleSliderBlock = 1.0
-                    self.value = 0.1
-                }
-            }
             
             Spacer()
             

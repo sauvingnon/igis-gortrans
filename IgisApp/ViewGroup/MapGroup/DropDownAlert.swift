@@ -50,17 +50,17 @@ struct DropDownAlert: View {
                     Spacer()
                 }
                 
-                if(model.inPark){
-                    HStack{
-                        Spacer()
-                        Text("В парк/депо")
-                            .padding(3)
-                            .bold()
-                            .foregroundStyle(.white)
-                            .background(.red)
-                            .cornerRadius(10)
-                    }
-                }
+//                if(model.inPark){
+//                    HStack{
+//                        Spacer()
+//                        Text("В парк/депо")
+//                            .padding(3)
+//                            .bold()
+//                            .foregroundStyle(.white)
+//                            .background(.red)
+//                            .cornerRadius(10)
+//                    }
+//                }
                 
                 HStack(alignment: .center){
                     Spacer()

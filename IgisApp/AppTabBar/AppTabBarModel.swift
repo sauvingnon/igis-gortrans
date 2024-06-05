@@ -14,14 +14,18 @@ class AppTabBarModel: ObservableObject{
         
     }
     
-    // класс для показа custom alert - можно обраться и показать из любого места в приложении
     @Published var selection: TabType = .home
     @Published var showStatus = false
     @Published var isConnected: ConnectionStatus = .notConnected
     @Published var colorStatus = Color.red
     @Published var textStatus = "Ожидание подключения"
-    @Published var alertIsPresented = false
+    @Published var hideTabBar = false
+    
     var alert: CustomAlert?
+    @Published var alertIsPresented = false
+    
+    var timeAlert: ChooseTimeAlert?
+    @Published var timeAlertIsPresented = false
     
 }
 

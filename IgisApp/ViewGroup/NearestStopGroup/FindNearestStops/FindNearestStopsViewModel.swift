@@ -20,7 +20,7 @@ class FindNearestStopsViewModel {
     private let model = FindNearestStopsModel.shared
     private var locationManager = LocationManager()
     private var mapAlreadyCenter = false
-    private var value: Int = 300
+    private var value: Int = 150
     // Каждые 10 секунд обновляем список остановок относительно геопозиции
     private let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
         timerFire()
@@ -28,9 +28,7 @@ class FindNearestStopsViewModel {
     
     func setValueDiff(value: Float){
         self.value = Int(value*3000)
-        if(mapAlreadyCenter){
-            self.getNearestStops()
-        }
+        self.getNearestStops()
     }
     
     func configureView(){
@@ -91,17 +89,29 @@ class FindNearestStopsViewModel {
                 if(resultDiffInMetters < value){
                     if let name = stop.stop_name, let lon = stop.stop_long, let lat = stop.stop_lat, let direction = stop.stop_direction{
                         
-                        let typesTransport = DataBase.getTypesTransportForStop(stopId: stop.stop_id)
+                        let types = DataBase.getTypesTransportForStop(stopId: stop.stop_id)
                         
-                        var color: Color = .blue
+                        var color: Color = .orange
+                        var letter = "A"
                         
-                        if(typesTransport.contains(.train)){
+                        if(types.contains(.train)){
                             color = .red
+                            letter = "T"
                         }
                         
-                        locations.append(StopAnnotation(stop_id: stop.stop_id, stop_name: stop.stop_name, stop_name_short: stop.stop_name_short, color: color, stop_direction: stop.stop_direction, stop_types: typesTransport, coordinate: CLLocationCoordinate2D(latitude: Double(lat), longitude: Double(lon)), stop_demand: stop.stop_demand))
+                        if(types.contains(.trolleybus)){
+                            color = .blue
+                            letter = "T"
+                        }
                         
-                        stopsList.append(StopItem(stop_id: stop.stop_id, typeTransportList: typesTransport, stopName: name, stopDirection: direction, distance: Int(resultDiffInMetters)))
+                        if(types.contains(.bus) && types.contains(.trolleybus)){
+                            color = .blue
+                            letter = "AT"
+                        }
+                        
+                        locations.append(StopAnnotation(stop_id: stop.stop_id, stop_name: stop.stop_name, stop_name_short: stop.stop_name_short, color: color, stop_direction: stop.stop_direction, stop_types: types, coordinate: CLLocationCoordinate2D(latitude: Double(lat), longitude: Double(lon)), stop_demand: stop.stop_demand, letter: letter))
+                        
+                        stopsList.append(StopItem(stop_id: stop.stop_id, typeTransportList: types, stopName: name, stopDirection: direction, distance: Int(resultDiffInMetters)))
                     }else{
                         debugPrint("Ошибка при получении данных из таблицы stops. id - \(stop.stop_id)")
                     }

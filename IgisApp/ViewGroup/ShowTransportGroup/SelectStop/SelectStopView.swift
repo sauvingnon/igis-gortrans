@@ -13,7 +13,15 @@ struct SelectStopView: View {
     @Binding var navigationStack: NavigationPath
     
     @State var searchText = ""
-    @FocusState private var searchIsFocuced: Bool
+    @FocusState private var searchIsFocuced: Bool{
+        didSet{
+            if(searchIsFocuced){
+                AppTabBarViewModel.shared.showTabBar()
+            }else{
+                AppTabBarViewModel.shared.hideTabBar()
+            }
+        }
+    }
     
     private let viewModel = SelectStopViewModel.shared
     
@@ -25,7 +33,9 @@ struct SelectStopView: View {
         VStack{
             LabelIzhevsk(withBackButton: true, stack: $navigationStack)
             {
-                searchIsFocuced = false
+                if(searchIsFocuced){
+                    searchIsFocuced = false
+                }
                 dismiss()
             }
             
@@ -34,9 +44,11 @@ struct SelectStopView: View {
                     .focused($searchIsFocuced)
                     .padding(.leading, 5)
                 Button(action: {
+                    searchText = ""
                     searchIsFocuced = false
+                    AppTabBarViewModel.shared.showTabBar()
                 }, label: {
-                    Image(systemName: "magnifyingglass")
+                    Image(systemName: "xmark")
                         .foregroundColor(.gray)
                         .padding(.trailing, 5)
                 })
@@ -58,20 +70,20 @@ struct SelectStopView: View {
                 }
                 .animation(.default, value: searchText)
             }
-            //            .scrollIndicators(.hidden)
+            .scrollIndicators(.automatic)
             
         }
         .onTapGesture {
             searchIsFocuced = false
         }
-        .onAppear(){
-            ServiceSocket.shared.emitOff()
+        .onDisappear(){
+            AppTabBarViewModel.shared.showTabBar()
         }
     }
     
     private func stopTapped(stop_id: Int){
-        ShowTransportStopViewModel.shared.configureView(stop_id: stop_id)
-        navigationStack.append(CurrentTransportSelectionView.showStopOnline)
+        navigationStack.append(CurrentTransportSelectionView.showStopOnline(stop_id))
+        TransportGroupStackManager.shared.model.objectWillChange.send()
     }
 }
 
@@ -86,17 +98,17 @@ struct StopRowView: View {
             VStack{
                 HStack{
                     Text(stop.stopName)
-                        .font(.headline)
+                        .font(.title3)
                         .foregroundStyle(.blue.opacity(1))
                         .multilineTextAlignment(.leading)
                         
                     if(stop.typeTransportList.contains(.bus)){
-                        Image("bus_icon_green")
+                        Image("bus_icon_orange")
                             .resizable()
                             .frame(width: 15, height: 15)
                     }
                     if(stop.typeTransportList.contains(.countrybus)){
-                        Image("bus_icon_green")
+                        Image("bus_icon_orange")
                             .resizable()
                             .frame(width: 15, height: 15)
                     }
@@ -115,8 +127,8 @@ struct StopRowView: View {
                 }
                 HStack{
                     Text(stop.stopDirection)
-                        .font(.footnote)
-                        .foregroundStyle(.blue.opacity(0.7))
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
                         .multilineTextAlignment(.leading)
                     Spacer()
                     if let distance = stop.distance{
@@ -131,41 +143,6 @@ struct StopRowView: View {
                 .frame(height: 1)
                 .background(.blue.opacity(0.5))
             }
-//            HStack{
-//                if(stop.typeTransportList.contains(.bus)){
-//                    Image("bus_icon_green")
-//                        .resizable()
-//                        .frame(width: 25, height: 25)
-//                }
-//                if(stop.typeTransportList.contains(.countrybus)){
-//                    Image("bus_icon_green")
-//                        .resizable()
-//                        .frame(width: 25, height: 25)
-//                }
-//                if(stop.typeTransportList.contains(.train)){
-//                    Image("train_icon_red")
-//                        .resizable()
-//                        .frame(width: 25, height: 25)
-//                }
-//                if(stop.typeTransportList.contains(.trolleybus)){
-//                    Image("trolleybus_icon_blue")
-//                        .resizable()
-//                        .frame(width: 25, height: 25)
-//                }
-//                Text(stop.stopName)
-//                    .foregroundColor(.blue)
-//                    .bold()
-//                Text("—")
-//                    .foregroundColor(.blue)
-//                Text(stop.stopDirection)
-//                    .foregroundColor(.blue)
-//                if let distance = stop.distance{
-//                    Text("\(distance) м")
-//                        .foregroundColor(.blue)
-//                        .font(.title3)
-//                }
-//                
-//            }
         })
     }
 }

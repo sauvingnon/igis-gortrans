@@ -31,7 +31,7 @@ struct MapView: View {
                                     .scaledToFill()
                                     .foregroundColor(.white)
                                     .padding(3)
-                                    .background(.green)
+                                    .background(GeneralViewModel.getTransportColor(type: .bus))
                                     .cornerRadius(10)
                                     .opacity((model.hideBus) ? 0.5 : 1.0)
                             })
@@ -45,7 +45,7 @@ struct MapView: View {
                                     .scaledToFill()
                                     .foregroundColor(.white)
                                     .padding(3)
-                                    .background(.red)
+                                    .background(GeneralViewModel.getTransportColor(type: .train))
                                     .cornerRadius(10)
                                     .opacity((model.hideTrain) ? 0.5 : 1.0)
                             })
@@ -59,9 +59,23 @@ struct MapView: View {
                                     .scaledToFill()
                                     .foregroundColor(.white)
                                     .padding(3)
-                                    .background(.blue)
+                                    .background(GeneralViewModel.getTransportColor(type: .trolleybus))
                                     .cornerRadius(10)
                                     .opacity((model.hideTrolleybus) ? 0.5 : 1.0)
+                            })
+                            .padding(10)
+                            Button(action: {
+                                model.hideCountrybus.toggle()
+                                viewModel.reloadMap()
+                            }, label: {
+                                Image("bus_icon_white")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .foregroundColor(.white)
+                                    .padding(3)
+                                    .background(GeneralViewModel.getTransportColor(type: .countrybus))
+                                    .cornerRadius(10)
+                                    .opacity((model.hideCountrybus) ? 0.5 : 1.0)
                             })
                             .padding(10)
                             Button(action: {
@@ -71,14 +85,14 @@ struct MapView: View {
                                 Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
                                     .resizable()
                                     .scaledToFill()
-                                    .foregroundColor(.white)
+                                    .foregroundColor(.yellow)
                                     .padding(3)
-                                    .background(.green)
+                                    .background(.white)
                                     .cornerRadius(10)
                             })
                             .padding(10)
                         }
-                        .frame(width: 50, height: 240)
+                        .frame(width: 50, height: 280)
                         .background(Color.white.opacity(0.7))
                         .cornerRadius(20)
                         .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-100)
@@ -90,26 +104,23 @@ struct MapView: View {
                                 .background(Color.white.opacity(0.7))
                                 .cornerRadius(50)
                         })
-                        .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-250)
+                        .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-275)
                     }
                 }
             
             DropDownAlert(isPresent: $model.sheetIsPresented, tapUnit: {
                 if let transportAnnotation = model.selectedTransportAnnotation{
-                    ShowTransportUnitViewModel.shared.configureView(transportId: transportAnnotation.ts_id)
-                    navigationStack.append(CurrentTransportSelectionView.showTransportUnit)
+                    navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportAnnotation.ts_id))
                 }
                 
                 if let stopAnnotation = model.selectedStopAnnotation{
-                    ShowTransportStopViewModel.shared.configureView(stop_id: stopAnnotation.stop_id)
-                    navigationStack.append(CurrentTransportSelectionView.showStopOnline)
+                    navigationStack.append(CurrentTransportSelectionView.showStopOnline(stopAnnotation.stop_id))
                 }
                 
             }, tapRoute: {
                 if let annotation = model.selectedTransportAnnotation{
                     let route_id = DataBase.getRouteId(type: annotation.type, number: annotation.route)
-                    ShowTransportRouteViewModel.shared.configureView(routeId: route_id, type: annotation.type, number: annotation.route)
-                    navigationStack.append(CurrentTransportSelectionView.showRouteOnline)
+                    navigationStack.append(CurrentTransportSelectionView.showRouteOnline(route_id))
                 }
             })
         }

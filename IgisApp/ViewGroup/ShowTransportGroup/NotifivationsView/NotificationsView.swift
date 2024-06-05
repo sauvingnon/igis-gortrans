@@ -16,7 +16,7 @@ struct NotificationsView: View {
     
     var body: some View {
         VStack{
-            notificationsLabel(handlerDelete: deleteTapped)
+            NotificationsLabel(handlerDelete: deleteTapped, handlerBack: backTapped)
             
             if(chatModel.realTimeMessages.count != 0){
                 ChatView(chatModel: chatModel)
@@ -24,7 +24,7 @@ struct NotificationsView: View {
                 Spacer()
                 Image("empty_notifications")
                 Text("Уведомлений нет")
-                    .foregroundColor(.blue)
+                    .foregroundColor(.blue.opacity(0.6))
                     .font(.system(size: 25))
                     .kerning(2)
                     .minimumScaleFactor(0.01)
@@ -33,14 +33,22 @@ struct NotificationsView: View {
             
             
         }
+        .onAppear(){
+            chatModel.updateMessages()
+        }
 //        .onTapGesture {
 //            chatModel.sendMessage(currentMessage: Message(title: "Автобус №29 гос. номер Е456ТМ18", content: "Ваш транспорт скоро прибудет на ост. \"Аврора\"", dateTime: DateTime.init()))
 //        }
     }
     
     func deleteTapped(){
-        chatModel.removeAllMessages()
-        print("Уведомления удалены")
+        withAnimation{
+            chatModel.removeAllMessages()
+        }
+    }
+    
+    func backTapped(){
+        dismiss()
     }
 }
 
@@ -50,31 +58,43 @@ struct NotificationsView: View {
 //    }
 //}
 
-extension NotificationsView{
-    func notificationsLabel(handlerDelete: @escaping () -> ()) -> some View{
+struct NotificationsLabel: View {
+    
+    let handlerDelete: () -> ()
+    
+    let handlerBack: () -> ()
+    
+    var body: some View {
         VStack{
-            HStack{
+            HStack(alignment: .center){
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 25))
+                    .foregroundColor(.blue)
+                    .onTapGesture {
+                        handlerBack()
+                    }
+                Spacer()
+                Text("Уведомления")
+                    .font(.system(size: 25))
+                    .fontWeight(.light)
+                    .kerning(1.5)
+                    .foregroundColor(.blue)
                 Spacer()
                 Image(systemName: "trash")
+                    .font(.system(size: 25))
                     .foregroundColor(.blue)
-                    .padding(.trailing, 30)
-                    .offset(y: 27)
                     .onTapGesture {
                         handlerDelete()
                     }
             }
-            Text("Уведомления")
-                .font(.system(size: 25))
-                .fontWeight(.light)
-                .kerning(1.5)
-                .foregroundColor(.blue)
+            .padding(.horizontal, 20)
             GeometryReader{ geometry in
                 
             }
             .frame(height: 1)
             .background(Color.blue)
-            .padding(.horizontal, 30)
-            .offset(y: -13)
+            .padding(.horizontal, 20)
+//            .offset(y: -13)
         }
     }
 }

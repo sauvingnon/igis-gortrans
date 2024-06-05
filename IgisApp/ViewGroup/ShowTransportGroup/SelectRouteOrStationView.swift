@@ -49,39 +49,39 @@ struct SelectRouteOrStationView: View {
             .background(Color.blue)
             .padding(.horizontal, 20)
             
-            ScrollView{
-                Button(action: {
-                    FavoritesGroupStackManager.shared.clearNavigationStack()
-                    navigationStack.append(CurrentTransportSelectionView.chooseTypeTransport)
-                }, label: {
-                    Text("Маршруты")
-                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
-                        .background(Color.orange)
-                        .clipShape(Rectangle())
-                        .cornerRadius(10)
-                        .font(.system(size: 25))
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
-                })
-                
-                
-                Button(action: {
-                    FavoritesGroupStackManager.shared.clearNavigationStack()
-                    navigationStack.append(CurrentTransportSelectionView.selectStopView)
-                }, label: {
-                    Text("Остановки")
-                        .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
-                        .background(Color.blue)
-                        .clipShape(Rectangle())
-                        .cornerRadius(10)
-                        .font(.system(size: 25))
-                        .foregroundColor(.white)
-                        .fontWeight(.medium)
-                        .padding(20)
-                })
-                
-                Spacer()
-            }
+            Button(action: {
+                FavoritesGroupStackManager.shared.clearNavigationStack()
+                navigationStack.append(CurrentTransportSelectionView.chooseTypeTransport)
+                TransportGroupStackManager.shared.model.objectWillChange.send()
+            }, label: {
+                Text("Маршруты")
+                    .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
+                    .background(Color.orange)
+                    .clipShape(Rectangle())
+                    .cornerRadius(10)
+                    .font(.system(size: 25))
+                    .foregroundColor(.white)
+                    .fontWeight(.medium)
+            })
+            
+            Button(action: {
+                FavoritesGroupStackManager.shared.clearNavigationStack()
+                navigationStack.append(CurrentTransportSelectionView.selectStopView)
+                TransportGroupStackManager.shared.model.objectWillChange.send()
+            }, label: {
+                Text("Остановки")
+                    .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
+                    .background(Color.blue)
+                    .clipShape(Rectangle())
+                    .cornerRadius(10)
+                    .font(.system(size: 25))
+                    .foregroundColor(.white)
+                    .fontWeight(.medium)
+                    .padding(20)
+            })
+            
+            Spacer()
+            
         }
     }
     

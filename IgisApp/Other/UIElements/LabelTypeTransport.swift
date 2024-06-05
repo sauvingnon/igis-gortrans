@@ -32,7 +32,7 @@ struct LabelTypeTransport: View {
     private func getNameForTypeTransport(type: TypeTransport) -> String {
         switch typeTransport {
         case .bus: "АВТОБУСЫ"
-        case .countrybus: "ПРИГОРОД АВТОБУСЫ"
+        case .countrybus: "ПРИГОРОДНЫЕ"
         case .train: "ТРАМВАИ"
         case .trolleybus: "ТРОЛЛЕЙБУСЫ"
         }

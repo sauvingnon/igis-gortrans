@@ -31,9 +31,8 @@ class ServiceSocket{
     
     private init() {
         if(GeneralViewModel.userTrace.isEmpty){
-            let message = "Ошибка. Попытка подлючения с сокет-серверу до того, как был сформирован user-trace."
-            debugPrint(message)
-            Exception.throwError(message: message)
+            debugPrint("Ошибка. Попытка подлючения с сокет-серверу до того, как был сформирован user-trace.")
+            GeneralViewModel.checkTrace()
         }
         self.manager = SocketManager(socketURL: URL(string: serverURL)!, config: [.log(false), .compress, .extraHeaders(
             ["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : key,
@@ -43,59 +42,37 @@ class ServiceSocket{
             ])])
         self.socket = manager.defaultSocket
         
-        manager.reconnectWait = 10;
-        manager.reconnectWaitMax = 10;
+        manager.reconnectWait = 5
+        manager.reconnectWaitMax = 5
+        socket.manager?.reconnectWait = 5
+        socket.manager?.reconnectWaitMax = 5
         
         setSubscribes()
         establishConnection()
     }
     
+    private var currentCallback: ((Data) -> ())? = {_ in
+        
+    }
+    
     private func subscribeCliSerSubscribeToEvent(){
-        // Надо бы распаралелить событие по названиям экранов
+        
         socket.on("serCliDataInPage") { some1, some2 in
             let queue = DispatchQueue.global(qos: .default)
             queue.async {
-            // Поочередно пробуем распарсить объект, чтобы понять к какому экрану он относится
-                if let obj = try? MessagePackDecoder().decode(StationResponse.self, from: some1.first as! Data){
-                    debugPrint("были получены данные о остановке \(Date.now)")
-                    ShowTransportStopViewModel.shared.updateStaionScreen(obj: obj)
-                    return
+                if let data = some1.first as? Data, let currentCallback = self.currentCallback{
+                    currentCallback(data)
+                }else{
+                    debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
                 }
-                if let obj = try? MessagePackDecoder().decode(EverythingResponse.self, from: some1.first as! Data){
-                    debugPrint("были получены данные о всем транспорте на карте \(Date.now)")
-                    MapViewModel.shared.updateMapScreen(obj: obj)
-                    return
-                }
-                if let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: some1.first as! Data){
-                    debugPrint("был получен прогноз маршрута \(Date.now)")
-                    ShowTransportRouteViewModel.shared.updateRouteScreen(obj: obj)
-                    return
-                }
-                if let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: some1.first as! Data){
-                    debugPrint("был получен прогноз транспорта \(Date.now)")
-                    ShowTransportUnitViewModel.shared.updateTransportScreen(obj: obj)
-                    return
-                }
-                if (try? MessagePackDecoder().decode(EmptryResponse.self, from: some1.first as! Data)) != nil{
-                    debugPrint("был получен пустой ответ \(Date.now)")
-                    GeneralViewModel.showAlertBadResponse()
-                    return
-                }
-                debugPrint("ошибка расшифровки ответа от сервера \(Date.now)")
             }
         }
     }
     
-    // MARK: - Подписка на событие.
-    func emitOn(event: String, items: SocketData){
-        GeneralViewModel.uncheckAlertAlreadyShow()
+    // Подписка на событие.
+    func emitOn(event: String, items: SocketData, callback: @escaping (Data)->() ){
         self.socket.emit(event, items)
-    }
-    
-    // MARK: - Отписка от события.
-    func emitOff(){
-        self.socket.emit("cliSerSubscribeOff")
-        debugPrint("Завершили прием данных на событие: serCliDataInPage")
+        self.currentCallback = callback
     }
     
     private func setSubscribes(){
@@ -208,7 +185,7 @@ struct TransportResponse: Codable {
     }
 }
 
-struct EmptryResponse: Codable {
+struct EmptyResponse: Codable {
     let code: String
 }
 

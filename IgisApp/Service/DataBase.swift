@@ -17,10 +17,19 @@ class DataBase{
     public static func getStopFinalName(stopId: Int) -> String {
         if let stop = stops.first(where: { stop in
             stop.stop_id == stopId
-        }), let name = stop.stop_final_name{
-            return name
+        }){
+            if let finalName = stop.stop_final_name{
+                return finalName
+            }else if let nameShort = stop.stop_name_short{
+                return nameShort
+            }else if let name = stop.stop_name{
+                return name
+            }else{
+                print("Остановка по указанному id \(stopId) не заполнено имя.")
+                return "—"
+            }
         }else{
-            print("Остановка по указанному id не найдена или ее имя не заполнено!")
+            print("Остановка по указанному id \(stopId) не найдена.")
             return "—"
         }
     }
@@ -32,17 +41,42 @@ class DataBase{
             if(stop.stop_type != 0){
                 let types = getTypesTransportForStop(stopId: stop.stop_id)
                 
-                var color: Color = .blue
+                var color: Color = .orange
+                var letter = "A"
                 
                 if(types.contains(.train)){
                     color = .red
+                    letter = "T"
                 }
                 
-                stopAnnotations.append(StopAnnotation(stop_id: stop.stop_id, stop_name: stop.stop_name, stop_name_short: stop.stop_name_short, color: color, stop_direction: stop.stop_direction, stop_types: types, coordinate: CLLocationCoordinate2D(latitude: Double(stop.stop_lat ?? 0), longitude: Double(stop.stop_long ?? 0)), stop_demand: stop.stop_demand))
+                if(types.contains(.trolleybus)){
+                    color = .blue
+                    letter = "T"
+                }
+                
+                if(types.contains(.bus) && types.contains(.trolleybus)){
+                    color = .blue
+                    letter = "AT"
+                }
+                
+                stopAnnotations.append(StopAnnotation(stop_id: stop.stop_id, stop_name: stop.stop_name, stop_name_short: stop.stop_name_short, color: color, stop_direction: stop.stop_direction, stop_types: types, coordinate: CLLocationCoordinate2D(latitude: Double(stop.stop_lat ?? 0), longitude: Double(stop.stop_long ?? 0)), stop_demand: stop.stop_demand, letter: letter))
             }
         }
         
         return stopAnnotations
+    }
+    
+    public static func getStopsOfRoute(routeId: Int) -> ([Int]) {
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            var result: [Int] = []
+            subroutes.forEach { item in
+                if(item.subroute_route == routeId){
+                    result.append(contentsOf: item.subroute_stops)
+                }
+            }
+            return result
+        }
     }
     
     public static func getStopName(stopId: Int) -> String {
@@ -127,6 +161,20 @@ class DataBase{
         }
     }
     
+    static func getRouteNumberForFetch(routeId: Int) -> String{
+        let queue = DispatchQueue.global(qos: .default)
+        return queue.sync {
+            if let route = routes.first(where: { item in
+                item.route_id == routeId
+            }){
+                if(!route.route_number.isEmpty){
+                    return route.route_number
+                }
+            }
+            return "—"
+        }
+    }
+    
     static func getRouteId(type: TypeTransport, number: String) -> Int{
         let queue = DispatchQueue.global(qos: .default)
         return queue.sync {
@@ -166,7 +214,7 @@ class DataBase{
     
     private static var subroutes: [SubrouteStruct] = []
     
-    public static func getStopsOfRoute(routeId: Int) -> [SubrouteStruct]?{
+    public static func getSubroutesOfRoute(routeId: Int) -> [SubrouteStruct]?{
         let queue = DispatchQueue.global(qos: .default)
         return queue.sync {
             var result: [SubrouteStruct] = []
@@ -298,6 +346,8 @@ class DataBase{
     
     static let title3 = "Поиск транспорта по остановкам"
     static let description3 = " На главном окне кнопка «Остановки» позволяет выполнить поиск интересующей остановки по ее названию, а цветовой маркер рядом с названием обозначает тип транспорта: автобус, троллейбус, трамвай или пригородный автобус. Открыв нужную остановку, можно получить информацию по маршрутам и времени прибытия транспорта. Нажав номер маршрута, происходит переход на схему его движения. У некоторых остановок имеются фотографии. \n Маршруты и остановки можно добавлять в избранное для их быстрого поиска с главного окна приложения. \n Транспорт маркируется по состояниям: на остановке, в движении к остановке или в парк. Отдельно отмечен транспорт для людей с ограниченными возможностями (низкопольные автобусы)."
+    
+    static let feedBackEmail = "admin@igis.ru"
     
 }
 

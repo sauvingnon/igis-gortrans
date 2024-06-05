@@ -35,17 +35,13 @@ struct ChooseTransportRouteView: View {
             
             Spacer()
         }
-        .onAppear(){
-            ServiceSocket.shared.emitOff()
-        }
-        
         
     }
     
     func chooseHandler(number: String, type: TypeTransport){
         let routeId = DataBase.getRouteId(type: type, number: number)
-        ShowTransportRouteViewModel.shared.configureView(routeId: routeId, type: type, number: number)
-        navigationStack.append(CurrentTransportSelectionView.showRouteOnline)
+        navigationStack.append(CurrentTransportSelectionView.showRouteOnline(routeId))
+        TransportGroupStackManager.shared.model.objectWillChange.send()
     }
     
 }

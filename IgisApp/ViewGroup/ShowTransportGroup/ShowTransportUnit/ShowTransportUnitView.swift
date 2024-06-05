@@ -13,8 +13,14 @@ struct ShowTransportUnitView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
     
-    @ObservedObject var model = ShowTransportUnitModel.shared
-    private let viewModel = ShowTransportUnitViewModel.shared
+    @ObservedObject var model = ShowTransportUnitModel()
+    private var viewModel: ShowTransportUnitViewModel!
+    
+    init(navigationStack: Binding<NavigationPath>, transportId: String){
+        self._navigationStack = navigationStack
+        self.viewModel = ShowTransportUnitViewModel(model: model)
+        viewModel.configureView(transportId: transportId)
+    }
     
     var body: some View {
         VStack{
@@ -37,21 +43,31 @@ struct ShowTransportUnitView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                Text("\(model.startStation ?? "") - \(model.endStation ?? "")")
-                    .opacity(0.8)
-                    .lineLimit(1)
-                    .padding(.horizontal, 20)
-                    .minimumScaleFactor(0.01)
-                    .padding(.vertical, 1)
+                HStack{
+                    Text("\(model.startStation ?? "") - \(model.endStation ?? "")")
+                        .foregroundColor(.gray)
+                        .kerning(1)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.01)
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 1)
+                
+                    
+                    
                 
 //                ScrollView{
                     Grid(alignment: .trailing){
                         ForEach(model.data) { item in
                             GridRow{
-                                StopListRow(station: item, handlerTransportImageTapp: {_ in }, handlerLabelStopTapp: {_ in }, handlerLabelTimeTapp: {_ in })
-                                    .onTapGesture(count: 1){
-                                        
-                                    }
+                                StopListRow(station: item, handlerTransportImageTapp: { transportId in
+                                    navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportId ?? ""))
+                                }, handlerLabelStopTapp: { stopId in
+                                    navigationStack.append(CurrentTransportSelectionView.showStopOnline(stopId ?? 0))
+                                }, handlerLabelTimeTapp: { time in
+                                    AppTabBarViewModel.shared.chooseTimeAlert(time: item.time, type: model.transportType, route: model.routeNumber ?? "-", stop: item.id)
+                                })
                             }
                         }
                     }
@@ -221,6 +237,6 @@ struct ShowTransportUnitView_Preview: PreviewProvider {
     @State static var path = NavigationPath()
     
     static var previews: some View {
-        ShowTransportUnitView(navigationStack: $path)
+        ShowTransportUnitView(navigationStack: $path, transportId: "")
     }
 }

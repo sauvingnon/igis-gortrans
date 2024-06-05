@@ -62,7 +62,7 @@ struct LabelIzhevsk: View {
             Button(action: {
                 stack.append(CurrentTransportSelectionView.notifications)
             }, label: {
-                Image(systemName: "bell.fill")
+                Image(systemName: "bell")
                     .font(.largeTitle)
                     .foregroundColor(.white)
             })

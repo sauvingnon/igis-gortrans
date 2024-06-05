@@ -16,7 +16,8 @@ class SelectStopViewModel{
     
     func fillStopList(searchText: String) -> [StopItem]{
         var stops = DataBase.getAllStops()
-        let text = searchText.lowercased()
+        var text = searchText.lowercased()
+        text = text.trimmingCharacters(in: .whitespaces)
         var result: [StopItem] = []
         
         if(!text.isEmpty){

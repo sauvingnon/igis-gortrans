@@ -29,14 +29,14 @@ struct FavoritesGroupStackManager: View {
                     case .showFavoriteItems:
                         FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
-                    case .showStopOnline:
-                        ShowTransportStopView(navigationStack: $model.navigationStack)
+                    case .showStopOnline(let stopId):
+                        ShowTransportStopView(navigationStack: $model.navigationStack, stopId: stopId)
                             .navigationBarBackButtonHidden(true)
-                    case .showRouteOnline:
-                        ShowTransportRouteView(navigationStack: $model.navigationStack)
+                    case .showRouteOnline(let routeId):
+                        ShowTransportRouteView(navigationStack: $model.navigationStack, routeId: routeId)
                             .navigationBarBackButtonHidden(true)
-                    case .showTransportUnit:
-                        ShowTransportUnitView(navigationStack: $model.navigationStack)
+                    case .showTransportUnit(let transportId):
+                        ShowTransportUnitView(navigationStack: $model.navigationStack, transportId: transportId)
                             .navigationBarBackButtonHidden(true)
                     case .QRScanner:
                         ScannerView(navigationStack: $model.navigationStack)

@@ -27,6 +27,8 @@ struct LabelOfStopOrRoute: View {
                     .font(.system(size: 24))
                     .foregroundColor(.white)
                     .fontWeight(.medium)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.1)
                 Spacer()
                 Image(systemName: "star.fill")
                     .frame(width: 50, height: 50)

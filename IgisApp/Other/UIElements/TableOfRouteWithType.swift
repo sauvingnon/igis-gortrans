@@ -26,7 +26,7 @@ struct TableOfRouteWithType: View {
                         handlerFunc(number, typeTransport)
                     }){
                         Text(number)
-                            .font(.system(size: 25))
+                            .font(.system(size: 30))
                             .fontWeight(.black)
                             .frame(width: 65, height: 65)
                             .background(Color.orange)

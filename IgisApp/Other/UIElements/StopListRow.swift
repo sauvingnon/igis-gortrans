@@ -11,7 +11,7 @@ struct StopListRow: View{
     var station: Stop
     var handlerTransportImageTapp: (String?) -> ()
     var handlerLabelStopTapp: (Int?) -> ()
-    var handlerLabelTimeTapp: (String) -> ()
+    var handlerLabelTimeTapp: (Stop) -> ()
     var body: some View{
         HStack{
             Button(action: {
@@ -25,13 +25,13 @@ struct StopListRow: View{
             
             switch(station.stationState){
             case .endStation:
-                Image("endStation")
+                Image(station.withArrow ? "endStationWithArrow" : "endStation")
                     .resizable()
                     .frame(width: 30, height: 50)
                     .padding(.horizontal, 5)
                     .padding(.bottom, 30)
             case .someStation:
-                Image("someStation")
+                Image(station.withArrow ? "someStationWithArrow" : "someStation")
                     .resizable()
                     .frame(width: 30, height: 50)
                     .padding(.horizontal, 5)
@@ -61,7 +61,7 @@ struct StopListRow: View{
                 }
                 if(!station.time.isEmpty){
                     Button(action: {
-                        handlerLabelTimeTapp(station.time)
+                        handlerLabelTimeTapp(station)
                     }, label: {
                         Text(station.time)
                             .frame(width: 50, height: 50)
@@ -85,19 +85,21 @@ struct Stop: Identifiable, Hashable {
     var pictureTs: String
     var time: String
     var transportId: String?
-    init(id: Int, name: String, stationState: StationState, pictureTs: String, time: String, transportId: String? = nil) {
+    let withArrow: Bool
+    init(id: Int, name: String, stationState: StationState, pictureTs: String, time: String, transportId: String? = nil, withArrow: Bool) {
         self.id = id
         self.name = name
         self.stationState = stationState
         self.pictureTs = pictureTs
         self.time = time
         self.transportId = transportId
+        self.withArrow = withArrow
     }
     // Ячейки можем пересоздать, тогда вью обновится
 }
 
 #Preview {
-    StopListRow(station: Stop(id: 1156, name: "Леваневского", stationState: .someStation, pictureTs: "bus_icon_white", time: "5 мин", transportId: ""), handlerTransportImageTapp: {_ in
+    StopListRow(station: Stop(id: 1156, name: "Леваневского", stationState: .someStation, pictureTs: "bus_icon_white", time: "5 мин", transportId: "", withArrow: false), handlerTransportImageTapp: {_ in
         
     }, handlerLabelStopTapp: {_ in 
         

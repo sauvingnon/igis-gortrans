@@ -11,14 +11,12 @@ import MessagePacker
 
 class ShowTransportRouteViewModel{
     
-    static let shared = ShowTransportRouteViewModel()
-    private init(){
-        
+    init(model: ShowTransportRouteModel){
+        self.model = model
     }
     
-    private let model = ShowTransportRouteModel.shared
-    private var alertAlreadyPresented = false
-    
+    private var model: ShowTransportRouteModel!
+
     func getRouteData(){
         let queue = DispatchQueue.global(qos: .default)
         queue.async {
@@ -26,7 +24,7 @@ class ShowTransportRouteViewModel{
                 
             }
             if let object = try? MessagePackEncoder().encode(RouteRequest(route_number: self.model.number, transport_type: self.model.type)){
-                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object)
+                ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, callback: self.updateRouteScreen)
                 debugPrint("Запрос к серверу на получение прогноза маршрута транспорта.")
             }else{
                 debugPrint("Запрос для получения прогноза маршрута не отправлен.")
@@ -40,7 +38,7 @@ class ShowTransportRouteViewModel{
             self.model.menu.menuItems.removeAll()
             
             var offset = 50
-            if let allSubroutesThisRoute = DataBase.getStopsOfRoute(routeId: self.model.routeId){
+            if let allSubroutesThisRoute = DataBase.getSubroutesOfRoute(routeId: self.model.routeId){
                 
                 allSubroutesThisRoute.forEach { direction in
                     self.model.menu.menuItems.append(MenuItem(startStopId: direction.subroute_stops.first ?? 0, endStopId: direction.subroute_stops.last ?? 0, offset: offset))
@@ -62,7 +60,7 @@ class ShowTransportRouteViewModel{
         
         // Получим все направления этого маршрута - массив направлений
         // Направление - массив остановок
-        if let allSubroutesThisRoute = DataBase.getStopsOfRoute(routeId: model.routeId){
+        if let allSubroutesThisRoute = DataBase.getSubroutesOfRoute(routeId: model.routeId){
             
             // Если направление задано, то отобразим именно его
             if direction != nil{
@@ -83,17 +81,19 @@ class ShowTransportRouteViewModel{
         
         // Заполнение вью полученным направлением - массивом остановок
         var stationState = StationState.startStation
+        var counter = 1
         
         stopsOfRoute.forEach { stopId in
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
             withAnimation {
-                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "—"))
+                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "—", withArrow: (counter % 4 == 0)))
             }
             stationState = .someStation
+            
+            counter += 1
         }
         
         getRouteData()
-        alertAlreadyPresented = false
     }
     
     func favoriteRouteTapped(){
@@ -116,13 +116,16 @@ class ShowTransportRouteViewModel{
         FavoritesRoutesAndStationsModel.shared.favoriteRoutes = GeneralViewModel.getFavoriteRouteData()
     }
     
-    func configureView(routeId: Int, type: TypeTransport, number: String){
+    func configureView(routeId: Int){
         
-        ShowTransportRouteModel.shared.type = type
-        ShowTransportRouteModel.shared.name = GeneralViewModel.getName(type: type, number: number)
-        ShowTransportRouteModel.shared.routeId = routeId
-        ShowTransportRouteModel.shared.isFavorite = GeneralViewModel.isFavoriteRoute(routeId: routeId)
-        ShowTransportRouteModel.shared.number = number
+        let type = DataBase.getTypeTransportFromId(routeId: routeId)
+        let route = DataBase.getRouteNumberForFetch(routeId: routeId)
+        
+        model.type = type ?? .bus
+        model.name = GeneralViewModel.getName(type: type, number: route)
+        model.routeId = routeId
+        model.isFavorite = GeneralViewModel.isFavoriteRoute(routeId: routeId)
+        model.number = route
         
         fillMenu()
         presentRoute()
@@ -133,21 +136,40 @@ class ShowTransportRouteViewModel{
 //        ServiceSocket.shared.unsubscribeCliSerSubscribeToEvent()
     }
     
-    func updateRouteScreen(obj: RouteResponse){
+    func showAlertBadResponse(){
+        if(model.alertAlreadyShow){
+            return
+        }
+        DispatchQueue.main.async {
+            AppTabBarViewModel.shared.showAlert(title: "Нет сведений о данном маршруте", message: "Нет данных")
+            self.model.alertAlreadyShow = true
+        }
+    }
+    
+    func updateRouteScreen(data: Data){
+        
+        guard let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: data)else {
+            debugPrint("Ошибка при декодировании объекта RouteResponse \(Date.now)")
+//            showAlertBadResponse()
+            return
+        }
+        
+        debugPrint("был получен прогноз маршрута \(Date.now)")
+        
         var result: [Stop] = []
         
         // Проверяем статус маршрута
-        if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !alertAlreadyPresented) {
-            debugPrint("статус маршрута не рабочий - \(obj.data.notwork.code)")
+        if(obj.data.notwork.code != "online" && obj.data.notwork.code != "noAnything" && !model.alertAlreadyShow) {
+//            debugPrint("статус маршрута не рабочий - \(obj.data.notwork.code)")
             // Попытка распарсить html текст и показ алерта.
             if let description = GeneralViewModel.setAttributedStringFromHTML(htmlText: obj.data.notwork.description) {
-                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "\(description).")
+                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает", message: "\(description)")
             } else {
-                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает.", message: "Код причины - (\(obj.data.notwork.code)).")
+                AppTabBarViewModel.shared.showAlert(title: "Маршрут не работает", message: "Код причины - (\(obj.data.notwork.code))")
                 debugPrint("Не удалось раскодировать html строку!")
             }
             
-            alertAlreadyPresented = true
+            model.alertAlreadyShow = true
             return
         }
         
@@ -159,6 +181,8 @@ class ShowTransportRouteViewModel{
             }
         }
         
+        var counter = 1
+        
         // Перебор всех остановок
         model.data.forEach({ stationView in
             
@@ -169,10 +193,12 @@ class ShowTransportRouteViewModel{
                 if(findStation.ts.count == 0) {
                     let timeToArrival = GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec)
                     
-                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: findStation.sec > 3600 ? (findStation.time ?? timeToArrival) : timeToArrival))
+                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: findStation.sec > 3600 ? (findStation.time ?? timeToArrival) : timeToArrival, withArrow: (counter % 4 == 0)))
                 } else {
-                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransportColor(type: (findStation.ts.first!.ts_type)), time:"", transportId: findStation.ts.first?.id))
+                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransportColor(type: (findStation.ts.first!.ts_type)), time:"", transportId: findStation.ts.first?.id, withArrow: (counter % 4 == 0)))
                 }
+                
+                counter += 1
             }
         })
         
