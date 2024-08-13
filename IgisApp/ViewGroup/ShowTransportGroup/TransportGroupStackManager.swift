@@ -22,7 +22,7 @@ struct TransportGroupStackManager: View {
     @ObservedObject var model = TransportGroupStackManagerModel()
     
     var body: some View {
-        CustomNavigationStack(path: $model.navigationStack){
+        NavigationStack(path: $model.navigationStack){
             SelectRouteOrStationView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
@@ -65,7 +65,6 @@ struct TransportGroupStackManager: View {
     // Очистка навигационного стека
     public func clearNavigationStack(){
         model.navigationStack.removeLast(model.navigationStack.count)
-        self.model.objectWillChange.send()
     }
 }
 

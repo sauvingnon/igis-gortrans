@@ -22,7 +22,7 @@ struct NearestStopGroupStackManager: View {
     @ObservedObject private var model = NearestStopGroupStackManagerModel()
     
     var body: some View {
-        CustomNavigationStack(path: $model.navigationStack){
+        NavigationStack(path: $model.navigationStack){
             FindNearestStopsView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
@@ -40,6 +40,9 @@ struct NearestStopGroupStackManager: View {
                             .navigationBarBackButtonHidden(true)
                     case .notifications:
                         NotificationsView(navigationStack: $model.navigationStack)
+                            .navigationBarBackButtonHidden(true)
+                    case .QRScanner:
+                        ScannerView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     default:
                         FindNearestStopsView(navigationStack: $model.navigationStack)

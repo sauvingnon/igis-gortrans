@@ -30,6 +30,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
     
+    var statusIsWork: Bool{
+        return lastLocation != nil
+    }
+    
     var statusString: String {
         guard let status = locationStatus else {
             return "unknown"

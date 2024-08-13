@@ -9,18 +9,18 @@ import Foundation
 import SwiftUI
 import MessagePacker
 
-class ShowTransportStopViewModel {
+class ShowTransportStopViewModel: ObservableObject {
 
-    var model: ShowStopOnlineModel!
-    
-    init(model: ShowStopOnlineModel!) {
-        self.model = model
-    }
+    @Published var model = ShowStopOnlineModel()
     
     func showData(){
         withAnimation{
             model.opacity = 1.0
         }
+    }
+    
+    func eraseCallBack(){
+        
     }
     
     func favoriteStopTapped(){
@@ -51,7 +51,21 @@ class ShowTransportStopViewModel {
             self.model.trains.removeAll()
             self.model.trolleybuses.removeAll()
             self.model.showIndicator = true
+            self.objectWillChange.send()
         }
+    }
+    
+    func showStopOnMap(){
+        guard let stopAnnotation = MapModel.shared.stopAnnotations.filter({ annotation in
+            annotation.stop_id == model.stopId
+        }).first else { return }
+        
+        MapGroupStackManager.shared.clearNavigationStack()
+        AppTabBarViewModel.shared.showPage(tab: .map)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+            MapViewModel.shared.selectStopAnnotation(stopAnnotation: stopAnnotation, showOnlyOneAnnotation: true)
+        })
     }
     
     func getStationData(){
@@ -76,7 +90,7 @@ class ShowTransportStopViewModel {
         self.model.direction = DataBase.getStopDirection(stopId: stop_id)
         self.model.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
-        self.getStationData()
+//        self.getStationData()
     }
     
     func disconfigureView(){
@@ -100,7 +114,7 @@ class ShowTransportStopViewModel {
         guard let obj = try? MessagePackDecoder().decode(StationResponse.self, from: data)else {
             debugPrint("Ошибка при декодировании объекта StationResponse \(Date.now)")
             if(model.showIndicator){
-//                showAlertBadResponse()
+                showAlertBadResponse()
             }
             return
         }
@@ -149,6 +163,7 @@ class ShowTransportStopViewModel {
         DispatchQueue.main.async {
             self.model.showIndicator = false
             self.showData()
+            self.objectWillChange.send()
         }
     }
 }

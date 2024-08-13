@@ -13,14 +13,15 @@ struct AppTabBarView: View {
     
     init(){
         GeneralViewModel.checkConnection()
+        checkFirstLaunch()
     }
     
-    @State private var selection: TabType = .home
+//    @State private var selection: TabType = .home
     
     var body: some View {
         VStack{
             // Контент - часть.
-            TabView(selection: $selection){
+            TabView(selection: $model.selection){
                 TransportGroupStackManager.shared
                     .tag(TabType.home)
                 NearestStopGroupStackManager.shared
@@ -36,11 +37,11 @@ struct AppTabBarView: View {
 
             // Таб-бар
             if(!model.hideTabBar){
-                CustomTabBar(selectedTab: $selection)
+                CustomTabBar(selectedTab: $model.selection)
             }
             
             // Статус соединения
-            if(model.showStatus){
+            if(model.showStatus && !model.firstLaunch){
                 HStack(alignment: .center){
                     Text(model.textStatus)
                         .padding(.trailing, 10)
@@ -61,10 +62,24 @@ struct AppTabBarView: View {
                 model.alert
             }else if(model.timeAlertIsPresented){
                 model.timeAlert
+            }else if(model.firstLaunch){
+                ZStack{
+                    Color.white
+                    WelcomeScreen()
+                }
+                
             }
         }
         
     }
+    
+    func checkFirstLaunch(){
+        // Алерт о тестировании приложения
+        if(UserDefaults.standard.object(forKey: "firstLaunch") == nil){
+        model.firstLaunch.toggle()
+        }
+    }
+    
 }
 
 struct AppTabBarView_Previews: PreviewProvider {

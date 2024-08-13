@@ -22,31 +22,52 @@ class FindNearestStopsViewModel {
     private var mapAlreadyCenter = false
     private var value: Int = 150
     // Каждые 10 секунд обновляем список остановок относительно геопозиции
-    private let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
-        timerFire()
-    })
+    private var timer: Timer?
+    var nearestValue: Int {
+        get{
+            return value
+        }
+    }
     
     func setValueDiff(value: Float){
         self.value = Int(value*3000)
-        self.getNearestStops()
+//        self.getNearestStops()
     }
     
     func configureView(){
-        debugPrint("Начат поиск ближайших остановок.")
-        mapAlreadyCenter = false
+        
         locationManager.startUpdating()
+        
+        debugPrint("Начат поиск ближайших остановок.")
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
+            self.timerFire()
+        })
+        mapAlreadyCenter = false
         getCurrentLocation()
-        timer.fire()
+        timer!.fire()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            if(!self.locationManager.statusIsWork){
+                self.model.lockLocation = true
+            }else{
+                self.model.lockLocation = false
+            }
+        }
     }
     
-    private static func timerFire(){
-        shared.getNearestStops()
+    private func timerFire(){
+        getNearestStops()
         debugPrint("Список ближайших остановок обновлен.")
+        if(!self.locationManager.statusIsWork){
+            self.model.lockLocation = true
+        }else{
+            self.model.lockLocation = false
+        }
     }
     
     func disConfigureView(){
         locationManager.stopUpdating()
-        timer.invalidate()
+        timer?.invalidate()
         debugPrint("Поиск ближайших остановок завершен.")
     }
     

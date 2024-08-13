@@ -40,5 +40,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Для уведомления о событиях транспорта</string>
 </dict>
 </plist>

@@ -96,7 +96,7 @@ class MapViewModel {
         return locations
     }
     
-    func reloadMap(){
+    func reloadTransportAnnotationsOnMap(){
         if let bufferResponse = self.bufferResponse{
             DispatchQueue.main.async{
                 self.model.transportAnnotations = self.fillLocations(obj: bufferResponse)
@@ -154,11 +154,36 @@ class MapViewModel {
         }
     }
     
+    func selectStopAnnotation(stopAnnotation: StopAnnotation, showOnlyOneAnnotation: Bool = false){
+        
+        if(showOnlyOneAnnotation){
+            CustomMap.removeStopsAnnotation(stopAnnotations: model.stopAnnotations)
+            CustomMap.appendStopsAnnotation(stopAnnotations: [stopAnnotation])
+        }
+        MapModel.shared.selectedStopAnnotation = stopAnnotation
+        MapModel.shared.selectedTransportAnnotation = nil
+        CustomMap.setRegion(region: MKCoordinateRegion(center: stopAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)))
+        
+        if(MapModel.shared.sheetIsPresented){
+            withAnimation(.default, {
+                MapModel.shared.mainText = stopAnnotation.stop_name ?? ""
+                MapModel.shared.secondText = stopAnnotation.stop_direction ?? ""
+                MapModel.shared.thirdText = MapViewModel.shared.getStringOfTypesTransport(types: stopAnnotation.stop_types)
+            })
+        }else{
+            MapModel.shared.mainText = stopAnnotation.stop_name ?? ""
+            MapModel.shared.secondText = stopAnnotation.stop_direction ?? ""
+            MapModel.shared.thirdText = MapViewModel.shared.getStringOfTypesTransport(types: stopAnnotation.stop_types)
+            MapModel.shared.sheetIsPresented = true
+        }
+    }
+    
     func selectTransportAnnotation(transportAnnotation: TransportAnnotation){
         MapModel.shared.selectedStopAnnotation = nil
         MapModel.shared.selectedTransportAnnotation = transportAnnotation
         CustomMap.setRegion(region: MKCoordinateRegion(center: transportAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)))
         
+        // Получение и отрисовка остановок этого маршрута на карте
         CustomMap.removeStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
         
         let routeId = DataBase.getRouteId(type: transportAnnotation.type, number: transportAnnotation.route)
@@ -169,6 +194,31 @@ class MapViewModel {
         }
         
         CustomMap.appendStopsAnnotation(stopAnnotations: filterStopAnnotations)
+        
+        // Получение и отрисовка перегонов этого маршрута на карте
+        let stagesList = DataBase.getStagesForRoute(route_id: routeId)
+        
+        // Перебор каждой линии перегонов
+        stagesList.forEach { routeLine in
+            
+            // Сборка точек для всей линии
+            var points = [CLLocationCoordinate2D]()
+            
+            // В каждой линии отдельный линия-перегон
+            routeLine.forEach { stage in
+                
+                let point = stage.stage_coords.map { lonLat in
+                    return CLLocationCoordinate2D(latitude: Double(lonLat[0]), longitude: Double(lonLat[1]))
+                }
+                
+                points.append(contentsOf: point)
+                
+            }
+            
+            CustomMap.appendLines(points: points)
+            
+        }
+        // На выходе надо цельную линию из всех линий по порядку
         
         if(MapModel.shared.sheetIsPresented){
             withAnimation(.default, {
@@ -183,7 +233,7 @@ class MapViewModel {
             MapModel.shared.sheetIsPresented = true
         }
         
-        reloadMap()
+        reloadTransportAnnotationsOnMap()
     }
     
     func getStringOfTypesTransport(types: [TypeTransport]) -> String{

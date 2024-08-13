@@ -276,6 +276,43 @@ class DataBase{
         }
     }
     
+    private static var stages: [StageStruct] = []
+    
+    public static func getStagesForRoute(route_id: Int) -> [[StageStruct]]{
+        
+        var stagesList = [[StageStruct]]()
+        
+        // Получить массив линий остановок
+        let subroute = getSubroutesOfRoute(routeId: route_id)
+        
+        // Перебор массива линий остановок
+        subroute?.forEach({ subroute_item in
+            
+            //Перебор остановок каждой линии
+            for i in 0...subroute_item.subroute_stops.count-2 {
+                
+                let start_stop = subroute_item.subroute_stops[i]
+                let end_stop = subroute_item.subroute_stops[i+1]
+                
+                // Получение всех перегонов для этой линии остановок
+                let stages = getStagesForStops(stop_begin: start_stop, stop_end: end_stop)
+                
+                stagesList.append(stages)
+                
+            }
+            
+        })
+        
+        return stagesList
+        
+    }
+    
+    public static func getStagesForStops(stop_begin: Int, stop_end: Int) -> [StageStruct]{
+        return stages.filter { item in
+            item.stage_begin == stop_begin && item.stage_end == stop_end
+        }
+    }
+    
     // MARK: - Загрузка данных из json в память
     static func LoadJSON(){
         //        let queue = DispatchQueue.global(qos: .default)
@@ -330,6 +367,17 @@ class DataBase{
                 print("Загрузка json структуры city_route не удалась!")
             }
         }
+        if let url = Bundle.main.url(forResource: "stage", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonData = try decoder.decode(StageFileJSON.self, from: data)
+                stages = jsonData.rows
+            } catch {
+                print("error:\(error)")
+                print("Загрузка json структуры stage не удалась!")
+            }
+        }
         debugPrint("Загрузка json в память завершена.")
         // Костыль! Перебор всех остановок и маршрутов циклом в цикле для получения соответствия: остановка - ее типы транспорта
         // Может существенно замедлить запуск приложения. Выполнение желательно на отдельном потоке.
@@ -347,7 +395,10 @@ class DataBase{
     static let title3 = "Поиск транспорта по остановкам"
     static let description3 = " На главном окне кнопка «Остановки» позволяет выполнить поиск интересующей остановки по ее названию, а цветовой маркер рядом с названием обозначает тип транспорта: автобус, троллейбус, трамвай или пригородный автобус. Открыв нужную остановку, можно получить информацию по маршрутам и времени прибытия транспорта. Нажав номер маршрута, происходит переход на схему его движения. У некоторых остановок имеются фотографии. \n Маршруты и остановки можно добавлять в избранное для их быстрого поиска с главного окна приложения. \n Транспорт маркируется по состояниям: на остановке, в движении к остановке или в парк. Отдельно отмечен транспорт для людей с ограниченными возможностями (низкопольные автобусы)."
     
-    static let feedBackEmail = "admin@igis.ru"
+    static let title4 = "Почему не отображаются автобусы?"
+    static let description4 = "С 25.04.2024 АО ИПОПАТ временно приостановил передачу данных по автобусам в систему IGIS."
+    
+    static let feedBackEmail = "feedback@igis.ru"
     
 }
 
@@ -427,4 +478,18 @@ struct CityRouteStruct: Decodable{
     let city_route_route: Int
     let city_route_city: Int
     let city_route_geo: Int
+}
+
+struct StageFileJSON: Decodable{
+    // Тип для извлечения таблицы перегонов и города из JSON
+    let table: String
+    let rows: [StageStruct]
+}
+
+struct StageStruct: Decodable{
+    // Тип используемый для таблицы перегонов и города из JSON
+    let stage_begin: Int
+    let stage_end: Int
+    let stage_distance: Float
+    let stage_coords: [[Float]]
 }

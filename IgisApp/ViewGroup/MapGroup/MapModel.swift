@@ -35,10 +35,10 @@ class MapModel: ObservableObject{
             CustomMap.updateTransportAnnotation()
         }
     }
-    @Published var hideBus = false
+    @Published var hideBus = true
     @Published var hideTrain = false
     @Published var hideTrolleybus = false
-    @Published var hideCountrybus = false
+    @Published var hideCountrybus = true
     @Published var useSmallMapItems = false
     @Published var onlyFavoritesTransport = false
     
@@ -47,12 +47,17 @@ class MapModel: ObservableObject{
             if(!sheetIsPresented){
                 if let annotation = selectedTransportAnnotation{
                     CustomMap.deselectAnnotation(annotation: annotation)
-                    MapViewModel.shared.reloadMap()
+                    MapViewModel.shared.reloadTransportAnnotationsOnMap()
                     CustomMap.removeStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
+                    CustomMap.removeAllLines()
                     selectedTransportAnnotation = nil
                 }
                 if let annotation = selectedStopAnnotation{
                     CustomMap.deselectAnnotation(annotation: annotation)
+                    MapViewModel.shared.reloadTransportAnnotationsOnMap()
+                    CustomMap.reloadStopAnnotationsOnMap(rightNow: true)
+                    CustomMap.removeAllLines()
+                    selectedStopAnnotation = nil
                 }
             }
         }

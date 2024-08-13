@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 import MessagePacker
 
-class ShowTransportRouteViewModel{
+class ShowTransportRouteViewModel: ObservableObject{
     
-    init(model: ShowTransportRouteModel){
-        self.model = model
+    @Published var model = ShowTransportRouteModel()
+    
+    init(){
+        debugPrint("Инициализирован ShowTransportRouteViewModel")
     }
-    
-    private var model: ShowTransportRouteModel!
 
     func getRouteData(){
         let queue = DispatchQueue.global(qos: .default)
@@ -32,7 +32,11 @@ class ShowTransportRouteViewModel{
         }
     }
     
-    func fillMenu(){
+    func eraseCallBack(){
+        
+    }
+    
+    func fillMenu(direction: Direction? = nil){
         let queue = DispatchQueue.global(qos: .utility)
         queue.async {
             self.model.menu.menuItems.removeAll()
@@ -47,7 +51,11 @@ class ShowTransportRouteViewModel{
                 
                 let firstDirection = allSubroutesThisRoute.first?.subroute_stops
                 
-                self.model.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
+                if let direction = direction{
+                    self.model.menu.currentStop = MenuItem(startStopId: direction.startStation, endStopId: direction.endStation, offset: 0)
+                }else{
+                    self.model.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
+                }
             }
         }
     }
@@ -87,6 +95,7 @@ class ShowTransportRouteViewModel{
             if(stopId == stopsOfRoute.last) { stationState = .endStation }
             withAnimation {
                 model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "—", withArrow: (counter % 4 == 0)))
+                self.objectWillChange.send()
             }
             stationState = .someStation
             
@@ -123,12 +132,12 @@ class ShowTransportRouteViewModel{
         
         model.type = type ?? .bus
         model.name = GeneralViewModel.getName(type: type, number: route)
-        model.routeId = routeId
+        self.model.routeId = routeId
         model.isFavorite = GeneralViewModel.isFavoriteRoute(routeId: routeId)
         model.number = route
         
-        fillMenu()
-        presentRoute()
+//        fillMenu()
+//        presentRoute()
 //        getRouteData()
     }
     
@@ -150,7 +159,7 @@ class ShowTransportRouteViewModel{
         
         guard let obj = try? MessagePackDecoder().decode(RouteResponse.self, from: data)else {
             debugPrint("Ошибка при декодировании объекта RouteResponse \(Date.now)")
-//            showAlertBadResponse()
+            showAlertBadResponse()
             return
         }
         
@@ -184,7 +193,7 @@ class ShowTransportRouteViewModel{
         var counter = 1
         
         // Перебор всех остановок
-        model.data.forEach({ stationView in
+        self.model.data.forEach({ stationView in
             
             if let findStation = obj.data.scheme.first(where: { item in
                 return item.stop == String(stationView.id)
@@ -216,6 +225,7 @@ class ShowTransportRouteViewModel{
         
         DispatchQueue.main.async {
             self.model.data = result
+            self.objectWillChange.send()
         }
     }
     

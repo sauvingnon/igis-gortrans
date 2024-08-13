@@ -56,6 +56,10 @@ class AppTabBarViewModel{
         }
     }
     
+    func showPage(tab: TabType){
+        model.selection = tab
+    }
+    
     func hideTabBar(){
         withAnimation(.default, {
             model.hideTabBar = true

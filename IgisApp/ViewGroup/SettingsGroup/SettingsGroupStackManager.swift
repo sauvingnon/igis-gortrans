@@ -23,7 +23,7 @@ struct SettingsGroupStackManager: View {
 
     var body: some View {
         
-        CustomNavigationStack(path: $model.navigationStack){
+        NavigationStack(path: $model.navigationStack){
             SettingsView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentSettingsSelectionView.self){ selectionView in
                     switch(selectionView){

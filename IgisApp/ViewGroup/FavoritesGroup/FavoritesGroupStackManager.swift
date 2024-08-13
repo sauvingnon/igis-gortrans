@@ -22,7 +22,7 @@ struct FavoritesGroupStackManager: View {
     @ObservedObject private var model = FavoritesGroupStackManagerModel()
     
     var body: some View {
-        CustomNavigationStack(path: $model.navigationStack){
+        NavigationStack(path: $model.navigationStack){
             FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){

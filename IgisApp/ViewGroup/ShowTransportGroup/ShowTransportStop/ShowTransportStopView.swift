@@ -12,27 +12,28 @@ struct ShowTransportStopView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
     
-    @ObservedObject var model = ShowStopOnlineModel()
-    private var viewModel: ShowTransportStopViewModel!
+    @StateObject private var viewModel = ShowTransportStopViewModel()
+    
+    private let stopId: Int
     
     init(navigationStack: Binding<NavigationPath>, stopId: Int){
+        debugPrint("Инициализирован ShowTransportStopView")
         self._navigationStack = navigationStack
-        self.viewModel = ShowTransportStopViewModel(model: model)
-        self.viewModel.configureView(stop_id: stopId)
+        self.stopId = stopId
     }
     
     @State private var sizeStar = 1.0
     
     var body: some View {
         VStack{
-            LabelOfStopOrRoute(name: model.name, isFavorite: $model.isFavorite, backTapp: {
+            LabelOfStopOrRoute(name: viewModel.model.name, isFavorite: $viewModel.model.isFavorite, backTapp: {
                 dismiss()
             }, starTapp: {
                 viewModel.favoriteStopTapped()
             })
             
             HStack{
-                Text(model.direction)
+                Text(viewModel.model.direction)
                     .foregroundColor(.gray)
                     .kerning(1)
                     .padding(.horizontal, 10)
@@ -40,15 +41,15 @@ struct ShowTransportStopView: View {
             }
             .padding(.horizontal, 20)
             
-            if(model.showIndicator){
+            if(viewModel.model.showIndicator){
                 ProgressView()
             }
             
             ScrollView(.vertical){
-                if(!model.buses.isEmpty){
+                if(!viewModel.model.buses.isEmpty){
                     LabelTypeTransport(typeTransport: .bus)
                     Grid(alignment: .center){
-                        ForEach(model.buses){ item in
+                        ForEach(viewModel.model.buses){ item in
                             TransportWaiterView(object: item) { id  in
                                 handlerTransport(routeId: id)
                             } handlerStop: { id in
@@ -65,10 +66,10 @@ struct ShowTransportStopView: View {
                     .padding(10)
                 }
                 
-                if(!model.trains.isEmpty){
+                if(!viewModel.model.trains.isEmpty){
                     LabelTypeTransport(typeTransport: .train)
                     Grid(alignment: .center){
-                        ForEach(model.trains){ item in
+                        ForEach(viewModel.model.trains){ item in
                             TransportWaiterView(object: item) { id  in
                                 handlerTransport(routeId: id)
                             } handlerStop: { id in
@@ -85,10 +86,10 @@ struct ShowTransportStopView: View {
                     .padding(10)
                 }
                 
-                if(!model.trolleybuses.isEmpty){
+                if(!viewModel.model.trolleybuses.isEmpty){
                     LabelTypeTransport(typeTransport: .trolleybus)
                     Grid(alignment: .center){
-                        ForEach(model.trolleybuses){ item in
+                        ForEach(viewModel.model.trolleybuses){ item in
                             TransportWaiterView(object: item) { id  in
                                 handlerTransport(routeId: id)
                             } handlerStop: { id in
@@ -105,10 +106,10 @@ struct ShowTransportStopView: View {
                     .padding(10)
                 }
                 
-                if(!model.countryBuses.isEmpty){
+                if(!viewModel.model.countryBuses.isEmpty){
                     LabelTypeTransport(typeTransport: .countrybus)
                     Grid(alignment: .center){
-                        ForEach(model.countryBuses){ item in
+                        ForEach(viewModel.model.countryBuses){ item in
                             TransportWaiterView(object: item) { id  in
                                 handlerTransport(routeId: id)
                             } handlerStop: { id in
@@ -126,30 +127,48 @@ struct ShowTransportStopView: View {
                 }
             }
             .padding(.horizontal, 20)
-            .opacity(model.opacity)
+            .opacity(viewModel.model.opacity)
             .scrollIndicators(.hidden)
+            
+            Button(action: {
+                viewModel.showStopOnMap()
+            }, label: {
+                Text("Показать на карте")
+                    .fontWeight(.medium)
+                    .font(.system(size: 18))
+                    .kerning(0.7)
+                    .padding(8)
+                    .foregroundStyle(.white)
+                    .background(.blue)
+                    .cornerRadius(15)
+            })
             
             Spacer()
             
         }
         .onAppear(){
+            viewModel.configureView(stop_id: self.stopId)
+            
             viewModel.getStationData()
+        }
+        .onDisappear(){
+            viewModel.eraseCallBack()
         }
     }
     
     
     func handlerTransport(routeId: Int){
         navigationStack.append(CurrentTransportSelectionView.showRouteOnline(routeId))
-        TransportGroupStackManager.shared.model.objectWillChange.send()
+        
     }
     
     func handlerStop(stopId: Int){
         navigationStack.append(CurrentTransportSelectionView.showStopOnline(stopId))
-        TransportGroupStackManager.shared.model.objectWillChange.send()
+        
     }
     
     func handlerTime(item: TransportWaiter){
-        AppTabBarViewModel.shared.chooseTimeAlert(time: item.time, type: item.type, route: item.transportNumber, stop: model.stopId)
+        AppTabBarViewModel.shared.chooseTimeAlert(time: item.time, type: item.type, route: item.transportNumber, stop: viewModel.model.stopId)
     }
     
 }

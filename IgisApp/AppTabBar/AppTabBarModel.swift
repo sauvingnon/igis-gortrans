@@ -27,6 +27,8 @@ class AppTabBarModel: ObservableObject{
     var timeAlert: ChooseTimeAlert?
     @Published var timeAlertIsPresented = false
     
+    @Published var firstLaunch = false
+    
 }
 
 enum ConnectionStatus{

@@ -29,26 +29,26 @@ struct SettingsView: View {
             .padding(.bottom, 60)
             
             
-            HStack{
-                Text("Показывать уведомления")
-                    .fixedSize()
-                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                    .fontWeight(.light)
-                    .font(.system(size: 18))
-                    .padding(.leading, 20)
-                    .kerning(0.7)
-                
-                Spacer()
-                
-                Toggle(isOn: $model.showNotifications){
-                    
-                }
-                .padding(.trailing, 20)
-            }
-            .frame(width: UIScreen.screenWidth-40)
-            .padding(.vertical, 15)
-            .background(Color.white)
-            .cornerRadius(15)
+//            HStack{
+//                Text("Показывать уведомления")
+//                    .fixedSize()
+//                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+//                    .fontWeight(.light)
+//                    .font(.system(size: 18))
+//                    .padding(.leading, 20)
+//                    .kerning(0.7)
+//                
+//                Spacer()
+//                
+//                Toggle(isOn: $model.showNotifications){
+//                    
+//                }
+//                .padding(.trailing, 20)
+//            }
+//            .frame(width: UIScreen.screenWidth-40)
+//            .padding(.vertical, 15)
+//            .background(Color.white)
+//            .cornerRadius(15)
             
             VStack{
                 HStack{

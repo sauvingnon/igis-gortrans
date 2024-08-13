@@ -36,6 +36,8 @@
 		F335264429E029EA001A1017 /* subroute.json in Resources */ = {isa = PBXBuildFile; fileRef = F335263829E029EA001A1017 /* subroute.json */; };
 		F337E4252B2CE60300D4C2AA /* LabelOfTransportUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F337E4242B2CE60300D4C2AA /* LabelOfTransportUnit.swift */; };
 		F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */; };
+		F33FB5302C1A1CB10096466D /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33FB52F2C1A1CB10096466D /* WelcomeScreen.swift */; };
+		F33FB5322C1A241D0096466D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F33FB5312C1A241D0096466D /* Launch Screen.storyboard */; };
 		F3432A5C2A265AB9007AD619 /* ServiceSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */; };
 		F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB129ADC581008ECCF2 /* NotificationsView.swift */; };
 		F3451FB929ADD427008ECCF2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3451FB829ADD427008ECCF2 /* MessageView.swift */; };
@@ -76,6 +78,11 @@
 		F39FB5062B66D83800C1C8F9 /* FavoritesGroupStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39FB5052B66D83800C1C8F9 /* FavoritesGroupStackManager.swift */; };
 		F3AD9A3E2BA58416002798F6 /* MapGroupStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AD9A3D2BA58416002798F6 /* MapGroupStackManager.swift */; };
 		F3B26FEF29ED87CF00F981F8 /* ChooseIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */; };
+		F3B511A92C4EB9550001E342 /* TransportAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B511A82C4EB9550001E342 /* TransportAnnotationView.swift */; };
+		F3B511AB2C4EB9930001E342 /* UserLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B511AA2C4EB9930001E342 /* UserLocationView.swift */; };
+		F3B511AD2C4EB9BB0001E342 /* StopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B511AC2C4EB9BB0001E342 /* StopAnnotationView.swift */; };
+		F3B511AF2C4EB9FA0001E342 /* StopAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B511AE2C4EB9FA0001E342 /* StopAnnotation.swift */; };
+		F3B511B12C4EBA2E0001E342 /* TransportAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B511B02C4EBA2E0001E342 /* TransportAnnotation.swift */; };
 		F3B584C22B6D0DAA00DE50D6 /* MapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B584C12B6D0DAA00DE50D6 /* MapItem.swift */; };
 		F3B75E762B1B40FB00FD6524 /* FindNearestStopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B75E752B1B40FB00FD6524 /* FindNearestStopsView.swift */; };
 		F3B75E792B1B431200FD6524 /* FindNearestStopsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B75E782B1B431200FD6524 /* FindNearestStopsViewModel.swift */; };
@@ -139,6 +146,8 @@
 		F335263829E029EA001A1017 /* subroute.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subroute.json; sourceTree = "<group>"; };
 		F337E4242B2CE60300D4C2AA /* LabelOfTransportUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelOfTransportUnit.swift; sourceTree = "<group>"; };
 		F33E21DE2A2216B000465C2E /* ChooseTimeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseTimeAlert.swift; sourceTree = "<group>"; };
+		F33FB52F2C1A1CB10096466D /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
+		F33FB5312C1A241D0096466D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		F3432A5B2A265AB9007AD619 /* ServiceSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSocket.swift; sourceTree = "<group>"; };
 		F3451FB129ADC581008ECCF2 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		F3451FB829ADD427008ECCF2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
@@ -180,6 +189,11 @@
 		F3AD9A3D2BA58416002798F6 /* MapGroupStackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGroupStackManager.swift; sourceTree = "<group>"; };
 		F3B26FEE29ED87CF00F981F8 /* ChooseIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconView.swift; sourceTree = "<group>"; };
 		F3B26FF929ED95CC00F981F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F3B511A82C4EB9550001E342 /* TransportAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportAnnotationView.swift; sourceTree = "<group>"; };
+		F3B511AA2C4EB9930001E342 /* UserLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationView.swift; sourceTree = "<group>"; };
+		F3B511AC2C4EB9BB0001E342 /* StopAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopAnnotationView.swift; sourceTree = "<group>"; };
+		F3B511AE2C4EB9FA0001E342 /* StopAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopAnnotation.swift; sourceTree = "<group>"; };
+		F3B511B02C4EBA2E0001E342 /* TransportAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportAnnotation.swift; sourceTree = "<group>"; };
 		F3B584C12B6D0DAA00DE50D6 /* MapItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItem.swift; sourceTree = "<group>"; };
 		F3B75E752B1B40FB00FD6524 /* FindNearestStopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearestStopsView.swift; sourceTree = "<group>"; };
 		F3B75E782B1B431200FD6524 /* FindNearestStopsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindNearestStopsViewModel.swift; sourceTree = "<group>"; };
@@ -228,6 +242,7 @@
 		F302C2B829D37157009020ED /* ViewGroup */ = {
 			isa = PBXGroup;
 			children = (
+				F33FB52F2C1A1CB10096466D /* WelcomeScreen.swift */,
 				F3C5CC4F2BAF07FF001E6251 /* NearestStopGroup */,
 				F3451FC129ADDF2B008ECCF2 /* MapGroup */,
 				F3993E5E29A6B2650087C1B7 /* FavoritesGroup */,
@@ -317,6 +332,7 @@
 				F3F67DD52A27D0DE00165BB2 /* MapViewModel.swift */,
 				F3F67DD72A27D0E600165BB2 /* MapModel.swift */,
 				F35ED9142BA4BD3200F26326 /* DropDownAlert.swift */,
+				F3B511A72C4EB9270001E342 /* AnnotationModel */,
 			);
 			path = MapGroup;
 			sourceTree = "<group>";
@@ -446,6 +462,18 @@
 			path = CustomNavigationStack;
 			sourceTree = "<group>";
 		};
+		F3B511A72C4EB9270001E342 /* AnnotationModel */ = {
+			isa = PBXGroup;
+			children = (
+				F3B511A82C4EB9550001E342 /* TransportAnnotationView.swift */,
+				F3B511AC2C4EB9BB0001E342 /* StopAnnotationView.swift */,
+				F3B511AE2C4EB9FA0001E342 /* StopAnnotation.swift */,
+				F3B511AA2C4EB9930001E342 /* UserLocationView.swift */,
+				F3B511B02C4EBA2E0001E342 /* TransportAnnotation.swift */,
+			);
+			path = AnnotationModel;
+			sourceTree = "<group>";
+		};
 		F3B75E772B1B42F500FD6524 /* FindNearestStops */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,8 +516,8 @@
 		F3D7DFF4299433400059B4C4 /* ShowTransportGroup */ = {
 			isa = PBXGroup;
 			children = (
-				F3C5CC4E2BAF07E6001E6251 /* NotifivationsView */,
 				F3F60802292E26810009E684 /* TransportGroupStackManager.swift */,
+				F3C5CC4E2BAF07E6001E6251 /* NotifivationsView */,
 				F35B5E662B04ED7600E82998 /* ShowTransportUnit */,
 				F35B5E6B2B04F23900E82998 /* ShowTransportRoute */,
 				F35B5E702B04F4BA00E82998 /* ChooseTransportRoute */,
@@ -545,6 +573,7 @@
 				F3F607F0292E242F0009E684 /* Assets.xcassets */,
 				F3451FC029ADDEDF008ECCF2 /* CustomElements */,
 				F3F607F2292E242F0009E684 /* Preview Content */,
+				F33FB5312C1A241D0096466D /* Launch Screen.storyboard */,
 			);
 			path = IgisApp;
 			sourceTree = "<group>";
@@ -648,6 +677,7 @@
 				F335263F29E029EA001A1017 /* city.json in Resources */,
 				F335263929E029EA001A1017 /* route.json in Resources */,
 				F3F607F4292E242F0009E684 /* Preview Assets.xcassets in Resources */,
+				F33FB5322C1A241D0096466D /* Launch Screen.storyboard in Resources */,
 				F335263B29E029EA001A1017 /* carrier.json in Resources */,
 				F335263E29E029EA001A1017 /* stop_alt.json in Resources */,
 				F335263D29E029EA001A1017 /* carrier_branch.json in Resources */,
@@ -672,6 +702,7 @@
 				F362C8DA29AA45820019B28C /* CustomScrollReader.swift in Sources */,
 				F3F67DD82A27D0E600165BB2 /* MapModel.swift in Sources */,
 				F3B75E762B1B40FB00FD6524 /* FindNearestStopsView.swift in Sources */,
+				F3B511A92C4EB9550001E342 /* TransportAnnotationView.swift in Sources */,
 				F31E23662B0AA650008BDFD7 /* AppTabBarModel.swift in Sources */,
 				F35B5E6D2B04F2DE00E82998 /* ShowTransportRouteViewModel.swift in Sources */,
 				F34DB4082B5808C600718B3B /* ViewDismissable.swift in Sources */,
@@ -687,10 +718,12 @@
 				F3C78F152A422D4E0026A97E /* ShowTransportUnitView.swift in Sources */,
 				F361528C2B0B5DAE00A77C45 /* FavoriteRoutesAndStationsViewModel.swift in Sources */,
 				F32013C92B28555700A8727A /* CameraView.swift in Sources */,
+				F3B511AF2C4EB9FA0001E342 /* StopAnnotation.swift in Sources */,
 				F39F13442993D73A001E750B /* TabBarTabsPreferenceKey.swift in Sources */,
 				F3F608072930D3B90009E684 /* GeneralViewModel.swift in Sources */,
 				F3BD09CB29F6665E002669BA /* CustomAlert.swift in Sources */,
 				F32013CD2B285B2B00A8727A /* QRScannerDelegate.swift in Sources */,
+				F33FB5302C1A1CB10096466D /* WelcomeScreen.swift in Sources */,
 				F35B5E742B04F52400E82998 /* ChooseTransportRouteModel.swift in Sources */,
 				F3E581FF29FB0B490062DD66 /* ShowTransportStopView.swift in Sources */,
 				F32F01FD29F55F7300F2B1A3 /* CheckConnection.swift in Sources */,
@@ -722,6 +755,8 @@
 				F3B584C22B6D0DAA00DE50D6 /* MapItem.swift in Sources */,
 				F31E02B32B69107F003527AF /* QuestionButton.swift in Sources */,
 				F30375692BAD91D10076E57A /* MapStop.swift in Sources */,
+				F3B511B12C4EBA2E0001E342 /* TransportAnnotation.swift in Sources */,
+				F3B511AD2C4EB9BB0001E342 /* StopAnnotationView.swift in Sources */,
 				F37E4AAA2995530D00049934 /* ShowTransportRouteView.swift in Sources */,
 				F39F13402993CEF4001E750B /* CustomTabBarContainerView.swift in Sources */,
 				F33E21DF2A2216B000465C2E /* ChooseTimeAlert.swift in Sources */,
@@ -734,6 +769,7 @@
 				F3451FB229ADC581008ECCF2 /* NotificationsView.swift in Sources */,
 				F3F608052930D2960009E684 /* ChooseTransportRouteView.swift in Sources */,
 				F337E4252B2CE60300D4C2AA /* LabelOfTransportUnit.swift in Sources */,
+				F3B511AB2C4EB9930001E342 /* UserLocationView.swift in Sources */,
 				F36152872B0B525B00A77C45 /* LabelOfStopOrRoute.swift in Sources */,
 				F311176C299A406100351326 /* DataBase.swift in Sources */,
 				F3B75E7D2B1B473E00FD6524 /* LocationManager.swift in Sources */,
@@ -879,40 +915,46 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_ASSET_PATHS = "\"IgisApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 7PS9R8UBLM;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 8TDEH7PNB4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IgisApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IGIS: Транспорт Ижевска";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				INFOPLIST_KEY_NSCameraUsageDescription = "For scan QR";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For get user location on map";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Для сканирования QR кода";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения позиции пользователя на карте";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для отображения позиции пользователя на карте";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для отображения позиции пользователя на карте";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.IzhinformProject.IgisApp;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "igis-gortrans";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FileProvision;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -922,40 +964,46 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_ASSET_PATHS = "\"IgisApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 7PS9R8UBLM;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 8TDEH7PNB4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IgisApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "IGIS: Транспорт Ижевска";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				INFOPLIST_KEY_NSCameraUsageDescription = "For scan QR";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For get user location on map";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Для сканирования QR кода";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для отображения позиции пользователя на карте";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для отображения позиции пользователя на карте";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для отображения позиции пользователя на карте";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.IzhinformProject.IgisApp;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "igis-gortrans";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = FileProvision;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

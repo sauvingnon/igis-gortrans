@@ -32,7 +32,7 @@ struct FindNearestStopsView: View {
                     location in
                     MapAnnotation(coordinate: location.coordinate){
                         Button(action: {
-//                            AppTabBarViewModel.shared.showAlert(title: "Показать остановку", message: location.stop_name ?? "-")
+                            stopTapped(stop_id: location.stop_id)
                         }, label: {
                             MapStop(stopAnnotation: StopAnnotation(stop_id: location.stop_id, stop_name: location.stop_name, stop_name_short: location.stop_name_short, color: location.color, stop_direction: location.stop_direction, stop_types: location.stop_types, coordinate: location.coordinate, stop_demand: location.stop_demand, letter: location.letter))
                         })
@@ -60,16 +60,55 @@ struct FindNearestStopsView: View {
                 .background(Color.blue)
                 .padding(.horizontal, 20)
                 
-                LazyVGrid(columns: columns, alignment: .leading){
-                    ForEach(model.stopsList) { item in
-                        GridRow{
-                            StopRowView(stop: item, handlerFunc: stopTapped)
+                
+                if(model.lockLocation){
+                    VStack{
+                        Spacer()
+                        Text("Разрешите доступ приложения к службам геолокации в настройках устройства")
+                            .foregroundColor(.blue)
+                            .font(.system(size: 20))
+                            .padding(.horizontal, 20)
+                            .minimumScaleFactor(0.01)
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                    }
+                    
+                }else{
+                    if(model.stopsList.count == 0){
+                        VStack{
+                            Spacer()
+                            Text("Ближайших остановок в радиусе \(viewModel.nearestValue) м. не найдено. Измените радиус поиска в настроках приложения.")
+                                .foregroundColor(.blue)
+                                .font(.system(size: 20))
+                                .padding(.horizontal, 20)
+                                .minimumScaleFactor(0.01)
+                                .multilineTextAlignment(.center)
+                            Button(action: {
+                                AppTabBarViewModel.shared.showPage(tab: .settings)
+                            }, label: {
+                                Text("Открыть настройки")
+                                    .fontWeight(.light)
+                                    .font(.system(size: 18))
+                                    .kerning(0.7)
+                                    .padding(8)
+                                    .foregroundStyle(.white)
+                                    .background(.blue)
+                                    .cornerRadius(15)
+                            })
+                            Spacer()
                         }
-                        .padding(.bottom, 10)
-                        .padding(.horizontal, 20)
+                    }else{
+                        LazyVGrid(columns: columns, alignment: .leading){
+                            ForEach(model.stopsList) { item in
+                                GridRow{
+                                    StopRowView(stop: item, handlerFunc: stopTapped)
+                                }
+                                .padding(.bottom, 10)
+                                .padding(.horizontal, 20)
+                            }
+                        }
                     }
                 }
-                
             }
             
             Spacer()
@@ -84,7 +123,6 @@ struct FindNearestStopsView: View {
     
     private func stopTapped(stop_id: Int){
         navigationStack.append(CurrentTransportSelectionView.showStopOnline(stop_id))
-        
     }
 }
 

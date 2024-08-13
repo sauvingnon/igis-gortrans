@@ -23,7 +23,7 @@ struct MapGroupStackManager: View {
     @ObservedObject private var model = MapGroupStackManagerModel()
     
     var body: some View {
-        CustomNavigationStack(path: $model.navigationStack){
+        NavigationStack(path: $model.navigationStack){
             MapView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){

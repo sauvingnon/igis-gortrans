@@ -52,7 +52,7 @@ struct SelectRouteOrStationView: View {
             Button(action: {
                 FavoritesGroupStackManager.shared.clearNavigationStack()
                 navigationStack.append(CurrentTransportSelectionView.chooseTypeTransport)
-                TransportGroupStackManager.shared.model.objectWillChange.send()
+                
             }, label: {
                 Text("Маршруты")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)
@@ -67,7 +67,7 @@ struct SelectRouteOrStationView: View {
             Button(action: {
                 FavoritesGroupStackManager.shared.clearNavigationStack()
                 navigationStack.append(CurrentTransportSelectionView.selectStopView)
-                TransportGroupStackManager.shared.model.objectWillChange.send()
+                
             }, label: {
                 Text("Остановки")
                     .frame(width: UIScreen.screenWidth - 40, height: 120, alignment: .center)

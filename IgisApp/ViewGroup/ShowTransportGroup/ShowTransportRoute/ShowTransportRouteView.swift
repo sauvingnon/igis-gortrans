@@ -15,28 +15,29 @@ struct ShowTransportRouteView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
     
-    @ObservedObject private var model = ShowTransportRouteModel()
-    private var viewModel: ShowTransportRouteViewModel!
+    @StateObject private var viewModel = ShowTransportRouteViewModel()
+    
+    private let routeId: Int
     
     init(navigationStack: Binding<NavigationPath>, routeId: Int){
+        debugPrint("Инициализирован ShowTransportRouteView")
         self._navigationStack = navigationStack
-        self.viewModel = ShowTransportRouteViewModel(model: model)
-        viewModel?.configureView(routeId: routeId)
+        self.routeId = routeId
     }
     
     var body: some View {
         ZStack{
             VStack{
-                LabelOfStopOrRoute(name: model.name, isFavorite: $model.isFavorite, backTapp: {
+                LabelOfStopOrRoute(name: viewModel.model.name, isFavorite: $viewModel.model.isFavorite, backTapp: {
                     dismiss()
                 }, starTapp: {
                     viewModel.favoriteRouteTapped()
                 })
                 
-                CustomMenu(menu: model.menu, isMenuOpen: $isMenuOpen, tappHandler: { item in
+                CustomMenu(menu: viewModel.model.menu, isMenuOpen: $isMenuOpen, tappHandler: { item in
                     let newDirection = Direction(startStation: item.startStopId, endStation: item.endStopId)
                     
-                    model.direction = newDirection
+                    viewModel.model.direction = newDirection
                     
                     viewModel.presentRoute(direction: newDirection)
                 })
@@ -44,14 +45,14 @@ struct ShowTransportRouteView: View {
                 
                 ScrollView{
                     Grid(alignment: .trailing){
-                        ForEach(model.data) { item in   
+                        ForEach(viewModel.model.data) { item in
                             GridRow{
                                 StopListRow(station: item, handlerTransportImageTapp: imageTransportTapped, handlerLabelStopTapp: labelStopTapped, handlerLabelTimeTapp: labelTimeTapped)
                             }
                         }
                     }
                     
-                    if(model.status != nil){
+                    if(viewModel.model.status != nil){
                         HStack{
                             Text("ПОДРОБНОСТИ")
                                 .opacity(0.8)
@@ -67,7 +68,7 @@ struct ShowTransportRouteView: View {
                         
                         VStack{
                             HStack{
-                                Text(model.status!)
+                                Text(viewModel.model.status!)
                                     .font(.system(size: 14))
                                     .opacity(0.8)
                                 Spacer()
@@ -87,12 +88,20 @@ struct ShowTransportRouteView: View {
             .onTapGesture {
                 isMenuOpen = false
             }
-        }
-        .onAppear(){
-            if let direction = model.direction{
-                viewModel.presentRoute(direction: direction)
-            }else{
-                viewModel.presentRoute()
+            .onAppear(){
+                
+                viewModel.configureView(routeId: routeId)
+                
+                if let direction = viewModel.model.direction{
+                    viewModel.fillMenu(direction: direction)
+                    viewModel.presentRoute(direction: direction)
+                }else{
+                    viewModel.fillMenu()
+                    viewModel.presentRoute()
+                }
+            }
+            .onDisappear(){
+                viewModel.eraseCallBack()
             }
         }
     }
@@ -100,7 +109,7 @@ struct ShowTransportRouteView: View {
     func labelStopTapped(stopId: Int?){
         if let stopId = stopId{
             navigationStack.append(CurrentTransportSelectionView.showStopOnline(stopId))
-            TransportGroupStackManager.shared.model.objectWillChange.send()
+            
         }else{
             AppTabBarViewModel.shared.showAlert(title: "Нет данных", message: "Не удалось найти данные по этой остановке")
         }
@@ -109,7 +118,7 @@ struct ShowTransportRouteView: View {
     func imageTransportTapped(transportId: String?){
         if let transportId = transportId{
             navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportId))
-            TransportGroupStackManager.shared.model.objectWillChange.send()
+            
         }else{
             AppTabBarViewModel.shared.showAlert(title: "Нет данных", message: "Не удалось найти данные по этому транспортному средству")
         }
@@ -117,7 +126,7 @@ struct ShowTransportRouteView: View {
     
     func labelTimeTapped(stop: Stop){
         
-        AppTabBarViewModel.shared.chooseTimeAlert(time: stop.time, type: model.type, route: model.number, stop: stop.id)
+        AppTabBarViewModel.shared.chooseTimeAlert(time: stop.time, type: viewModel.model.type, route: viewModel.model.number, stop: stop.id)
     }
     
 }

@@ -11,8 +11,7 @@ struct SelectStopView: View {
     
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
-    
-    @State var searchText = ""
+
     @FocusState private var searchIsFocuced: Bool{
         didSet{
             if(searchIsFocuced){
@@ -23,7 +22,7 @@ struct SelectStopView: View {
         }
     }
     
-    private let viewModel = SelectStopViewModel.shared
+    @ObservedObject private var viewModel = SelectStopViewModel.shared
     
     var columns: [GridItem] = [
         GridItem(.flexible())
@@ -40,11 +39,11 @@ struct SelectStopView: View {
             }
             
             HStack{
-                TextField("Поиск", text: $searchText)
+                TextField("Поиск", text: $viewModel.searchText)
                     .focused($searchIsFocuced)
                     .padding(.leading, 5)
                 Button(action: {
-                    searchText = ""
+                    viewModel.searchText = ""
                     searchIsFocuced = false
                     AppTabBarViewModel.shared.showTabBar()
                 }, label: {
@@ -60,7 +59,7 @@ struct SelectStopView: View {
             
             ScrollView{
                 LazyVGrid(columns: columns, alignment: .leading){
-                    ForEach(viewModel.fillStopList(searchText: searchText)) { item in
+                    ForEach(viewModel.stops) { item in
                         GridRow{
                             StopRowView(stop: item, handlerFunc: stopTapped)
                         }
@@ -68,7 +67,7 @@ struct SelectStopView: View {
                         .padding(.horizontal, 20)
                     }
                 }
-                .animation(.default, value: searchText)
+                .animation(.default, value: viewModel.searchText)
             }
             .scrollIndicators(.automatic)
             
@@ -83,7 +82,7 @@ struct SelectStopView: View {
     
     private func stopTapped(stop_id: Int){
         navigationStack.append(CurrentTransportSelectionView.showStopOnline(stop_id))
-        TransportGroupStackManager.shared.model.objectWillChange.send()
+        
     }
 }
 

@@ -22,7 +22,7 @@ struct SelectTransportType: View {
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .bus)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
-                    TransportGroupStackManager.shared.model.objectWillChange.send()
+                    
                 } label: {
                     VStack(){
                         Image("bus_icon_white")
@@ -38,7 +38,7 @@ struct SelectTransportType: View {
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .trolleybus)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
-                    TransportGroupStackManager.shared.model.objectWillChange.send()
+                    
                 } label: {
                     VStack(){
                         Image("trolleybus_icon_white")
@@ -58,7 +58,7 @@ struct SelectTransportType: View {
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .train)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
-                    TransportGroupStackManager.shared.model.objectWillChange.send()
+                    
                 } label: {
                     VStack(){
                         Image("train_icon_white")
@@ -75,7 +75,7 @@ struct SelectTransportType: View {
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .countrybus)
                     navigationStack.append(CurrentTransportSelectionView.chooseNumberTransport)
-                    TransportGroupStackManager.shared.model.objectWillChange.send()
+                    
                 } label: {
                     VStack(){
                         Image("bus_icon_white") 
@@ -91,12 +91,6 @@ struct SelectTransportType: View {
             }
             Spacer()
         }
-        .gesture(DragGesture(minimumDistance: 40, coordinateSpace: .local)
-            .onEnded({ value in
-                if  value.translation.width > 0{
-                    dismiss()
-                }
-            }))
     }
 }
 

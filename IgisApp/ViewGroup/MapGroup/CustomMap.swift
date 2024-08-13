@@ -32,9 +32,11 @@ struct CustomMap: UIViewRepresentable {
         }
     }
     
+    public static var mapIsLoad = false
+    
     public static var showStops = false{
         willSet{
-            if(MapModel.shared.selectedTransportAnnotation != nil){
+            if(MapModel.shared.selectedTransportAnnotation != nil || MapModel.shared.selectedStopAnnotation != nil){
                 return
             }
             if newValue != showStops{
@@ -89,32 +91,14 @@ struct CustomMap: UIViewRepresentable {
                 CustomMap.useSmallItems = false
             }
             
-            if(mapView.region.span.longitudeDelta > 0.01 || mapView.region.span.latitudeDelta > 0.01){
-                CustomMap.showStops = false
-            }else{
-                CustomMap.showStops = true
-            }
+            reloadStopAnnotationsOnMap(rightNow: false)
         }
         
+        // Обработка нажатия на аннотации
         func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
             
             if let stopAnnotation = view.annotation as? StopAnnotation{
-                MapModel.shared.selectedStopAnnotation = stopAnnotation
-                MapModel.shared.selectedTransportAnnotation = nil
-                mapView.setRegion(MKCoordinateRegion(center: stopAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)), animated: true)
-                
-                if(MapModel.shared.sheetIsPresented){
-                    withAnimation(.default, {
-                        MapModel.shared.mainText = stopAnnotation.stop_name ?? ""
-                        MapModel.shared.secondText = stopAnnotation.stop_direction ?? ""
-                        MapModel.shared.thirdText = MapViewModel.shared.getStringOfTypesTransport(types: stopAnnotation.stop_types)
-                    })
-                }else{
-                    MapModel.shared.mainText = stopAnnotation.stop_name ?? ""
-                    MapModel.shared.secondText = stopAnnotation.stop_direction ?? ""
-                    MapModel.shared.thirdText = MapViewModel.shared.getStringOfTypesTransport(types: stopAnnotation.stop_types)
-                    MapModel.shared.sheetIsPresented = true
-                }
+                MapViewModel.shared.selectStopAnnotation(stopAnnotation: stopAnnotation)
             }
             
             if let transportAnnotation = view.annotation as? TransportAnnotation{
@@ -122,10 +106,35 @@ struct CustomMap: UIViewRepresentable {
             }
         }
         
+        // Отрисовка линий на карте
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let polylineRenderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+            polylineRenderer.strokeColor = UIColor(red: 0.4, green: 0.4, blue: 1, alpha: 0.5)
+            polylineRenderer.lineWidth = 4.0
+            return polylineRenderer
+          }
+        
         func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
             
         }
 
+    }
+    
+    public static func reloadStopAnnotationsOnMap(rightNow: Bool){
+        
+        if(rightNow){
+            if(map.region.span.longitudeDelta > 0.01 || map.region.span.latitudeDelta > 0.01){
+                removeStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
+            }else{
+                appendStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
+            }
+        }
+        
+        if(map.region.span.longitudeDelta > 0.01 || map.region.span.latitudeDelta > 0.01){
+            CustomMap.showStops = false
+        }else{
+            CustomMap.showStops = true
+        }
     }
     
     public static func setRegionOnUserLocation(){
@@ -152,12 +161,23 @@ struct CustomMap: UIViewRepresentable {
         CustomMap.map.addAnnotations(MapModel.shared.transportAnnotations)
     }
     
+    public static func appendLines(points: [CLLocationCoordinate2D]){
+        CustomMap.map.addOverlay(MKPolyline(coordinates: points, count: points.count))
+    }
+    
+    public static func removeAllLines(){
+        CustomMap.map.removeOverlays(map.overlays)
+    }
+    
     public static func appendStopsAnnotation(stopAnnotations: [StopAnnotation]){
         CustomMap.map.addAnnotations(stopAnnotations)
     }
     
     public static func removeStopsAnnotation(stopAnnotations: [StopAnnotation]){
         CustomMap.map.removeAnnotations(stopAnnotations)
+    }
+    public static func loadMapIfNeeded(){
+        
     }
     
     func makeCoordinator() -> Coordinator {
@@ -187,6 +207,8 @@ struct CustomMap: UIViewRepresentable {
             }
         }
         
+        CustomMap.mapIsLoad = true
+        
         return CustomMap.map
     }
     
@@ -195,164 +217,9 @@ struct CustomMap: UIViewRepresentable {
     }
 }
 
-class TransportAnnotation: NSObject, MKAnnotation, Identifiable {
-    let id = UUID()
-    let icon: String
-    let color: Color
-    let type: TypeTransport
-    let finish_stop: String
-    let current_stop: String
-    let route: String
-    let ts_id: String
-    let inPark: Bool
-    let gosnumber: String
-    let azimuth: Int
-    let coordinate: CLLocationCoordinate2D
-    init(icon: String, color: Color, type: TypeTransport, finish_stop: String, current_stop: String, route: String, ts_id: String, inPark: Bool, gosnumber: String, azimuth: Int, coordinate: CLLocationCoordinate2D) {
-        self.icon = icon
-        self.color = color
-        self.type = type
-        self.finish_stop = finish_stop
-        self.current_stop = current_stop
-        self.route = route
-        self.ts_id = ts_id
-        self.inPark = inPark
-        self.gosnumber = gosnumber
-        self.azimuth = azimuth
-        self.coordinate = coordinate
-    }
-}
 
-class StopAnnotation: NSObject, MKAnnotation, Identifiable {
-    let id = UUID()
-    let letter: String
-    let stop_id: Int
-    let stop_name: String?
-    let stop_name_short: String?
-    let color: Color
-    let stop_direction: String?
-    let stop_types: [TypeTransport]
-    let coordinate: CLLocationCoordinate2D
-    let stop_demand: Int?
-    
-    init(stop_id: Int, stop_name: String?, stop_name_short: String?, color: Color, stop_direction: String?, stop_types: [TypeTransport], coordinate: CLLocationCoordinate2D, stop_demand: Int?, letter: String) {
-        self.stop_id = stop_id
-        self.stop_name = stop_name
-        self.stop_name_short = stop_name_short
-        self.color = color
-        self.stop_direction = stop_direction
-        self.stop_types = stop_types
-        self.coordinate = coordinate
-        self.stop_demand = stop_demand
-        self.letter = letter
-    }
-}
 
-class StopAnnotationView: MKAnnotationView {
-    
-    static let ReuseID = "cultureAnnotation"
-    
-    /// setting the key for clustering annotations
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        
-        if let annotation = annotation as? StopAnnotation{
-            
-            let item = MapStop(stopAnnotation: StopAnnotation(stop_id: annotation.stop_id, stop_name: annotation.stop_name, stop_name_short: annotation.stop_name_short, color: annotation.color, stop_direction: annotation.stop_direction, stop_types: annotation.stop_types, coordinate: annotation.coordinate, stop_demand: annotation.stop_demand, letter: annotation.letter))
-            let vc = UIHostingController(rootView: item)
 
-            let swiftuiView = vc.view!
-//            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
-            
-            addSubview(swiftuiView)
-        }
-        
-        prepareForDisplay()
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForDisplay() {
-        super.prepareForDisplay()
-        displayPriority = .defaultLow
-    }
-}
 
-class UserLocationView: MKAnnotationView {
-    
-    static let ReuseID = "userLocation"
-    
-    /// setting the key for clustering annotations
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        
-        if let annotation = annotation as? MKUserLocation{
-            
-            let item = MapUserLocation(userLocation: annotation)
-            let vc = UIHostingController(rootView: item)
 
-            let swiftuiView = vc.view!
-//            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
-            
-            addSubview(swiftuiView)
-        }
-        
-        prepareForDisplay()
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForDisplay() {
-        super.prepareForDisplay()
-        displayPriority = .defaultHigh
-    }
-}
 
-class TransportAnnotationView: MKAnnotationView {
-    
-    static let ReuseID = "cultureAnnotation"
-    
-    /// setting the key for clustering annotations
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
-        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        
-        if let annotation = annotation as? TransportAnnotation{
-            if CustomMap.useSmallItems {
-                let item = MapItemSmall(transportAnnotation: TransportAnnotation(icon: annotation.icon, color: annotation.color, type: annotation.type, finish_stop: annotation.finish_stop, current_stop: annotation.current_stop, route: annotation.route, ts_id: annotation.ts_id, inPark: annotation.inPark, gosnumber: annotation.gosnumber, azimuth: annotation.azimuth, coordinate: annotation.coordinate))
-                let vc = UIHostingController(rootView: item)
-
-                let swiftuiView = vc.view!
-    //            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
-                
-                addSubview(swiftuiView)
-            }else{
-                let item = MapItem(transportAnnotation: TransportAnnotation(icon: annotation.icon, color: annotation.color, type: annotation.type, finish_stop: annotation.finish_stop, current_stop: annotation.current_stop, route: annotation.route, ts_id: annotation.ts_id, inPark: annotation.inPark, gosnumber: annotation.gosnumber, azimuth: annotation.azimuth, coordinate: annotation.coordinate))
-                let vc = UIHostingController(rootView: item)
-
-                let swiftuiView = vc.view!
-    //            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
-                
-                addSubview(swiftuiView)
-            }
-            
-        }
-        
-        prepareForDisplay()
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForDisplay() {
-        super.prepareForDisplay()
-        displayPriority = .defaultLow
-    }
-}

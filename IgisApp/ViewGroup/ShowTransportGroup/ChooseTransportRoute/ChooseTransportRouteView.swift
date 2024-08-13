@@ -41,7 +41,7 @@ struct ChooseTransportRouteView: View {
     func chooseHandler(number: String, type: TypeTransport){
         let routeId = DataBase.getRouteId(type: type, number: number)
         navigationStack.append(CurrentTransportSelectionView.showRouteOnline(routeId))
-        TransportGroupStackManager.shared.model.objectWillChange.send()
+        
     }
     
 }

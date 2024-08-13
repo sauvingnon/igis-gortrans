@@ -21,24 +21,31 @@ struct QuestionsView: View {
                 dismiss()
             }
             
-            Text("С помощью приложения можно посмотреть с мобильного телефона, где находится и во сколько придет нужный автобус, троллейбус или трамвай. \nДанные о местоположении транспорта представляют транспортно-пассажирские компании города Ижевска. \n\nЗдесь Вы найдте ответы на часто задаваемые вопросы и информацию о работе приложения.")
-                .padding(.horizontal, 20)
-                .fontWeight(.light)
-                .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
-                .padding(.vertical, 20)
-                .minimumScaleFactor(0.01)
-            
-            QuestionButton(text: DataBase.title3){
-                SettingsModel.setTitleDescription(title: DataBase.title3, description: DataBase.description3)
-                navigationStack.append(CurrentSettingsSelectionView.answers)
-            }
-            QuestionButton(text: DataBase.title2){
-                SettingsModel.setTitleDescription(title: DataBase.title2, description: DataBase.description2)
-                navigationStack.append(CurrentSettingsSelectionView.answers)
-            }
-            QuestionButton(text: DataBase.title1){
-                SettingsModel.setTitleDescription(title: DataBase.title1, description: DataBase.description1)
-                navigationStack.append(CurrentSettingsSelectionView.answers)
+            ScrollView{
+                Text("С помощью приложения можно посмотреть с мобильного телефона, где находится и во сколько придет нужный автобус, троллейбус или трамвай. \nДанные о местоположении транспорта представляют транспортно-пассажирские компании города Ижевска. \n\nЗдесь Вы найдте ответы на часто задаваемые вопросы и информацию о работе приложения.")
+                    .padding(.horizontal, 20)
+                    .fontWeight(.light)
+                    .foregroundColor(Color(red: 0.012, green: 0.306, blue: 0.635, opacity: 1))
+                    .padding(.vertical, 20)
+                    .minimumScaleFactor(0.01)
+                
+                QuestionButton(text: DataBase.title3){
+                    SettingsModel.setTitleDescription(title: DataBase.title3, description: DataBase.description3)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
+                }
+                QuestionButton(text: DataBase.title2){
+                    SettingsModel.setTitleDescription(title: DataBase.title2, description: DataBase.description2)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
+                }
+                QuestionButton(text: DataBase.title1){
+                    SettingsModel.setTitleDescription(title: DataBase.title1, description: DataBase.description1)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
+                }
+                
+                QuestionButton(text: DataBase.title4){
+                    SettingsModel.setTitleDescription(title: DataBase.title4, description: DataBase.description4)
+                    navigationStack.append(CurrentSettingsSelectionView.answers)
+                }
             }
             
             Spacer()

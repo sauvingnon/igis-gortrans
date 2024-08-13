@@ -13,29 +13,30 @@ struct ShowTransportUnitView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var navigationStack: NavigationPath
     
-    @ObservedObject var model = ShowTransportUnitModel()
-    private var viewModel: ShowTransportUnitViewModel!
+    @StateObject private var viewModel = ShowTransportUnitViewModel()
+    
+    private let transportId: String
     
     init(navigationStack: Binding<NavigationPath>, transportId: String){
+        debugPrint("Инициализирован ShowTransportUnitView")
         self._navigationStack = navigationStack
-        self.viewModel = ShowTransportUnitViewModel(model: model)
-        viewModel.configureView(transportId: transportId)
+        self.transportId = transportId
     }
     
     var body: some View {
         VStack{
-            LabelOfTransportUnit(transportUnitDescription: model.transportUnitDescription, handlerFunc: {
+            LabelOfTransportUnit(transportUnitDescription: viewModel.model.transportUnitDescription, handlerFunc: {
                 dismiss()
             })
             
-            if(model.showIndicator){
+            if(viewModel.model.showIndicator){
                 ProgressView()
             }
             
             ScrollView{
                 
                 HStack{
-                    Text("Маршрут \(model.routeNumber ?? "—")")
+                    Text("Маршрут \(viewModel.model.routeNumber ?? "—")")
                         .foregroundColor(.gray)
                         .kerning(1)
                         .padding(.horizontal, 10)
@@ -44,7 +45,7 @@ struct ShowTransportUnitView: View {
                 .padding(.horizontal, 20)
                 
                 HStack{
-                    Text("\(model.startStation ?? "") - \(model.endStation ?? "")")
+                    Text("\(viewModel.model.startStation ?? "") - \(viewModel.model.endStation ?? "")")
                         .foregroundColor(.gray)
                         .kerning(1)
                         .lineLimit(1)
@@ -59,14 +60,14 @@ struct ShowTransportUnitView: View {
                 
 //                ScrollView{
                     Grid(alignment: .trailing){
-                        ForEach(model.data) { item in
+                        ForEach(viewModel.model.data) { item in
                             GridRow{
                                 StopListRow(station: item, handlerTransportImageTapp: { transportId in
                                     navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportId ?? ""))
                                 }, handlerLabelStopTapp: { stopId in
                                     navigationStack.append(CurrentTransportSelectionView.showStopOnline(stopId ?? 0))
                                 }, handlerLabelTimeTapp: { time in
-                                    AppTabBarViewModel.shared.chooseTimeAlert(time: item.time, type: model.transportType, route: model.routeNumber ?? "-", stop: item.id)
+                                    AppTabBarViewModel.shared.chooseTimeAlert(time: item.time, type: viewModel.model.transportType, route: viewModel.model.routeNumber ?? "-", stop: item.id)
                                 })
                             }
                         }
@@ -90,7 +91,7 @@ struct ShowTransportUnitView: View {
                 
                 VStack{
                     HStack{
-                        Text("\(model.priceCash)₽ наличными")
+                        Text("\(viewModel.model.priceCash)₽ наличными")
                             .opacity(0.8)
                         Spacer()
                     }
@@ -99,7 +100,7 @@ struct ShowTransportUnitView: View {
                     .kerning(1)
                     
                     HStack{
-                        Text("\(model.priceCard)₽ банковской картой")
+                        Text("\(viewModel.model.priceCard)₽ банковской картой")
                             .opacity(0.8)
                         Spacer()
                     }
@@ -108,7 +109,7 @@ struct ShowTransportUnitView: View {
                     .kerning(1)
                     
                     HStack{
-                        Text("\(model.priceTransportCard)₽ транспортной картой")
+                        Text("\(viewModel.model.priceTransportCard)₽ транспортной картой")
                             .opacity(0.8)
                         Spacer()
                     }
@@ -134,7 +135,7 @@ struct ShowTransportUnitView: View {
                     Spacer()
                 }
                 
-                Map(coordinateRegion: $model.region, annotationItems: model.locations){ location in
+                Map(coordinateRegion: $viewModel.model.region, annotationItems: viewModel.model.locations){ location in
                     MapAnnotation(coordinate: location.coordinate){
                         MapItem(transportAnnotation: TransportAnnotation(icon: location.icon, color: location.color, type: location.type, finish_stop: location.finish_stop, current_stop: location.current_stop, route: location.route, ts_id: location.ts_id, inPark: location.inPark, gosnumber: location.gosnumber, azimuth: location.azimuth, coordinate: location.coordinate))
                     }
@@ -197,7 +198,7 @@ struct ShowTransportUnitView: View {
                         .padding(.vertical, 1)
                         .kerning(1)
                         HStack{
-                            Text("\(model.timeWord ?? "--:--")")
+                            Text("\(viewModel.model.timeWord ?? "--:--")")
                                 .opacity(0.8)
                             Spacer()
                         }
@@ -224,10 +225,15 @@ struct ShowTransportUnitView: View {
                 
                 Spacer()
             }
-            .opacity(model.opacity)
+            .opacity(viewModel.model.opacity)
         }
         .onAppear(){
+            viewModel.configureView(transportId: self.transportId)
+            
             viewModel.getTransportData()
+        }
+        .onDisappear(){
+            viewModel.eraseCallBack()
         }
     }
 }

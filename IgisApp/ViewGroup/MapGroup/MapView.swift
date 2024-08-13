@@ -24,7 +24,7 @@ struct MapView: View {
                         VStack{
                             Button(action: {
                                 model.hideBus.toggle()
-                                viewModel.reloadMap()
+                                viewModel.reloadTransportAnnotationsOnMap()
                             }, label: {
                                 Image("bus_icon_white")
                                     .resizable()
@@ -38,7 +38,7 @@ struct MapView: View {
                             .padding(10)
                             Button(action: {
                                 model.hideTrain.toggle()
-                                viewModel.reloadMap()
+                                viewModel.reloadTransportAnnotationsOnMap()
                             }, label: {
                                 Image("train_icon_white")
                                     .resizable()
@@ -52,7 +52,7 @@ struct MapView: View {
                             .padding(10)
                             Button(action: {
                                 model.hideTrolleybus.toggle()
-                                viewModel.reloadMap()
+                                viewModel.reloadTransportAnnotationsOnMap()
                             }, label: {
                                 Image("trolleybus_icon_white")
                                     .resizable()
@@ -66,7 +66,7 @@ struct MapView: View {
                             .padding(10)
                             Button(action: {
                                 model.hideCountrybus.toggle()
-                                viewModel.reloadMap()
+                                viewModel.reloadTransportAnnotationsOnMap()
                             }, label: {
                                 Image("bus_icon_white")
                                     .resizable()
@@ -80,7 +80,7 @@ struct MapView: View {
                             .padding(10)
                             Button(action: {
                                 model.onlyFavoritesTransport.toggle()
-                                viewModel.reloadMap()
+                                viewModel.reloadTransportAnnotationsOnMap()
                             }, label: {
                                 Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
                                     .resizable()
