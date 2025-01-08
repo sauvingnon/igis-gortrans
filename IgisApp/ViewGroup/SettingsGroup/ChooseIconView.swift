@@ -17,7 +17,7 @@ struct ChooseIconView: View {
     
     var body: some View {
         VStack(){
-            CustomBackLabel(text: "Изменить иконку"){
+            BackLabel(text: "Изменить иконку"){
                 dismiss()
             }
             

@@ -18,6 +18,7 @@ struct SelectTransportType: View {
             {
                 dismiss()
             }
+            
             HStack(){
                 Button {
                     ChooseTransportRouteViewModel.shared.configureView(type: .bus)
@@ -31,7 +32,7 @@ struct SelectTransportType: View {
                         Text("Автобусы")
                             .foregroundColor(Color.white)
                     }
-                    .frame(width: 150, height: 150)
+                    .frame(width: calculateSize(), height: calculateSize())
                     .background(.blue)
                     .cornerRadius(15)
                 }
@@ -47,7 +48,7 @@ struct SelectTransportType: View {
                         Text("Троллейбусы")
                             .foregroundColor(Color.white)
                     }
-                    .frame(width: 150, height: 150)
+                    .frame(width: calculateSize(), height: calculateSize())
                     .background(.blue)
                     .cornerRadius(15)
                 }
@@ -67,7 +68,7 @@ struct SelectTransportType: View {
                         Text("Трамваи")
                             .foregroundColor(Color.white)
                     }
-                    .frame(width: 150, height: 150)
+                    .frame(width: calculateSize(), height: calculateSize())
                     .background(.blue)
                     .cornerRadius(15)
                 }
@@ -84,7 +85,7 @@ struct SelectTransportType: View {
                         Text("Пригородные автобусы")
                             .foregroundColor(Color.white)
                     }
-                    .frame(width: 150, height: 150)
+                    .frame(width: calculateSize(), height: calculateSize())
                     .background(.blue)
                     .cornerRadius(15)
                 }
@@ -92,6 +93,11 @@ struct SelectTransportType: View {
             Spacer()
         }
     }
+    
+    private func calculateSize() -> CGFloat {
+        return (UIScreen.screenWidth - 60)/2
+    }
+    
 }
 
 struct SelectTransportType_Previews: PreviewProvider {

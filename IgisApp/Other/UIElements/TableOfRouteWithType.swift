@@ -35,7 +35,8 @@ struct TableOfRouteWithType: View {
                             .minimumScaleFactor(0.01)
                     }
                 }
-            }.padding(.horizontal, 20)
+            }
+            .padding(.horizontal, 20)
         }
     }
 }

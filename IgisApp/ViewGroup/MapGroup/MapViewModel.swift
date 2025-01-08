@@ -25,10 +25,19 @@ class MapViewModel {
     
     func getTransportCoordinate(){
         self.getEverythingData(city: "izh")
+        
+        FireBaseService.shared.mapWasOpened()
     }
     
     func centerRegionOnUserLocation(){
-        CustomMap.setRegionOnUserLocation()
+        
+        if(LocationManager.shared.statusString == "authorizedWhenInUse" || LocationManager.shared.statusString == "authorizedAlways"){
+            CustomMap.setRegionOnUserLocation()
+        }else{
+//            AppTabBarViewModel.shared.showAlert(title: "Уважаемый пользователь!", message: "Разрешите доступ к службам геолокации в настройках устройства.")
+            AppTabBarViewModel.shared.systemShowError(message: "Разрешите доступ к службам геолокации в настройках устройства")
+        }
+        
     }
     
     func fillLocations(obj: EverythingResponse) -> [TransportAnnotation]{
@@ -50,6 +59,18 @@ class MapViewModel {
                 
                 if(item_routeId != routeId){
                     continue;
+                }
+                
+            }
+            
+            if let selectedRouteId = model.selectedRouteId{
+                
+                let item_type = GeneralViewModel.getTransportTypeFromString(transport_type: item.ts_type)
+                
+                let item_routeId = DataBase.getRouteId(type: item_type, number: item.route)
+                
+                if(item_routeId != selectedRouteId){
+                    continue
                 }
                 
             }
@@ -178,15 +199,44 @@ class MapViewModel {
         }
     }
     
-    func selectTransportAnnotation(transportAnnotation: TransportAnnotation){
+    // Показать маршрут на карте
+    func selectRoute(routeId: Int){
         MapModel.shared.selectedStopAnnotation = nil
-        MapModel.shared.selectedTransportAnnotation = transportAnnotation
-        CustomMap.setRegion(region: MKCoordinateRegion(center: transportAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)))
+        MapModel.shared.selectedTransportAnnotation = nil
         
+        // Центровка карты примерно в центре города
+        CustomMap.setRegion(region: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 56.843599, longitude: 53.202824), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)))
+        
+        showRoute(routeId: routeId)
+        
+        let routeNumber = DataBase.getRouteNumber(routeId: routeId)
+        let type = DataBase.getTypeTransportFromId(routeId: routeId)
+        let name = GeneralViewModel.getName(type: type, number: routeNumber)
+        
+        if(MapModel.shared.sheetIsPresented){
+            withAnimation(.default, {
+                MapModel.shared.mainText = name
+                MapModel.shared.secondText = ""
+                MapModel.shared.thirdText = ""
+                MapModel.shared.selectedRouteId = routeId
+            })
+        }else{
+            MapModel.shared.mainText = name
+            MapModel.shared.secondText = ""
+            MapModel.shared.thirdText = ""
+            MapModel.shared.selectedRouteId = routeId
+            MapModel.shared.sheetIsPresented = true
+        }
+        
+        reloadTransportAnnotationsOnMap()
+
+    }
+    
+    // Отображение ломанной маршрута
+    func showRoute(routeId: Int){
         // Получение и отрисовка остановок этого маршрута на карте
         CustomMap.removeStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
         
-        let routeId = DataBase.getRouteId(type: transportAnnotation.type, number: transportAnnotation.route)
         let stops = DataBase.getStopsOfRoute(routeId: routeId)
         
         let filterStopAnnotations = MapModel.shared.stopAnnotations.filter { annotation in
@@ -219,6 +269,16 @@ class MapViewModel {
             
         }
         // На выходе надо цельную линию из всех линий по порядку
+    }
+    
+    // Отображение юнита транспорта на карте и ломанной его маршрута
+    func selectTransportAnnotation(transportAnnotation: TransportAnnotation){
+        MapModel.shared.selectedStopAnnotation = nil
+        MapModel.shared.selectedTransportAnnotation = transportAnnotation
+        CustomMap.setRegion(region: MKCoordinateRegion(center: transportAnnotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.015, longitudeDelta: 0.015)))
+        
+        let routeId = DataBase.getRouteId(type: transportAnnotation.type, number: transportAnnotation.route)
+        showRoute(routeId: routeId)
         
         if(MapModel.shared.sheetIsPresented){
             withAnimation(.default, {

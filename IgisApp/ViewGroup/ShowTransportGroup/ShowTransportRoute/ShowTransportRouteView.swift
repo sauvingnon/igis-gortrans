@@ -83,6 +83,20 @@ struct ShowTransportRouteView: View {
                         .padding(.horizontal, 20)
                         .padding(.bottom, 10)
                     }
+                    
+                    Button(action: {
+                        viewModel.showStopOnMap()
+                    }, label: {
+                        Text("Показать на карте")
+                            .fontWeight(.medium)
+                            .font(.system(size: 18))
+                            .kerning(0.7)
+                            .padding(8)
+                            .foregroundStyle(.white)
+                            .background(.blue)
+                            .cornerRadius(15)
+                    })
+                    
                 }.scrollIndicators(.hidden)
             }
             .onTapGesture {
@@ -125,7 +139,6 @@ struct ShowTransportRouteView: View {
     }
     
     func labelTimeTapped(stop: Stop){
-        
         AppTabBarViewModel.shared.chooseTimeAlert(time: stop.time, type: viewModel.model.type, route: viewModel.model.number, stop: stop.id)
     }
     

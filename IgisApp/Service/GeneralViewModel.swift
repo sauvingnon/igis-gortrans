@@ -151,6 +151,15 @@ class GeneralViewModel{
         return favorites
     }
     
+    static func favoritesIsExists() -> Bool{
+        guard let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int] else {
+            return false
+        }
+        
+        return favoritesArray.count != 0
+        
+    }
+    
     static func getFavoriteRouteId() -> [Int]{
         if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
             return favoritesArray

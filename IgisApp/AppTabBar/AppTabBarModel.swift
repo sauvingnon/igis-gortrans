@@ -20,6 +20,8 @@ class AppTabBarModel: ObservableObject{
     @Published var colorStatus = Color.red
     @Published var textStatus = "Ожидание подключения"
     @Published var hideTabBar = false
+    @Published var systemErrorMessage = ""
+    @Published var systemShowError = false
     
     var alert: CustomAlert?
     @Published var alertIsPresented = false

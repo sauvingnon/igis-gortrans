@@ -59,6 +59,12 @@ class MapModel: ObservableObject{
                     CustomMap.removeAllLines()
                     selectedStopAnnotation = nil
                 }
+                if let routeId = selectedRouteId{
+                    MapViewModel.shared.reloadTransportAnnotationsOnMap()
+                    CustomMap.reloadStopAnnotationsOnMap(rightNow: true)
+                    CustomMap.removeAllLines()
+                    selectedRouteId = nil
+                }
             }
         }
     }
@@ -67,6 +73,6 @@ class MapModel: ObservableObject{
     @Published var secondText = ""
     var selectedTransportAnnotation: TransportAnnotation?
     var selectedStopAnnotation: StopAnnotation?
-    
+    var selectedRouteId: Int?
     var alertAlreadyShow = false
 }

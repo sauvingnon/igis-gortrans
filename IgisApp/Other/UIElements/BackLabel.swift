@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomBackLabel: View {
+struct BackLabel: View {
     
     var text: String
     var handlerFunc: () -> ()
@@ -36,7 +36,7 @@ struct CustomBackLabel: View {
 }
 
 #Preview {
-    CustomBackLabel(text: "Что такое IGIS:Транспорт?"){
+    BackLabel(text: "Что такое IGIS:Транспорт?"){
         
     }
 }

@@ -43,6 +43,7 @@ struct MapItem: View {
             Text(transportAnnotation.route)
                 .padding(.horizontal, 5)
                 .background(.white)
+                .foregroundStyle(.black)
                 .cornerRadius(10)
                 .position(x: 120, y: 120)
                 .font(.system(size: 50))

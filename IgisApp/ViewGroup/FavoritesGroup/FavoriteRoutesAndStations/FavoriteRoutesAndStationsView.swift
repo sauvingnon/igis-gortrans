@@ -80,6 +80,9 @@ struct FavoriteRoutesAndStationsView: View {
                 
             }
         }
+        .onAppear(){
+            FireBaseService.shared.favoritePageWasOpened()
+        }
         .frame(width: UIScreen.screenWidth)
     }
     

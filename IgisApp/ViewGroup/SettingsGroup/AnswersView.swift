@@ -18,7 +18,7 @@ struct AnswersView: View {
     var body: some View {
         VStack{
             
-            CustomBackLabel(text: model.answerTitle){
+            BackLabel(text: model.answerTitle){
                 dismiss()
             }
             

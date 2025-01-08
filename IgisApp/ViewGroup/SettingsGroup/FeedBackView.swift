@@ -30,7 +30,7 @@ struct FeedBackView: View {
     var body: some View {
         VStack{
             
-            CustomBackLabel(text: "Обратная связь"){
+            BackLabel(text: "Обратная связь"){
                 dismiss()
             }
             
@@ -137,7 +137,7 @@ struct FeedBackView: View {
             let defaultUrl = URL(string: "mailto:\(recipientEmail)?subject=\(subjectEncoded)&body=\(bodyEncoded)")!
             UIApplication.shared.open(defaultUrl, options: [:], completionHandler: nil)
         } else {
-            AppTabBarViewModel.shared.showAlert(title: "Невозможно отправить сообщение", message: "На вашем устройстве не доступны службы отправки почтовых сообщений.")
+            AppTabBarViewModel.shared.showAlert(title: "Невозможно отправить сообщение", message: "На вашем устройстве не доступны службы отправки почтовых сообщений. Вы можете скопировать почтовый адрес вручную и направить обращение.")
         }
             
     }

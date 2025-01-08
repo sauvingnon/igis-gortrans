@@ -15,7 +15,7 @@ struct AboutAppView: View {
     @State var scale = 1.0
     var body: some View {
         VStack(){
-            CustomBackLabel(text: "О приложении"){
+            BackLabel(text: "О приложении"){
                 dismiss()
             }
             

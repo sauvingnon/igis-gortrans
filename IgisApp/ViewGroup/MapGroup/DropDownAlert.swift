@@ -15,7 +15,7 @@ struct DropDownAlert: View {
     
     var tapUnit: ()->()
     var tapRoute: ()->()
-    
+        
     var body: some View {
         ZStack{
             VStack{
@@ -29,6 +29,7 @@ struct DropDownAlert: View {
                 HStack{
                     Text(model.mainText)
                         .bold()
+                        .foregroundStyle(.black)
                     
                     Spacer()
                     
@@ -41,12 +42,13 @@ struct DropDownAlert: View {
                 
                 HStack{
                     Text(model.secondText)
+                        .foregroundStyle(.black)
                     Spacer()
-                    
                 }
                 
                 HStack{
                     Text(model.thirdText)
+                        .foregroundStyle(.black)
                     Spacer()
                 }
                 
@@ -64,17 +66,19 @@ struct DropDownAlert: View {
                 
                 HStack(alignment: .center){
                     Spacer()
-                    Button(action: {
-                        tapUnit()
-                    }, label: {
-                        Text("Подробнее")
-                            .padding(7)
-                            .bold()
-                            .foregroundStyle(.white)
-                            .background(.blue)
-                            .cornerRadius(10)
-                    })
-                    Spacer()
+                    if(model.selectedRouteId == nil){
+                        Button(action: {
+                            tapUnit()
+                        }, label: {
+                            Text("Подробнее")
+                                .padding(7)
+                                .bold()
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .cornerRadius(10)
+                            Spacer()
+                        })
+                    }
                     if(model.selectedStopAnnotation == nil){
                         Button(action: {
                             tapRoute()
@@ -86,8 +90,8 @@ struct DropDownAlert: View {
                                 .background(.blue)
                                 .cornerRadius(10)
                         })
-                        Spacer()
                     }
+                    Spacer()
                 }
                 .padding(.bottom, 30)
             }

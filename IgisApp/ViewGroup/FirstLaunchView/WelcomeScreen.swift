@@ -9,6 +9,9 @@ import SwiftUI
 
 struct WelcomeScreen: View {
     
+    @Environment(\.dismiss) var dismiss
+    @Binding var navigationStack: NavigationPath
+    
     var body: some View {
         VStack{
             
@@ -49,10 +52,7 @@ struct WelcomeScreen: View {
             Spacer()
             
             Button(action: {
-                withAnimation{
-                    AppTabBarModel.shared.firstLaunch = false
-                    UserDefaults.standard.set("1234567", forKey: "firstLaunch")
-                }
+                navigationStack.append(FirstLaunchSelectionView.needAccessToLocation)
             }, label: {
                 Text("Продолжить")
                     .padding(10)
@@ -70,6 +70,11 @@ struct WelcomeScreen: View {
     }
 }
 
-#Preview {
-    WelcomeScreen()
+struct WelcomeScreen_Preview: PreviewProvider {
+    
+    @State static var path = NavigationPath()
+    
+    static var previews: some View {
+        WelcomeScreen(navigationStack: $path)
+    }
 }

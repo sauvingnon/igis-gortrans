@@ -11,6 +11,9 @@ struct AppTabBarView: View {
     
     @ObservedObject private var model = AppTabBarModel.shared
     
+    @Environment(\.openURL) private var openURL
+    @Environment(\.dismiss) var dismiss
+    
     init(){
         GeneralViewModel.checkConnection()
         checkFirstLaunch()
@@ -57,6 +60,18 @@ struct AppTabBarView: View {
                 .background(model.colorStatus)
             }
         }
+        .alert(model.systemErrorMessage, isPresented: $model.systemShowError){
+            Button("Настройки") {
+                let settingsString = UIApplication.openSettingsURLString
+                if let settingsURL = URL (string: settingsString) {
+                    openURL(settingsURL)
+                }
+            }
+            
+            Button ("Отменить", role: .cancel) {
+                dismiss()
+            }
+        }
         .overlay{
             if(model.alertIsPresented){
                 model.alert
@@ -65,7 +80,7 @@ struct AppTabBarView: View {
             }else if(model.firstLaunch){
                 ZStack{
                     Color.white
-                    WelcomeScreen()
+                    FirstLaunchStackManager.shared
                 }
                 
             }
@@ -74,9 +89,10 @@ struct AppTabBarView: View {
     }
     
     func checkFirstLaunch(){
-        // Алерт о тестировании приложения
+        // Алерт о тестировании приложения и добавление в стек навигации экранов запроса доступа к геолокации и уведомлениям
         if(UserDefaults.standard.object(forKey: "firstLaunch") == nil){
-        model.firstLaunch.toggle()
+            model.firstLaunch.toggle()
+            FireBaseService.shared.firstLaunch()
         }
     }
     

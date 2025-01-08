@@ -22,7 +22,19 @@ class AppTabBarViewModel{
         }
     }
     
-    func chooseTimeAlert(time: String, type: TypeTransport, route: String,  stop: Int){
+    func systemShowError(message: String){
+        model.systemErrorMessage = message
+        model.systemShowError.toggle()
+    }
+    
+    func chooseTimeAlert(time: String, type: TypeTransport, route: String, stop: Int){
+        
+        let isGranted = ChatModel.shared.notificationAccessIsGrantedSync()
+        
+        if(!isGranted){
+            systemShowError(message: "Разрешите доступ к уведомлениям устройства в настройках")
+            return
+        }
         
         let nameTransport = GeneralViewModel.getName(type: type, number: route)
         

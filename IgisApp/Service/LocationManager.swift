@@ -10,19 +10,31 @@ import CoreLocation
 import Combine
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
+    public static let shared = LocationManager()
 
     private let locationManager = CLLocationManager()
     @Published var locationStatus: CLAuthorizationStatus?
     @Published var lastLocation: CLLocation?
 
-    override init() {
+    private override init() {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        requestLocationAccess()
+    }
+    
+    func requestLocationAccess(){
         locationManager.requestWhenInUseAuthorization()
+        locationStatus = locationManager.authorizationStatus
     }
     
     func startUpdating(){
+        if(locationStatus == .authorizedWhenInUse || locationStatus == .authorizedAlways){
+            
+        }else{
+            requestLocationAccess()
+        }
         locationManager.startUpdatingLocation()
     }
 

@@ -34,7 +34,7 @@ class ServiceSocket{
             debugPrint("Ошибка. Попытка подлючения с сокет-серверу до того, как был сформирован user-trace.")
             GeneralViewModel.checkTrace()
         }
-        self.manager = SocketManager(socketURL: URL(string: serverURL)!, config: [.log(false), .compress, .extraHeaders(
+        self.manager = SocketManager(socketURL: URL(string: serverURL)!, config: [.log(true), .compress, .extraHeaders(
             ["clbeicspz9cgfdpbrulh1vxlmmbzmvhy" : key,
              "language" : "ru",
              "city":"izh",

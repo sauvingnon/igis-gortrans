@@ -14,14 +14,6 @@ struct ChooseTransportRouteView: View {
     
     @ObservedObject var configuration = ChooseTransportRouteModel.shared
     
-    var columns: [GridItem] = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
-    
     var body: some View {
         VStack(){
             LabelIzhevsk(withBackButton: true, stack: $navigationStack)

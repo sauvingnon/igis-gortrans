@@ -18,8 +18,6 @@ class FindNearestStopsModel: ObservableObject {
         
     }
     
-    @Published var lockLocation = false
-    
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 56.843599,

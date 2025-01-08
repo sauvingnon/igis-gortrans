@@ -18,7 +18,7 @@ class FindNearestStopsViewModel {
     }
     
     private let model = FindNearestStopsModel.shared
-    private var locationManager = LocationManager()
+    private var locationManager = LocationManager.shared
     private var mapAlreadyCenter = false
     private var value: Int = 150
     // Каждые 10 секунд обновляем список остановок относительно геопозиции
@@ -38,6 +38,8 @@ class FindNearestStopsViewModel {
         
         locationManager.startUpdating()
         
+        FireBaseService.shared.nearestStopsWasOpened()
+        
         debugPrint("Начат поиск ближайших остановок.")
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
             self.timerFire()
@@ -45,24 +47,11 @@ class FindNearestStopsViewModel {
         mapAlreadyCenter = false
         getCurrentLocation()
         timer!.fire()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-            if(!self.locationManager.statusIsWork){
-                self.model.lockLocation = true
-            }else{
-                self.model.lockLocation = false
-            }
-        }
     }
     
     private func timerFire(){
         getNearestStops()
         debugPrint("Список ближайших остановок обновлен.")
-        if(!self.locationManager.statusIsWork){
-            self.model.lockLocation = true
-        }else{
-            self.model.lockLocation = false
-        }
     }
     
     func disConfigureView(){

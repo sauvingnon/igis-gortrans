@@ -17,7 +17,7 @@ struct QuestionsView: View {
     var body: some View {
         VStack{
             
-            CustomBackLabel(text: "Что такое IGIS:Транспорт?"){
+            BackLabel(text: "Что такое IGIS:Транспорт?"){
                 dismiss()
             }
             

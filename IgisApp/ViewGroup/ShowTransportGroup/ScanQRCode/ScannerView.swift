@@ -18,11 +18,6 @@ struct ScannerView: View {
     @State private var cameraPermission: Permission = .idle
     
     @State private var qrOutput: AVCaptureMetadataOutput = .init()
-    
-    @State private var errorMessage: String = ""
-    @State private var showError: Bool = false
-    @Environment (\.openURL) private var openURL
-    
     @StateObject private var qrDelegate = QRScannerDelegate()
     
     @State private var scannedCode: String = ""
@@ -99,20 +94,6 @@ struct ScannerView: View {
                 
         }
         .onAppear(perform: checkCameraPermission)
-        .alert(errorMessage, isPresented: $showError){
-            if cameraPermission == .denied {
-                Button("Настройки") {
-                    let settingsString = UIApplication.openSettingsURLString
-                    if let settingsURL = URL (string: settingsString) {
-                        openURL(settingsURL)
-                    }
-                }
-                
-                Button ("Отменить", role: .cancel) {
-                    dismiss()
-                }
-            }
-        }
         .onChange(of: qrDelegate.scannedCode){ newValue in
             if let code = newValue {
                 scannedCode = code
@@ -128,6 +109,8 @@ struct ScannerView: View {
     }
     
     func scanningSuccessful(scanText: String){
+        
+        FireBaseService.shared.scanWasSuccessful(transport_id: scanText)
    
         if(scanText.contains("https://igis-transport.ru/qr/")){
             
@@ -206,6 +189,9 @@ struct ScannerView: View {
     }
     
     func checkCameraPermission(){
+        
+        FireBaseService.shared.scannerQRWasOpened()
+        
         Task {
             switch AVCaptureDevice.authorizationStatus(for: .video) {
             case .authorized:
@@ -233,8 +219,7 @@ struct ScannerView: View {
     }
     
     func presentError(_ message: String){
-        errorMessage = message
-        showError.toggle()
+        AppTabBarViewModel.shared.systemShowError(message: message)
     }
 }
 

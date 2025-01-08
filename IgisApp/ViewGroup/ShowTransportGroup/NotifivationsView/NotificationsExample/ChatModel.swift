@@ -24,15 +24,75 @@ public class ChatModel : ObservableObject {
         realTimeMessages = getMessages()
     }
     
-    func sendMessage(currentMessage: Message, countTime: Double) {
-        saveMessage(message: currentMessage)
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-            if success {
-                print("Уведомление зарегестрировано")
-            } else if let error = error {
-                print(error.localizedDescription)
+    func notificationAccessIsGrantedSync() -> Bool {
+        let semaphore = DispatchSemaphore(value: 0)
+        var isGranted: Bool = false
+
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .authorized:
+                print("Доступ к уведомлениям разрешен")
+                isGranted = true
+            case .denied:
+                print("Доступ к уведомлениям запрещен")
+                isGranted = false
+            case .notDetermined:
+                center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                    if let error = error {
+                        print("Ошибка при запросе доступа к уведомлениям: (error.localizedDescription)")
+                        isGranted = false
+                    } else {
+                        isGranted = granted
+                        if granted {
+                            print("Доступ к уведомлениям разрешен")
+                        } else {
+                            print("Доступ к уведомлениям запрещен")
+                        }
+                    }
+                    semaphore.signal() // Сигнализируем о завершении асинхронной операции
+                }
+                return // Возвращаемся, чтобы не продолжать выполнение кода
+            case .provisional:
+                print("Предоставлен временный доступ к уведомлениям.")
+                isGranted = true
+            case .ephemeral:
+                print("Эпhemeral доступ к уведомлениям.")
+                isGranted = true
+            @unknown default:
+                print("Неизвестный статус доступа к уведомлениям.")
+                isGranted = false
             }
+            
+            semaphore.signal() // Сигнализируем о завершении асинхронной операции
         }
+
+        // Ожидаем завершения асинхронной операции
+        semaphore.wait()
+        
+        return isGranted
+    }
+    
+    func requestNotificationAccess() {
+           let center = UNUserNotificationCenter.current()
+           center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+               if let error = error {
+                   print("Ошибка при запросе доступа к уведомлениям: (error.localizedDescription)")
+               } else if granted {
+                   print("Доступ к уведомлениям разрешен")
+               } else {
+                   print("Доступ к уведомлениям запрещен")
+               }
+           }
+       }
+
+    
+    func sendMessage(currentMessage: Message, countTime: Double) {
+        
+        FireBaseService.shared.notificationWasUsed(text: currentMessage.content)
+        
+        saveMessage(message: currentMessage)
+        requestNotificationAccess()
         let content = UNMutableNotificationContent()
         content.title = "IGIS: Транспорт Ижевска"
         content.body = currentMessage.content

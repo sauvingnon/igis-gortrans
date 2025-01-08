@@ -19,7 +19,7 @@ struct CustomMap: UIViewRepresentable {
             latitudeDelta: 0.1,
             longitudeDelta: 0.1))
     
-    private static let locationManager = CLLocationManager()
+    public static let locationManager = CLLocationManager()
     
     private static var userLocation: CLLocation?
     
@@ -32,11 +32,9 @@ struct CustomMap: UIViewRepresentable {
         }
     }
     
-    public static var mapIsLoad = false
-    
     public static var showStops = false{
         willSet{
-            if(MapModel.shared.selectedTransportAnnotation != nil || MapModel.shared.selectedStopAnnotation != nil){
+            if(MapModel.shared.selectedTransportAnnotation != nil || MapModel.shared.selectedStopAnnotation != nil || MapModel.shared.selectedRouteId != nil){
                 return
             }
             if newValue != showStops{
@@ -184,7 +182,6 @@ struct CustomMap: UIViewRepresentable {
         CustomMap.Coordinator(self)
     }
     
-    
     func makeUIView(context: Context) -> MKMapView {
 
         ///  creating a map
@@ -206,8 +203,6 @@ struct CustomMap: UIViewRepresentable {
                 CustomMap.locationManager.startUpdatingLocation()
             }
         }
-        
-        CustomMap.mapIsLoad = true
         
         return CustomMap.map
     }

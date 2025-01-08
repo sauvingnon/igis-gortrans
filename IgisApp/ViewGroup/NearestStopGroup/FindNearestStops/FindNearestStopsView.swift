@@ -17,6 +17,8 @@ struct FindNearestStopsView: View {
     @ObservedObject private var model = FindNearestStopsModel.shared
     private let viewModel = FindNearestStopsViewModel.shared
     
+    @Environment(\.openURL) private var openURL
+    
     var columns: [GridItem] = [
         GridItem(.flexible())
     ]
@@ -61,7 +63,7 @@ struct FindNearestStopsView: View {
                 .padding(.horizontal, 20)
                 
                 
-                if(model.lockLocation){
+                if(LocationManager.shared.statusString != "authorizedWhenInUse" && LocationManager.shared.statusString != "authorizedAlways"){
                     VStack{
                         Spacer()
                         Text("Разрешите доступ приложения к службам геолокации в настройках устройства")
@@ -70,6 +72,23 @@ struct FindNearestStopsView: View {
                             .padding(.horizontal, 20)
                             .minimumScaleFactor(0.01)
                             .multilineTextAlignment(.center)
+                        
+                        Button(action: {
+                            let settingsString = UIApplication.openSettingsURLString
+                            if let settingsURL = URL (string: settingsString) {
+                                openURL(settingsURL)
+                            }
+                        }){
+                            Text("Открыть настройки")
+                                .fontWeight(.light)
+                                .font(.system(size: 18))
+                                .kerning(0.7)
+                                .padding(8)
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .cornerRadius(15)
+                        }
+                        
                         Spacer()
                     }
                     
@@ -77,7 +96,7 @@ struct FindNearestStopsView: View {
                     if(model.stopsList.count == 0){
                         VStack{
                             Spacer()
-                            Text("Ближайших остановок в радиусе \(viewModel.nearestValue) м. не найдено. Измените радиус поиска в настроках приложения.")
+                            Text("Ближайших остановок в радиусе \(viewModel.nearestValue) м. не найдено. Измените радиус поиска в настройках приложения.")
                                 .foregroundColor(.blue)
                                 .font(.system(size: 20))
                                 .padding(.horizontal, 20)

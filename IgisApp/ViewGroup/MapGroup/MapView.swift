@@ -21,6 +21,15 @@ struct MapView: View {
                 .ignoresSafeArea()
                 .overlay{
                     ZStack{
+//                        Button(action: {
+//                            
+//                        }, label: {
+//                            Image(systemName: "magnifyingglass")
+//                                .padding(10)
+//                                .background(Color.white.opacity(0.7))
+//                                .cornerRadius(50)
+//                        })
+//                        .position(x: UIScreen.screenWidth-30, y: UIScreen.screenHeight/2-330)
                         VStack{
                             Button(action: {
                                 model.hideBus.toggle()
@@ -79,8 +88,12 @@ struct MapView: View {
                             })
                             .padding(10)
                             Button(action: {
-                                model.onlyFavoritesTransport.toggle()
-                                viewModel.reloadTransportAnnotationsOnMap()
+                                if GeneralViewModel.favoritesIsExists() {
+                                    model.onlyFavoritesTransport.toggle()
+                                    viewModel.reloadTransportAnnotationsOnMap()
+                                }else{
+                                    AppTabBarViewModel.shared.showAlert(title: "Нет избранных", message: "Карта не может быть отфильтрована по избранным маршрутам, так как избраненные маршруты не были добавлены ранее.")
+                                }
                             }, label: {
                                 Image(systemName: model.onlyFavoritesTransport ? "star.fill" : "star")
                                     .resizable()
@@ -122,12 +135,14 @@ struct MapView: View {
                     let route_id = DataBase.getRouteId(type: annotation.type, number: annotation.route)
                     navigationStack.append(CurrentTransportSelectionView.showRouteOnline(route_id))
                 }
+                if let routeId = model.selectedRouteId{
+                    navigationStack.append(CurrentTransportSelectionView.showRouteOnline(routeId))
+                }
             })
         }
         .onAppear{
             viewModel.getTransportCoordinate()
         }
-        
     }
 }
 

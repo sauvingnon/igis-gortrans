@@ -151,6 +151,8 @@ class ShowTransportUnitViewModel: ObservableObject{
             self.model.transportUnitDescription = "\(typeString)"
         }
         
+        FireBaseService.shared.showUnitViewOpened(name: self.model.transportUnitDescription)
+        
         self.showData()
         
     }

@@ -16,6 +16,16 @@ class ShowTransportRouteViewModel: ObservableObject{
     init(){
         debugPrint("Инициализирован ShowTransportRouteViewModel")
     }
+    
+    func showStopOnMap(){
+        
+        MapGroupStackManager.shared.clearNavigationStack()
+        AppTabBarViewModel.shared.showPage(tab: .map)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+            MapViewModel.shared.selectRoute(routeId: self.model.routeId)
+        })
+    }
 
     func getRouteData(){
         let queue = DispatchQueue.global(qos: .default)
@@ -135,6 +145,8 @@ class ShowTransportRouteViewModel: ObservableObject{
         self.model.routeId = routeId
         model.isFavorite = GeneralViewModel.isFavoriteRoute(routeId: routeId)
         model.number = route
+        
+        FireBaseService.shared.showRouteViewOpened(name: model.name)
         
 //        fillMenu()
 //        presentRoute()
