@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct FavoriteRoutesAndStationsView: View {
+struct FavoriteRoutesAndStopsView: View {
     
-    @ObservedObject var model = FavoritesRoutesAndStationsModel.shared
+    @ObservedObject var model = FavoritesRoutesAndStopsModel.shared
     @ObservedObject var tabBar = AppTabBarModel.shared
     @Binding var navigationStack: NavigationPath
     
@@ -106,7 +106,7 @@ struct FavoritesView_Previews: PreviewProvider {
     @State static var stack = NavigationPath()
     
     static var previews: some View {
-        FavoriteRoutesAndStationsView(navigationStack: $stack)
+        FavoriteRoutesAndStopsView(navigationStack: $stack)
     }
 }
 

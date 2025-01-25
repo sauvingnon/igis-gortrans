@@ -23,11 +23,11 @@ struct FavoritesGroupStackManager: View {
     
     var body: some View {
         NavigationStack(path: $model.navigationStack){
-            FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+            FavoriteRoutesAndStopsView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
                     case .showFavoriteItems:
-                        FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+                        FavoriteRoutesAndStopsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showStopOnline(let stopId):
                         ShowTransportStopView(navigationStack: $model.navigationStack, stopId: stopId)
@@ -45,7 +45,7 @@ struct FavoritesGroupStackManager: View {
                         NotificationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     default:
-                        FavoriteRoutesAndStationsView(navigationStack: $model.navigationStack)
+                        FavoriteRoutesAndStopsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }

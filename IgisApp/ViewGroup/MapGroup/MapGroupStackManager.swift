@@ -27,7 +27,7 @@ struct MapGroupStackManager: View {
             MapView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
-                    case .chooseRouteOrStation:
+                    case .chooseRouteOrStop:
                         MapView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .showRouteOnline(let routeId):

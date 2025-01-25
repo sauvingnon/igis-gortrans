@@ -45,7 +45,7 @@ struct ShowTransportUnitView: View {
                 .padding(.horizontal, 20)
                 
                 HStack{
-                    Text("\(viewModel.model.startStation ?? "") - \(viewModel.model.endStation ?? "")")
+                    Text("\(viewModel.model.startStop ?? "") - \(viewModel.model.endStop ?? "")")
                         .foregroundColor(.gray)
                         .kerning(1)
                         .lineLimit(1)
@@ -62,7 +62,7 @@ struct ShowTransportUnitView: View {
                     Grid(alignment: .trailing){
                         ForEach(viewModel.model.data) { item in
                             GridRow{
-                                StopListRow(station: item, handlerTransportImageTapp: { transportId in
+                                StopListRow(stop: item, handlerTransportImageTapp: { transportId in
                                     navigationStack.append(CurrentTransportSelectionView.showTransportUnit(transportId ?? ""))
                                 }, handlerLabelStopTapp: { stopId in
                                     navigationStack.append(CurrentTransportSelectionView.showStopOnline(stopId ?? 0))

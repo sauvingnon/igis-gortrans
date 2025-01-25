@@ -9,7 +9,9 @@ import Foundation
 import MapKit
 import SwiftUI
 
-class StopAnnotation: NSObject, MKAnnotation, Identifiable {
+class StopAnnotation: NSObject, MKAnnotation, Identifiable, CustomAnnotation {
+    var priority: Int
+    
     let id = UUID()
     let letter: String
     let stop_id: Int
@@ -21,7 +23,7 @@ class StopAnnotation: NSObject, MKAnnotation, Identifiable {
     let coordinate: CLLocationCoordinate2D
     let stop_demand: Int?
     
-    init(stop_id: Int, stop_name: String?, stop_name_short: String?, color: Color, stop_direction: String?, stop_types: [TypeTransport], coordinate: CLLocationCoordinate2D, stop_demand: Int?, letter: String) {
+    init(stop_id: Int, stop_name: String?, stop_name_short: String?, color: Color, stop_direction: String?, stop_types: [TypeTransport], coordinate: CLLocationCoordinate2D, stop_demand: Int?, letter: String, priority: Int = 0) {
         self.stop_id = stop_id
         self.stop_name = stop_name
         self.stop_name_short = stop_name_short
@@ -31,5 +33,6 @@ class StopAnnotation: NSObject, MKAnnotation, Identifiable {
         self.coordinate = coordinate
         self.stop_demand = stop_demand
         self.letter = letter
+        self.priority = priority
     }
 }

@@ -9,7 +9,8 @@ import Foundation
 import MapKit
 import SwiftUI
 
-class TransportAnnotation: NSObject, MKAnnotation, Identifiable {
+class TransportAnnotation: NSObject, MKAnnotation, Identifiable, CustomAnnotation {
+    var priority: Int
     let id = UUID()
     let icon: String
     let color: Color
@@ -22,7 +23,7 @@ class TransportAnnotation: NSObject, MKAnnotation, Identifiable {
     let gosnumber: String
     let azimuth: Int
     let coordinate: CLLocationCoordinate2D
-    init(icon: String, color: Color, type: TypeTransport, finish_stop: String, current_stop: String, route: String, ts_id: String, inPark: Bool, gosnumber: String, azimuth: Int, coordinate: CLLocationCoordinate2D) {
+    init(icon: String, color: Color, type: TypeTransport, finish_stop: String, current_stop: String, route: String, ts_id: String, inPark: Bool, gosnumber: String, azimuth: Int, coordinate: CLLocationCoordinate2D, priority: Int = 1) {
         self.icon = icon
         self.color = color
         self.type = type
@@ -34,5 +35,6 @@ class TransportAnnotation: NSObject, MKAnnotation, Identifiable {
         self.gosnumber = gosnumber
         self.azimuth = azimuth
         self.coordinate = coordinate
+        self.priority = priority
     }
 }

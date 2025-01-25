@@ -125,12 +125,12 @@ class GeneralViewModel{
     }
     
     
-    static func getFavoriteRouteData() -> [FavoritesRoutesAndStationsModel.FavoriteRoute]{
-        var favorites: [FavoritesRoutesAndStationsModel.FavoriteRoute] = []
-        favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .trolleybus, numbers: []))
-        favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .train, numbers: []))
-        favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .bus, numbers: []))
-        favorites.append(FavoritesRoutesAndStationsModel.FavoriteRoute(type: .countrybus, numbers: []))
+    static func getFavoriteRouteData() -> [FavoritesRoutesAndStopsModel.FavoriteRoute]{
+        var favorites: [FavoritesRoutesAndStopsModel.FavoriteRoute] = []
+        favorites.append(FavoritesRoutesAndStopsModel.FavoriteRoute(type: .trolleybus, numbers: []))
+        favorites.append(FavoritesRoutesAndStopsModel.FavoriteRoute(type: .train, numbers: []))
+        favorites.append(FavoritesRoutesAndStopsModel.FavoriteRoute(type: .bus, numbers: []))
+        favorites.append(FavoritesRoutesAndStopsModel.FavoriteRoute(type: .countrybus, numbers: []))
         if let favoritesArray = UserDefaults.standard.array(forKey: "FavoriteRoutes") as? [Int]{
             favoritesArray.forEach { routeId in
                 
@@ -327,15 +327,15 @@ enum TypeTransport: Int {
     case countrybus = 5
 }
 
-enum StationState{
-    case startStation
-    case someStation
-    case endStation
+enum StopState{
+    case startStop
+    case someStop
+    case endStop
 }
 
 struct Direction{
-    let startStation: Int
-    let endStation: Int
+    let startStop: Int
+    let endStop: Int
 }
 
 

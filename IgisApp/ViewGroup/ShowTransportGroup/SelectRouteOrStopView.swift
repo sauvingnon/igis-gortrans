@@ -1,5 +1,5 @@
 //
-//  SelectRouteOrStationView.swift
+//  SelectRouteOrStopView.swift
 //  IgisApp
 //
 //  Created by Гриша Шкробов on 09.02.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectRouteOrStationView: View {
+struct SelectRouteOrStopView: View {
     
     @Binding var navigationStack: NavigationPath
     @ObservedObject var dateTime = DateTime()
@@ -87,12 +87,12 @@ struct SelectRouteOrStationView: View {
     
 }
 
-struct SelectRouteOrStationView_Previews: PreviewProvider {
+struct SelectRouteOrStopView_Previews: PreviewProvider {
     
     @State static var stack = NavigationPath()
     
     static var previews: some View {
-        SelectRouteOrStationView(navigationStack: $stack)
+        SelectRouteOrStopView(navigationStack: $stack)
     }
 }
 

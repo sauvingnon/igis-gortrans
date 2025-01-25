@@ -35,7 +35,7 @@ struct ShowTransportRouteView: View {
                 })
                 
                 CustomMenu(menu: viewModel.model.menu, isMenuOpen: $isMenuOpen, tappHandler: { item in
-                    let newDirection = Direction(startStation: item.startStopId, endStation: item.endStopId)
+                    let newDirection = Direction(startStop: item.startStopId, endStop: item.endStopId)
                     
                     viewModel.model.direction = newDirection
                     
@@ -47,7 +47,7 @@ struct ShowTransportRouteView: View {
                     Grid(alignment: .trailing){
                         ForEach(viewModel.model.data) { item in
                             GridRow{
-                                StopListRow(station: item, handlerTransportImageTapp: imageTransportTapped, handlerLabelStopTapp: labelStopTapped, handlerLabelTimeTapp: labelTimeTapped)
+                                StopListRow(stop: item, handlerTransportImageTapp: imageTransportTapped, handlerLabelStopTapp: labelStopTapped, handlerLabelTimeTapp: labelTimeTapped)
                             }
                         }
                     }

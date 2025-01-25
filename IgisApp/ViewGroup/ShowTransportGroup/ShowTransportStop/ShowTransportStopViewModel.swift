@@ -40,10 +40,10 @@ class ShowTransportStopViewModel: ObservableObject {
         }else{
             UserDefaults.standard.set([model.stopId], forKey: "FavoriteStops")
         }
-        FavoritesRoutesAndStationsModel.shared.favoriteStops = GeneralViewModel.getFavoriteStopData()
+        FavoritesRoutesAndStopsModel.shared.favoriteStops = GeneralViewModel.getFavoriteStopData()
     }
     
-    func clearStationView(){
+    func clearStopView(){
         DispatchQueue.main.async {
             self.model.opacity = 0
             self.model.buses.removeAll()
@@ -68,14 +68,14 @@ class ShowTransportStopViewModel: ObservableObject {
         })
     }
     
-    func getStationData(){
+    func getStopData(){
         let queue = DispatchQueue.global(qos: .default)
         queue.async {
-            self.clearStationView()
+            self.clearStopView()
             while(ServiceSocket.status != .connected){
                 
             }
-            if let object = try? MessagePackEncoder().encode(StationRequest(stop_id: self.model.stopId)){
+            if let object = try? MessagePackEncoder().encode(StopRequest(stop_id: self.model.stopId)){
                 ServiceSocket.shared.emitOn(event: "cliSerSubscribeTo", items: object, callback: self.updateStaionScreen)
                 debugPrint("Запрос к серверу на получение прогноза остановки транспорта.")
             }else{
@@ -91,7 +91,7 @@ class ShowTransportStopViewModel: ObservableObject {
         self.model.isFavorite = GeneralViewModel.isFavoriteStop(stopId: stop_id)
         
         FireBaseService.shared.showStopViewOpened(name: self.model.name)
-//        self.getStationData()
+//        self.getStopData()
     }
     
     func disconfigureView(){
@@ -112,8 +112,8 @@ class ShowTransportStopViewModel: ObservableObject {
     
     func updateStaionScreen(data: Data){
         
-        guard let obj = try? MessagePackDecoder().decode(StationResponse.self, from: data)else {
-            debugPrint("Ошибка при декодировании объекта StationResponse \(Date.now)")
+        guard let obj = try? MessagePackDecoder().decode(StopResponse.self, from: data)else {
+            debugPrint("Ошибка при декодировании объекта StopResponse \(Date.now)")
             if(model.showIndicator){
                 showAlertBadResponse()
             }
@@ -128,14 +128,14 @@ class ShowTransportStopViewModel: ObservableObject {
             var buses: [TransportWaiter] = []
             obj.data.citybus.forEach { item in
                 
-//                buses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .bus, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
+//                buses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .bus, endStopName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
                 
                 buses.append(
                     TransportWaiter(
                         transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id),
                         routeId: item.route.id,
                         type: .bus,
-                        endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0),
+                        endStopName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0),
                         stopId: item.finish.first?.stop.id ?? 0,
                         time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: -1)
                     )
@@ -150,14 +150,14 @@ class ShowTransportStopViewModel: ObservableObject {
             var countryBuses: [TransportWaiter] = []
             obj.data.suburbanbus.forEach { item in
                 
-//                countryBuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .countrybus, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
+//                countryBuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .countrybus, endStopName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
                 
                 countryBuses.append(
                     TransportWaiter(
                         transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id),
                         routeId: item.route.id,
                         type: .countrybus,
-                        endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0),
+                        endStopName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0),
                         stopId: item.finish.first?.stop.id ?? 0,
                         time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: -1)
                     )
@@ -172,7 +172,9 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.tram.isEmpty){
             var trains: [TransportWaiter] = []
             obj.data.tram.forEach { item in
-                trains.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .train, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
+                if item.route.notwork == nil || item.route.notwork == "online" {
+                    trains.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .train, endStopName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
+                }
             }
             DispatchQueue.main.async {
                 self.model.trains = trains
@@ -182,7 +184,9 @@ class ShowTransportStopViewModel: ObservableObject {
         if(!obj.data.trolleybus.isEmpty){
             var trolleybuses: [TransportWaiter] = []
             obj.data.trolleybus.forEach { item in
-                trolleybuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .trolleybus, endStationName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
+                if item.route.notwork == nil || item.route.notwork == "online" {
+                    trolleybuses.append(TransportWaiter(transportNumber: DataBase.getRouteNumberForFetch(routeId: item.route.id), routeId: item.route.id, type: .trolleybus, endStopName: DataBase.getStopName(stopId: item.finish.first?.stop.id ?? 0), stopId: item.finish.first?.stop.id ?? 0, time: GeneralViewModel.getTimeToArrivalInMinWithoutLetters(sec: item.finish.first?.sec ?? -1)))
+                }
             }
             DispatchQueue.main.async {
                 self.model.trolleybuses = trolleybuses

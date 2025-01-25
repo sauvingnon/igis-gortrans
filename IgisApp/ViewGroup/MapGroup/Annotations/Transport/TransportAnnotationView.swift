@@ -24,6 +24,7 @@ class TransportAnnotationView: MKAnnotationView {
 
                 let swiftuiView = vc.view!
     //            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
+                swiftuiView.layer.zPosition = 0
                 
                 addSubview(swiftuiView)
             }else{
@@ -32,6 +33,7 @@ class TransportAnnotationView: MKAnnotationView {
 
                 let swiftuiView = vc.view!
     //            swiftuiView.translatesAutoresizingMaskIntoConstraints = false
+                swiftuiView.layer.zPosition = 0
                 
                 addSubview(swiftuiView)
             }

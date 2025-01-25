@@ -23,11 +23,11 @@ struct TransportGroupStackManager: View {
     
     var body: some View {
         NavigationStack(path: $model.navigationStack){
-            SelectRouteOrStationView(navigationStack: $model.navigationStack)
+            SelectRouteOrStopView(navigationStack: $model.navigationStack)
                 .navigationDestination(for: CurrentTransportSelectionView.self){ selectionView in
                     switch(selectionView){
-                    case .chooseRouteOrStation:
-                        SelectRouteOrStationView(navigationStack: $model.navigationStack)
+                    case .chooseRouteOrStop:
+                        SelectRouteOrStopView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     case .chooseTypeTransport:
                         SelectTransportType(navigationStack: $model.navigationStack)
@@ -54,7 +54,7 @@ struct TransportGroupStackManager: View {
                         NotificationsView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     default:
-                        SelectRouteOrStationView(navigationStack: $model.navigationStack)
+                        SelectRouteOrStopView(navigationStack: $model.navigationStack)
                             .navigationBarBackButtonHidden(true)
                     }
                 }
@@ -76,7 +76,7 @@ struct TransportGroupSelector_Preview: PreviewProvider {
 
 enum CurrentTransportSelectionView: Hashable{
     case showFavoriteItems
-    case chooseRouteOrStation
+    case chooseRouteOrStop
     case chooseTypeTransport
     case chooseNumberTransport
     case showRouteOnline(Int)

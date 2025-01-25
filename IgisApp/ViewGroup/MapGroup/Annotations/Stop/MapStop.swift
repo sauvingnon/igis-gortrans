@@ -31,5 +31,5 @@ struct MapStop: View {
 }
 
 #Preview {
-    MapStop(stopAnnotation: StopAnnotation(stop_id: 0, stop_name: "улица Леваневского", stop_name_short: "ул. Леваневского", color: .blue, stop_direction: "", stop_types: [.bus, .trolleybus], coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0), stop_demand: 0, letter: "AT"))
+    MapStop(stopAnnotation: StopAnnotation(stop_id: 0, stop_name: "улица Леваневского", stop_name_short: "ул. Леваневского", color: .blue, stop_direction: "", stop_types: [.bus, .trolleybus], coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0), stop_demand: 0, letter: "AT", priority: 0))
 }

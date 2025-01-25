@@ -126,6 +126,7 @@ struct CustomMap: UIViewRepresentable {
             }else{
                 appendStopsAnnotation(stopAnnotations: MapModel.shared.stopAnnotations)
             }
+            return
         }
         
         if(map.region.span.longitudeDelta > 0.01 || map.region.span.latitudeDelta > 0.01){

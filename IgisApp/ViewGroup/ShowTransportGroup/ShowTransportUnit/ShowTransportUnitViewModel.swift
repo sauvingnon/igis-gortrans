@@ -70,8 +70,8 @@ class ShowTransportUnitViewModel: ObservableObject{
     
     func updateTransportScreen(data: Data) {
         
-        guard let obj = try? MessagePackDecoder().decode(TransportResponse.self, from: data)else {
-            debugPrint("Ошибка при декодировании объекта TransportResponse \(Date.now)")
+        guard let obj = try? MessagePackDecoder().decode(UnitResponse.self, from: data)else {
+            debugPrint("Ошибка при декодировании объекта UnitResponse \(Date.now)")
             if(model.showIndicator){
                 showAlertBadResponse()
             }
@@ -80,32 +80,70 @@ class ShowTransportUnitViewModel: ObservableObject{
         
         debugPrint("был получен прогноз транспорта \(Date.now)")
         
-        
         self.model.data.removeAll()
        
-        var firstStationState = false
-        var stationState = StationState.someStation
-        var counter = 1
+        var firstStopState = false
+        var stopState = StopState.someStop
+        var nextStopNeedPicture = false
         
-        obj.data.ts_stops.forEach { ts_stop in
-            if(ts_stop.finish == 0){
-                stationState = .someStation
+        let type = GeneralViewModel.getTransportTypeFromString(transport_type: obj.data.ts_type)
+        
+        self.model.transportType = type
+        
+        let typeString = self.getName(type: type)
+        
+        if(!obj.data.gosnumber.isEmpty){
+            if(obj.data.gosnumber.first!.isLetter){
+                self.model.transportUnitDescription = "\(typeString) \(obj.data.gosnumber)"
             }else{
-                if(firstStationState){
-                    stationState = .endStation
+                self.model.transportUnitDescription = "\(typeString) №\(obj.data.gosnumber)"
+            }
+        }else{
+            self.model.transportUnitDescription = "\(typeString)"
+        }
+        
+        for index in 0..<obj.data.ts_stops.count {
+            
+            let ts_stop = obj.data.ts_stops[index]
+            
+            if(ts_stop.finish == 0){
+                stopState = .someStop
+            }else{
+                if(firstStopState){
+                    stopState = .endStop
                 }else{
-                    stationState = .startStation
-                    firstStationState = true
+                    stopState = .startStop
+                    firstStopState = true
                 }
             }
-            self.model.data.append(Stop(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stationState: stationState, pictureTs: "", time: "-", withArrow: (counter % 4 == 0)))
             
-            counter += 1
+            var time = ""
+            var pictureTs = ""
+            
+            switch (ts_stop.prediction){
+            case .int(let integer):
+                time = GeneralViewModel.getTimeToArrivalInMin(sec: integer)
+                if(nextStopNeedPicture){
+                    pictureTs = GeneralViewModel.getPictureTransportColor(type: obj.data.ts_type)
+                    nextStopNeedPicture.toggle()
+                }
+            case .string(let string):
+                if(string == "go"){
+                    time = "-"
+                    nextStopNeedPicture.toggle()
+                }else if(string == "current"){
+                    pictureTs = GeneralViewModel.getPictureTransportColor(type: obj.data.ts_type)
+                }else{
+                    time = "-"
+                }
+            }
+            
+            self.model.data.append(Stop(id: ts_stop.id, name: DataBase.getStopName(stopId: ts_stop.id), stopState: stopState, pictureTs: pictureTs, time: time, withArrow: (index+1 % 4 == 0)))
             
         }
         
-        self.model.startStation = DataBase.getStopName(stopId: obj.data.ts_stops.first?.id ?? 0)
-        self.model.endStation = DataBase.getStopName(stopId: obj.data.ts_stops.last?.id ?? 0)
+        self.model.startStop = DataBase.getStopName(stopId: obj.data.ts_stops.first?.id ?? 0)
+        self.model.endStop = DataBase.getStopName(stopId: obj.data.ts_stops.last?.id ?? 0)
         
         self.model.locations.removeAll()
         
@@ -134,22 +172,6 @@ class ShowTransportUnitViewModel: ObservableObject{
         }
         
         self.model.timeWord = obj.data.time_reys
-        
-        let type = GeneralViewModel.getTransportTypeFromString(transport_type: obj.data.ts_type)
-        
-        self.model.transportType = type
-        
-        let typeString = self.getName(type: type)
-        
-        if(!obj.data.gosnumber.isEmpty){
-            if(obj.data.gosnumber.first!.isLetter){
-                self.model.transportUnitDescription = "\(typeString) \(obj.data.gosnumber)"
-            }else{
-                self.model.transportUnitDescription = "\(typeString) №\(obj.data.gosnumber)"
-            }
-        }else{
-            self.model.transportUnitDescription = "\(typeString)"
-        }
         
         FireBaseService.shared.showUnitViewOpened(name: self.model.transportUnitDescription)
         

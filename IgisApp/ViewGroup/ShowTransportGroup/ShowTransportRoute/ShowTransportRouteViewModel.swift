@@ -62,7 +62,7 @@ class ShowTransportRouteViewModel: ObservableObject{
                 let firstDirection = allSubroutesThisRoute.first?.subroute_stops
                 
                 if let direction = direction{
-                    self.model.menu.currentStop = MenuItem(startStopId: direction.startStation, endStopId: direction.endStation, offset: 0)
+                    self.model.menu.currentStop = MenuItem(startStopId: direction.startStop, endStopId: direction.endStop, offset: 0)
                 }else{
                     self.model.menu.currentStop = MenuItem(startStopId: firstDirection?.first ?? 0, endStopId: firstDirection?.last ?? 0, offset: 0)
                 }
@@ -84,7 +84,7 @@ class ShowTransportRouteViewModel: ObservableObject{
             if direction != nil{
                 // Получим то направление, которое удовлетворяет нашему условию
                 stopsOfRoute = allSubroutesThisRoute.first(where: { item in
-                    item.subroute_stops.first == direction?.startStation && item.subroute_stops.last == direction?.endStation
+                    item.subroute_stops.first == direction?.startStop && item.subroute_stops.last == direction?.endStop
                 })?.subroute_stops ?? []
             }else{
                 // Иначе отобразим приоритетное направление маршрута, это то у которого subroute_main = 1
@@ -98,16 +98,16 @@ class ShowTransportRouteViewModel: ObservableObject{
         model.data.removeAll()
         
         // Заполнение вью полученным направлением - массивом остановок
-        var stationState = StationState.startStation
+        var stopState = StopState.startStop
         var counter = 1
         
         stopsOfRoute.forEach { stopId in
-            if(stopId == stopsOfRoute.last) { stationState = .endStation }
+            if(stopId == stopsOfRoute.last) { stopState = .endStop }
             withAnimation {
-                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stationState: stationState, pictureTs: "", time: "—", withArrow: (counter % 4 == 0)))
+                model.data.append(Stop(id: stopId, name: DataBase.getStopName(stopId: stopId), stopState: stopState, pictureTs: "", time: "—", withArrow: (counter % 4 == 0)))
                 self.objectWillChange.send()
             }
-            stationState = .someStation
+            stopState = .someStop
             
             counter += 1
         }
@@ -132,7 +132,7 @@ class ShowTransportRouteViewModel: ObservableObject{
         }else{
             UserDefaults.standard.set([model.routeId], forKey: "FavoriteRoutes")
         }
-        FavoritesRoutesAndStationsModel.shared.favoriteRoutes = GeneralViewModel.getFavoriteRouteData()
+        FavoritesRoutesAndStopsModel.shared.favoriteRoutes = GeneralViewModel.getFavoriteRouteData()
     }
     
     func configureView(routeId: Int){
@@ -205,18 +205,18 @@ class ShowTransportRouteViewModel: ObservableObject{
         var counter = 1
         
         // Перебор всех остановок
-        self.model.data.forEach({ stationView in
+        self.model.data.forEach({ stopView in
             
-            if let findStation = obj.data.scheme.first(where: { item in
-                return item.stop == String(stationView.id)
+            if let findStop = obj.data.scheme.first(where: { item in
+                return item.stop == String(stopView.id)
             }){
                 // Вывод данных
-                if(findStation.ts.count == 0) {
-                    let timeToArrival = GeneralViewModel.getTimeToArrivalInMin(sec: findStation.sec)
+                if(findStop.ts.count == 0) {
+                    let timeToArrival = GeneralViewModel.getTimeToArrivalInMin(sec: findStop.sec)
                     
-                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: "", time: findStation.sec > 3600 ? (findStation.time ?? timeToArrival) : timeToArrival, withArrow: (counter % 4 == 0)))
+                    result.append(Stop(id: stopView.id, name: stopView.name, stopState: stopView.stopState, pictureTs: "", time: findStop.sec > 3600 ? (findStop.time ?? timeToArrival) : timeToArrival, withArrow: (counter % 4 == 0)))
                 } else {
-                    result.append(Stop(id: stationView.id, name: stationView.name, stationState: stationView.stationState, pictureTs: GeneralViewModel.getPictureTransportColor(type: (findStation.ts.first!.ts_type)), time:"", transportId: findStation.ts.first?.id, withArrow: (counter % 4 == 0)))
+                    result.append(Stop(id: stopView.id, name: stopView.name, stopState: stopView.stopState, pictureTs: GeneralViewModel.getPictureTransportColor(type: (findStop.ts.first!.ts_type)), time:"", transportId: findStop.ts.first?.id, withArrow: (counter % 4 == 0)))
                 }
                 
                 counter += 1
@@ -226,11 +226,11 @@ class ShowTransportRouteViewModel: ObservableObject{
         obj.data.scheme.forEach { item in
             if(item.stop.contains("-")) {
                 let stop_id_next = String(item.stop.split(separator: "-").last ?? "0")
-                if let stationIndex = result.firstIndex(where: { station in
-                    String(station.id) == stop_id_next
+                if let stopIndex = result.firstIndex(where: { stop in
+                    String(stop.id) == stop_id_next
                 }){
-                    result[stationIndex].pictureTs = GeneralViewModel.getPictureTransportColor(type: (item.ts.first!.ts_type))
-                    result[stationIndex].transportId = item.ts.first?.id
+                    result[stopIndex].pictureTs = GeneralViewModel.getPictureTransportColor(type: (item.ts.first!.ts_type))
+                    result[stopIndex].transportId = item.ts.first?.id
                 }
             }
         }

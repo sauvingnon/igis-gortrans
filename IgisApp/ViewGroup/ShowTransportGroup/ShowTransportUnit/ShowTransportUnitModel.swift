@@ -29,8 +29,8 @@ class ShowTransportUnitModel: ObservableObject {
     var priceCard = 0
     var priceTransportCard = 0
     var routeNumber: String?
-    var startStation: String?
-    var endStation: String?
+    var startStop: String?
+    var endStop: String?
     var transportModel: String?
     var timeWord: String?
     var maintenance: String?

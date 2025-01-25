@@ -149,7 +149,7 @@ struct ShowTransportStopView: View {
         .onAppear(){
             viewModel.configureView(stop_id: self.stopId)
             
-            viewModel.getStationData()
+            viewModel.getStopData()
         }
         .onDisappear(){
             viewModel.eraseCallBack()
@@ -178,7 +178,7 @@ struct TransportWaiter: Identifiable{
     let transportNumber: String
     let routeId: Int
     let type: TypeTransport
-    let endStationName: String
+    let endStopName: String
     let stopId: Int
     let time: String
     var isLastSection = false
@@ -233,7 +233,7 @@ struct TransportWaiterView: View {
                 Button(action: {
                     handlerStop(object.stopId)
                 }, label: {
-                    Text(object.endStationName)
+                    Text(object.endStopName)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(.black.opacity(0.6))
                         .kerning(1)

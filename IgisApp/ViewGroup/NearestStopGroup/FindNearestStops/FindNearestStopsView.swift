@@ -36,7 +36,7 @@ struct FindNearestStopsView: View {
                         Button(action: {
                             stopTapped(stop_id: location.stop_id)
                         }, label: {
-                            MapStop(stopAnnotation: StopAnnotation(stop_id: location.stop_id, stop_name: location.stop_name, stop_name_short: location.stop_name_short, color: location.color, stop_direction: location.stop_direction, stop_types: location.stop_types, coordinate: location.coordinate, stop_demand: location.stop_demand, letter: location.letter))
+                            MapStop(stopAnnotation: StopAnnotation(stop_id: location.stop_id, stop_name: location.stop_name, stop_name_short: location.stop_name_short, color: location.color, stop_direction: location.stop_direction, stop_types: location.stop_types, coordinate: location.coordinate, stop_demand: location.stop_demand, letter: location.letter, priority: 0))
                         })
                     }
                 }
